@@ -74,7 +74,7 @@ export default function CoursesSection() {
   };
 
   return (
-    <section id="courses" className="py-24 md:py-32 scroll-mt-24">
+    <section  id="featured-programs" className="py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center mb-10">
           <div className="badge-hero mx-auto w-max"><span>🚀</span><span>MOST POPULAR COURSES</span></div>

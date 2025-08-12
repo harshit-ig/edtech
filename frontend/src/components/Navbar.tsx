@@ -11,10 +11,10 @@ export default function Navbar() {
       </a>
       <div className="w-full px-6 h-full flex items-center justify-end">
         <div className="hidden md:flex items-center gap-8 text-sm text-white/80">
-          <a href="/#features" className="hover:text-edtech-orange transition-colors">Features</a>
+          <a href="/#featured-programs" className="hover:text-edtech-orange transition-colors">Features</a>
           <a href="/#testimonials" className="hover:text-edtech-orange transition-colors">Testimonials</a>
           <a href="/#stats" className="hover:text-edtech-orange transition-colors">Stats</a>
-          <a href="/#contact" className="hover:text-edtech-orange transition-colors">Contact</a>
+          <a href="/contact" className="hover:text-edtech-orange transition-colors">Contact</a>
           <a href="/#get-started" className="cta cta-primary">Get Started</a>
         </div>
         <button
@@ -36,10 +36,10 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="md:hidden absolute inset-x-0 top-full bg-black/85 backdrop-blur border-b border-white/10 animate-slideDown">
           <div className="px-6 py-4 flex flex-col gap-3 text-sm">
-            <a href="/#features" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Features</a>
+            <a href="/#featured-programs" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Features</a>
             <a href="/#testimonials" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Testimonials</a>
             <a href="/#stats" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Stats</a>
-            <a href="/#contact" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Contact</a>
+            <a href="/contact" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Contact</a>
             <a href="/#get-started" onClick={() => setMobileOpen(false)} className="cta cta-primary w-full text-center mt-2">Get Started</a>
           </div>
         </div>
