@@ -2,8 +2,18 @@ import { Canvas } from "@react-three/fiber";
 import Globe from "../globe";
 import Typewriter from "typewriter-effect";
 import FloatingDots from "../FloatingDots";
+import RoleCarousel from "./RoleCarousel";
 
 export default function Hero() {
+  const rolesList = [
+    "Data Analyst",
+    "Data Scientist",
+    "Business Analyst",
+    "Machine Learning Engineer",
+    "AI Researcher",
+    "Product Manager",
+    "Data Engineer"
+  ];
   return (
     <header className="relative h-screen flex items-center justify-center overflow-hidden pt-20 scroll-mt-24">
       <div className="absolute inset-0 -z-10 pt-20">
@@ -39,6 +49,9 @@ export default function Hero() {
         <div className="mt-10 flex items-center justify-center gap-4">
           <a id="get-started" href="#features" className="cta cta-primary">Get Started</a>
           <a href="#contact" className="cta cta-secondary">Talk to us</a>
+        </div>
+        <div className="mt-16 flex items-center justify-center">
+          <RoleCarousel rolesList={rolesList} interval={3000} />
         </div>
       </div>
     </header>
