@@ -133,7 +133,7 @@ const RoleCarousel = ({ rolesList, interval = 2000 }: RoleCarouselProps) => {
       {cards.map((card) => (
         <div
           key={card.id}
-          className="absolute w-72 h-16 shadow-lg border border-white/50 rounded-lg flex items-center justify-center overflow-hidden"
+          className="absolute w-72 h-16 shadow-lg border border-white/70 rounded-lg flex items-center justify-center overflow-hidden"
           style={getCardStyles(card.position, animating)}
         >
           {/* Base background layer */}
@@ -141,8 +141,8 @@ const RoleCarousel = ({ rolesList, interval = 2000 }: RoleCarouselProps) => {
             className="absolute inset-0 rounded-lg"
             style={{
               background: card.position < 4 
-                ? 'linear-gradient(to bottom, #242756, #1a1d4a, #0f1228)' 
-                : 'linear-gradient(to bottom, #0f1228, #1a1d4a, #242756)'
+                ? 'linear-gradient(to bottom, #3d4a7a, #1a1d4a, #0a0c1f)' 
+                : 'linear-gradient(to bottom, #0a0c1f, #1a1d4a, #3d4a7a)'
             }}
           />
           
