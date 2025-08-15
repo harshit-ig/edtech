@@ -120,11 +120,13 @@ const RoleCarousel = ({ rolesList, interval = 2000 }: RoleCarouselProps) => {
                  transform: (!animating && card.position === 4) ? 'rotateX(0deg)' : 'rotateX(-180deg)'
                }}>
             {/* Back side (with text) - rotateX(0deg) */}
-            <div className="card-back absolute inset-0 rounded-lg backface-hidden flex items-center justify-center"
+            <div className="card-back absolute inset-0 rounded-lg backface-hidden flex items-center justify-center border border-white/20"
                  style={{
                    background: card.position === 4 
                      ? 'linear-gradient(to right, #EF552C, #FF6B47)' // Neon orange for center card
-                     : 'linear-gradient(to right, #72770f, #8B9513)' // Green gradient for other cards
+                     : card.position < 4 
+                       ? 'linear-gradient(to bottom, #242756, #1a1d4a, #0f1228)' // Reversed gradient for top cards (light to dark)
+                       : 'linear-gradient(to bottom, #0f1228, #1a1d4a, #242756)' // Normal gradient for bottom cards (dark to light)
                  }}>
               <span className="text-white font-bold text-lg">
                 {card.position === 4 ? card.role : ''}
@@ -132,12 +134,14 @@ const RoleCarousel = ({ rolesList, interval = 2000 }: RoleCarouselProps) => {
             </div>
             
             {/* Front side (empty) - rotateX(180deg) */}
-            <div className="card-front absolute inset-0 rounded-lg backface-hidden"
+            <div className="card-front absolute inset-0 rounded-lg backface-hidden border border-white"
                  style={{
                    transform: 'rotateX(180deg)',
                    background: card.position === 4 
                      ? 'linear-gradient(to right, #EF552C, #FF6B47)' // Neon orange for center card
-                     : 'linear-gradient(to right, #72770f, #8B9513)' // Green gradient for other cards
+                     : card.position < 4 
+                       ? 'linear-gradient(to bottom, #242756, #1a1d4a, #0f1228)' // Reversed gradient for top cards (light to dark)
+                       : 'linear-gradient(to bottom, #0f1228, #1a1d4a, #242756)' // Normal gradient for bottom cards (dark to light)
                  }}>
             </div>
           </div>
