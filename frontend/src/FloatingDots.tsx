@@ -45,12 +45,19 @@ export default function FloatingDots({
       canvas.style.width = `${clientWidth}px`;
       canvas.style.height = `${clientHeight}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      
+      // Store logical dimensions for dot positioning
+      canvas.dataset.logicalWidth = clientWidth.toString();
+      canvas.dataset.logicalHeight = clientHeight.toString();
     };
 
     const init = () => {
+      const w = parseInt(canvas.dataset.logicalWidth || '0') || container.clientWidth;
+      const h = parseInt(canvas.dataset.logicalHeight || '0') || container.clientHeight;
+      
       dots = Array.from({ length: numDots }).map(() => ({
-        x: rand(0, canvas.clientWidth || container.clientWidth),
-        y: rand(0, canvas.clientHeight || container.clientHeight),
+        x: rand(0, w),
+        y: rand(0, h),
         vx: rand(-0.2, 0.2), // Slightly reduced speed for smoother mobile performance
         vy: rand(-0.2, 0.2),
         radius: rand(1, maxRadius), // Increased minimum for better visibility and 3D effect
@@ -59,8 +66,8 @@ export default function FloatingDots({
     };
 
     const step = () => {
-      const w = canvas.width / (window.devicePixelRatio || 1);
-      const h = canvas.height / (window.devicePixelRatio || 1);
+      const w = parseInt(canvas.dataset.logicalWidth || '0') || container.clientWidth;
+      const h = parseInt(canvas.dataset.logicalHeight || '0') || container.clientHeight;
       ctx.clearRect(0, 0, w, h);
 
       for (const d of dots) {
@@ -72,11 +79,11 @@ export default function FloatingDots({
         d.vx *= 0.998;
         d.vy *= 0.998;
 
-        // Wrap around edges
-        if (d.x < -10) d.x = w + 10;
-        if (d.x > w + 10) d.x = -10;
-        if (d.y < -10) d.y = h + 10;
-        if (d.y > h + 10) d.y = -10;
+        // Wrap around edges with proper buffer
+        if (d.x < -maxRadius) d.x = w + maxRadius;
+        if (d.x > w + maxRadius) d.x = -maxRadius;
+        if (d.y < -maxRadius) d.y = h + maxRadius;
+        if (d.y > h + maxRadius) d.y = -maxRadius;
 
         // Draw dot with varying opacity based on radius for 3D effect
         ctx.beginPath();
@@ -107,8 +114,8 @@ export default function FloatingDots({
   }, [colors, maxRadius, numDots]);
 
   return (
-    <div ref={containerRef} className={`absolute inset-0 w-full h-full ${className}`}>
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />
+    <div ref={containerRef} className={`absolute inset-0 ${className}`}>
+      <canvas ref={canvasRef} className="w-full h-full pointer-events-none" />
     </div>
   );
 }
