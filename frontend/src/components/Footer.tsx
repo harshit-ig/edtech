@@ -20,8 +20,9 @@ export default function Footer() {
         <div>
           <h4 className="font-semibold mb-2">Company</h4>
           <ul className="space-y-1 text-white/70">
-            <li><a href="#" className="hover:text-edtech-orange">About</a></li>
-            <li><a href="#" className="hover:text-edtech-orange">Careers</a></li>
+            <li><a href="/about" className="hover:text-edtech-orange">About</a></li>
+            <li><a href="/blog" className="hover:text-edtech-orange">Blog</a></li>
+            <li><a href="/pricing" className="hover:text-edtech-orange">Pricing</a></li>
           </ul>
         </div>
         <div className="flex items-end md:items-start">

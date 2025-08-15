@@ -82,8 +82,8 @@ export default function Navbar() {
                   </div>
                   
                   <div className="pt-4 border-t border-white/10">
-                    <a 
-                      href="/#featured-programs" 
+                    <Link 
+                      to="/courses" 
                       className="flex items-center justify-between text-white/70 hover:text-edtech-orange transition-colors p-3 rounded-xl hover:bg-white/5 group"
                     >
                       <div>
@@ -93,15 +93,16 @@ export default function Navbar() {
                       <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
             )}
           </div>
           
-          <a href="/pricing" className="hover:text-edtech-orange transition-colors">Pricing</a>
-          <a href="/about" className="hover:text-edtech-orange transition-colors">About</a>
+          <Link to="/pricing" className="hover:text-edtech-orange transition-colors">Pricing</Link>
+          <Link to="/about" className="hover:text-edtech-orange transition-colors">About</Link>
+          <Link to="/blog" className="hover:text-edtech-orange transition-colors">Blog</Link>
           <Link to="/contact" className="hover:text-edtech-orange transition-colors">Contact Us</Link>
         </div>
         
@@ -134,9 +135,10 @@ export default function Navbar() {
         <div className="md:hidden absolute inset-x-0 top-full bg-black/85 backdrop-blur border-b border-white/10 animate-slideDown">
           <div className="px-6 py-4 flex flex-col gap-3 text-sm">
             <Link to="/" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Home</Link>
-            <a href="/#featured-programs" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">All Courses</a>
-            <a href="/pricing" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Pricing</a>
-            <a href="/about" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">About</a>
+            <Link to="/courses" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">All Courses</Link>
+            <Link to="/pricing" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Pricing</Link>
+            <Link to="/about" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">About</Link>
+            <Link to="/blog" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Blog</Link>
             <Link to="/contact" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Contact Us</Link>
             <a href="/#get-started" onClick={() => setMobileOpen(false)} className="group inline-flex items-center justify-center gap-2 cta-flow text-black px-4 py-2 rounded-lg font-medium w-full mt-2">
               <span className="relative z-10 font-semibold">Book FREE Strategy Call</span>

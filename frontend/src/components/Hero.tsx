@@ -44,23 +44,25 @@ export default function Hero() {
       {/* Main Content Container - Text overlaid on LEFT side over the earth */}
       <div className="relative z-10 mx-auto max-w-7xl px-6 md:pl-16 lg:pl-16 xl:pl-16 w-full h-full flex items-center">
         <div className="w-full md:w-1/2 text-center md:text-left">
-          <h1 className="type-glow text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-wide mb-6">
-            <Typewriter
-              options={{
-                strings: [
-                  'Data • AI • Analytics',
-                  'Cloud • Cybersecurity',
-                  'Web Development',
-                  'Mobile Apps',
-                ],
-                autoStart: true,
-                loop: true,
-                delay: 40,
-                deleteSpeed: 20,
-                cursor: '<span class="cursor-neon">|</span>'
-              }}
-            />
-          </h1>
+          <div className="h-[120px] sm:h-[140px] lg:h-[160px] flex items-start justify-center md:justify-start mb-6">
+            <h1 className="type-glow text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-wide leading-tight">
+              <Typewriter
+                options={{
+                  strings: [
+                    'Data • AI • Analytics ',
+                    'Cloud • Cybersecurity',
+                    'Web Development',
+                    'Mobile Apps',
+                  ],
+                  autoStart: true,
+                  loop: true,
+                  delay: 40,
+                  deleteSpeed: 20,
+                  cursor: '<span class="cursor-neon">|</span>'
+                }}
+              />
+            </h1>
+          </div>
           <p className="text-white/90 text-lg md:text-xl text-glow-blue mb-8 max-w-2xl md:max-w-none">
             Choose tech courses that fit your goals and shape a successful digital future.
           </p>

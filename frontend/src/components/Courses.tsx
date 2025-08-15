@@ -62,8 +62,8 @@ export default function CoursesSection() {
               </div>
 
               <div className="mt-4 flex items-center gap-3">
-                <a className="cta cta-secondary" href="#">View Details</a>
-                <a className="cta course-card-apply" href="#">Apply Now</a>
+                <a className="cta cta-secondary" href={`/course/${c.id}`}>View Details</a>
+                <a className="cta course-card-apply" href="#get-started">Apply Now</a>
               </div>
                 <span className="corner-badge">{c.badge}</span>
             </article>
@@ -71,7 +71,7 @@ export default function CoursesSection() {
         </div>
 
         <div className="mt-12 flex justify-center">
-          <a href="#" className="cta cta-secondary hover:text-edtech-orange">View All Courses</a>
+          <a href="/courses" className="cta cta-secondary hover:text-edtech-orange">View All Courses</a>
         </div>
       </div>
     </section>

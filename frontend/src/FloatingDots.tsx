@@ -75,9 +75,9 @@ export default function FloatingDots({
         d.x += d.vx;
         d.y += d.vy;
 
-        // Gentle friction for natural movement
-        d.vx *= 0.998;
-        d.vy *= 0.998;
+        // Remove friction - keep constant velocity for infinite movement
+        // d.vx *= 0.998;
+        // d.vy *= 0.998;
 
         // Wrap around edges with proper buffer
         if (d.x < -maxRadius) d.x = w + maxRadius;

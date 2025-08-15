@@ -17,7 +17,7 @@ function Globe() {
 
   useFrame(() => {
     if (globeRef.current) {
-      globeRef.current.rotation.y += 0.0015;
+      globeRef.current.rotation.y += 0.005;
     }
   });
 
