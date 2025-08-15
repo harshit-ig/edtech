@@ -138,9 +138,9 @@ export default function Navbar() {
             <a href="/pricing" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Pricing</a>
             <a href="/about" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">About</a>
             <Link to="/contact" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Contact Us</Link>
-            <a href="/#get-started" onClick={() => setMobileOpen(false)} className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors font-medium w-full mt-2">
-              Book FREE Strategy Call
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <a href="/#get-started" onClick={() => setMobileOpen(false)} className="group inline-flex items-center justify-center gap-2 cta-flow text-black px-4 py-2 rounded-lg font-medium w-full mt-2">
+              <span className="relative z-10 font-semibold">Book FREE Strategy Call</span>
+              <svg className="w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </a>
