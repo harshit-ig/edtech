@@ -45,17 +45,30 @@
 .marquee-viewport.dragging { cursor: grabbing; }
 .marquee-track { display: flex; gap: 1rem; width: max-content; }
 
-/* Subtle glow on cards */
+/* Subtle glow on cards - removed by default, only on hover */
 @keyframes glowPulse { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,.08); } 100% { box-shadow: 0 0 28px 0 rgba(255,255,255,.16); } }
-.card-glow { animation: glowPulse 3.2s ease-in-out infinite alternate; }
 
-/* Course cards with accent glow on hover */
-.course-card { position: relative; border-radius: 16px; background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.1); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
-.course-card:hover { transform: translateY(-4px); box-shadow: 0 10px 34px rgba(0,0,0,.35), 0 0 24px var(--accentA); border-color: var(--accent); }
-.course-card::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; background: radial-gradient(160px 160px at 50% 0%, var(--accent), transparent 60%); opacity: 0; transition: opacity .25s ease; mix-blend-mode: screen; }
-.course-card:hover::after { opacity: .35; }
-.course-title { color: #fff; transition: color .2s ease, text-shadow .2s ease; }
-.course-card:hover .course-title { color: var(--accent); text-shadow: 0 0 10px var(--accentA); }
+/* Course cards - simplified and professional */
+.course-card { 
+  position: relative; 
+  border-radius: 12px; 
+  background: rgba(255,255,255,.04); 
+  border: 1px solid rgba(255,255,255,.1); 
+  transition: all .3s ease; 
+}
+.course-card:hover { 
+  transform: translateY(-2px); 
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.2);
+  box-shadow: 0 8px 25px rgba(0,0,0,.15);
+}
+.course-title { 
+  color: #fff; 
+  transition: color .2s ease; 
+}
+.course-card:hover .course-title { 
+  color: var(--accent); 
+}
 .badge-accent { padding: 2px 8px; border-radius: 9999px; border: 1px solid var(--accent); background: rgba(255,255,255,.06); box-shadow: 0 0 12px var(--accentA) inset; }
 .chip { padding: 4px 8px; border-radius: 8px; background: rgba(0,0,0,.3); border: 1px solid rgba(255,255,255,.1); }
 
@@ -75,8 +88,12 @@
 .course-card[data-accent="orange"] { --accent: #EF552C; --accentA: rgba(239,85,44,.35); }
 .course-card[data-accent="blue"] { --accent: #2B2B8E; --accentA: rgba(43,43,142,.35); }
 
-/* Animated gradient badge */
-@keyframes badgeFlow { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+/* Animated gradient badge - smoother gradient */
+@keyframes badgeFlow { 
+  0% { background-position: 0% 50%; } 
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; } 
+}
 .badge-hero {
   display: inline-flex;
   align-items: center;
@@ -87,11 +104,11 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   color: #1a1d4a;
-  background: linear-gradient(90deg, #2B2B8E, #D5DE24, #2B2B8E);
-  background-size: 300% 100%;
+  background: linear-gradient(90deg, #EF552C 0%, #FF6B47 25%, #D5DE24 50%, #FF6B47 75%, #EF552C 100%);
+  background-size: 400% 100%;
   border: 1px solid rgba(255,255,255,.25);
   box-shadow: 0 8px 24px rgba(0,0,0,.25), 0 0 16px rgba(239,85,44,.35);
-  animation: badgeFlow 6s linear infinite;
+  animation: badgeFlow 6s ease-in-out infinite;
 }
 
 /* Role Carousel Flip Animations */

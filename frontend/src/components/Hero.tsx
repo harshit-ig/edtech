@@ -15,7 +15,7 @@ export default function Hero() {
     "Data Engineer"
   ];
   return (
-    <header className="relative h-screen flex items-center overflow-hidden pt-20 scroll-mt-24">
+    <header className="relative min-h-[600px] h-[90vh] max-h-[800px] lg:max-h-none lg:h-screen flex items-center overflow-hidden pt-20 scroll-mt-24">
       {/* Background Layer - Floating dots */}
       <div className="absolute inset-0 -z-20">
         <FloatingDots numDots={80} className="mix-blend-screen" />
