@@ -10,19 +10,20 @@ interface CardData {
   position: number; // 0=top4, 1=top3, 2=top2, 3=top1, 4=center, 5=bottom1, 6=bottom2, 7=bottom3, 8=bottom4
   previousPosition: number;
   id: number;
+  isAnimatingToCenter?: boolean; // Track if card is animating to center position
 }
 
 const RoleCarousel = ({ rolesList, interval = 2000 }: RoleCarouselProps) => {
   const [cards, setCards] = useState<CardData[]>(() => [
-    { role: rolesList[5] || rolesList[0], position: 0, previousPosition: 0, id: 0 }, // top4
-    { role: rolesList[6] || rolesList[0], position: 1, previousPosition: 1, id: 1 }, // top3
-    { role: rolesList[7] || rolesList[0], position: 2, previousPosition: 2, id: 2 }, // top2
-    { role: rolesList[8] || rolesList[0], position: 3, previousPosition: 3, id: 3 }, // top1
-    { role: rolesList[0] || rolesList[0], position: 4, previousPosition: 4, id: 4 }, // center
-    { role: rolesList[1] || rolesList[0], position: 5, previousPosition: 5, id: 5 }, // bottom1
-    { role: rolesList[2] || rolesList[0], position: 6, previousPosition: 6, id: 6 }, // bottom2
-    { role: rolesList[3] || rolesList[0], position: 7, previousPosition: 7, id: 7 }, // bottom3
-    { role: rolesList[4] || rolesList[0], position: 8, previousPosition: 8, id: 8 }, // bottom4
+    { role: rolesList[5] || rolesList[0], position: 0, previousPosition: 0, id: 0, isAnimatingToCenter: false }, // top4
+    { role: rolesList[6] || rolesList[0], position: 1, previousPosition: 1, id: 1, isAnimatingToCenter: false }, // top3
+    { role: rolesList[7] || rolesList[0], position: 2, previousPosition: 2, id: 2, isAnimatingToCenter: false }, // top2
+    { role: rolesList[8] || rolesList[0], position: 3, previousPosition: 3, id: 3, isAnimatingToCenter: false }, // top1
+    { role: rolesList[0] || rolesList[0], position: 4, previousPosition: 4, id: 4, isAnimatingToCenter: false }, // center
+    { role: rolesList[1] || rolesList[0], position: 5, previousPosition: 5, id: 5, isAnimatingToCenter: false }, // bottom1
+    { role: rolesList[2] || rolesList[0], position: 6, previousPosition: 6, id: 6, isAnimatingToCenter: false }, // bottom2
+    { role: rolesList[3] || rolesList[0], position: 7, previousPosition: 7, id: 7, isAnimatingToCenter: false }, // bottom3
+    { role: rolesList[4] || rolesList[0], position: 8, previousPosition: 8, id: 8, isAnimatingToCenter: false }, // bottom4
   ]);
   const [nextRoleIndex, setNextRoleIndex] = useState(9);
   const [animating, setAnimating] = useState(false);
@@ -31,12 +32,13 @@ const RoleCarousel = ({ rolesList, interval = 2000 }: RoleCarouselProps) => {
     const id = setInterval(() => {
       setAnimating(true);
 
-      // Update positions immediately for animation logic
+      // Update positions with animation tracking
       setCards(prevCards => {
         const newCards = prevCards.map(card => ({
           ...card,
           previousPosition: card.position,
-          position: card.position - 1
+          position: card.position - 1,
+          isAnimatingToCenter: card.position === 5 // Mark card moving from bottom1 to center
         }));
         
         // Remove card that went off top (position -1)
@@ -48,7 +50,8 @@ const RoleCarousel = ({ rolesList, interval = 2000 }: RoleCarouselProps) => {
           role: newRole, 
           position: 8, 
           previousPosition: 8,
-          id: Date.now() 
+          id: Date.now(),
+          isAnimatingToCenter: false
         });
         
         return visibleCards;
@@ -56,9 +59,13 @@ const RoleCarousel = ({ rolesList, interval = 2000 }: RoleCarouselProps) => {
       
       setNextRoleIndex(prev => prev + 1);
 
+      // Clear animation flag and reset isAnimatingToCenter after animation completes
       setTimeout(() => {
         setAnimating(false);
-      }, 1200); // slightly longer for more natural feel
+        setCards(prevCards => 
+          prevCards.map(card => ({ ...card, isAnimatingToCenter: false }))
+        );
+      }, 1400); // Increased slightly for smoother feel
     }, interval);
 
     return () => clearInterval(id);
@@ -80,28 +87,45 @@ const RoleCarousel = ({ rolesList, interval = 2000 }: RoleCarouselProps) => {
     const pos = positions[position as keyof typeof positions];
     
     return {
-      transform: `perspective(400px) translateY(${pos.y * 4}px) scale(${pos.scale}) rotateX(${pos.rotateX}deg)`,
+      transform: `perspective(600px) translateY(${pos.y * 4}px) scale(${pos.scale}) rotateX(${pos.rotateX}deg)`,
       opacity: pos.opacity,
       zIndex: pos.zIndex,
-      transition: animating ? 'all 1.2s cubic-bezier(0.4, 0.0, 0.2, 1)' : 'none',
+      transition: animating ? 'all 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none', // Smoother easing
       transformStyle: 'preserve-3d' as const
     };
   };
 
-  const getFlipAnimation = (card: CardData) => {
-    if (!animating) return 'none';
+  // Function to determine which card should show text
+  const shouldShowText = (card: CardData) => {
+    // During animation, show text on both:
+    // 1. Card that was previously in center (moving up)
+    // 2. Card that is moving to center (from bottom1 to center)
+    if (animating) {
+      return card.previousPosition === 4 || (card.previousPosition === 5 && card.position === 4);
+    }
+    // When not animating, only show text for center position
+    return card.position === 4;
+  };
+
+  // Function to get text opacity for smooth fade effect
+  const getTextOpacity = (card: CardData) => {
+    if (!shouldShowText(card)) return 0;
     
-    if (card.previousPosition === 4 && card.position === 3) {
-      // Center card moving up - flip from showing text to hiding text
-      return 'cardFlipUp 1s ease-in-out forwards';
+    // During animation, create fade effect
+    if (animating) {
+      // Card moving up (center to top) - fade out
+      if (card.previousPosition === 4 && card.position === 3) {
+        return 0; // Fade out immediately
+      }
+      // Card moving to center (bottom to center) - fade in
+      if (card.previousPosition === 5 && card.position === 4) {
+        return 1; // Fade in immediately
+      }
+      // Default for other cards showing text
+      return 1;
     }
     
-    if (card.previousPosition === 5 && card.position === 4) {
-      // Bottom1 card moving to center - flip from hiding text to showing text
-      return 'cardFlipToCenter 1s ease-in-out forwards';
-    }
-    
-    return 'none';
+    return 1;
   };
 
   return (
@@ -109,42 +133,47 @@ const RoleCarousel = ({ rolesList, interval = 2000 }: RoleCarouselProps) => {
       {cards.map((card) => (
         <div
           key={card.id}
-          className="absolute w-72 h-16 shadow-lg"
+          className="absolute w-72 h-16 shadow-lg border border-white/50 rounded-lg flex items-center justify-center overflow-hidden"
           style={getCardStyles(card.position, animating)}
         >
-          {/* All cards use same 3D structure for consistency */}
-          <div className="w-full h-full rounded-lg card-3d preserve-3d" 
-               style={{
-                 animation: getFlipAnimation(card),
-                 // Apply permanent rotation for center card when not animating
-                 transform: (!animating && card.position === 4) ? 'rotateX(0deg)' : 'rotateX(-180deg)'
-               }}>
-            {/* Back side (with text) - rotateX(0deg) */}
-            <div className="card-back absolute inset-0 rounded-lg backface-hidden flex items-center justify-center border border-white/20"
-                 style={{
-                   background: card.position === 4 
-                     ? 'linear-gradient(to right, #EF552C, #FF6B47)' // Neon orange for center card
-                     : card.position < 4 
-                       ? 'linear-gradient(to bottom, #242756, #1a1d4a, #0f1228)' // Reversed gradient for top cards (light to dark)
-                       : 'linear-gradient(to bottom, #0f1228, #1a1d4a, #242756)' // Normal gradient for bottom cards (dark to light)
-                 }}>
-              <span className="text-white font-bold text-lg">
-                {card.position === 4 ? card.role : ''}
-              </span>
-            </div>
-            
-            {/* Front side (empty) - rotateX(180deg) */}
-            <div className="card-front absolute inset-0 rounded-lg backface-hidden border border-white"
-                 style={{
-                   transform: 'rotateX(180deg)',
-                   background: card.position === 4 
-                     ? 'linear-gradient(to right, #EF552C, #FF6B47)' // Neon orange for center card
-                     : card.position < 4 
-                       ? 'linear-gradient(to bottom, #242756, #1a1d4a, #0f1228)' // Reversed gradient for top cards (light to dark)
-                       : 'linear-gradient(to bottom, #0f1228, #1a1d4a, #242756)' // Normal gradient for bottom cards (dark to light)
-                 }}>
-            </div>
-          </div>
+          {/* Base background layer */}
+          <div 
+            className="absolute inset-0 rounded-lg"
+            style={{
+              background: card.position < 4 
+                ? 'linear-gradient(to bottom, #242756, #1a1d4a, #0f1228)' 
+                : 'linear-gradient(to bottom, #0f1228, #1a1d4a, #242756)'
+            }}
+          />
+          
+          {/* Orange overlay that fades in/out */}
+          <div 
+            className="absolute inset-0 rounded-lg"
+            style={{
+              background: 'linear-gradient(to right, #EF552C, #FF6B47)',
+              opacity: (() => {
+                if (!animating) {
+                  return card.position === 4 ? 1 : 0;
+                }
+                // During animation
+                if (card.previousPosition === 4) return 0; // Fade out from center
+                if (card.previousPosition === 5 && card.position === 4) return 1; // Fade in to center
+                return card.position === 4 ? 1 : 0;
+              })(),
+              transition: animating ? 'opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none'
+            }}
+          />
+          
+          {/* Text content */}
+          <span 
+            className="text-white font-bold text-lg relative z-10"
+            style={{
+              opacity: getTextOpacity(card),
+              transition: animating ? 'opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none'
+            }}
+          >
+            {shouldShowText(card) ? card.role : ''}
+          </span>
         </div>
       ))}
     </div>
