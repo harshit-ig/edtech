@@ -1,20 +1,21 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import WhiteLogo from "../assets/WHITE-LOGO--300x152.png";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <nav className="fixed inset-x-0 top-0 z-50 backdrop-blur border-b border-white/10 bg-black/40 supports-backdrop-blur:bg-black/30 h-16">
-      <a href="#" className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-3">
+      <Link to="/" className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-3">
         <img src={WhiteLogo} alt="EdTech Informative" className="h-8 w-auto" />
         <span className="sr-only">EdTech Informative</span>
-      </a>
+      </Link>
       <div className="w-full px-6 h-full flex items-center justify-end">
         <div className="hidden md:flex items-center gap-8 text-sm text-white/80">
           <a href="/#featured-programs" className="hover:text-edtech-orange transition-colors">Features</a>
           <a href="/#testimonials" className="hover:text-edtech-orange transition-colors">Testimonials</a>
           <a href="/#stats" className="hover:text-edtech-orange transition-colors">Stats</a>
-          <a href="/contact" className="hover:text-edtech-orange transition-colors">Contact</a>
+          <Link to="/contact" className="hover:text-edtech-orange transition-colors">Contact</Link>
           <a href="/#get-started" className="cta cta-primary">Get Started</a>
         </div>
         <button
@@ -39,7 +40,7 @@ export default function Navbar() {
             <a href="/#featured-programs" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Features</a>
             <a href="/#testimonials" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Testimonials</a>
             <a href="/#stats" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Stats</a>
-            <a href="/contact" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Contact</a>
+            <Link to="/contact" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Contact</Link>
             <a href="/#get-started" onClick={() => setMobileOpen(false)} className="cta cta-primary w-full text-center mt-2">Get Started</a>
           </div>
         </div>
