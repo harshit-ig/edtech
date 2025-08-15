@@ -107,8 +107,8 @@ export default function FloatingDots({
   }, [colors, maxRadius, numDots]);
 
   return (
-    <div ref={containerRef} className={`absolute inset-0 ${className}`}>
-      <canvas ref={canvasRef} className="w-full h-full pointer-events-none" />
+    <div ref={containerRef} className={`absolute inset-0 w-full h-full ${className}`}>
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />
     </div>
   );
 }
