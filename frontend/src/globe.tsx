@@ -1,7 +1,7 @@
 // App.tsx
 import { useRef, useEffect, useMemo, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { OrbitControls, Sphere } from "@react-three/drei";
+import { Sphere } from "@react-three/drei";
 import * as THREE from "three";
 
 function Globe() {

@@ -105,7 +105,7 @@ const RoleCarousel = ({ rolesList, interval = 2000 }: RoleCarouselProps) => {
   };
 
   return (
-    <div className="relative w-80 h-[400px] flex flex-col justify-center items-center perspective-1000 overflow-hidden">
+    <div className="relative w-80 h-[400px]  flex flex-col justify-center items-center perspective-1000 overflow-hidden">
       {cards.map((card) => (
         <div
           key={card.id}
@@ -122,7 +122,9 @@ const RoleCarousel = ({ rolesList, interval = 2000 }: RoleCarouselProps) => {
             {/* Back side (with text) - rotateX(0deg) */}
             <div className="card-back absolute inset-0 rounded-lg backface-hidden flex items-center justify-center"
                  style={{
-                   background: 'linear-gradient(to right, rgb(20 184 166), rgb(5 150 105))'
+                   background: card.position === 4 
+                     ? 'linear-gradient(to right, #EF552C, #FF6B47)' // Neon orange for center card
+                     : 'linear-gradient(to right, #72770f, #8B9513)' // Green gradient for other cards
                  }}>
               <span className="text-white font-bold text-lg">
                 {card.position === 4 ? card.role : ''}
@@ -133,7 +135,9 @@ const RoleCarousel = ({ rolesList, interval = 2000 }: RoleCarouselProps) => {
             <div className="card-front absolute inset-0 rounded-lg backface-hidden"
                  style={{
                    transform: 'rotateX(180deg)',
-                   background: 'linear-gradient(to right, rgb(20 184 166), rgb(5 150 105))'
+                   background: card.position === 4 
+                     ? 'linear-gradient(to right, #EF552C, #FF6B47)' // Neon orange for center card
+                     : 'linear-gradient(to right, #72770f, #8B9513)' // Green gradient for other cards
                  }}>
             </div>
           </div>

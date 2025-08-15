@@ -17,9 +17,9 @@ type FloatingDotsProps = {
 };
 
 export default function FloatingDots({
-  numDots = 90,
-  colors = ["#EF552C", "#CBD514", "#2B2B8E"],
-  maxRadius = 2.2,
+  numDots = 60, // Reduced for better mobile performance
+  colors = ["#2B2B8E", "#D5DE24", "#EF552C"],
+  maxRadius = 7, // Increased max for more variety
   className = "",
 }: FloatingDotsProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -34,7 +34,6 @@ export default function FloatingDots({
 
     let animationFrameId = 0;
     let dots: Dot[] = [];
-    const mouse = { x: -9999, y: -9999 };
 
     const rand = (min: number, max: number) => Math.random() * (max - min) + min;
 
@@ -52,9 +51,9 @@ export default function FloatingDots({
       dots = Array.from({ length: numDots }).map(() => ({
         x: rand(0, canvas.clientWidth || container.clientWidth),
         y: rand(0, canvas.clientHeight || container.clientHeight),
-        vx: rand(-0.3, 0.3),
-        vy: rand(-0.3, 0.3),
-        radius: rand(0.8, maxRadius),
+        vx: rand(-0.2, 0.2), // Slightly reduced speed for smoother mobile performance
+        vy: rand(-0.2, 0.2),
+        radius: rand(1, maxRadius), // Increased minimum for better visibility and 3D effect
         color: colors[Math.floor(Math.random() * colors.length)],
       }));
     };
@@ -65,25 +64,13 @@ export default function FloatingDots({
       ctx.clearRect(0, 0, w, h);
 
       for (const d of dots) {
-        // Mouse interaction: slight repulsion
-        const dx = d.x - mouse.x;
-        const dy = d.y - mouse.y;
-        const distSq = dx * dx + dy * dy;
-        const influenceRadius = 140;
-        if (distSq < influenceRadius * influenceRadius) {
-          const dist = Math.sqrt(Math.max(distSq, 0.0001));
-          const force = (influenceRadius - dist) / influenceRadius;
-          d.vx += (dx / dist) * force * 0.08;
-          d.vy += (dy / dist) * force * 0.08;
-        }
-
-        // Update
+        // Update position
         d.x += d.vx;
         d.y += d.vy;
 
-        // Gentle friction
-        d.vx *= 0.995;
-        d.vy *= 0.995;
+        // Gentle friction for natural movement
+        d.vx *= 0.998;
+        d.vy *= 0.998;
 
         // Wrap around edges
         if (d.x < -10) d.x = w + 10;
@@ -91,54 +78,31 @@ export default function FloatingDots({
         if (d.y < -10) d.y = h + 10;
         if (d.y > h + 10) d.y = -10;
 
-        // Draw
+        // Draw dot with varying opacity based on radius for 3D effect
         ctx.beginPath();
-        ctx.fillStyle = d.color + "cc"; // add alpha
+        const alpha = 0.3 + (d.radius / maxRadius) * 0.7; // Larger dots are more opaque
+        ctx.fillStyle = d.color + Math.floor(alpha * 255).toString(16).padStart(2, '0');
         ctx.arc(d.x, d.y, d.radius, 0, Math.PI * 2);
         ctx.fill();
-      }
-
-      // Subtle connections
-      ctx.lineWidth = 0.6;
-      for (let i = 0; i < dots.length; i++) {
-        for (let j = i + 1; j < dots.length; j++) {
-          const a = dots[i];
-          const b = dots[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const dist = Math.hypot(dx, dy);
-          if (dist < 70) {
-            const alpha = 1 - dist / 70;
-            ctx.strokeStyle = `rgba(255,255,255,${0.12 * alpha})`;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
-        }
       }
 
       animationFrameId = requestAnimationFrame(step);
     };
 
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    };
-    const onMouseLeave = () => { mouse.x = -9999; mouse.y = -9999; };
-
     resize();
     init();
     animationFrameId = requestAnimationFrame(step);
-    window.addEventListener("resize", () => { resize(); init(); });
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseleave", onMouseLeave);
+    
+    const handleResize = () => { 
+      resize(); 
+      init(); 
+    };
+    
+    window.addEventListener("resize", handleResize);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseleave", onMouseLeave);
+      window.removeEventListener("resize", handleResize);
     };
   }, [colors, maxRadius, numDots]);
 
