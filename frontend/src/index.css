@@ -4,6 +4,7 @@
   --color-edtech-green: #D5DE24; /* growth */
   --color-edtech-blue: #2B2B8E;  /* trust */
   --color-edtech-orange: #EF552C; /* energy/CTAs */
+  --color-edtech-red: #EF4444;    /* urgency - bg-red-500 */
   --color-bg-deep: #1a1d4a; /* lighter background using blue tones */
   --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -145,6 +146,7 @@
 .course-card[data-accent="green"] { --accent: #D5DE24; --accentA: #9BAE18; }
 .course-card[data-accent="orange"] { --accent: #EF552C; --accentA: #FF7A52; }
 .course-card[data-accent="blue"] { --accent: #2B2B8E; --accentA: #4A4AB8; }
+.course-card[data-accent="red"] { --accent: #EF4444; --accentA: #F87171; }
 
 /* Animated gradient badge - smoother gradient */
 @keyframes badgeFlow { 

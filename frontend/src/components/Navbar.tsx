@@ -68,9 +68,9 @@ export default function Navbar() {
                           </h4>
                           <div className="flex items-center gap-2 text-xs">
                             <span className={`px-2 py-1 rounded-full text-black font-medium text-xs ${
-                              course.badge === 'FEATURED' ? 'bg-red-500' :
+                              course.badge === 'FEATURED' ? 'bg-edtech-red' :
                               course.badge === 'TRENDING' ? 'bg-edtech-green' :
-                              course.badge === 'MOST POPULAR' ? 'bg-edtech-orange' : 'bg-blue-500'
+                              course.badge === 'MOST POPULAR' ? 'bg-edtech-orange' : 'bg-edtech-blue'
                             }`}>
                               {course.badge}
                             </span>

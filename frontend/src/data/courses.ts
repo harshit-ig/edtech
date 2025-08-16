@@ -6,7 +6,7 @@ export type Course = {
   desc: string;
   duration: string;
   extra: string;
-  accent: 'edtech-green' | 'edtech-orange';
+  accent: 'edtech-green' | 'edtech-orange' | 'edtech-red';
 };
 
 export const courses: Course[] = [
@@ -39,7 +39,7 @@ export const courses: Course[] = [
     desc: 'Master autonomous AI agents and orchestrate complex workflows that operate independently to drive business value.Master autonomous AI agents and orchestrate complex workflows that operate independently to drive business value.Master autonomous AI agents and orchestrate complex workflows that operate independently to drive business value.',
     duration: '4 Months',
     extra: 'Advanced AI Projects',
-    accent: 'edtech-orange',
+    accent: 'edtech-red',
   },
   {
     id: 'data-analytics-2',
