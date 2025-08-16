@@ -93,7 +93,7 @@ export default function BlogPage() {
               <h2 className="text-2xl md:text-3xl font-bold mb-12 text-center">Featured Articles</h2>
               
               <div className="grid lg:grid-cols-2 gap-8">
-                {featuredPosts.slice(0, 2).map((post, index) => (
+                {featuredPosts.slice(0, 2).map((post, _index) => (
                   <article key={post.id} className="card p-0 overflow-hidden hover:transform hover:scale-105 transition-all duration-300">
                     <div className="aspect-video bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 relative">
                       <div className="absolute inset-0 flex items-center justify-center">
