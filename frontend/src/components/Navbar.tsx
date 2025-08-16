@@ -109,7 +109,10 @@ export default function Navbar() {
         {/* CTA Button - Right */}
         <div className="hidden md:block">
           <a href="/#get-started" className="group relative inline-flex items-center gap-2 cta-flow text-black px-4 py-2 rounded-lg font-medium hover:scale-105 transition-transform duration-200">
-            <span className="relative z-10 font-semibold">Book FREE Strategy Call</span>
+              <span className="relative z-10 font-semibold">
+              <span className="hidden lg:inline">Book FREE Strategy Call</span>
+              <span className="lg:hidden">Book Call</span>
+            </span>
             <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
