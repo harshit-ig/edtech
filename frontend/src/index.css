@@ -409,6 +409,45 @@
   }
 }
 
+/* Advantage Stats Section - Pulse Dot Animation */
+@keyframes pulse-dot {
+  0% {
+    transform: scale(0.75);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+/* Advantage Stats Card Styling - Similar to testimonials with glow effects */
+.advantage-stat-card {
+  position: relative;
+  border-radius: 16px;
+  background: white;
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.advantage-stat-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08), 0 0 12px var(--accent-glow), 0 0 24px var(--accent-glow);
+}
+
+/* Accent colors for advantage stats */
+.advantage-stat-card[data-accent="blue"] { --accent: #4A5BB8; --accent-glow: rgba(74, 91, 184, 0.15); }
+.advantage-stat-card[data-accent="orange"] { --accent: #FF7A52; --accent-glow: rgba(255, 122, 82, 0.15); }
+.advantage-stat-card[data-accent="green"] { --accent: #9BAE18; --accent-glow: rgba(155, 174, 24, 0.15); }
+
 /* Animated gradient badge - smoother gradient */
 @keyframes badgeFlow { 
   0% { background-position: 0% 50%; } 

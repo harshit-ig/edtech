@@ -4,6 +4,7 @@ import Features from "../components/Features";
 import CoursesSection from "../components/Courses";
 import UpcomingSkills from "../components/UpcomingSkills";
 import Testimonials from "../components/Testimonials";
+import AdvantageStats from "../components/AdvantageStats";
 import Stats from "../components/Stats";
 import Footer from "../components/Footer";
 
@@ -15,6 +16,7 @@ export default function HomePage() {
       <CoursesSection />
       <UpcomingSkills />
       <Testimonials />
+      <AdvantageStats />
       <Features />
       <Stats />
       <Footer />

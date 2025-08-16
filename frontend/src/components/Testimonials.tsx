@@ -2,7 +2,7 @@ import { testimonials, successStats } from '../data/testimonials';
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="py-16 md:py-24 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
+    <section id="testimonials" className="py-16 md:py-24 relative overflow-hidden bg-white">
       <div className="mx-auto max-w-7xl px-6">
         {/* Header Section */}
         <div className="text-center mb-16">
