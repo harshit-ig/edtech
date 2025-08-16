@@ -124,12 +124,13 @@ export default function AdvantageStats() {
       <section className="py-20 px-4" style={{backgroundColor: '#f4f7f1'}}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+            <div className="badge-hero mx-auto w-max">
+              <span>⚡</span>
+              <span>THE EDTECH ADVANTAGE</span>
+            </div>
+            <h2 className="mt-6 text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
               <span className="text-edtech-blue">Transform</span>, <span className="text-edtech-blue">excel</span>, and <span className="text-edtech-blue">dominate</span>.
             </h2>
-            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              The EdTech advantage.
-            </p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
