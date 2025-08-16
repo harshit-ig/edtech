@@ -10,7 +10,7 @@ export default function Navbar() {
   const displayedCourses = courses.slice(0, 4);
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 backdrop-blur border-b border-white/10 bg-black/40 supports-backdrop-blur:bg-black/30 h-16">
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-bg-deep h-16">
       <div className="w-full px-6 h-full flex items-center justify-between">
         {/* Logo - Left */}
         <Link to="/" className="flex items-center gap-3 ml-6">

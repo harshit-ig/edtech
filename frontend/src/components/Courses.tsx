@@ -43,7 +43,7 @@ export default function CoursesSection() {
         {/* Grid layout instead of marquee */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
           {courses.map((c, idx) => (
-            <article key={`${c.id}-${idx}`} className="course-card p-4 flex flex-col relative" data-accent={c.accent.replace('edtech-','')}> 
+            <article key={`${c.id}-${idx}`} className="course-card p-4 flex flex-col relative reveal" data-accent={c.accent.replace('edtech-','')} style={{ animationDelay: `${idx * 150}ms` }}> 
               <div className="course-head">
                 <span className="cat-pill">{c.category}</span>
                 <div className="course-icon">
