@@ -320,6 +320,95 @@
   }
 }
 
+/* Testimonial Card Styling - Similar to skill cards but with subtle differences */
+.testimonial-card {
+  position: relative;
+  border-radius: 20px; /* Slightly more rounded than skill cards */
+  background: white;
+  border: 2px solid rgba(0, 0, 0, 0.04); /* Lighter border */
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 28px; /* Slightly more padding */
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.06); /* Slightly deeper shadow */
+  min-height: 380px; /* Taller than skill cards */
+}
+
+.testimonial-card:hover {
+  transform: translateY(-6px); /* More lift on hover */
+  border-color: var(--accent);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1), 0 0 15px var(--accent-glow), 0 0 30px var(--accent-glow);
+}
+
+/* Accent colors for testimonials - Softer variations */
+.testimonial-card[data-accent="blue"] { --accent: #5A6BC8; --accent-glow: rgba(90, 107, 200, 0.12); }
+.testimonial-card[data-accent="orange"] { --accent: #FF8A62; --accent-glow: rgba(255, 138, 98, 0.12); }
+.testimonial-card[data-accent="green"] { --accent: #AAC028; --accent-glow: rgba(170, 192, 40, 0.12); }
+.testimonial-card[data-accent="red"] { --accent: #FF7B7B; --accent-glow: rgba(255, 123, 123, 0.12); }
+
+.testimonial-category {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  background: var(--accent-glow);
+  padding: 6px 12px;
+  border-radius: 12px;
+  width: fit-content;
+  border: 1px solid var(--accent);
+}
+
+.testimonial-author {
+  margin-top: auto; /* Push to bottom */
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Testimonial indicator - different from skill cards */
+.testimonial-indicator {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.testimonial-indicator .pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: testimonialPulse 3s ease-in-out infinite; /* Slower pulse */
+}
+
+@keyframes testimonialPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+}
+
+/* Responsive adjustments for testimonials */
+@media (max-width: 768px) {
+  .testimonial-card {
+    min-height: 350px;
+    padding: 24px;
+  }
+}
+
 /* Animated gradient badge - smoother gradient */
 @keyframes badgeFlow { 
   0% { background-position: 0% 50%; } 

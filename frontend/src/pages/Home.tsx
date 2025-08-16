@@ -14,8 +14,8 @@ export default function HomePage() {
       <Hero />
       <CoursesSection />
       <UpcomingSkills />
-      <Features />
       <Testimonials />
+      <Features />
       <Stats />
       <Footer />
     </div>
