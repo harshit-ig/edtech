@@ -19,8 +19,8 @@ export default function Navbar() {
         </Link>
         
         {/* Navigation - Center */}
-        <div className="hidden md:flex items-center gap-8 text-sm text-white/80">
-          <Link to="/" className="hover:text-edtech-orange transition-colors">Home</Link>
+        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-white/90">
+          <Link to="/" className="hover:text-edtech-orange transition-colors font-semibold">Home</Link>
           
           {/* Courses Dropdown */}
           <div 
@@ -28,7 +28,7 @@ export default function Navbar() {
             onMouseEnter={() => setCoursesDropdownOpen(true)}
             onMouseLeave={() => setCoursesDropdownOpen(false)}
           >
-            <button className="flex items-center gap-1 hover:text-edtech-orange transition-colors group">
+            <button className="flex items-center gap-1 hover:text-edtech-orange transition-colors group font-semibold">
               Courses
               <svg 
                 className={`w-4 h-4 ml-1 transition-transform duration-200 ${coursesDropdownOpen ? 'rotate-180' : ''}`} 
@@ -47,8 +47,8 @@ export default function Navbar() {
                 
                 <div className="bg-bg-deep/95 backdrop-blur-md rounded-2xl border border-white/10 shadow-2xl p-6 animate-fadeIn">
                   <div className="mb-4">
-                    <h3 className="text-white font-semibold text-base mb-1">Popular Courses</h3>
-                    <p className="text-white/60 text-sm">Industry-leading certification programs</p>
+                    <h3 className="text-white font-bold text-base mb-1">Popular Courses</h3>
+                    <p className="text-white/60 text-sm font-medium">Industry-leading certification programs</p>
                   </div>
                   
                   <div className="space-y-3 mb-4">
@@ -63,18 +63,18 @@ export default function Navbar() {
                           </svg>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-white text-sm font-medium leading-tight line-clamp-2 mb-2 group-hover:text-edtech-orange transition-colors">
+                          <h4 className="text-white text-sm font-semibold leading-tight line-clamp-2 mb-2 group-hover:text-edtech-orange transition-colors">
                             {course.title}
                           </h4>
                           <div className="flex items-center gap-2 text-xs">
-                            <span className={`px-2 py-1 rounded-full text-black font-medium text-xs ${
+                            <span className={`px-2 py-1 rounded-full text-black font-bold text-xs ${
                               course.badge === 'FEATURED' ? 'bg-edtech-red' :
                               course.badge === 'TRENDING' ? 'bg-edtech-green' :
                               course.badge === 'MOST POPULAR' ? 'bg-edtech-orange' : 'bg-edtech-blue'
                             }`}>
                               {course.badge}
                             </span>
-                            <span className="text-white/60">{course.duration}</span>
+                            <span className="text-white/60 font-medium">{course.duration}</span>
                           </div>
                         </div>
                       </div>
@@ -87,8 +87,8 @@ export default function Navbar() {
                       className="flex items-center justify-between text-white/70 hover:text-edtech-orange transition-colors p-3 rounded-xl hover:bg-white/5 group"
                     >
                       <div>
-                        <div className="font-medium">Explore All Courses</div>
-                        <div className="text-sm text-white/50">View our complete course catalog</div>
+                        <div className="font-semibold">Explore All Courses</div>
+                        <div className="text-sm text-white/50 font-medium">View our complete course catalog</div>
                       </div>
                       <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -100,16 +100,16 @@ export default function Navbar() {
             )}
           </div>
           
-          <Link to="/pricing" className="hover:text-edtech-orange transition-colors">Pricing</Link>
-          <Link to="/about" className="hover:text-edtech-orange transition-colors">About</Link>
-          <Link to="/blog" className="hover:text-edtech-orange transition-colors">Blog</Link>
-          <Link to="/contact" className="hover:text-edtech-orange transition-colors">Contact Us</Link>
+          <Link to="/pricing" className="hover:text-edtech-orange transition-colors font-semibold">Pricing</Link>
+          <Link to="/about" className="hover:text-edtech-orange transition-colors font-semibold">About</Link>
+          <Link to="/blog" className="hover:text-edtech-orange transition-colors font-semibold">Blog</Link>
+          <Link to="/contact" className="hover:text-edtech-orange transition-colors font-semibold">Contact Us</Link>
         </div>
         
         {/* CTA Button - Right */}
         <div className="hidden md:block">
-          <a href="/#get-started" className="group relative inline-flex items-center gap-2 cta-flow text-black px-4 py-2 rounded-lg font-medium hover:scale-105 transition-transform duration-200">
-              <span className="relative z-10 font-semibold">
+          <a href="/#get-started" className="group relative inline-flex items-center gap-2 cta-flow text-black px-4 py-2 rounded-lg font-bold hover:scale-105 transition-transform duration-200">
+              <span className="relative z-10 font-bold">
               <span className="hidden lg:inline">Book FREE Strategy Call</span>
               <span className="lg:hidden">Book Call</span>
             </span>
@@ -136,15 +136,15 @@ export default function Navbar() {
       </div>
       {mobileOpen && (
         <div className="md:hidden absolute inset-x-0 top-full bg-black/85 backdrop-blur border-b border-white/10 animate-slideDown">
-          <div className="px-6 py-4 flex flex-col gap-3 text-sm">
-            <Link to="/" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Home</Link>
-            <Link to="/courses" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">All Courses</Link>
-            <Link to="/pricing" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Pricing</Link>
-            <Link to="/about" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">About</Link>
-            <Link to="/blog" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Blog</Link>
-            <Link to="/contact" onClick={() => setMobileOpen(false)} className="text-white/80 hover:text-white">Contact Us</Link>
-            <a href="/#get-started" onClick={() => setMobileOpen(false)} className="group inline-flex items-center justify-center gap-2 cta-flow text-black px-4 py-2 rounded-lg font-medium w-full mt-2">
-              <span className="relative z-10 font-semibold">Book FREE Strategy Call</span>
+          <div className="px-6 py-4 flex flex-col gap-3 text-sm font-medium">
+            <Link to="/" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Home</Link>
+            <Link to="/courses" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">All Courses</Link>
+            <Link to="/pricing" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Pricing</Link>
+            <Link to="/about" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">About</Link>
+            <Link to="/blog" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Blog</Link>
+            <Link to="/contact" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Contact Us</Link>
+            <a href="/#get-started" onClick={() => setMobileOpen(false)} className="group inline-flex items-center justify-center gap-2 cta-flow text-black px-4 py-2 rounded-lg font-bold w-full mt-2">
+              <span className="relative z-10 font-bold">Book FREE Strategy Call</span>
               <svg className="w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>

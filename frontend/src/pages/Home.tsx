@@ -7,6 +7,7 @@ import Testimonials from "../components/Testimonials";
 import AdvantageStats from "../components/AdvantageStats";
 import CompanyShowcase from "../components/CompanyShowcase";
 import MentorsSection from "../components/MentorsSection";
+import FAQ from "../components/FAQ";
 import Stats from "../components/Stats";
 import Footer from "../components/Footer";
 
@@ -21,8 +22,9 @@ export default function HomePage() {
       <AdvantageStats />
       <CompanyShowcase />
       <MentorsSection />
-      <Features />
-      <Stats />
+      <FAQ />
+      {/* <Features />
+      <Stats /> */}
       <Footer />
     </div>
   );
