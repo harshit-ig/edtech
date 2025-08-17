@@ -10,8 +10,14 @@ export default function Navbar() {
   const displayedCourses = courses.slice(0, 4);
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-bg-deep h-16">
-      <div className="w-full px-6 h-full flex items-center justify-between">
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-bg-deep">
+      <div className="bg-edtech-green text-black text-center py-2 text-sm">
+        <span className="flex items-center justify-center gap-2">
+          <span className="hidden sm:inline">🚀 Transform your career with our industry-leading tech courses - </span>
+          <button className="underline hover:text-black/70 transition-colors cursor-pointer font-bold">Book a FREE strategy call today! →</button>
+        </span>
+      </div>
+      <div className="w-full px-6 h-16 flex items-center justify-between">
         {/* Logo - Left */}
         <Link to="/" className="flex items-center gap-3 ml-6">
           <img src={WhiteLogo} alt="EdTech Informative" className="h-8 w-auto" />

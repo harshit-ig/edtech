@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import FloatingDots from "../FloatingDots";
+import microsoftDarkLogo from "../assets/in-partnership-with-microsoft-for-dark.png";
 
 const pricingPlans = [
   {
@@ -131,6 +132,16 @@ export default function PricingPage() {
               <div className="badge-hero mx-auto w-max mb-6">
                 <span>💰</span><span>TRANSPARENT PRICING</span>
               </div>
+
+              {/* Microsoft Partnership Logo */}
+              <div className="mb-6 flex justify-center">
+                <img 
+                  src={microsoftDarkLogo} 
+                  alt="In Partnership with Microsoft" 
+                  className="h-16 md:h-20 lg:h-24 opacity-80 hover:opacity-100 transition-opacity duration-300"
+                />
+              </div>
+
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6">
                 Invest in Your <span className="text-glow-green">Future</span> Today
               </h1>

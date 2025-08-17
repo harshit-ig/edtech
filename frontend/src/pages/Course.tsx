@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import FloatingDots from "../FloatingDots";
 import { courses } from "../data/courses";
+import microsoftDarkLogo from "../assets/in-partnership-with-microsoft-for-dark.png";
 
 // Extended course details data
 const courseDetails: Record<string, any> = {
@@ -210,6 +211,15 @@ export default function CoursePage() {
               <span>/</span>
               <span className="text-white/80">{course.title}</span>
             </nav>
+
+            {/* Microsoft Partnership Logo */}
+            <div className="mb-8 flex justify-center lg:justify-start">
+              <img 
+                src={microsoftDarkLogo} 
+                alt="In Partnership with Microsoft" 
+                className="h-16 md:h-20 lg:h-24 opacity-70 hover:opacity-100 transition-opacity duration-300"
+              />
+            </div>
 
             <div className="grid lg:grid-cols-3 gap-12">
               {/* Main Content */}
