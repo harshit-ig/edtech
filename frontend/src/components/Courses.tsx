@@ -36,7 +36,7 @@ export default function CoursesSection() {
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center mb-10">
           <div className="badge-hero mx-auto w-max"><span>🚀</span><span>MOST POPULAR COURSES</span></div>
-          <h2 className="mt-6 text-3xl md:text-4xl font-bold">Featured Programs</h2>
+          <h2 className="mt-6 text-3xl md:text-4xl font-bold">Featured <span className="text-edtech-orange font-extrabold">Programs</span></h2>
           <p className="mt-2 text-white/70 max-w-2xl mx-auto">Transform your career with our industry‑leading certification programs designed by experts for real‑world success</p>
         </div>
 
