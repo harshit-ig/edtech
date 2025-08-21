@@ -1,7 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import Globe from "../globe";
 import Typewriter from "typewriter-effect";
-import FloatingDots from "../FloatingDots";
+import TechBackground from "../TechBackground";
 import RoleCarousel from "./RoleCarousel";
 
 export default function Hero() {
@@ -16,9 +16,9 @@ export default function Hero() {
   ];
   return (
     <header className="relative min-h-[600px] h-[90vh] max-h-[800px] lg:max-h-none lg:h-screen flex items-center overflow-hidden pt-20 scroll-mt-24">
-      {/* Background Layer - Floating dots */}
+      {/* Background Layer - Animated Tech Elements */}
       <div className="absolute inset-0 -z-20">
-        <FloatingDots numDots={80} className="mix-blend-screen" />
+        <TechBackground className="mix-blend-screen" />
       </div>
       
       {/* Globe positioned CENTER on mobile, LEFT with padding on medium+ screens */}
