@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -13,14 +13,22 @@ export default function CoursesPage() {
   // Use centralized course data
   const allCourses = getAllCourses();
   
-  const categories = ['ALL', ...Array.from(new Set(allCourses.map(c => c.category)))];
+  // Memoize categories to avoid recalculation
+  const categories = useMemo(() => 
+    ['ALL', ...Array.from(new Set(allCourses.map(c => c.category)))], 
+    [allCourses]
+  );
   
-  const filteredCourses = allCourses.filter(course => {
-    const matchesCategory = selectedCategory === 'ALL' || course.category === selectedCategory;
-    const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         course.desc.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  // Memoize filtered courses to optimize rendering
+  const filteredCourses = useMemo(() => 
+    allCourses.filter(course => {
+      const matchesCategory = selectedCategory === 'ALL' || course.category === selectedCategory;
+      const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                           course.desc.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesCategory && matchesSearch;
+    }), 
+    [allCourses, selectedCategory, searchTerm]
+  );
 
   return (
     <div className="min-h-screen">

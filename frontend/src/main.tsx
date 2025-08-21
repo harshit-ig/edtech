@@ -9,7 +9,9 @@ import AboutPage from './pages/About.tsx'
 import PricingPage from './pages/Pricing.tsx'
 import BlogPage from './pages/Blog.tsx'
 import PostPage from './pages/Post.tsx'
+import NotFoundPage from './pages/NotFound.tsx'
 import Layout from './Layout.tsx'
+import ErrorBoundary from './components/ErrorBoundary.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 const router = createBrowserRouter([
@@ -21,10 +23,13 @@ const router = createBrowserRouter([
   { path: '/pricing', element: <Layout><PricingPage /></Layout> },
   { path: '/blog', element: <Layout><BlogPage /></Layout> },
   { path: '/blog/:slug', element: <Layout><PostPage /></Layout> },
+  { path: '*', element: <Layout><NotFoundPage /></Layout> }, // Catch-all route for 404
 ])
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ErrorBoundary>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
   </StrictMode>,
 )

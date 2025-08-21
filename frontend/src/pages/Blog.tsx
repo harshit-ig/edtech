@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -9,24 +9,29 @@ export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const allCategories = ['All', ...categories];
+  const allCategories = useMemo(() => ['All', ...categories], []);
   
-  const filteredPosts = blogPosts.filter(post => {
-    const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-    return matchesCategory && matchesSearch;
-  });
+  // Memoize filtered posts for better performance
+  const filteredPosts = useMemo(() => 
+    blogPosts.filter(post => {
+      const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
+      const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                           post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+      return matchesCategory && matchesSearch;
+    }), 
+    [selectedCategory, searchTerm]
+  );
 
-  const formatDate = (dateString: string) => {
+  // Memoize date formatter to avoid recreation on each render
+  const formatDate = useMemo(() => (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = { 
       year: 'numeric', 
       month: 'long', 
       day: 'numeric' 
     };
     return new Date(dateString).toLocaleDateString(undefined, options);
-  };
+  }, []);
 
   return (
     <div className="min-h-screen">
