@@ -10,7 +10,7 @@ export default function Navbar() {
   const displayedCourses = courses.slice(0, 4);
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-bg-deep">
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/15 bg-bg-deep/95 backdrop-blur-lg">
       <div className="bg-edtech-green text-black text-center py-2 text-sm">
         <span className="flex items-center justify-center gap-2">
           <span className="hidden sm:inline">🚀 Transform your career with our industry-leading tech courses - </span>
@@ -141,7 +141,7 @@ export default function Navbar() {
         </button>
       </div>
       {mobileOpen && (
-        <div className="md:hidden absolute inset-x-0 top-full bg-black/85 backdrop-blur border-b border-white/10 animate-slideDown">
+        <div className="md:hidden absolute inset-x-0 top-full bg-bg-deep/95 backdrop-blur-lg border-b border-white/15 animate-slideDown">
           <div className="px-6 py-4 flex flex-col gap-3 text-sm font-medium">
             <Link to="/" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Home</Link>
             <Link to="/courses" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">All Courses</Link>

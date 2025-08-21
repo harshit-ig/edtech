@@ -6,7 +6,7 @@ type TechBackgroundProps = {
 
 export default function TechBackground({ className = "" }: TechBackgroundProps) {
   return (
-    <div className={`absolute inset-0 overflow-hidden opacity-20 ${className}`}>
+    <div className={`absolute inset-0 overflow-hidden opacity-75 ${className}`}>
       {/* Bar Chart - Top Left */}
       <div className="absolute top-20 left-16">
         <div className="flex items-end space-x-1">

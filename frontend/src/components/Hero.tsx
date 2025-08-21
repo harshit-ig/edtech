@@ -38,8 +38,8 @@ export default function Hero() {
       </div>
       
       {/* Gradient overlays for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-edtech-blue/20 via-transparent to-edtech-blue/20 -z-5" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-deep/40 -z-5" />
+      <div className="absolute inset-0 bg-gradient-to-r from-edtech-blue/30 via-transparent to-edtech-blue/30 -z-5" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-deep/60 -z-5" />
       
       {/* Main Content Container - Text overlaid on LEFT side over the earth */}
       <div className="relative z-10 mx-auto max-w-7xl px-6 md:pl-16 lg:pl-16 xl:pl-16 w-full h-full flex items-center">
@@ -63,7 +63,7 @@ export default function Hero() {
               />
             </h1>
           </div>
-          <p className="text-white/90 text-lg md:text-xl text-glow-blue mb-8 max-w-2xl md:max-w-none">
+          <p className="text-white/95 text-lg md:text-xl text-glow-white mb-8 max-w-2xl md:max-w-none">
             Choose tech courses that fit your goals and shape a successful digital future.
           </p>
           <div className="flex items-center justify-center md:justify-start gap-4 flex-wrap">

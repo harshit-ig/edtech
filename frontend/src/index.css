@@ -5,7 +5,7 @@
   --color-edtech-blue: #2B2B8E;  /* trust */
   --color-edtech-orange: #EF552C; /* energy/CTAs */
   --color-edtech-red: #EF4444;    /* urgency - bg-red-500 */
-  --color-bg-deep: #1a1d4a; /* lighter background using blue tones */
+  --color-bg-deep: #0e1589; /* darker background using blue tones */
   --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
@@ -17,7 +17,7 @@
 @layer components {
   .cta { @apply inline-flex items-center justify-center rounded-lg px-5 py-3 transition-transform duration-200; }
   .cta-primary { @apply bg-edtech-green text-black hover:scale-105 hover:brightness-110; }
-  .cta-secondary { @apply border border-white/20 hover:border-white/40; }
+  .cta-secondary { @apply border border-white/30 hover:border-white/50 text-white/90 hover:text-white; }
   .card { @apply rounded-2xl bg-white/5 backdrop-blur border border-white/10 shadow-lg; }
   .cursor-neon { color: var(--color-edtech-orange); text-shadow: 0 0 10px rgba(239,85,44,1); }
   .type-glow { text-shadow: 0 0 12px rgba(239,85,44,.8); }
