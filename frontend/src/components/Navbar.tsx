@@ -10,7 +10,7 @@ export default function Navbar() {
   const displayedCourses = courses.slice(0, 4);
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/15 bg-bg-deep/95 backdrop-blur-lg">
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/30 bg-bg-deep/95 backdrop-blur-lg">
       <div className="bg-edtech-green text-black text-center py-2 text-sm">
         <span className="flex items-center justify-center gap-2">
           <span className="hidden sm:inline">🚀 Transform your career with our industry-leading tech courses - </span>
@@ -20,12 +20,12 @@ export default function Navbar() {
       <div className="w-full px-6 h-16 flex items-center justify-between">
         {/* Logo - Left */}
         <Link to="/" className="flex items-center gap-3 ml-6">
-          <img src={WhiteLogo} alt="EdTech Informative" className="h-8 w-auto" />
+          <img src={WhiteLogo} alt="EdTech Informative" className="h-12 w-auto" />
           <span className="sr-only">EdTech Informative</span>
         </Link>
         
         {/* Navigation - Center */}
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-white/90">
+        <div className="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium text-white/90">
           <Link to="/" className="hover:text-edtech-orange transition-colors font-semibold">Home</Link>
           
           {/* Courses Dropdown */}
@@ -51,7 +51,7 @@ export default function Navbar() {
                 {/* Invisible bridge to maintain hover */}
                 <div className="h-2 w-full"></div>
                 
-                <div className="bg-bg-deep/95 backdrop-blur-md rounded-2xl border border-white/10 shadow-2xl p-6 animate-fadeIn">
+                <div className="bg-bg-deep/95 backdrop-blur-md rounded-2xl border border-white/30 shadow-2xl p-6 animate-fadeIn">
                   <div className="mb-4">
                     <h3 className="text-white font-bold text-base mb-1">Popular Courses</h3>
                     <p className="text-white/60 text-sm font-medium">Industry-leading certification programs</p>

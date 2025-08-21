@@ -140,9 +140,9 @@ const RoleCarousel = ({ rolesList, interval = 2000 }: RoleCarouselProps) => {
           <div 
             className="absolute inset-0 rounded-lg"
             style={{
-              background: card.position < 4 
-                ? 'linear-gradient(to bottom, #2a3b78, #1e2454, #0e1589)' 
-                : 'linear-gradient(to bottom, #0e1589, #1e2454, #2a3b78)'
+              background: card.position > 4 
+                  ? 'linear-gradient(to bottom, #0f1f3d, #1a2e4a, #243654, #2a4a78)'
+                  : 'linear-gradient(to bottom, #2a4a78, #243654, #1a2e4a, #0f1f3d)',
             }}
           />
           

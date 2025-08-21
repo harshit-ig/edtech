@@ -1,5 +1,5 @@
 import { courses } from "../data/courses";
-import microsoftDarkLogo from "../assets/in-partnership-with-microsoft-for-dark.png";
+import MicrosoftBadge from "./MicrosoftBadge";
 
 // Memoized SVG icons to prevent re-rendering
 const ICONS = {
@@ -38,13 +38,9 @@ export default function CoursesSection() {
         <div className="text-center mb-10">
           <div className="badge-hero mx-auto w-max"><span>🚀</span><span>MOST POPULAR COURSES</span></div>
           
-          {/* Microsoft Partnership Logo */}
+          {/* Microsoft Partnership Badge */}
           <div className="mt-6 mb-6 flex justify-center">
-            <img 
-              src={microsoftDarkLogo} 
-              alt="In Partnership with Microsoft" 
-              className="h-12 md:h-16 opacity-80 hover:opacity-100 transition-opacity duration-300"
-            />
+            <MicrosoftBadge size="md" />
           </div>
 
           <h2 className="mt-6 text-3xl md:text-4xl font-bold">Featured <span className="text-edtech-orange font-extrabold">Programs</span></h2>

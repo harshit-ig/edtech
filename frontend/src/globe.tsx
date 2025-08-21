@@ -221,12 +221,13 @@ function Globe() {
         <meshStandardMaterial color="#20286B" flatShading />
       </Sphere>
 
-      {/* Base land layer (non-highlighted countries visible) */}
+      {/* Base land layer (non-highlighted countries visible with very low opacity) */}
       {landAlphaTexture && (
         <Sphere args={[1.002, 128, 128]}>
           <meshStandardMaterial
             transparent
-            color="#72770f"
+            color="#394a85"
+            opacity={0.15}
             roughness={1}
             metalness={0}
             alphaMap={landAlphaTexture}
@@ -271,7 +272,7 @@ function Globe() {
             transparent
             color="#000000"
             opacity={1}
-            emissive="#EF552C"
+            emissive="#D5DE24"
             emissiveIntensity={2.2}
             emissiveMap={americasTexture}
             alphaMap={americasTexture}
@@ -288,7 +289,7 @@ function Globe() {
             transparent
             color="#000000"
             opacity={1}
-            emissive="#EF552C"
+            emissive="#D5DE24"
             emissiveIntensity={2.2}
             emissiveMap={europeTexture}
             alphaMap={europeTexture}

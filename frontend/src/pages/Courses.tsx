@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import FloatingDots from "../FloatingDots";
 import { courses } from "../data/courses";
-import microsoftDarkLogo from "../assets/in-partnership-with-microsoft-for-dark.png";
+import MicrosoftBadge from "../components/MicrosoftBadge";
 
 // Extended course data for the courses page
 const allCourses = [
@@ -128,13 +128,9 @@ export default function CoursesPage() {
               <span>🎓</span><span>ALL COURSES</span>
             </div>
 
-            {/* Microsoft Partnership Logo */}
+            {/* Microsoft Partnership Badge */}
             <div className="mb-6 flex justify-center">
-              <img 
-                src={microsoftDarkLogo} 
-                alt="In Partnership with Microsoft" 
-                className="h-16 md:h-20 lg:h-24 opacity-80 hover:opacity-100 transition-opacity duration-300"
-              />
+              <MicrosoftBadge size="lg" />
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6">
