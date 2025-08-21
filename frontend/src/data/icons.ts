@@ -21,6 +21,18 @@ export const COURSE_ICONS = {
   'globe': 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
   'desktop': 'M9 17v-2m3 2v-4m3 4v-6M9 3h6l6 6v10a2 2 0 01-2 2H5a2 2 0 01-2-2V9l6-6z',
   
+  // Mobile Development
+  'mobile': 'M5 2a2 2 0 00-2 2v16a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2H5zm7 16h.01',
+  'smartphone': 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+  
+  // Cloud Computing
+  'cloud': 'M17.5 19H9a7 7 0 116.71-9h1.79a4.5 4.5 0 110 9Z',
+  'server': 'M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 01-.68 0C7.5 20.5 4 18 4 13V6a1 1 0 01.9-.995l7-1a1 1 0 01.2 0l7 1A1 1 0 0120 6v7z',
+  
+  // Cybersecurity
+  'shield': 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zm-2-8l2 2 4-4',
+  'lock': 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+  
   // Business & Marketing
   'trending-up': 'M18 2.0845a1 1 0 011 1V17a1 1 0 01-2 0V4.4142L7.7071 13.7071a1 1 0 01-1.4142 0L2.2929 9.7071a1 1 0 011.4142-1.4142L8 12.5858 16.5858 4.0001H13a1 1 0 010-2h5z',
   'target': 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
@@ -36,6 +48,9 @@ export const ICON_CATEGORIES = {
   'ai-ml': ['star-sparkle', 'brain', 'lightning', 'cpu'],
   'automation': ['robot', 'cog', 'workflow'],
   'web-dev': ['code', 'globe', 'desktop'],
+  'mobile-dev': ['mobile', 'smartphone'],
+  'cloud': ['cloud', 'server'],
+  'cybersecurity': ['shield', 'lock'],
   'business': ['trending-up', 'target', 'briefcase'],
 };
 

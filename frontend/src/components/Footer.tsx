@@ -1,4 +1,5 @@
 // import FloatingDots from "../FloatingDots";
+import { Link } from "react-router-dom";
 import WhiteLogo from "../assets/WHITE-LOGO--300x152.png";
 
 export default function Footer() {
@@ -14,34 +15,34 @@ export default function Footer() {
               Transform your career with cutting-edge tech skills. Your gateway to future‑ready careers in Data, AI, and Cloud technologies.
             </p>
             <div className="flex gap-4">
-              <a href="/#get-started" className="cta cta-primary">
+              <Link to="/#get-started" className="cta cta-primary">
                 Start Learning Today
-              </a>
-              <a href="/contact" className="cta cta-secondary">
+              </Link>
+              <Link to="/contact" className="cta cta-secondary">
                 Contact Us
-              </a>
+              </Link>
             </div>
           </div>
           
           <div>
             <h4 className="font-bold text-white mb-4 text-lg">Courses</h4>
             <ul className="space-y-3 text-white/70">
-              <li><a href="/courses" className="hover:text-edtech-orange transition-colors font-medium">Data Analytics</a></li>
-              <li><a href="/courses" className="hover:text-edtech-orange transition-colors font-medium">AI & Machine Learning</a></li>
-              <li><a href="/courses" className="hover:text-edtech-orange transition-colors font-medium">Cloud Computing</a></li>
-              <li><a href="/courses" className="hover:text-edtech-orange transition-colors font-medium">Cybersecurity</a></li>
-              <li><a href="/courses" className="hover:text-edtech-green transition-colors font-medium">View All Courses</a></li>
+              <li><Link to="/courses" className="hover:text-edtech-orange transition-colors font-medium">Data Analytics</Link></li>
+              <li><Link to="/courses" className="hover:text-edtech-orange transition-colors font-medium">AI & Machine Learning</Link></li>
+              <li><Link to="/courses" className="hover:text-edtech-orange transition-colors font-medium">Cloud Computing</Link></li>
+              <li><Link to="/courses" className="hover:text-edtech-orange transition-colors font-medium">Cybersecurity</Link></li>
+              <li><Link to="/courses" className="hover:text-edtech-green transition-colors font-medium">View All Courses</Link></li>
             </ul>
           </div>
           
           <div>
             <h4 className="font-bold text-white mb-4 text-lg">Company</h4>
             <ul className="space-y-3 text-white/70">
-              <li><a href="/about" className="hover:text-edtech-orange transition-colors font-medium">About Us</a></li>
-              <li><a href="/blog" className="hover:text-edtech-orange transition-colors font-medium">Blog</a></li>
-              <li><a href="/pricing" className="hover:text-edtech-orange transition-colors font-medium">Pricing</a></li>
-              <li><a href="/contact" className="hover:text-edtech-orange transition-colors font-medium">Contact</a></li>
-              <li><a href="/careers" className="hover:text-edtech-orange transition-colors font-medium">Careers</a></li>
+              <li><Link to="/about" className="hover:text-edtech-orange transition-colors font-medium">About Us</Link></li>
+              <li><Link to="/blog" className="hover:text-edtech-orange transition-colors font-medium">Blog</Link></li>
+              <li><Link to="/pricing" className="hover:text-edtech-orange transition-colors font-medium">Pricing</Link></li>
+              <li><Link to="/contact" className="hover:text-edtech-orange transition-colors font-medium">Contact</Link></li>
+              <li><a href="#" className="hover:text-edtech-orange transition-colors font-medium">Careers</a></li>
             </ul>
           </div>
         </div>
@@ -53,9 +54,9 @@ export default function Footer() {
               © 2025 EdTech Informative. All rights reserved.
             </div>
             <div className="flex gap-6 text-sm">
-              <a href="/privacy" className="text-white/60 hover:text-white transition-colors">Privacy Policy</a>
-              <a href="/terms" className="text-white/60 hover:text-white transition-colors">Terms of Service</a>
-              <a href="/support" className="text-white/60 hover:text-white transition-colors">Support</a>
+              <Link to="/privacy" className="text-white/60 hover:text-white transition-colors">Privacy Policy</Link>
+              <Link to="/terms" className="text-white/60 hover:text-white transition-colors">Terms of Service</Link>
+              <Link to="/contact" className="text-white/60 hover:text-white transition-colors">Support</Link>
             </div>
           </div>
         </div>

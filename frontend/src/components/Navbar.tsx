@@ -66,10 +66,15 @@ export default function Navbar() {
                   
                   <div className="space-y-3 mb-4">
                     {displayedCourses.map((course) => (
-                      <div key={course.id} className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer group">
+                      <Link 
+                        key={course.id} 
+                        to={`/course/${course.id}`}
+                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer group"
+                      >
                         <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1 ${
                           course.accent === 'edtech-green' ? 'bg-gradient-to-br from-edtech-green to-green-400' : 
-                          'bg-gradient-to-br from-edtech-orange to-orange-400'
+                          course.accent === 'edtech-orange' ? 'bg-gradient-to-br from-edtech-orange to-orange-400' :
+                          'bg-gradient-to-br from-edtech-red to-red-400'
                         }`}>
                           <svg className="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -90,7 +95,7 @@ export default function Navbar() {
                             <span className="text-white/60 font-medium">{course.duration}</span>
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     ))}
                   </div>
                   

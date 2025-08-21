@@ -1,37 +1,10 @@
-import { courses } from "../data/courses";
+import { getFeaturedCourses, getCourseIcon } from "../data/courses";
+import { Link } from "react-router-dom";
 import MicrosoftBadge from "./MicrosoftBadge";
 
-// Memoized SVG icons to prevent re-rendering
-const ICONS = {
-  'data-analytics': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 19V7m5 12V4m5 15V9m5 10V12"/>
-    </svg>
-  ),
-  'gen-ai': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3l2.4 4.9L20 9l-4 3.9.9 5.6L12 16.8 7.1 18.5 8 13 4 9l5.6-1.1L12 3z"/>
-    </svg>
-  ),
-  'ai-engineering': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M8 7v10m8-10v10M4 17h16"/>
-    </svg>
-  ),
-  'ai-kids': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="12" cy="7" r="3"/>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M5 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/>
-    </svg>
-  ),
-  'default': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h18M12 3v18"/>
-    </svg>
-  )
-};
-
 export default function CoursesSection() {
+  const featuredCourses = getFeaturedCourses();
+
   return (
     <section  id="featured-programs" className="py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-6">
@@ -47,14 +20,16 @@ export default function CoursesSection() {
           <p className="mt-2 text-white/70 max-w-2xl mx-auto">Transform your career with our industry‑leading certification programs designed by experts for real‑world success</p>
         </div>
 
-        {/* Grid layout instead of marquee */}
+        {/* Grid layout for featured courses only */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-          {courses.map((c, idx) => (
+          {featuredCourses.map((c, idx) => (
             <article key={`${c.id}-${idx}`} className="course-card p-4 flex flex-col relative reveal" data-accent={c.accent.replace('edtech-','')} style={{ animationDelay: `${idx * 150}ms` }}> 
               <div className="course-head">
                 <span className="cat-pill">{c.category}</span>
                 <div className="course-icon">
-                  {ICONS[c.id as keyof typeof ICONS] || ICONS.default}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d={getCourseIcon(c)}/>
+                  </svg>
                 </div>
               </div>
 
@@ -69,7 +44,7 @@ export default function CoursesSection() {
               </div>
 
               <div className="mt-4 flex items-center gap-3">
-                <a className="cta cta-secondary" href={`/course/${c.id}`}>View Details</a>
+                <Link to={`/course/${c.id}`} className="cta cta-secondary">View Details</Link>
                 <a className="cta course-card-apply" href="#get-started">Apply Now</a>
               </div>
                 <span className="corner-badge">{c.badge}</span>
@@ -78,7 +53,7 @@ export default function CoursesSection() {
         </div>
 
         <div className="mt-12 flex justify-center">
-          <a href="/courses" className="cta cta-secondary hover:text-edtech-orange">View All Courses</a>
+          <Link to="/courses" className="cta cta-secondary hover:text-edtech-orange">View All Courses</Link>
         </div>
       </div>
     </section>

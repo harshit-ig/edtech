@@ -3,105 +3,16 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import FloatingDots from "../FloatingDots";
-import { courses } from "../data/courses";
+import { getAllCourses, getCourseIcon } from "../data/courses";
 import MicrosoftBadge from "../components/MicrosoftBadge";
-
-// Extended course data for the courses page
-const allCourses = [
-  ...courses,
-  {
-    id: 'web-development',
-    category: 'WEB DEVELOPMENT',
-    badge: 'NEW',
-    title: 'Full Stack Web Development Bootcamp',
-    desc: 'Learn modern web development with React, Node.js, and cloud deployment. Build real-world applications.',
-    duration: '5 Months',
-    extra: '15+ Projects',
-    accent: 'edtech-green' as const,
-  },
-  {
-    id: 'mobile-development',
-    category: 'MOBILE DEVELOPMENT',
-    badge: 'POPULAR',
-    title: 'React Native Mobile App Development',
-    desc: 'Create cross-platform mobile applications with React Native and modern development practices.',
-    duration: '4 Months',
-    extra: '10+ Apps',
-    accent: 'edtech-orange' as const,
-  },
-  {
-    id: 'cloud-computing',
-    category: 'CLOUD COMPUTING',
-    badge: 'HOT',
-    title: 'AWS Cloud Architect Certification',
-    desc: 'Master cloud architecture and deployment with AWS services. Prepare for industry certifications.',
-    duration: '3 Months',
-    extra: 'AWS Certified',
-    accent: 'edtech-green' as const,
-  },
-  {
-    id: 'cybersecurity',
-    category: 'CYBERSECURITY',
-    badge: 'FEATURED',
-    title: 'Ethical Hacking & Cybersecurity',
-    desc: 'Learn cybersecurity fundamentals, penetration testing, and ethical hacking methodologies.',
-    duration: '6 Months',
-    extra: '20+ Labs',
-    accent: 'edtech-orange' as const,
-  },
-];
-
-// Memoized SVG icons
-const ICONS = {
-  'data-analytics': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 19V7m5 12V4m5 15V9m5 10V12"/>
-    </svg>
-  ),
-  'gen-ai': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3l2.4 4.9L20 9l-4 3.9.9 5.6L12 16.8 7.1 18.5 8 13 4 9l5.6-1.1L12 3z"/>
-    </svg>
-  ),
-  'agentic-ai': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M8 7v10m8-10v10M4 17h16"/>
-    </svg>
-  ),
-  'web-development': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-      <polyline points="14,2 14,8 20,8"/>
-    </svg>
-  ),
-  'mobile-development': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-      <path d="m12 18h.01"/>
-    </svg>
-  ),
-  'cloud-computing': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
-    </svg>
-  ),
-  'cybersecurity': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
-      <path d="m9 12 2 2 4-4"/>
-    </svg>
-  ),
-  'default': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h18M12 3v18"/>
-    </svg>
-  )
-};
 
 export default function CoursesPage() {
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Use centralized course data
+  const allCourses = getAllCourses();
+  
   const categories = ['ALL', ...Array.from(new Set(allCourses.map(c => c.category)))];
   
   const filteredCourses = allCourses.filter(course => {
@@ -192,7 +103,9 @@ export default function CoursesPage() {
                   <div className="course-head">
                     <span className="cat-pill">{course.category}</span>
                     <div className="course-icon">
-                      {ICONS[course.id as keyof typeof ICONS] || ICONS.default}
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d={getCourseIcon(course)}/>
+                      </svg>
                     </div>
                   </div>
 
