@@ -1,3 +1,5 @@
+import { getIcon } from './icons';
+
 export type Course = {
   id: string;
   category: string;
@@ -7,6 +9,12 @@ export type Course = {
   duration: string;
   extra: string;
   accent: 'edtech-green' | 'edtech-orange' | 'edtech-red';
+  iconName?: string; // Icon name from the icon library
+};
+
+// Helper function to get course icon
+export const getCourseIcon = (course: Course): string => {
+  return getIcon(course.iconName);
 };
 
 export const courses: Course[] = [
@@ -19,6 +27,7 @@ export const courses: Course[] = [
     duration: '6 Months',
     extra: '25+ Live Projects',
     accent: 'edtech-green',
+    iconName: 'bar-chart', // Using icon name from library
   },
   {
     id: 'gen-ai',
@@ -29,6 +38,7 @@ export const courses: Course[] = [
     duration: '3 Months',
     extra: 'AI Tools Access',
     accent: 'edtech-orange',
+    iconName: 'star-sparkle', // Using icon name from library
   },
   
   {
@@ -40,6 +50,7 @@ export const courses: Course[] = [
     duration: '4 Months',
     extra: 'Advanced AI Projects',
     accent: 'edtech-red',
+    iconName: 'robot', // Using icon name from library
   },
   {
     id: 'data-analytics-2',
@@ -50,6 +61,7 @@ export const courses: Course[] = [
     duration: '6 Months',
     extra: '25+ Live Projects',
     accent: 'edtech-green',
+    iconName: 'bar-chart', // Using icon name from library
   },
 ];
 

@@ -3,17 +3,9 @@ import Globe from "../globe";
 import Typewriter from "typewriter-effect";
 import TechBackground from "../TechBackground";
 import RoleCarousel from "./RoleCarousel";
+import { companyInfo } from "../data/about";
 
 export default function Hero() {
-  const rolesList = [
-    "Data Analyst",
-    "Data Scientist",
-    "Business Analyst",
-    "Machine Learning Engineer",
-    "AI Researcher",
-    "Product Manager",
-    "Data Engineer"
-  ];
   return (
     <header className="relative min-h-[600px] h-[90vh] max-h-[800px] lg:max-h-none lg:h-screen flex items-center overflow-hidden pt-20 scroll-mt-24">
       {/* Background Layer - Animated Tech Elements */}
@@ -34,7 +26,7 @@ export default function Hero() {
       
       {/* Role Carousel positioned on RIGHT side as background - hidden on small screens */}
       <div className="absolute right-8 md:right-12 lg:right-16 xl:right-50 top-0 w-1/2 h-full items-center justify-end hidden md:flex -z-10">
-        <RoleCarousel rolesList={rolesList} interval={3000} />
+        <RoleCarousel rolesList={companyInfo.heroRoles} interval={3000} />
       </div>
       
       {/* Gradient overlays for better text readability */}

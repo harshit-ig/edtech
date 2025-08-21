@@ -2,125 +2,14 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import FloatingDots from "../FloatingDots";
+import { teamMembers, companyValues as values, aboutStats as stats, companyMilestones as milestones } from "../data/about";
 
-const teamMembers = [
-  {
-    name: "Sarah Johnson",
-    role: "CEO & Founder",
-    bio: "Former Google AI researcher with 15+ years in tech education. PhD in Computer Science from MIT.",
-    image: "/api/placeholder/300/300",
-    linkedin: "#",
-    twitter: "#"
-  },
-  {
-    name: "Michael Chen",
-    role: "CTO & Co-Founder", 
-    bio: "Ex-Microsoft Principal Engineer. Built scalable learning platforms for 1M+ students worldwide.",
-    image: "/api/placeholder/300/300",
-    linkedin: "#",
-    twitter: "#"
-  },
-  {
-    name: "Dr. Emily Rodriguez",
-    role: "Head of Curriculum",
-    bio: "Former Stanford Professor. Expert in AI/ML education with 200+ published papers.",
-    image: "/api/placeholder/300/300", 
-    linkedin: "#",
-    twitter: "#"
-  },
-  {
-    name: "David Kim",
-    role: "VP of Student Success",
-    bio: "Career coach with 10+ years helping 5000+ students land their dream tech jobs.",
-    image: "/api/placeholder/300/300",
-    linkedin: "#",
-    twitter: "#"
-  }
-];
-
-const values = [
-  {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    ),
-    title: "Innovation First",
-    description: "We stay ahead of industry trends, constantly updating our curriculum to reflect the latest technologies and practices."
-  },
-  {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM9 9a2 2 0 11-4 0 2 2 0 014 0z" />
-      </svg>
-    ),
-    title: "Community Driven",
-    description: "Our vibrant community of learners, mentors, and industry experts creates an environment where everyone thrives."
-  },
-  {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
-    title: "Results Focused",
-    description: "We measure success by our students' career outcomes. 95% of our graduates land their dream jobs within 6 months."
-  },
-  {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-      </svg>
-    ),
-    title: "Student First",
-    description: "Every decision we make is guided by what's best for our students' learning journey and career success."
-  }
-];
-
-const stats = [
-  { number: "50,000+", label: "Students Graduated", color: "edtech-green" },
-  { number: "95%", label: "Job Placement Rate", color: "edtech-orange" },
-  { number: "150+", label: "Industry Partners", color: "edtech-blue" },
-  { number: "4.9/5", label: "Average Rating", color: "edtech-green" }
-];
-
-const milestones = [
-  {
-    year: "2018",
-    title: "Founded EdTech Informative",
-    description: "Started with a mission to democratize quality tech education globally."
-  },
-  {
-    year: "2019", 
-    title: "First 1,000 Students",
-    description: "Reached our first milestone with students from 25+ countries."
-  },
-  {
-    year: "2020",
-    title: "COVID Pivot",
-    description: "Successfully transitioned to fully remote learning during the pandemic."
-  },
-  {
-    year: "2021",
-    title: "Industry Partnerships",
-    description: "Formed partnerships with Google, Microsoft, and Amazon for certification programs."
-  },
-  {
-    year: "2022",
-    title: "AI Specialization Launch",
-    description: "Became the first online platform to offer comprehensive AI and ML bootcamps."
-  },
-  {
-    year: "2023",
-    title: "50,000 Graduate Milestone",
-    description: "Celebrated 50,000+ successful graduates with 95% job placement rate."
-  },
-  {
-    year: "2024",
-    title: "Global Expansion",
-    description: "Expanded to serve students in 80+ countries with localized content."
-  }
-];
+// Helper function to render icon from SVG path
+const renderIcon = (iconPath: string) => (
+  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={iconPath} />
+  </svg>
+);
 
 export default function AboutPage() {
   return (
@@ -215,7 +104,7 @@ export default function AboutPage() {
               {values.map((value, index) => (
                 <div key={index} className="card p-6 text-center hover:transform hover:scale-105 transition-all duration-300">
                   <div className="w-16 h-16 bg-edtech-blue/20 rounded-2xl flex items-center justify-center mx-auto mb-6 text-edtech-blue">
-                    {value.icon}
+                    {renderIcon(value.iconPath)}
                   </div>
                   <h3 className="text-xl font-bold mb-3">{value.title}</h3>
                   <p className="text-white/70 text-sm leading-relaxed">

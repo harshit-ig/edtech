@@ -3,375 +3,15 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import TechBackground from "../TechBackground";
-import { courses } from "../data/courses";
+import { courses, getCourseIcon } from "../data/courses";
 import MicrosoftBadge from "../components/MicrosoftBadge";
-
-// Extended course details data
-const courseDetails: Record<string, any> = {
-  'data-analytics': {
-    overview: "Transform into a data-driven professional with our comprehensive Data Analytics and AI certification program. Master the complete data lifecycle from collection to actionable insights using industry-standard tools and AI technologies.",
-    objectives: [
-      "Master data analysis fundamentals and advanced techniques",
-      "Build proficiency in Python, SQL, and data visualization tools",
-      "Learn machine learning and AI implementation",
-      "Develop real-world data projects for your portfolio",
-      "Prepare for industry certifications and interviews"
-    ],
-    curriculum: [
-      {
-        module: "Module 1: Data Foundations",
-        duration: "4 weeks",
-        topics: ["Data Types & Structures", "Statistical Analysis", "Data Cleaning & Preprocessing", "Excel Advanced Features"]
-      },
-      {
-        module: "Module 2: Python for Data Analysis",
-        duration: "6 weeks", 
-        topics: ["Python Fundamentals", "Pandas & NumPy", "Data Manipulation", "API Integration"]
-      },
-      {
-        module: "Module 3: Database & SQL",
-        duration: "4 weeks",
-        topics: ["SQL Fundamentals", "Advanced Queries", "Database Design", "Data Warehousing"]
-      },
-      {
-        module: "Module 4: Data Visualization",
-        duration: "4 weeks",
-        topics: ["Tableau/Power BI", "Python Visualization", "Dashboard Design", "Storytelling with Data"]
-      },
-      {
-        module: "Module 5: Machine Learning & AI",
-        duration: "6 weeks",
-        topics: ["ML Algorithms", "Model Training", "AI Integration", "Predictive Analytics"]
-      },
-      {
-        module: "Module 6: Capstone Projects",
-        duration: "2 weeks",
-        topics: ["Portfolio Development", "Industry Projects", "Presentation Skills", "Career Preparation"]
-      }
-    ],
-    tools: [
-      { name: "Python", icon: "🐍" },
-      { name: "SQL", icon: "🗃️" },
-      { name: "Tableau", icon: "📊" },
-      { name: "Power BI", icon: "📈" },
-      { name: "Excel", icon: "📋" },
-      { name: "R", icon: "📊" },
-      { name: "Jupyter", icon: "📓" },
-      { name: "Git", icon: "🔀" },
-      { name: "Azure/AWS", icon: "☁️" }
-    ],
-    skills: ["Data Analysis", "Statistical Modeling", "Machine Learning", "Data Visualization", "SQL Queries", "Python Programming", "Business Intelligence", "Predictive Analytics"],
-    prerequisites: "Basic computer skills and eagerness to learn. No prior programming experience required.",
-    certification: "Industry-recognized certification upon completion + Microsoft certification eligibility",
-    testimonials: [
-      {
-        name: "Sarah Mitchell",
-        role: "Data Scientist at Google",
-        avatar: "S",
-        rating: 5,
-        content: "This course completely transformed my career. The hands-on projects and expert mentorship helped me land my dream job at Google. The curriculum is perfectly designed for industry needs.",
-        color: "edtech-green"
-      },
-      {
-        name: "Michael Chen", 
-        role: "AI Engineer at Microsoft",
-        avatar: "M",
-        rating: 5,
-        content: "The practical approach and real-world projects made all the difference. I went from zero experience to securing a senior position in just 6 months. Highly recommended!",
-        color: "edtech-orange"
-      },
-      {
-        name: "Rachel Torres",
-        role: "Product Manager at Amazon", 
-        avatar: "R",
-        rating: 5,
-        content: "Outstanding course quality and incredible support team. The career services helped me transition from a different field and secure multiple job offers. Worth every penny!",
-        color: "edtech-blue"
-      }
-    ],
-    successStats: [
-      { label: "Students Trained", value: "500+", color: "edtech-green" },
-      { label: "Job Placement", value: "95%", color: "green-600" },
-      { label: "Average Rating", value: "4.8★", color: "blue-600" },
-      { label: "Salary Increase", value: "85%", color: "edtech-orange" }
-    ],
-    pricing: {
-      current: 1999,
-      original: 2999,
-      discount: "33% OFF",
-      deadline: "Jan 31st",
-      features: [
-        { text: "Live interactive sessions", icon: "🎥" },
-        { text: "Recorded video access", icon: "📹" },
-        { text: "Hands-on projects", icon: "💻" },
-        { text: "1-on-1 mentorship", icon: "👨‍🏫" },
-        { text: "Career support", icon: "🚀" },
-        { text: "Certificate of completion", icon: "🏆" },
-        { text: "Lifetime community access", icon: "🌐" }
-      ]
-    },
-    courseInfo: {
-      startDate: "Next Batch: Jan 15th",
-      format: "Live Online",
-      support: "24/7 Assistance",
-      studentsEnrolled: "500+ Enrolled"
-    },
-    trustIndicators: {
-      rating: "4.8/5",
-      reviewCount: "500+ reviews",
-      testimonialPreview: {
-        text: "Transformed my career in just 4 months. The hands-on approach and mentorship were incredible!",
-        author: "Sarah K., Data Analyst at Google"
-      }
-    },
-    careerSupport: [
-      "1-on-1 career coaching sessions",
-      "Resume and LinkedIn profile optimization", 
-      "Mock interview preparation",
-      "Job placement assistance",
-      "Alumni network access"
-    ],
-    instructors: [
-      {
-        name: "Dr. Sarah Johnson",
-        title: "Senior Data Scientist at Microsoft",
-        experience: "10+ years in data analytics and machine learning"
-      },
-      {
-        name: "Michael Chen", 
-        title: "AI Research Director",
-        experience: "Former Google AI researcher with 200+ publications"
-      }
-    ]
-  },
-  'gen-ai': {
-    overview: "Unlock the power of Generative AI and position yourself at the forefront of the AI revolution. Learn to build, deploy, and optimize AI systems that create content, solve complex problems, and drive innovation.",
-    features: [
-      {
-        icon: "✅",
-        title: "Future-Ready Curriculum",
-        description: "Stay ahead with cutting-edge AI technologies and industry-relevant content that evolves with the rapidly changing landscape."
-      },
-      {
-        icon: "👩‍🏫",
-        title: "Learn from Real Practitioners",
-        description: "Get insights from industry experts and practitioners who are actively working in leading AI companies."
-      },
-      {
-        icon: "🧠",
-        title: "Hands-On Learning Approach",
-        description: "Build real AI projects and applications through practical exercises and interactive workshops."
-      },
-      {
-        icon: "🔄",
-        title: "AI-Powered Learning Tools",
-        description: "Experience personalized learning with AI-driven recommendations and adaptive course content."
-      },
-      {
-        icon: "🛠️",
-        title: "Job-Ready Outcomes",
-        description: "Graduate with a portfolio of projects and skills that employers are actively seeking in the market."
-      },
-      {
-        icon: "🌐",
-        title: "Learn Anytime, Anywhere",
-        description: "Access course materials and participate in live sessions from anywhere with our flexible online platform."
-      },
-      {
-        icon: "🏅",
-        title: "Certification That Matters",
-        description: "Earn industry-recognized certifications that validate your AI expertise and boost your career prospects."
-      }
-    ],
-    objectives: [
-      "Master GPT, DALL-E, and other generative models",
-      "Build AI-powered applications and solutions",
-      "Understand prompt engineering and fine-tuning",
-      "Deploy AI solutions in production environments",
-      "Navigate ethical AI and responsible development"
-    ],
-    curriculum: [
-      {
-        module: "Module 1: Introduction to Data Science and AI",
-        duration: "3 weeks",
-        topics: ["The role and impact of a data scientist", "The Data Science lifecycle: From problem formulation to deployment (CRISP-DM)", "Overview of AI, Machine Learning, Deep Learning, and Generative AI", "Ethical considerations in AI and Data Science", "Use cases in various industries and AI-driven innovation"]
-      },
-      {
-        module: "Module 2: Advanced Data Foundations & Engineering",
-        duration: "3 weeks",
-        topics: ["Advanced data types, structures, and storage (NoSQL, Data Lakes)", "Data acquisition (APIs, web scraping) and wrangling with Python", "Data cleaning, preprocessing, and feature engineering techniques", "SQL for complex querying, data manipulation, and database management"]
-      },
-      {
-        module: "Module 3: Statistical Modeling & Rigorous EDA",
-        duration: "3 weeks",
-        topics: ["Advanced descriptive and inferential statistics for data science", "Probability distributions, sampling, and hypothesis testing", "Regression analysis (linear, logistic) and ANOVA", "Advanced EDA with Python (Matplotlib, Seaborn, Plotly)", "Automating and augmenting EDA with GenAI prompts for deeper insights"]
-      },
-      {
-        module: "Module 4: Python for Data Science & GenAI Integration",
-        duration: "3 weeks",
-        topics: ["Mastering Python for data science: Pandas, NumPy, SciPy, Matplotlib, Seaborn", "Object-Oriented Programming (OOP) concepts for scalable code", "Using GenAI (ChatGPT, GitHub Copilot) for efficient code generation", "Developing custom Python scripts for data processing and automation"]
-      },
-      {
-        module: "Module 5: Machine Learning – From Theory to Application",
-        duration: "4 weeks",
-        topics: ["Core ML concepts: Supervised and Unsupervised learning", "Key algorithms: Decision Trees, Random Forests, SVM, K-Means, PCA", "Model training, tuning and evaluation metrics", "Introduction to Scikit-learn library for ML implementation", "AI-assisted model selection and parameter tuning using GenAI"]
-      },
-      {
-        module: "Module 6: Generative AI for Data Scientists",
-        duration: "4 weeks",
-        topics: ["Deep dive into Generative AI: LLMs, diffusion models, GANs, and Agents", "Advanced prompt engineering for data science applications", "Leveraging GenAI for natural language to SQL/Python generation", "GenAI for automated report writing and insight summarization", "Exploring multimodal GenAI: processing text, image, and structured data"]
-      },
-      {
-        module: "Module 7: Advanced Machine Learning & AI-Powered Optimization",
-        duration: "4 weeks",
-        topics: ["Introduction to Deep Learning: Neural Networks, TensorFlow/Keras", "Ensemble methods, gradient boosting (XGBoost, LightGBM)", "Model interpretability and explainable AI (XAI) techniques", "AutoML tools and GenAI for accelerating model development", "Time series analysis and forecasting with ML methods"]
-      },
-      {
-        module: "Module 8: Capstone Project: End-to-End Data Science with GenAI",
-        duration: "2 weeks",
-        topics: ["Select a complex real-world problem (predictive maintenance, fraud detection)", "Execute full data science project: data acquisition to deployment", "Integrate GenAI tools for data augmentation and code optimization", "Develop comprehensive, portfolio-ready project", "Peer review, industry expert feedback, and presentation of findings"]
-      }
-    ],
-    tools: [
-      { name: "OpenAI API", icon: "🤖" },
-      { name: "Hugging Face", icon: "🤗" },
-      { name: "LangChain", icon: "🔗" },
-      { name: "Python", icon: "🐍" },
-      { name: "TensorFlow", icon: "🧠" },
-      { name: "PyTorch", icon: "🔥" },
-      { name: "Streamlit", icon: "⚡" },
-      { name: "FastAPI", icon: "🚀" }
-    ],
-    skills: ["Generative AI", "Prompt Engineering", "Model Fine-tuning", "AI Application Development", "Natural Language Processing", "Computer Vision", "AI Ethics", "MLOps"],
-    prerequisites: "Basic programming knowledge (Python preferred) and familiarity with APIs",
-    certification: "Generative AI Expert Certificate + OpenAI partnership certification track",
-    testimonials: [
-      {
-        name: "Alex Thompson",
-        role: "AI Engineer at OpenAI",
-        avatar: "A",
-        rating: 5,
-        content: "This course gave me the practical skills to work with cutting-edge AI technology. The hands-on approach and real-world projects prepared me perfectly for my role at OpenAI.",
-        color: "edtech-blue"
-      },
-      {
-        name: "Maria Rodriguez",
-        role: "ML Engineer at Meta",
-        avatar: "M",
-        rating: 5,
-        content: "Excellent curriculum covering everything from basics to advanced AI concepts. The mentorship and project-based learning approach helped me transition into AI successfully.",
-        color: "edtech-green"
-      },
-      {
-        name: "James Wilson",
-        role: "AI Consultant",
-        avatar: "J",
-        rating: 5,
-        content: "The most comprehensive AI course I've taken. It covers both theoretical foundations and practical applications. I'm now running my own AI consulting business!",
-        color: "edtech-orange"
-      }
-    ],
-    successStats: [
-      { label: "Students Trained", value: "300+", color: "edtech-blue" },
-      { label: "Job Placement", value: "92%", color: "green-600" },
-      { label: "Average Rating", value: "4.9★", color: "blue-600" },
-      { label: "Salary Increase", value: "120%", color: "edtech-orange" }
-    ],
-    pricing: {
-      current: 2499,
-      original: 3499,
-      discount: "29% OFF",
-      deadline: "Feb 15th",
-      features: [
-        { text: "Future-Ready Curriculum with live AI workshops", icon: "🤖" },
-        { text: "Learn from Real Practitioners with expert mentorship", icon: "👨‍💻" },
-        { text: "Hands-On Learning Approach with real AI projects", icon: "⚡" },
-        { text: "AI-Powered Learning Tools and access to AI models", icon: "🧠" },
-        { text: "Job-Ready Outcomes with career placement support", icon: "🚀" },
-        { text: "Learn Anytime, Anywhere with flexible access", icon: "🌍" },
-        { text: "Certification That Matters - industry certificate", icon: "🏆" }
-      ]
-    },
-    courseInfo: {
-      startDate: "Next Batch: Feb 1st",
-      format: "Live + Self-paced",
-      support: "Expert AI Mentors",
-      studentsEnrolled: "300+ Enrolled"
-    },
-    trustIndicators: {
-      rating: "4.9/5",
-      reviewCount: "300+ reviews",
-      testimonialPreview: {
-        text: "The most comprehensive AI course available. Went from beginner to building production AI apps in 4 months!",
-        author: "Alex T., AI Engineer at OpenAI"
-      }
-    }
-  }
-};
-
-// Default course details for courses not in the extended data
-const getDefaultCourseDetails = (course: any) => ({
-  overview: course.desc + " This comprehensive program combines theoretical knowledge with practical, hands-on experience to ensure you're job-ready upon completion.",
-  objectives: [
-    `Master ${course.category.toLowerCase()} fundamentals and advanced concepts`,
-    "Build a professional portfolio with real-world projects",
-    "Develop industry-relevant skills and best practices", 
-    "Prepare for certifications and career advancement",
-    "Network with industry professionals and peers"
-  ],
-  curriculum: [
-    {
-      module: "Module 1: Foundations",
-      duration: "4 weeks",
-      topics: ["Core Concepts", "Industry Overview", "Tools Introduction", "Best Practices"]
-    },
-    {
-      module: "Module 2: Practical Application", 
-      duration: "6 weeks",
-      topics: ["Hands-on Projects", "Real-world Scenarios", "Problem Solving", "Case Studies"]
-    },
-    {
-      module: "Module 3: Advanced Techniques",
-      duration: "4 weeks", 
-      topics: ["Advanced Concepts", "Optimization", "Performance", "Scaling"]
-    },
-    {
-      module: "Module 4: Professional Development",
-      duration: "2 weeks",
-      topics: ["Portfolio Building", "Career Preparation", "Interview Skills", "Industry Networking"]
-    }
-  ],
-  tools: [
-    { name: "Industry-standard tools", icon: "🛠️" },
-    { name: "Modern frameworks", icon: "⚡" },
-    { name: "Professional software", icon: "💻" },
-    { name: "Cloud platforms", icon: "☁️" }
-  ],
-  prerequisites: "Basic computer literacy and enthusiasm to learn",
-  certification: `Professional ${course.category} Certificate`
-});
-
-const ICONS = {
-  'data-analytics': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-8 h-8">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 19V7m5 12V4m5 15V9m5 10V12"/>
-    </svg>
-  ),
-  'gen-ai': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-8 h-8">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3l2.4 4.9L20 9l-4 3.9.9 5.6L12 16.8 7.1 18.5 8 13 4 9l5.6-1.1L12 3z"/>
-    </svg>
-  ),
-  'default': (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-8 h-8">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-    </svg>
-  )
-};
+import { useContactModal } from "../contexts/ContactModalContext";
+import { courseDetails, getDefaultCourseDetails } from "../data/courseDetails";
 
 export default function CoursePage() {
   const { courseId } = useParams();
   const [openModules, setOpenModules] = useState<Record<number, boolean>>({});
+  const { openModal } = useContactModal();
   
   const toggleModule = (index: number) => {
     setOpenModules(prev => ({ ...prev, [index]: !prev[index] }));
@@ -440,7 +80,9 @@ export default function CoursePage() {
                     course.accent === 'edtech-green' ? 'bg-gradient-to-br from-edtech-green/20 to-green-400/20' : 
                     'bg-gradient-to-br from-edtech-orange/20 to-orange-400/20'
                   }`}>
-                    {ICONS[course.id as keyof typeof ICONS] || ICONS.default}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-8 h-8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d={getCourseIcon(course)}/>
+                    </svg>
                   </div>
                   <div>
                     <div className="flex items-center gap-3 mb-2">
@@ -614,9 +256,12 @@ export default function CoursePage() {
                       <a href="#get-started" className="bg-edtech-green hover:bg-green-600 text-black px-6 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl w-full block text-center">
                         Enroll Now →
                       </a>
-                      <a href="#contact" className="border-2 border-white/50 text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-full font-medium transition-all duration-300 hover:scale-105 w-full block text-center">
+                      <button 
+                        onClick={() => openModal("Book a FREE Demo Session", "Get a personalized demo of the course content and discuss your learning goals with our experts")}
+                        className="border-2 border-white/50 text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-full font-medium transition-all duration-300 hover:scale-105 w-full block text-center"
+                      >
                         Book Free Demo
-                      </a>
+                      </button>
                     </div>
                   </div>
 
@@ -774,9 +419,12 @@ export default function CoursePage() {
                   <a href="#get-started" className="bg-white text-edtech-blue px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105 hover:shadow-lg">
                     Start Your Journey Today →
                   </a>
-                  <a href="#contact" className="border-2 border-white text-white hover:bg-white hover:text-edtech-blue px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105">
+                  <button 
+                    onClick={() => openModal("Schedule FREE Consultation", "Get expert advice on course selection and career planning tailored to your goals")}
+                    className="border-2 border-white text-white hover:bg-white hover:text-edtech-blue px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105"
+                  >
                     Schedule Free Consultation
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -976,12 +624,12 @@ export default function CoursePage() {
                   >
                     🎯 Enroll Now {details.pricing?.original ? `& Save $${details.pricing.original - details.pricing.current}` : ''}
                   </a>
-                  <a 
-                    href="#contact" 
+                  <button 
+                    onClick={() => openModal("Talk to Our Career Advisor", "Speak with our career experts to get personalized guidance before enrolling")}
                     className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 w-full block text-center"
                   >
                     💬 Talk to Our Advisor First
-                  </a>
+                  </button>
                 </div>
               </div>
 

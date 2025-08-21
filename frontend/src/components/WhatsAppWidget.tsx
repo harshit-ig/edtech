@@ -1,12 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
+import { companyInfo, whatsappQuickMessages } from '../data/about';
 
 interface WhatsAppWidgetProps {
-  phoneNumber?: string;
   className?: string;
 }
 
 export default function WhatsAppWidget({ 
-  phoneNumber = "+919643274676", // Replace with your actual WhatsApp number
   className = ""
 }: WhatsAppWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,19 +52,12 @@ export default function WhatsAppWidget({
   const handleSendMessage = () => {
     if (message.trim()) {
       const encodedMessage = encodeURIComponent(message);
-      const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}?text=${encodedMessage}`;
+      const whatsappUrl = `https://wa.me/${companyInfo.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodedMessage}`;
       window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
       setMessage('');
       setIsOpen(false);
     }
   };
-
-  const quickMessages = [
-    "I'm interested in your courses",
-    "Can you help me choose the right course?",
-    "What are your pricing options?",
-    "Do you offer certifications?"
-  ];
 
   return (
     <div className={`fixed bottom-6 right-6 z-50 ${className}`}>
@@ -116,7 +108,7 @@ export default function WhatsAppWidget({
 
               {/* Quick Message Options */}
               <div className="space-y-2">
-                {quickMessages.map((quickMsg, index) => (
+                {whatsappQuickMessages.map((quickMsg, index) => (
                   <button
                     key={index}
                     onClick={() => setMessage(quickMsg)}

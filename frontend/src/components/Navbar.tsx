@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import WhiteLogo from "../assets/WHITE-LOGO--300x152.png";
 import { courses } from "../data/courses";
+import { useContactModal } from "../contexts/ContactModalContext";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [coursesDropdownOpen, setCoursesDropdownOpen] = useState(false);
+  const { openModal } = useContactModal();
 
   const displayedCourses = courses.slice(0, 4);
 
@@ -14,7 +16,12 @@ export default function Navbar() {
       <div className="bg-edtech-green text-black text-center py-2 text-sm">
         <span className="flex items-center justify-center gap-2">
           <span className="hidden sm:inline">🚀 Transform your career with our industry-leading tech courses - </span>
-          <button className="underline hover:text-black/70 transition-colors cursor-pointer font-bold">Book a FREE strategy call today! →</button>
+          <button 
+            onClick={() => openModal()}
+            className="underline hover:text-black/70 transition-colors cursor-pointer font-bold"
+          >
+            Book a FREE strategy call today! →
+          </button>
         </span>
       </div>
       <div className="w-full px-6 h-16 flex items-center justify-between">
@@ -114,7 +121,10 @@ export default function Navbar() {
         
         {/* CTA Button - Right */}
         <div className="hidden md:block">
-          <a href="/#get-started" className="group relative inline-flex items-center gap-2 cta-flow text-black px-4 py-2 rounded-lg font-bold hover:scale-105 transition-transform duration-200">
+          <button 
+            onClick={() => openModal()}
+            className="group relative inline-flex items-center gap-2 cta-flow text-black px-4 py-2 rounded-lg font-bold hover:scale-105 transition-transform duration-200"
+          >
               <span className="relative z-10 font-bold">
               <span className="hidden lg:inline">Book FREE Strategy Call</span>
               <span className="lg:hidden">Book Call</span>
@@ -122,7 +132,7 @@ export default function Navbar() {
             <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </a>
+          </button>
         </div>
         <button
           aria-label="Menu"
@@ -149,12 +159,18 @@ export default function Navbar() {
             <Link to="/about" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">About</Link>
             <Link to="/blog" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Blog</Link>
             <Link to="/contact" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Contact Us</Link>
-            <a href="/#get-started" onClick={() => setMobileOpen(false)} className="group inline-flex items-center justify-center gap-2 cta-flow text-black px-4 py-2 rounded-lg font-bold w-full mt-2">
+            <button 
+              onClick={() => {
+                setMobileOpen(false);
+                openModal();
+              }}
+              className="group inline-flex items-center justify-center gap-2 cta-flow text-black px-4 py-2 rounded-lg font-bold w-full mt-2"
+            >
               <span className="relative z-10 font-bold">Book FREE Strategy Call</span>
               <svg className="w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </a>
+            </button>
           </div>
         </div>
       )}
