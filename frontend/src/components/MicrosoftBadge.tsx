@@ -23,7 +23,7 @@ export default function MicrosoftBadge({ className = "", size = 'md' }: Microsof
   };
 
   return (
-    <div className={`inline-flex items-center bg-gradient-to-r from-edtech-blue/30 to-edtech-blue/40 backdrop-blur-lg text-white ${sizeClasses[size]} rounded-2xl font-bold border-2 border-edtech-blue/50 shadow-lg shadow-edtech-blue/25 ${className}`}>
+    <div className={`inline-flex items-center bg-gradient-to-r from-edtech-blue/30 to-edtech-blue/40 backdrop-blur-lg text-white ${sizeClasses[size]} rounded-2xl font-bold border-2 border-blue-400/50 shadow-lg shadow-blue-500/25 ${className}`}>
       {/* Microsoft Logo Section */}
       <div className="flex items-center bg-white rounded-lg px-3 py-1 mr-3">
         <div className="flex items-center">
@@ -38,7 +38,7 @@ export default function MicrosoftBadge({ className = "", size = 'md' }: Microsof
       </div>
       
       {/* Certification Text */}
-      <span className="text-white/95 font-bold tracking-wide">CERTIFIED PROGRAM</span>
+      <span className="text-blue-100 font-bold tracking-wide">CERTIFIED PROGRAM</span>
     </div>
   );
 }

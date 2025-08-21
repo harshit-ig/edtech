@@ -4,7 +4,7 @@ import WhiteLogo from "../assets/WHITE-LOGO--300x152.png";
 export default function Footer() {
   return (
     <footer id="contact" className="py-20 border-t border-white/10 relative overflow-hidden">
-      <FloatingDots numDots={80} className="opacity-30 -z-10" />
+      {/* <FloatingDots numDots={80} className="opacity-75 -z-10" /> */}
       <div className="mx-auto max-w-7xl px-6">
         {/* Main Footer Content */}
         <div className="grid md:grid-cols-4 gap-8 mb-12">
