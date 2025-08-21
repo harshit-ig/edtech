@@ -13,8 +13,7 @@ function LayoutContent({ children }: LayoutProps) {
   return (
     <>
       {children}
-      <WhatsAppWidget 
-        phoneNumber="+919643274676" // Replace with your actual WhatsApp number
+      <WhatsAppWidget
       />
       <ContactModal 
         isOpen={isOpen}
