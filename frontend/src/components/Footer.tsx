@@ -1,4 +1,4 @@
-import FloatingDots from "../FloatingDots";
+// import FloatingDots from "../FloatingDots";
 import WhiteLogo from "../assets/WHITE-LOGO--300x152.png";
 
 export default function Footer() {
