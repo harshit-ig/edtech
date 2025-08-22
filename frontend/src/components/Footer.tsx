@@ -1,8 +1,17 @@
 // import FloatingDots from "../FloatingDots";
 import { Link } from "react-router-dom";
 import WhiteLogo from "../assets/WHITE-LOGO--300x152.png";
+import { courses } from "../data/courses";
 
 export default function Footer() {
+  // Get first 4 courses for footer display
+  const footerCourses = courses.slice(0, 4);
+
+  // Helper function to convert text to title case
+  const toTitleCase = (str: string) => {
+    return str.toLowerCase().replace(/\b\w/g, (l) => l.toUpperCase());
+  };
+
   return (
     <footer id="contact" className="py-20 border-t border-white/10 relative overflow-hidden">
       {/* <FloatingDots numDots={80} className="opacity-75 -z-10" /> */}
@@ -27,10 +36,13 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-white mb-4 text-lg">Courses</h4>
             <ul className="space-y-3 text-white/70">
-              <li><Link to="/course/data-analytics" className="hover:text-edtech-orange transition-colors font-medium">Data Analytics</Link></li>
-              <li><Link to="/course/gen-ai" className="hover:text-edtech-orange transition-colors font-medium">AI & Machine Learning</Link></li>
-              <li><Link to="/course/cloud-computing" className="hover:text-edtech-orange transition-colors font-medium">Cloud Computing</Link></li>
-              <li><Link to="/course/cybersecurity" className="hover:text-edtech-orange transition-colors font-medium">Cybersecurity</Link></li>
+              {footerCourses.map((course) => (
+                <li key={course.id}>
+                  <Link to={`/course/${course.id}`} className="hover:text-edtech-orange transition-colors font-medium">
+                    {course.title.length > 25 ? toTitleCase(course.category) : toTitleCase(course.title)}
+                  </Link>
+                </li>
+              ))}
               <li><Link to="/courses" className="hover:text-edtech-green transition-colors font-medium">View All Courses</Link></li>
             </ul>
           </div>
