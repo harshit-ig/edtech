@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { submitContactForm } from '../api';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -29,14 +30,16 @@ export default function ContactModal({
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
+    try {
+      const result = await submitContactForm(formData);
       setIsSubmitting(false);
       setFormData({ fullName: '', email: '', phone: '' });
       onClose();
-      alert('Thank you! We\'ll contact you within 24 hours.');
-    }, 1000);
+      alert(result.message);
+    } catch (error) {
+      setIsSubmitting(false);
+      alert('Something went wrong. Please try again.');
+    }
   };
 
   const handleCancel = () => {

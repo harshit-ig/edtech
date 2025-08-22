@@ -1,11 +1,18 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { generalFAQs as faqs } from '../data/faq';
+import { useContactModal } from '../contexts/ContactModalContext';
 
 export default function FAQ() {
   const [openId, setOpenId] = useState<number | null>(null);
+  const { openModal } = useContactModal();
 
   const toggleFAQ = (id: number) => {
     setOpenId(openId === id ? null : id);
+  };
+
+  const handleBookConsultation = () => {
+    openModal("Book Free Consultation", "Schedule a free consultation to discuss your career goals and learning path");
   };
 
   return (
@@ -83,18 +90,18 @@ export default function FAQ() {
               Our team is here to help you choose the right program for your career goals.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="#contact"
+              <Link
+                to="/contact"
                 className="cta cta-primary"
               >
                 Contact Support
-              </a>
-              <a
-                href="/#get-started"
+              </Link>
+              <button
+                onClick={handleBookConsultation}
                 className="cta cta-secondary"
               >
                 Book Free Consultation
-              </a>
+              </button>
             </div>
           </div>
         </div>
