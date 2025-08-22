@@ -360,22 +360,16 @@ export default function PostPage() {
                           })
                           // Sub-subsection headings (H4)
                           .replace(/^#### (.+)$/gm, '<h4 class="text-lg md:text-xl font-semibold mb-3 mt-5 text-gray-800">$1</h4>')
-                          // Bold text with highlighting
-                          .replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-edtech-blue bg-edtech-blue/8 px-1.5 py-0.5 rounded">$1</strong>')
-                          // List items with bold points
-                          .replace(/^- \*\*(.+?)\*\*(.*)$/gm, '<li class="mb-3"><strong class="font-semibold text-edtech-orange">$1</strong>$2</li>')
-                          // Regular list items
-                          .replace(/^- (.+)$/gm, '<li class="mb-2 text-gray-700">$1</li>')
-                          // Wrap consecutive list items in ul tags
-                          .replace(/(<li.*?>.*?<\/li>(?:\s*<li.*?>.*?<\/li>)*)/gs, '<ul class="list-disc list-inside mb-6 space-y-2 ml-4">$1</ul>')
-                          // Paragraphs - split by double newlines and wrap
+                          // Bold text - simple replacement
+                          .replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-edtech-blue">$1</strong>')
+                          // Convert line breaks to HTML
                           .replace(/\n\n/g, '</p><p class="mb-4 text-base md:text-lg leading-relaxed text-gray-700">')
-                          // Handle remaining content as paragraphs
-                          .replace(/^([^<#\-•].*?)(?=\n|$)/gm, '<p class="mb-4 text-base md:text-lg leading-relaxed text-gray-700 first:mt-0">$1</p>')
+                          // Wrap in initial paragraph tag
+                          .replace(/^/, '<p class="mb-4 text-base md:text-lg leading-relaxed text-gray-700">')
+                          // Close final paragraph
+                          .replace(/$/, '</p>')
                           // Clean up empty paragraphs
                           .replace(/<p[^>]*>\s*<\/p>/g, '')
-                          // Clean up duplicate paragraph tags
-                          .replace(/<\/p><p[^>]*>/g, '</p><p class="mb-4 text-base md:text-lg leading-relaxed text-gray-700">')
                       }}
                     />
                   </div>

@@ -182,7 +182,7 @@ export default function BlogPage() {
                         </div>
                       </div>
                       
-                      <h3 className="text-2xl font-bold mb-4 line-clamp-2 hover:text-edtech-blue transition-colors group-hover:text-edtech-blue">
+                      <h3 className="text-2xl font-bold mb-4 line-clamp-2 text-gray-900 hover:text-edtech-blue transition-colors group-hover:text-edtech-blue">
                         <Link to={`/blog/${post.slug}`} className="block">
                           {post.title}
                         </Link>
