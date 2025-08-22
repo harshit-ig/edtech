@@ -3,13 +3,14 @@ import { useRef, useEffect, useMemo, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Sphere } from "@react-three/drei";
 import * as THREE from "three";
+import worldGeoJson from "./data/world.geojson?url";
 
 function Globe() {
   const globeRef = useRef<THREE.Group>(null);
   const [geoData, setGeoData] = useState<any>(null);
 
   useEffect(() => {
-    fetch("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+    fetch(worldGeoJson)
       .then((res) => res.json())
       .then((data) => setGeoData(data))
       .catch(() => setGeoData(null));
