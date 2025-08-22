@@ -43,8 +43,8 @@ export default function Hero() {
                   strings: [
                     'Data • AI • Analytics ',
                     'Cloud • Cybersecurity',
-                    'Web Development',
-                    'Mobile Apps',
+                    'Generative AI',
+                    'Data Science',
                   ],
                   autoStart: true,
                   loop: true,

@@ -185,11 +185,10 @@ export const companyInfo: CompanyInfo = {
   heroRoles: [
     "Data Analyst",
     "Data Scientist", 
-    "Business Analyst",
-    "Machine Learning Engineer",
     "AI Researcher",
-    "Product Manager",
-    "Data Engineer"
+    "Data Engineer",
+    "Generative AI"
+
   ],
   marketingStats: [
     { number: "99.9%", label: "Uptime" },
