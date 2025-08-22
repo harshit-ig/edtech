@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { contactData } from "../data/about";
-import { submitContactPageForm, type ContactPageFormData } from "../api";
+import { submitContactForm, type ContactFormData } from "../api";
 
 export default function ContactSection() {
-  const [formData, setFormData] = useState<ContactPageFormData>({
-    name: '',
+  const [formData, setFormData] = useState<ContactFormData>({
+    fullName: '',
     email: '',
     subject: '',
     message: ''
@@ -21,9 +21,9 @@ export default function ContactSection() {
     setIsSubmitting(true);
     
     try {
-      const result = await submitContactPageForm(formData);
+      const result = await submitContactForm(formData);
       setIsSubmitting(false);
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ fullName: '', email: '', subject: '', message: '' });
       alert(result.message);
     } catch (error) {
       setIsSubmitting(false);
@@ -68,8 +68,8 @@ export default function ContactSection() {
             <input 
               className="bg-black/30 border border-white/10 rounded-lg px-4 py-3" 
               placeholder="Your name" 
-              name="name"
-              value={formData.name}
+              name="fullName"
+              value={formData.fullName}
               onChange={handleInputChange}
               required 
             />

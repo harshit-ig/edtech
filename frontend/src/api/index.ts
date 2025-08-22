@@ -14,13 +14,6 @@ export interface ContactFormResponse {
   message: string;
 }
 
-export interface ContactPageFormData {
-  name: string;
-  email: string;
-  subject?: string;
-  message?: string;
-}
-
 export interface CourseEnrollmentData {
   fullName: string;
   email: string;
@@ -37,7 +30,7 @@ export interface CourseEnrollmentResponse {
   enrollmentId?: string;
 }
 
-// Contact Form API - Submit contact form to backend
+// Contact Form API - Submit contact form to backend (works for both modal and page)
 export const submitContactForm = async (formData: ContactFormData): Promise<ContactFormResponse> => {
   // TODO: Replace with actual API call when backend is ready
   // const response = await fetch('/api/contact', {
@@ -53,29 +46,7 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       console.log('Form submitted:', formData);
       resolve({
         success: true,
-        message: "Thank you! We'll contact you within 24 hours."
-      });
-    }, 1000);
-  });
-};
-
-// Contact Page Form API - Submit contact page form to backend
-export const submitContactPageForm = async (formData: ContactPageFormData): Promise<ContactFormResponse> => {
-  // TODO: Replace with actual API call when backend is ready
-  // const response = await fetch('/api/contact-page', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify(formData)
-  // });
-  // return response.json();
-  
-  // Temporary simulation
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('Contact page form submitted:', formData);
-      resolve({
-        success: true,
-        message: "Thank you for reaching out! We'll get back to you within 24 hours."
+        message: `Thank you ${formData.fullName}! We'll contact you within 24 hours.`
       });
     }, 1000);
   });
