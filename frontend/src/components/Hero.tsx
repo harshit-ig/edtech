@@ -42,7 +42,6 @@ export default function Hero() {
                 options={{
                   strings: [
                     'Data • AI • Analytics ',
-                    'Cloud • Cybersecurity',
                     'Generative AI',
                     'Data Science',
                   ],
