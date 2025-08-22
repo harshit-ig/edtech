@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import FloatingDots from "../FloatingDots";
+import AdvantageStats from "../components/AdvantageStats";
+import MentorProfiles from "../components/MentorProfiles";
+import useRevealOnScroll from "../hooks/useRevealOnScroll";
 import { teamMembers, companyValues as values, aboutStats as stats, companyMilestones as milestones } from "../data/about";
 
 // Helper function to render icon from SVG path
@@ -12,6 +15,8 @@ const renderIcon = (iconPath: string) => (
 );
 
 export default function AboutPage() {
+  useRevealOnScroll();
+  
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -140,7 +145,7 @@ export default function AboutPage() {
                     
                     {/* Content */}
                     <div className={`card p-6 ml-12 md:ml-0 ${
-                      index % 2 === 0 ? 'md:mr-8 md:w-5/12' : 'md:ml-8 md:w-5/12 md:ml-auto'
+                      index % 2 === 0 ? 'md:mr-8 md:w-5/12' : 'md:ml-auto md:w-5/12'
                     }`}>
                       <div className="text-edtech-green font-bold text-lg mb-2">{milestone.year}</div>
                       <h3 className="text-xl font-bold mb-3">{milestone.title}</h3>
@@ -195,6 +200,12 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
+
+        {/* Advantage Stats Section */}
+        <AdvantageStats />
+
+        {/* Mentor Profiles Section */}
+        <MentorProfiles />
 
         {/* CTA Section */}
         <section className="py-16 md:py-24">

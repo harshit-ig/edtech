@@ -59,7 +59,7 @@ export default function Hero() {
             Choose tech courses that fit your goals and shape a successful digital future.
           </p>
           <div className="flex items-center justify-center md:justify-start gap-4 flex-wrap">
-            <a id="get-started" href="#features" className="cta cta-primary">Get Started</a>
+            <a id="get-started" href="#featured-programs" className="cta cta-primary">Get Started</a>
             <a href="#contact" className="cta cta-secondary">Talk to us</a>
           </div>
         </div>

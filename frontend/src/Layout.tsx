@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import ContactModal from './components/ContactModal';
+import ScrollToTop from './components/ScrollToTop';
 import { ContactModalProvider, useContactModal } from './contexts/ContactModalContext';
 
 interface LayoutProps {
@@ -12,6 +13,7 @@ function LayoutContent({ children }: LayoutProps) {
 
   return (
     <>
+      <ScrollToTop />
       {children}
       <WhatsAppWidget
       />

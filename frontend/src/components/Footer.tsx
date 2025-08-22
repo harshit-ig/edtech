@@ -15,7 +15,7 @@ export default function Footer() {
               Transform your career with cutting-edge tech skills. Your gateway to future‑ready careers in Data, AI, and Cloud technologies.
             </p>
             <div className="flex gap-4">
-              <Link to="/#get-started" className="cta cta-primary">
+              <Link to="/courses" className="cta cta-primary">
                 Start Learning Today
               </Link>
               <Link to="/contact" className="cta cta-secondary">
@@ -27,10 +27,10 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-white mb-4 text-lg">Courses</h4>
             <ul className="space-y-3 text-white/70">
-              <li><Link to="/courses" className="hover:text-edtech-orange transition-colors font-medium">Data Analytics</Link></li>
-              <li><Link to="/courses" className="hover:text-edtech-orange transition-colors font-medium">AI & Machine Learning</Link></li>
-              <li><Link to="/courses" className="hover:text-edtech-orange transition-colors font-medium">Cloud Computing</Link></li>
-              <li><Link to="/courses" className="hover:text-edtech-orange transition-colors font-medium">Cybersecurity</Link></li>
+              <li><Link to="/course/data-analytics" className="hover:text-edtech-orange transition-colors font-medium">Data Analytics</Link></li>
+              <li><Link to="/course/gen-ai" className="hover:text-edtech-orange transition-colors font-medium">AI & Machine Learning</Link></li>
+              <li><Link to="/course/cloud-computing" className="hover:text-edtech-orange transition-colors font-medium">Cloud Computing</Link></li>
+              <li><Link to="/course/cybersecurity" className="hover:text-edtech-orange transition-colors font-medium">Cybersecurity</Link></li>
               <li><Link to="/courses" className="hover:text-edtech-green transition-colors font-medium">View All Courses</Link></li>
             </ul>
           </div>

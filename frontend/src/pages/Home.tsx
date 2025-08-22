@@ -3,9 +3,8 @@ import Hero from "../components/Hero";
 import CoursesSection from "../components/Courses";
 import UpcomingSkills from "../components/UpcomingSkills";
 import Testimonials from "../components/Testimonials";
-import AdvantageStats from "../components/AdvantageStats";
 import CompanyShowcase from "../components/CompanyShowcase";
-import MentorsSection from "../components/MentorsSection";
+import WhyChooseUs from "../components/WhyChooseUs";
 import FAQ from "../components/FAQ";
 import Footer from "../components/Footer";
 
@@ -17,9 +16,8 @@ export default function HomePage() {
       <CoursesSection />
       <UpcomingSkills />
       <Testimonials />
-      <AdvantageStats />
       <CompanyShowcase />
-      <MentorsSection />
+      <WhyChooseUs />
       <FAQ />
       <Footer />
     </div>
