@@ -50,7 +50,7 @@ export const courses: Course[] = [
     title: 'Become a Generative AI Expert: Unlocking Creativity with Code',
     desc: 'Learn to harness the power of generative AI and build innovative solutions that drive business value.',
     duration: '3 Months',
-    extra: 'AI Tools Access',
+    extra: '25+ Projects',
     accent: 'edtech-orange',
     iconName: 'star-sparkle',
     featured: true,

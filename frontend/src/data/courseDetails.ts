@@ -531,9 +531,9 @@ export const courseDetails: Record<string, CourseDetails> = {
       { label: "Salary Increase", value: "120%", color: "edtech-orange" }
     ],
     pricing: {
-      current: 2499,
+      current: 2999,
       original: 3499,
-      discount: "29% OFF",
+      discount: "14% OFF",
       deadline: "Feb 15th",
       features: [
         { text: "Future-Ready Curriculum with live AI workshops", icon: "🤖" },
