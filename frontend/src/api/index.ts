@@ -4,12 +4,21 @@
 export interface ContactFormData {
   fullName: string;
   email: string;
-  phone: string;
+  phone?: string;
+  subject?: string;
+  message?: string;
 }
 
 export interface ContactFormResponse {
   success: boolean;
   message: string;
+}
+
+export interface ContactPageFormData {
+  name: string;
+  email: string;
+  subject?: string;
+  message?: string;
 }
 
 export interface CourseEnrollmentData {
@@ -45,6 +54,28 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       resolve({
         success: true,
         message: "Thank you! We'll contact you within 24 hours."
+      });
+    }, 1000);
+  });
+};
+
+// Contact Page Form API - Submit contact page form to backend
+export const submitContactPageForm = async (formData: ContactPageFormData): Promise<ContactFormResponse> => {
+  // TODO: Replace with actual API call when backend is ready
+  // const response = await fetch('/api/contact-page', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify(formData)
+  // });
+  // return response.json();
+  
+  // Temporary simulation
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('Contact page form submitted:', formData);
+      resolve({
+        success: true,
+        message: "Thank you for reaching out! We'll get back to you within 24 hours."
       });
     }, 1000);
   });
