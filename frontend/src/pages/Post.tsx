@@ -4,13 +4,18 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import TechBackground from "../TechBackground";
 import useRevealOnScroll from "../hooks/useRevealOnScroll";
-import { getPostBySlug, getRelatedPosts } from "../data/blog";
+import { getPostBySlug, getRelatedPosts } from "../utils/dataAdapter";
+import type { BlogPost } from "../types";
 import "../components/article-styles.css";
 
 export default function PostPage() {
   const { slug } = useParams();
   const [activeSection, setActiveSection] = useState<string>('');
   const [readingProgress, setReadingProgress] = useState(0);
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   useRevealOnScroll();
   
   // Function to generate slug from heading text
@@ -37,6 +42,42 @@ export default function PostPage() {
       });
     }
   };
+
+  // Load post data
+  useEffect(() => {
+    const loadPostData = async () => {
+      if (!slug) {
+        setError('No slug provided');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const postData = await getPostBySlug(slug);
+        if (!postData) {
+          setError('Post not found');
+          setLoading(false);
+          return;
+        }
+        
+        setPost(postData);
+        
+        // Load related posts
+        const relatedPostsData = await getRelatedPosts(postData.slug);
+        setRelatedPosts(relatedPostsData);
+      } catch (err) {
+        console.error('Error loading post:', err);
+        setError('Failed to load post');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPostData();
+  }, [slug]);
 
   // Track active section and reading progress on scroll
   useEffect(() => {
@@ -84,16 +125,32 @@ export default function PostPage() {
     );
   }
 
-  const post = getPostBySlug(slug);
-  
-  if (!post) {
+  if (loading) {
+    return (
+      <div className="min-h-screen">
+        <Navbar />
+        <main className="pt-20 flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-pulse">
+              <div className="text-6xl mb-4">📄</div>
+              <h1 className="text-2xl font-bold mb-2">Loading Article...</h1>
+              <p className="text-white/70">Please wait while we fetch the content.</p>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error || !post) {
     return (
       <div className="min-h-screen">
         <Navbar />
         <main className="pt-20 flex items-center justify-center min-h-screen">
           <div className="text-center">
             <div className="text-6xl mb-4">📄</div>
-            <h1 className="text-2xl font-bold mb-2">Article Not Found</h1>
+            <h1 className="text-2xl font-bold mb-2">{error || 'Article Not Found'}</h1>
             <p className="text-white/70 mb-6">The article you're looking for doesn't exist or has been moved.</p>
             <Link to="/blog" className="cta cta-primary">
               Browse All Articles
@@ -104,8 +161,6 @@ export default function PostPage() {
       </div>
     );
   }
-
-  const relatedPosts = getRelatedPosts(post);
 
   // Extract headings for Table of Contents
   const extractHeadings = (content: string) => {

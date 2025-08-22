@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { companyInfo, whatsappQuickMessages } from '../data/about';
+import { getCompanyInfoData } from '../utils/dataAdapter';
+import type { CompanyInfo } from '../types';
 
 interface WhatsAppWidgetProps {
   className?: string;
@@ -10,7 +11,39 @@ export default function WhatsAppWidget({
 }: WhatsAppWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
+  const [companyInfo, setCompanyInfo] = useState<CompanyInfo | null>(null);
+  const [whatsappQuickMessages, setWhatsappQuickMessages] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const data = await getCompanyInfoData();
+        setCompanyInfo(data);
+        // For now, using static quick messages since they're not in the API
+        setWhatsappQuickMessages([
+          "I'm interested in learning more about your courses",
+          "Can you help me choose the right program?",
+          "What are your course schedules?",
+          "I'd like to book a consultation call"
+        ]);
+      } catch (error) {
+        console.error('Error loading company data:', error);
+        setCompanyInfo({
+          whatsappNumber: '',
+          supportEmail: '',
+          heroRoles: [],
+          carouselRoles: [],
+          marketingStats: []
+        });
+        setWhatsappQuickMessages([]);
+      } finally {
+        // Data loading complete
+      }
+    };
+
+    loadData();
+  }, []);
 
   // Handle mobile keyboard visibility
   useEffect(() => {
@@ -50,7 +83,7 @@ export default function WhatsAppWidget({
   }, [isOpen]);
 
   const handleSendMessage = () => {
-    if (message.trim()) {
+    if (message.trim() && companyInfo?.whatsappNumber) {
       const encodedMessage = encodeURIComponent(message);
       const whatsappUrl = `https://wa.me/${companyInfo.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodedMessage}`;
       window.open(whatsappUrl, '_blank', 'noopener,noreferrer');

@@ -1,10 +1,29 @@
-import { useState } from 'react';
-import { upcomingSkills } from '../data/about';
+import { useState, useEffect } from 'react';
+import { getUpcomingSkillsData } from '../utils/dataAdapter';
+import type { UpcomingSkill } from '../types';
 
 export default function UpcomingSkills() {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [upcomingSkills, setUpcomingSkills] = useState<UpcomingSkill[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadUpcomingSkills = async () => {
+      try {
+        const data = await getUpcomingSkillsData();
+        setUpcomingSkills(data);
+      } catch (error) {
+        console.error('Error loading upcoming skills:', error);
+        setUpcomingSkills([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadUpcomingSkills();
+  }, []);
 
   // Duplicate skills for seamless infinite scroll
   const duplicatedSkills = [...upcomingSkills, ...upcomingSkills];
@@ -28,6 +47,26 @@ export default function UpcomingSkills() {
   const handleMouseUp = () => {
     setIsDragging(false);
   };
+
+  if (loading) {
+    return (
+      <section className="py-16 md:py-24 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
+        <div className="mx-auto max-w-7xl px-6 text-center">
+          <div className="text-gray-600 text-lg">Loading upcoming skills...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (upcomingSkills.length === 0) {
+    return (
+      <section className="py-16 md:py-24 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
+        <div className="mx-auto max-w-7xl px-6 text-center">
+          <div className="text-gray-600 text-lg">No upcoming skills available at the moment.</div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-16 md:py-24 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>

@@ -1,11 +1,75 @@
-import { getFeaturedCourses, getCourseIcon } from "../data/courses";
+import { useState, useEffect } from "react";
+import { getFeaturedCoursesData, getCourseIcon } from "../utils/dataAdapter";
+import type { Course } from "../types";
 import { Link } from "react-router-dom";
 import MicrosoftBadge from "./MicrosoftBadge";
 import { useCourseEnrollmentModal } from "../contexts/CourseEnrollmentModalContext";
 
 export default function CoursesSection() {
-  const featuredCourses = getFeaturedCourses();
+  const [featuredCourses, setFeaturedCourses] = useState<Course[]>([]);
+  const [courseIcons, setCourseIcons] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(true);
   const { openModal } = useCourseEnrollmentModal();
+
+  useEffect(() => {
+    const loadFeaturedCourses = async () => {
+      try {
+        const data = await getFeaturedCoursesData();
+        setFeaturedCourses(data);
+        
+        // Load icons for all courses
+        const iconPromises = data.map(async (course) => {
+          const icon = await getCourseIcon(course);
+          return { id: course.id, icon };
+        });
+        
+        const resolvedIcons = await Promise.all(iconPromises);
+        const iconsMap = resolvedIcons.reduce((acc, { id, icon }) => {
+          acc[id] = icon;
+          return acc;
+        }, {} as Record<string, string>);
+        
+        setCourseIcons(iconsMap);
+      } catch (error) {
+        console.error('Error loading featured courses:', error);
+        setFeaturedCourses([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadFeaturedCourses();
+  }, []);
+
+  // Initialize scroll reveal animation after courses are loaded
+  useEffect(() => {
+    let observer: IntersectionObserver | null = null;
+    
+    if (!loading && featuredCourses.length > 0) {
+      // Small delay to ensure DOM is updated
+      const timer = setTimeout(() => {
+        observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("visible");
+            });
+          },
+          { threshold: 0.1 }
+        );
+        
+        // Only observe course cards in this component
+        const courseCards = document.querySelectorAll('.course-card.reveal');
+        courseCards.forEach((el) => observer!.observe(el));
+      }, 100);
+      
+      return () => {
+        clearTimeout(timer);
+        if (observer) {
+          observer.disconnect();
+        }
+      };
+    }
+  }, [loading, featuredCourses.length]);
 
   const handleApplyNow = (courseId: string, courseName: string, courseCategory: string) => {
     openModal(courseId, courseName, courseCategory, 'home-featured-courses');
@@ -34,7 +98,7 @@ export default function CoursesSection() {
                 <span className="cat-pill">{c.category}</span>
                 <div className="course-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d={getCourseIcon(c)}/>
+                    <path strokeLinecap="round" strokeLinejoin="round" d={courseIcons[c.id] || 'M13 10V3L4 14h7v7l9-11h-7z'}/>
                   </svg>
                 </div>
               </div>

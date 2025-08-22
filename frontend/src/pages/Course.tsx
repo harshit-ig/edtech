@@ -1,19 +1,59 @@
 import { useParams, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import TechBackground from "../TechBackground";
-import { courses, getCourseIcon } from "../data/courses";
+import { getCoursesData, getCourseIcon, getCourseDetailsData } from "../utils/dataAdapter";
+import type { Course, CourseDetails } from "../types";
 import MicrosoftBadge from "../components/MicrosoftBadge";
 import { useContactModal } from "../contexts/ContactModalContext";
 import { useCourseEnrollmentModal } from "../contexts/CourseEnrollmentModalContext";
-import { courseDetails, getDefaultCourseDetails } from "../data/courseDetails";
 
 export default function CoursePage() {
   const { courseId } = useParams();
   const [openModules, setOpenModules] = useState<Record<number, boolean>>({});
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [courseDetails, setCourseDetails] = useState<CourseDetails | null>(null);
+  const [courseIcons, setCourseIcons] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(true);
   const { openModal } = useContactModal();
   const { openModal: openEnrollmentModal } = useCourseEnrollmentModal();
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const coursesData = await getCoursesData();
+        setCourses(coursesData);
+        
+        // Load icons for all courses
+        const iconPromises = coursesData.map(async (course) => {
+          const icon = await getCourseIcon(course);
+          return { id: course.id, icon };
+        });
+        
+        const resolvedIcons = await Promise.all(iconPromises);
+        const iconsMap = resolvedIcons.reduce((acc, { id, icon }) => {
+          acc[id] = icon;
+          return acc;
+        }, {} as Record<string, string>);
+        
+        setCourseIcons(iconsMap);
+        
+        if (courseId) {
+          const detailsData = await getCourseDetailsData(courseId);
+          setCourseDetails(detailsData);
+        }
+      } catch (error) {
+        console.error('Error loading course data:', error);
+        setCourses([]);
+        setCourseDetails(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, [courseId]);
   
   const handleApplyNow = (courseId: string, courseTitle: string, category: string) => {
     openEnrollmentModal(courseId, courseTitle, category, 'course-detail-page');
@@ -26,6 +66,21 @@ export default function CoursePage() {
   // Find course from the data
   const course = courses.find(c => c.id === courseId);
   
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen">
+        <Navbar />
+        <main className="pt-20 flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="text-white/70 text-lg">Loading course...</div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   if (!course) {
     return (
       <div className="min-h-screen">
@@ -45,7 +100,21 @@ export default function CoursePage() {
     );
   }
 
-  const details = courseDetails[course.id] || getDefaultCourseDetails(course);
+  // Get course details (fallback to default if needed)
+  const details = courseDetails || {
+    overview: `Comprehensive ${course.title} training program`,
+    objectives: [`Master ${course.title}`, 'Build real-world projects'],
+    curriculum: [{ module: 'Introduction', duration: '1 week', topics: ['Basics'] }],
+    tools: [{ name: course.title, icon: '🚀' }],
+    skills: [course.title],
+    prerequisites: 'Basic computer knowledge',
+    certification: 'Certificate of completion',
+    testimonials: [],
+    successStats: [],
+    pricing: { current: 9999, original: 19999, discount: '50%', deadline: '2024-12-31', features: [] },
+    courseInfo: { startDate: 'Next Monday', format: 'Online', support: '24/7', studentsEnrolled: '100+' },
+    trustIndicators: { rating: '4.8', reviewCount: '1000+', testimonialPreview: { text: 'Great course!', author: 'Student' } }
+  };
 
   return (
     <div className="min-h-screen">
@@ -87,7 +156,7 @@ export default function CoursePage() {
                     'bg-gradient-to-br from-edtech-orange/20 to-orange-400/20'
                   }`}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-8 h-8">
-                      <path strokeLinecap="round" strokeLinejoin="round" d={getCourseIcon(course)}/>
+                      <path strokeLinecap="round" strokeLinejoin="round" d={courseIcons[course.id] || 'M13 10V3L4 14h7v7l9-11h-7z'}/>
                     </svg>
                   </div>
                   <div>

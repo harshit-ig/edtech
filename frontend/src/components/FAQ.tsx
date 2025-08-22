@@ -1,11 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { generalFAQs as faqs } from '../data/faq';
+import { getFAQsData } from '../utils/dataAdapter';
+import type { FAQ } from '../types';
 import { useContactModal } from '../contexts/ContactModalContext';
 
 export default function FAQ() {
   const [openId, setOpenId] = useState<number | null>(null);
+  const [faqs, setFAQs] = useState<FAQ[]>([]);
+  const [loading, setLoading] = useState(true);
   const { openModal } = useContactModal();
+
+  useEffect(() => {
+    const loadFAQs = async () => {
+      try {
+        const data = await getFAQsData();
+        setFAQs(data);
+      } catch (error) {
+        console.error('Error loading FAQs:', error);
+        setFAQs([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadFAQs();
+  }, []);
 
   const toggleFAQ = (id: number) => {
     setOpenId(openId === id ? null : id);
@@ -33,7 +52,16 @@ export default function FAQ() {
 
         <div className="max-w-4xl mx-auto">
           <div className="space-y-4">
-            {faqs.map((faq) => (
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="text-white/70 text-lg">Loading FAQs...</div>
+              </div>
+            ) : faqs.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="text-white/70 text-lg">No FAQs available at the moment.</div>
+              </div>
+            ) : (
+              faqs.map((faq) => (
               <div
                 key={faq.id}
                 className="card p-6 border border-white/10 hover:border-white/20 transition-all duration-300"
@@ -76,7 +104,8 @@ export default function FAQ() {
                   </div>
                 </div>
               </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 

@@ -1,9 +1,29 @@
 // import FloatingDots from "../FloatingDots";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import WhiteLogo from "../assets/WHITE-LOGO--300x152.png";
-import { courses } from "../data/courses";
+import { getCoursesData } from "../utils/dataAdapter";
+import type { Course } from "../types";
 
 export default function Footer() {
+  const [courses, setCourses] = useState<Course[]>([]);
+
+  useEffect(() => {
+    const loadCourses = async () => {
+      try {
+        const data = await getCoursesData();
+        setCourses(data);
+      } catch (error) {
+        console.error('Error loading courses:', error);
+        setCourses([]);
+      } finally {
+        // Courses loading complete
+      }
+    };
+
+    loadCourses();
+  }, []);
+
   // Get first 4 courses for footer display
   const footerCourses = courses.slice(0, 4);
 

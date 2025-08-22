@@ -3,9 +3,45 @@ import Globe from "../globe";
 import Typewriter from "typewriter-effect";
 import TechBackground from "../TechBackground";
 import RoleCarousel from "./RoleCarousel";
-import { companyInfo } from "../data/about";
+import { useState, useEffect } from "react";
+import { getCompanyInfoData } from "../utils/dataAdapter";
+import type { CompanyInfo } from "../types";
 
 export default function Hero() {
+  const [companyInfo, setCompanyInfo] = useState<CompanyInfo | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadCompanyInfo = async () => {
+      try {
+        const data = await getCompanyInfoData();
+        setCompanyInfo(data);
+      } catch (error) {
+        console.error('Error loading company info:', error);
+        // Fallback data
+        setCompanyInfo({
+          whatsappNumber: '',
+          supportEmail: '',
+          heroRoles: ['Build', 'Learn', 'Grow'],
+          carouselRoles: ['Developer', 'Designer', 'Engineer'],
+          marketingStats: []
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCompanyInfo();
+  }, []);
+
+  if (loading || !companyInfo) {
+    return (
+      <header className="relative min-h-[600px] h-[90vh] max-h-[800px] lg:max-h-none lg:h-screen flex items-center justify-center overflow-hidden pt-20 scroll-mt-24">
+        <div className="text-white text-xl">Loading...</div>
+      </header>
+    );
+  }
+
   return (
     <header className="relative min-h-[600px] h-[90vh] max-h-[800px] lg:max-h-none lg:h-screen flex items-center overflow-hidden pt-20 scroll-mt-24">
       {/* Background Layer - Animated Tech Elements */}

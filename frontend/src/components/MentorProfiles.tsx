@@ -1,6 +1,54 @@
-import { mentors, partnerCompanies } from '../data/mentors';
+import { useState, useEffect } from 'react';
+import { getMentorsData, getPartnerCompaniesData } from '../utils/dataAdapter';
+import type { Mentor, CompanyLogo } from '../types';
 
 export default function MentorProfiles() {
+  const [mentors, setMentors] = useState<Mentor[]>([]);
+  const [partnerCompanies, setPartnerCompanies] = useState<CompanyLogo[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [mentorsData, partnersData] = await Promise.all([
+          getMentorsData(),
+          getPartnerCompaniesData()
+        ]);
+        setMentors(mentorsData);
+        setPartnerCompanies(partnersData);
+      } catch (error) {
+        console.error('Error loading mentor data:', error);
+        setMentors([]);
+        setPartnerCompanies([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  // Initialize scroll reveal for dynamic content after data loads
+  useEffect(() => {
+    if (!loading && mentors.length > 0) {
+      const timer = setTimeout(() => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("visible");
+            });
+          },
+          { threshold: 0.1 }
+        );
+        
+        const mentorRevealElements = document.querySelectorAll('.mentor-reveal');
+        mentorRevealElements.forEach((el) => observer.observe(el));
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [loading, mentors.length]);
+
   // Create duplicated arrays for seamless scrolling
   const duplicatedMentors = [...mentors, ...mentors];
 
@@ -49,7 +97,7 @@ export default function MentorProfiles() {
             <div className="mentors-scroll flex gap-6 w-max">
               {duplicatedMentors.map((mentor, index) => (
                 <div key={`${mentor.id}-${index}`} className="flex-shrink-0 w-72">
-                  <div className="advantage-stat-card bg-white rounded-2xl p-4 sm:p-6 border border-gray-200 transition-all duration-300 reveal" data-accent={mentor.accent}>
+                  <div className="advantage-stat-card bg-white rounded-2xl p-4 sm:p-6 border border-gray-200 transition-all duration-300 mentor-reveal reveal" data-accent={mentor.accent}>
                     <div className="text-center">
                       <div className="mb-4">
                         <img 

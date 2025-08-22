@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -5,7 +6,8 @@ import TechBackground from "../TechBackground";
 import AdvantageStats from "../components/AdvantageStats";
 import MentorProfiles from "../components/MentorProfiles";
 import useRevealOnScroll from "../hooks/useRevealOnScroll";
-import { teamMembers, companyValues as values, aboutStats as stats, companyMilestones as milestones } from "../data/about";
+import { getAboutPageData } from "../utils/dataAdapter";
+import type { TeamMember, Value, Stat, Milestone } from "../types";
 
 // Helper function to render icon from SVG path
 const renderIcon = (iconPath: string) => (
@@ -15,7 +17,70 @@ const renderIcon = (iconPath: string) => (
 );
 
 export default function AboutPage() {
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+  const [values, setValues] = useState<Value[]>([]);
+  const [stats, setStats] = useState<Stat[]>([]);
+  const [milestones, setMilestones] = useState<Milestone[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadAboutData = async () => {
+      try {
+        const data = await getAboutPageData();
+        setTeamMembers(data.teamMembers);
+        setValues(data.companyValues);
+        setStats(data.aboutStats);
+        setMilestones(data.companyMilestones);
+      } catch (error) {
+        console.error('Error loading about data:', error);
+        setTeamMembers([]);
+        setValues([]);
+        setStats([]);
+        setMilestones([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAboutData();
+  }, []);
+
   useRevealOnScroll();
+
+  // Initialize scroll reveal for dynamic content after data loads
+  useEffect(() => {
+    if (!loading) {
+      const timer = setTimeout(() => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("visible");
+            });
+          },
+          { threshold: 0.1 }
+        );
+        
+        const aboutRevealElements = document.querySelectorAll('.about-reveal');
+        aboutRevealElements.forEach((el) => observer.observe(el));
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen">
+        <Navbar />
+        <main className="pt-20 flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="text-white/70 text-lg">Loading about page...</div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
   
   return (
     <div className="min-h-screen">
@@ -34,7 +99,7 @@ export default function AboutPage() {
           <TechBackground className="opacity-15" />
           
           <div className="relative mx-auto max-w-7xl px-6">
-            <div className="text-center mb-16 reveal">
+            <div className="text-center mb-16 about-reveal reveal">
               <div className="badge-hero mx-auto w-max mb-8">
                 <span>🚀</span><span>OUR STORY</span>
               </div>
@@ -48,7 +113,7 @@ export default function AboutPage() {
             </div>
 
             {/* Hero Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 reveal">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 about-reveal reveal">
               {stats.map((stat, index) => (
                 <div key={index} className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 text-center">
                   <div className={`text-3xl md:text-4xl font-bold mb-2 text-${stat.color}`}>
@@ -66,7 +131,7 @@ export default function AboutPage() {
         {/* SECTION 2: Mission & Vision - LIGHT */}
         <section className="py-16 md:py-24 bg-gradient-to-br from-white via-gray-50 to-white">
           <div className="mx-auto max-w-7xl px-6">
-            <div className="text-center mb-16 reveal">
+            <div className="text-center mb-16 about-reveal reveal">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Our <span className="text-edtech-blue">Mission</span> & <span className="text-edtech-orange">Vision</span>
               </h2>
@@ -75,7 +140,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-12 items-center reveal">
+            <div className="grid lg:grid-cols-2 gap-12 items-center about-reveal reveal">
               <div className="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 p-8 md:p-12 border border-gray-100 group">
                 <div className="w-20 h-20 bg-gradient-to-br from-edtech-green/20 to-green-400/20 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300">
                   <svg className="w-10 h-10 text-edtech-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -111,14 +176,14 @@ export default function AboutPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-bg-deep via-bg-deep to-edtech-blue/5" />
           
           <div className="relative mx-auto max-w-7xl px-6">
-            <div className="text-center mb-16 reveal">
+            <div className="text-center mb-16 about-reveal reveal">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Our Core <span className="text-edtech-green">Values</span></h2>
               <p className="text-white/70 text-xl max-w-3xl mx-auto leading-relaxed">
                 The principles that guide everything we do and shape the learning experience we create.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 reveal">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 about-reveal reveal">
               {values.map((value, index) => (
                 <div key={index} className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300 hover:scale-[1.02] group text-center">
                   <div className="w-16 h-16 bg-edtech-green/20 rounded-2xl flex items-center justify-center mx-auto mb-6 text-edtech-green group-hover:scale-110 transition-transform duration-300">
@@ -142,14 +207,14 @@ export default function AboutPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-bg-deep via-bg-deep to-edtech-blue/5" />
           
           <div className="relative mx-auto max-w-7xl px-6">
-            <div className="text-center mb-16 reveal">
+            <div className="text-center mb-16 about-reveal reveal">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Our <span className="text-edtech-orange">Journey</span></h2>
               <p className="text-white/70 text-xl max-w-3xl mx-auto leading-relaxed">
                 From a small startup to a global education platform - here's how we've grown together.
               </p>
             </div>
 
-            <div className="relative reveal">
+            <div className="relative about-reveal reveal">
               {/* Timeline line */}
               <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-edtech-green via-edtech-orange to-edtech-blue transform md:-translate-x-0.5 rounded-full"></div>
               
@@ -184,14 +249,14 @@ export default function AboutPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-bg-deep via-bg-deep to-edtech-blue/5" />
           
           <div className="relative mx-auto max-w-7xl px-6">
-            <div className="text-center mb-16 reveal">
+            <div className="text-center mb-16 about-reveal reveal">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Meet Our <span className="text-edtech-red">Team</span></h2>
               <p className="text-white/70 text-xl max-w-3xl mx-auto leading-relaxed">
                 Industry experts and educators passionate about transforming lives through technology.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 reveal">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 about-reveal reveal">
               {teamMembers.map((member, index) => (
                 <div key={index} className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300 hover:scale-[1.02] group text-center">
                   <div className="w-24 h-24 bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 rounded-full mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -231,7 +296,7 @@ export default function AboutPage() {
           </div>
           
           <div className="relative mx-auto max-w-5xl px-6 text-center">
-            <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-8 md:p-12 reveal">
+            <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-8 md:p-12 about-reveal reveal">
               <div className="mb-6">
                 <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-white/10 text-white border border-white/20">
                   🚀 Ready to Transform Your Life?

@@ -1,13 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import WhiteLogo from "../assets/WHITE-LOGO--300x152.png";
-import { courses } from "../data/courses";
+import { getCoursesData } from "../utils/dataAdapter";
 import { useContactModal } from "../contexts/ContactModalContext";
+import type { Course } from "../types";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [coursesDropdownOpen, setCoursesDropdownOpen] = useState(false);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
   const { openModal } = useContactModal();
+
+  useEffect(() => {
+    const loadCourses = async () => {
+      try {
+        const data = await getCoursesData();
+        setCourses(data);
+      } catch (error) {
+        console.error('Error loading courses:', error);
+        setCourses([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCourses();
+  }, []);
 
   const displayedCourses = courses.slice(0, 4);
 
@@ -65,7 +84,12 @@ export default function Navbar() {
                   </div>
                   
                   <div className="space-y-3 mb-4">
-                    {displayedCourses.map((course) => (
+                    {loading ? (
+                      <div className="text-white/60 text-sm">Loading courses...</div>
+                    ) : displayedCourses.length === 0 ? (
+                      <div className="text-white/60 text-sm">No courses available</div>
+                    ) : (
+                      displayedCourses.map((course) => (
                       <Link 
                         key={course.id} 
                         to={`/course/${course.id}`}
@@ -96,7 +120,8 @@ export default function Navbar() {
                           </div>
                         </div>
                       </Link>
-                    ))}
+                      ))
+                    )}
                   </div>
                   
                   <div className="pt-4 border-t border-white/10">

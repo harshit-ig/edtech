@@ -3,18 +3,37 @@ import { useRef, useEffect, useMemo, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Sphere } from "@react-three/drei";
 import * as THREE from "three";
-import worldGeoJson from "./data/world.geojson?url";
-import { highlightedCountries } from "./data/about";
+import { getHighlightedCountriesData } from "./utils/dataAdapter";
+import geoGlobeData from "./data/world.geojson?url";
 
 function Globe() {
   const globeRef = useRef<THREE.Group>(null);
   const [geoData, setGeoData] = useState<any>(null);
+  const [highlightedCountries, setHighlightedCountries] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch(worldGeoJson)
+    const loadData = async () => {
+      try {
+        const [ countriesResult] = await Promise.all([
+          getHighlightedCountriesData()
+        ]);
+        setHighlightedCountries(countriesResult);
+      } catch (error) {
+        console.error('Error loading globe data:', error);
+        // Fallback to loading geojson file directly if API fails
+        try {
+          setHighlightedCountries(['India', 'United States', 'Germany']); // fallback countries
+        } catch (fallbackError) {
+          console.error('Fallback geojson loading failed:', fallbackError);
+        }
+      }
+    };
+    fetch(geoGlobeData)
       .then((res) => res.json())
       .then((data) => setGeoData(data))
       .catch(() => setGeoData(null));
+
+    loadData();
   }, []);
 
   useFrame(() => {

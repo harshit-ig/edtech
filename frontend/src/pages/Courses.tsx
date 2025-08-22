@@ -1,9 +1,10 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import TechBackground from "../TechBackground";
-import { getAllCourses, getCourseIcon } from "../data/courses";
+import { getCoursesData, getCourseIcon } from "../utils/dataAdapter";
+import type { Course } from "../types";
 import MicrosoftBadge from "../components/MicrosoftBadge";
 import Stats from "../components/Stats";
 import useRevealOnScroll from "../hooks/useRevealOnScroll";
@@ -19,12 +20,64 @@ export default function CoursesPage() {
   // Add scroll reveal animations
   useRevealOnScroll();
 
+  const [allCourses, setAllCourses] = useState<Course[]>([]);
+  const [courseIcons, setCourseIcons] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadCourses = async () => {
+      try {
+        const data = await getCoursesData();
+        setAllCourses(data);
+        
+        // Load icons for all courses
+        const iconPromises = data.map(async (course) => {
+          const icon = await getCourseIcon(course);
+          return { id: course.id, icon };
+        });
+        
+        const resolvedIcons = await Promise.all(iconPromises);
+        const iconsMap = resolvedIcons.reduce((acc, { id, icon }) => {
+          acc[id] = icon;
+          return acc;
+        }, {} as Record<string, string>);
+        
+        setCourseIcons(iconsMap);
+      } catch (error) {
+        console.error('Error loading courses:', error);
+        setAllCourses([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCourses();
+  }, []);
+
+  // Initialize scroll reveal for dynamic content after data loads
+  useEffect(() => {
+    if (!loading && allCourses.length > 0) {
+      const timer = setTimeout(() => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("visible");
+            });
+          },
+          { threshold: 0.1 }
+        );
+        
+        const coursesRevealElements = document.querySelectorAll('.courses-page-reveal');
+        coursesRevealElements.forEach((el) => observer.observe(el));
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [loading, allCourses.length]);
+
   const handleApplyNow = (courseId: string, courseName: string, courseCategory: string) => {
     openEnrollmentModal(courseId, courseName, courseCategory, 'courses-page');
   };
-
-  // Use centralized course data
-  const allCourses = getAllCourses();
   
   // Memoize categories to avoid recalculation
   const categories = useMemo(() => 
@@ -152,7 +205,7 @@ export default function CoursesPage() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 mb-12 reveal">
+            <div className="grid md:grid-cols-3 gap-8 mb-12 courses-page-reveal reveal">
               {featuredCourses.map((course) => (
                 <div key={course.id} className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:scale-[1.02]">
                   {/* Course Badge */}
@@ -175,7 +228,7 @@ export default function CoursesPage() {
                       'bg-gradient-to-br from-edtech-orange to-orange-400'
                     }`}>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-8 h-8">
-                        <path strokeLinecap="round" strokeLinejoin="round" d={getCourseIcon(course)}/>
+                        <path strokeLinecap="round" strokeLinejoin="round" d={courseIcons[course.id] || 'M13 10V3L4 14h7v7l9-11h-7z'}/>
                       </svg>
                     </div>
 
@@ -257,8 +310,17 @@ export default function CoursesPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
-              {filteredCourses.map((course, idx) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 courses-page-reveal reveal">
+              {loading ? (
+                <div className="col-span-full text-center py-12">
+                  <div className="text-white/70 text-lg">Loading courses...</div>
+                </div>
+              ) : filteredCourses.length === 0 ? (
+                <div className="col-span-full text-center py-12">
+                  <div className="text-white/70 text-lg">No courses found matching your criteria.</div>
+                </div>
+              ) : (
+                filteredCourses.map((course, idx) => (
                 <article 
                   key={`${course.id}-${idx}`} 
                   className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300 hover:scale-[1.02] group relative overflow-hidden" 
@@ -275,7 +337,7 @@ export default function CoursesPage() {
                       'bg-gradient-to-br from-edtech-orange/20 to-orange-400/20'
                     }`}>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d={getCourseIcon(course)}/>
+                        <path strokeLinecap="round" strokeLinejoin="round" d={courseIcons[course.id] || 'M13 10V3L4 14h7v7l9-11h-7z'}/>
                       </svg>
                     </div>
                   </div>
@@ -327,25 +389,9 @@ export default function CoursesPage() {
                     {course.badge}
                   </span>
                 </article>
-              ))}
+                ))
+              )}
             </div>
-
-            {filteredCourses.length === 0 && (
-              <div className="text-center py-16">
-                <div className="text-6xl mb-6">🔍</div>
-                <h3 className="text-2xl font-bold text-white mb-4">No courses found</h3>
-                <p className="text-white/70 text-lg mb-8">Try adjusting your search or filter criteria</p>
-                <button 
-                  onClick={() => {
-                    setSearchTerm('');
-                    setSelectedCategory('ALL');
-                  }}
-                  className="bg-edtech-green text-black px-8 py-3 rounded-full font-semibold hover:bg-green-600 transition-all duration-300"
-                >
-                  Reset Filters
-                </button>
-              </div>
-            )}
           </div>
         </section>
 

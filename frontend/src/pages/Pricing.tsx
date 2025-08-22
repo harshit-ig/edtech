@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -7,16 +7,74 @@ import MicrosoftBadge from "../components/MicrosoftBadge";
 import useRevealOnScroll from "../hooks/useRevealOnScroll";
 import { useCourseEnrollmentModal } from "../contexts/CourseEnrollmentModalContext";
 import { useContactModal } from "../contexts/ContactModalContext";
-import { coursePricing, pricingFAQs as faqs, courseBenefits } from "../data/pricing";
+import { getCoursePricingData } from "../utils/dataAdapter";
+import type { CoursePricing, FAQ } from "../types";
 
 export default function PricingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [paymentMode, setPaymentMode] = useState<'one-time' | 'installment'>('one-time');
+  const [coursePricing, setCoursePricing] = useState<CoursePricing[]>([]);
+  const [loading, setLoading] = useState(true);
   const { openModal: openEnrollmentModal } = useCourseEnrollmentModal();
   const { openModal } = useContactModal();
 
+  // Static data that doesn't change often
+  const faqs: FAQ[] = [
+    { id: 1, question: "What payment methods do you accept?", answer: "We accept all major credit cards, PayPal, and bank transfers." },
+    { id: 2, question: "Can I get a refund?", answer: "Yes, we offer a 30-day money-back guarantee if you're not satisfied." },
+    { id: 3, question: "Are there any hidden fees?", answer: "No, the price you see is the final price. No hidden fees or charges." }
+  ];
+
+  const courseBenefits: [string, string, boolean | string, boolean | string][] = [
+    ["Expert-Led Live Sessions", "Real-time interaction with industry professionals", true, "Pre-recorded only"],
+    ["1-on-1 Mentorship", "Personal guidance and career coaching", true, false],
+    ["Lifetime Access", "Keep access to all materials forever", true, "Limited time"],
+    ["Industry Certification", "Recognized credentials that employers value", true, "Basic completion certificate"],
+    ["Job Placement Support", "Active assistance in finding roles", true, false],
+    ["Project-Based Learning", "Build real-world portfolio projects", true, "Theoretical exercises"],
+    ["24/7 Support", "Round-the-clock technical assistance", true, "Business hours only"],
+    ["Updated Content", "Regular curriculum updates with latest trends", true, "Outdated materials"]
+  ];
+
+  useEffect(() => {
+    const loadPricingData = async () => {
+      try {
+        const data = await getCoursePricingData();
+        setCoursePricing(data);
+      } catch (error) {
+        console.error('Error loading pricing data:', error);
+        setCoursePricing([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPricingData();
+  }, []);
+
   // Add scroll reveal animations
   useRevealOnScroll();
+
+  // Initialize scroll reveal for dynamic content after data loads
+  useEffect(() => {
+    if (!loading && coursePricing.length > 0) {
+      const timer = setTimeout(() => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("visible");
+            });
+          },
+          { threshold: 0.1 }
+        );
+        
+        const pricingRevealElements = document.querySelectorAll('.pricing-reveal');
+        pricingRevealElements.forEach((el) => observer.observe(el));
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [loading, coursePricing.length]);
 
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -140,7 +198,7 @@ export default function PricingPage() {
               </div>
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-8 reveal pt-12">
+            <div className="grid lg:grid-cols-3 gap-8 pricing-reveal reveal pt-12">
               {coursePricing.map((course) => {
                 const pricing = getDisplayPrice(course);
                 return (

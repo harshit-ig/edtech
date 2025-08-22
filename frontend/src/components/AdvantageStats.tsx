@@ -1,29 +1,61 @@
 import { useState, useEffect } from 'react';
-import { advantageStats } from '../data/stats';
+import { getAdvantageStatsData } from '../utils/dataAdapter';
+import type { AdvantageStat } from '../types';
 
 export default function AdvantageStats() {
   const [animatedCards, setAnimatedCards] = useState<Set<string>>(new Set());
+  const [advantageStats, setAdvantageStats] = useState<AdvantageStat[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const cardId = entry.target.getAttribute('data-card-id');
-            if (cardId) {
-              setAnimatedCards(prev => new Set(prev).add(cardId));
-            }
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
+    const loadAdvantageStats = async () => {
+      try {
+        const data = await getAdvantageStatsData();
+        setAdvantageStats(data);
+      } catch (error) {
+        console.error('Error loading advantage stats:', error);
+        setAdvantageStats([]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    const cards = document.querySelectorAll('[data-card-id]');
-    cards.forEach(card => observer.observe(card));
-
-    return () => observer.disconnect();
+    loadAdvantageStats();
   }, []);
+
+  useEffect(() => {
+    if (loading || advantageStats.length === 0) return;
+    
+    // Small delay to ensure DOM is updated
+    const timer = setTimeout(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              // Handle custom card animations
+              const cardId = entry.target.getAttribute('data-card-id');
+              if (cardId) {
+                setAnimatedCards(prev => new Set(prev).add(cardId));
+              }
+              
+              // Handle reveal animations
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+
+      // Observe both card animations and reveal elements
+      const cards = document.querySelectorAll('[data-card-id]');
+      cards.forEach(card => observer.observe(card));
+      
+      const revealElements = document.querySelectorAll('.advantage-reveal');
+      revealElements.forEach(el => observer.observe(el));
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [loading, advantageStats]);
 
   const getAccentColor = (accent: string) => {
     switch (accent) {
@@ -62,11 +94,21 @@ export default function AdvantageStats() {
     );
   };
 
+  if (loading) {
+    return (
+      <section className="py-20 px-4" style={{backgroundColor: '#f4f7f1'}}>
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="text-gray-600 text-lg">Loading advantage stats...</div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <>
       <section className="py-20 px-4" style={{backgroundColor: '#f4f7f1'}}>
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 advantage-reveal reveal">
             <div className="badge-hero mx-auto w-max">
               <span>⚡</span>
               <span>THE EDTECH ADVANTAGE</span>
@@ -77,11 +119,16 @@ export default function AdvantageStats() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {advantageStats.map((stat, index) => (
+            {advantageStats.length === 0 ? (
+              <div className="col-span-full text-center text-gray-600">
+                No stats available at the moment.
+              </div>
+            ) : (
+              advantageStats.map((stat, index) => (
               <div
                 key={stat.id}
                 data-card-id={stat.id}
-                className={`advantage-stat-card bg-white rounded-2xl p-4 sm:p-6 border border-gray-200 transition-all duration-300 hover:-translate-y-1 reveal`}
+                className={`advantage-stat-card bg-white rounded-2xl p-4 sm:p-6 border border-gray-200 transition-all duration-300 hover:-translate-y-1 advantage-reveal reveal`}
                 data-accent={stat.accent}
               >
                 <div className="mb-3 sm:mb-4">
@@ -114,7 +161,8 @@ export default function AdvantageStats() {
                   </p>
                 </div>
               </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </section>

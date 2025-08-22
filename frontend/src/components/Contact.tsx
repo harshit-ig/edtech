@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { contactData } from "../data/about";
+import { useState, useEffect } from "react";
+import { getContactDataData } from "../utils/dataAdapter";
+import type { ContactData } from "../types";
 import { submitContactForm, type ContactFormData } from "../api";
 
 export default function ContactSection() {
@@ -11,6 +12,28 @@ export default function ContactSection() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [contactData, setContactData] = useState<ContactData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadContactData = async () => {
+      try {
+        const data = await getContactDataData();
+        setContactData(data);
+      } catch (error) {
+        console.error('Error loading contact data:', error);
+        setContactData({
+          offices: [],
+          responseTime: 'We respond within 24 hours',
+          mapEmbedUrl: ''
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadContactData();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -33,6 +56,16 @@ export default function ContactSection() {
       setTimeout(() => setSubmitStatus('idle'), 5000);
     }
   };
+
+  if (loading || !contactData) {
+    return (
+      <section className="py-16 md:py-24 bg-gradient-to-b from-bg-deep via-bg-deep to-edtech-blue/5">
+        <div className="mx-auto max-w-7xl px-6 text-center">
+          <div className="text-white/70 text-lg">Loading contact information...</div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-16 md:py-24 bg-gradient-to-b from-bg-deep via-bg-deep to-edtech-blue/5">

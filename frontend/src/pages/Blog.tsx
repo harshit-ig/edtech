@@ -1,20 +1,71 @@
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import TechBackground from "../TechBackground";
 import useRevealOnScroll from "../hooks/useRevealOnScroll";
-import { blogPosts, categories, featuredPosts } from "../data/blog";
+import { getBlogPostsData, getBlogCategoriesData, getFeaturedBlogPostsData } from "../utils/dataAdapter";
+import type { BlogPost } from "../types";
 
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // Add scroll reveal animations
   useRevealOnScroll();
 
-  const allCategories = useMemo(() => ['All', ...categories], []);
+  useEffect(() => {
+    const loadBlogData = async () => {
+      try {
+        const [postsData, categoriesData, featuredData] = await Promise.all([
+          getBlogPostsData(),
+          getBlogCategoriesData(),
+          getFeaturedBlogPostsData()
+        ]);
+        
+        setBlogPosts(postsData);
+        setCategories(categoriesData);
+        setFeaturedPosts(featuredData);
+      } catch (error) {
+        console.error('Error loading blog data:', error);
+        setBlogPosts([]);
+        setCategories([]);
+        setFeaturedPosts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadBlogData();
+  }, []);
+
+  // Initialize scroll reveal for dynamic content after data loads
+  useEffect(() => {
+    if (!loading && (blogPosts.length > 0 || featuredPosts.length > 0)) {
+      const timer = setTimeout(() => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("visible");
+            });
+          },
+          { threshold: 0.1 }
+        );
+        
+        const blogRevealElements = document.querySelectorAll('.blog-reveal');
+        blogRevealElements.forEach((el) => observer.observe(el));
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [loading, blogPosts.length, featuredPosts.length]);
+
+  const allCategories = useMemo(() => ['All', ...categories], [categories]);
   
   // Memoize filtered posts for better performance
   const filteredPosts = useMemo(() => 
@@ -68,7 +119,7 @@ export default function BlogPage() {
             </p>
 
             {/* Blog Stats Preview */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-4xl mx-auto mb-12 reveal">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-4xl mx-auto mb-12 blog-reveal reveal">
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
                 <div className="text-3xl md:text-4xl font-bold text-edtech-green mb-2">{blogPosts.length}+</div>
                 <div className="text-white/80 text-sm font-medium">Expert Articles</div>
@@ -140,7 +191,7 @@ export default function BlogPage() {
                 </p>
               </div>
               
-              <div className="grid lg:grid-cols-2 gap-8 mb-12 reveal">
+              <div className="grid lg:grid-cols-2 gap-8 mb-12 blog-reveal reveal">
                 {featuredPosts.slice(0, 2).map((post) => (
                   <article key={post.id} className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:scale-[1.02]">
                     {/* Featured Badge */}
@@ -249,8 +300,12 @@ export default function BlogPage() {
               )}
             </div>
 
-            {filteredPosts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="text-white/70 text-lg">Loading blog posts...</div>
+              </div>
+            ) : filteredPosts.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 blog-reveal reveal">
                 {filteredPosts.map((post) => (
                   <article key={post.id} className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300 hover:scale-[1.02] group relative overflow-hidden">
                     {/* Article Header */}

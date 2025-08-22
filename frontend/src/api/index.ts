@@ -116,9 +116,238 @@ export const submitCourseEnrollment = async (enrollmentData: CourseEnrollmentDat
   }
 };
 
-// Future backend APIs to add:
-// export const getCourses = async () => { ... }
-// export const enrollInCourse = async (courseId: string) => { ... }
-// export const authenticateUser = async (credentials) => { ... }
-// export const getUser = async (userId: string) => { ... }
-// export const updateProfile = async (profileData) => { ... }
+// Backend API Configuration
+const API_BASE_URL = import.meta.env.MODE === 'production' 
+  ? 'https://your-production-api.com/api' 
+  : '/api'; // Use proxy in development
+
+// Generic API error handling
+interface APIError {
+  status: number;
+  message: string;
+  name: string;
+}
+
+const createAPIError = (status: number, message: string): APIError => ({
+  status,
+  message,
+  name: 'APIError'
+});
+
+// Generic fetch wrapper with error handling
+const apiRequest = async <T>(endpoint: string, options: RequestInit = {}): Promise<T> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+      ...options,
+    });
+
+    if (!response.ok) {
+      const apiError = createAPIError(response.status, `API Error: ${response.statusText}`);
+      throw new Error(apiError.message);
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('API Error:')) {
+      throw error;
+    }
+    console.error(`API request failed for ${endpoint}:`, error);
+    throw new Error('Network error occurred. Please check your connection.');
+  }
+};
+
+// ===== COMPANY & ABOUT DATA APIs =====
+
+export const getCompanyInfo = async () => {
+  return apiRequest<any>('/company/info');
+};
+
+export const getTeamMembers = async () => {
+  return apiRequest<any>('/company/team');
+};
+
+export const getCompanyValues = async () => {
+  return apiRequest<any>('/company/values');
+};
+
+export const getAboutStats = async () => {
+  return apiRequest<any>('/company/stats');
+};
+
+export const getCompanyMilestones = async () => {
+  return apiRequest<any>('/company/milestones');
+};
+
+export const getContactData = async () => {
+  return apiRequest<any>('/company/contact');
+};
+
+export const getUpcomingSkills = async () => {
+  return apiRequest<any>('/company/skills');
+};
+
+export const getHighlightedCountries = async () => {
+  return apiRequest<any>('/company/countries');
+};
+
+// Combined about data endpoint
+export const getAboutData = async () => {
+  return apiRequest<any>('/company/about');
+};
+
+// ===== COURSES APIs =====
+
+export const getAllCourses = async () => {
+  return apiRequest<any>('/courses');
+};
+
+export const getFeaturedCourses = async () => {
+  return apiRequest<any>('/courses/featured');
+};
+
+export const getCourseById = async (courseId: string) => {
+  return apiRequest<any>(`/courses/${courseId}`);
+};
+
+export const getCourseDetails = async (courseId: string) => {
+  return apiRequest<any>(`/courses/${courseId}/details`);
+};
+
+export const getCoursePricing = async () => {
+  return apiRequest<any>('/courses/pricing/all');
+};
+
+export const getCoursePricingById = async (courseId: string) => {
+  return apiRequest<any>(`/courses/pricing/${courseId}`);
+};
+
+// ===== BLOG APIs =====
+
+export const getAllBlogPosts = async (params?: {
+  category?: string;
+  featured?: boolean;
+  limit?: number;
+  offset?: number;
+}) => {
+  const searchParams = new URLSearchParams();
+  if (params?.category) searchParams.append('category', params.category);
+  if (params?.featured) searchParams.append('featured', 'true');
+  if (params?.limit) searchParams.append('limit', params.limit.toString());
+  if (params?.offset) searchParams.append('offset', params.offset.toString());
+  
+  const query = searchParams.toString();
+  return apiRequest<any>(`/blog${query ? `?${query}` : ''}`);
+};
+
+export const getBlogPostBySlug = async (slug: string) => {
+  return apiRequest<any>(`/blog/slug/${slug}`);
+};
+
+export const getBlogPostById = async (postId: string) => {
+  return apiRequest<any>(`/blog/id/${postId}`);
+};
+
+export const getFeaturedBlogPosts = async () => {
+  return apiRequest<any>('/blog/featured');
+};
+
+export const getBlogCategories = async () => {
+  return apiRequest<any>('/blog/categories');
+};
+
+export const getPostsByCategory = async (category: string) => {
+  return apiRequest<any>(`/blog/category/${category}`);
+};
+
+export const getRelatedPosts = async (slug: string, limit = 3) => {
+  return apiRequest<any>(`/blog/slug/${slug}/related?limit=${limit}`);
+};
+
+// ===== OTHER DATA APIs =====
+
+export const getFAQs = async () => {
+  return apiRequest<any>('/faqs');
+};
+
+export const getMentors = async () => {
+  return apiRequest<any>('/mentors');
+};
+
+export const getMentorFeatures = async () => {
+  return apiRequest<any>('/mentors/features');
+};
+
+export const getPartnerCompanies = async () => {
+  return apiRequest<any>('/mentors/companies');
+};
+
+// Combined mentor data
+export const getMentorData = async () => {
+  return apiRequest<any>('/mentors/all');
+};
+
+export const getAdvantageStats = async () => {
+  return apiRequest<any>('/stats');
+};
+
+export const getTestimonials = async () => {
+  return apiRequest<any>('/testimonials');
+};
+
+export const getCourseIcons = async () => {
+  return apiRequest<any>('/icons');
+};
+
+export const getIconCategories = async () => {
+  return apiRequest<any>('/icons/categories');
+};
+
+export const getIconByName = async (iconName: string) => {
+  return apiRequest<any>(`/icons/${iconName}`);
+};
+
+// Combined icons data
+export const getIconsData = async () => {
+  return apiRequest<any>('/icons/all');
+};
+
+export const getGeoData = async () => {
+  return apiRequest<any>('/geo');
+};
+
+// ===== HELPER FUNCTIONS (maintain frontend compatibility) =====
+
+// Helper functions that mirror the frontend data utilities
+export const getIcon = async (iconName?: string): Promise<string> => {
+  try {
+    if (!iconName) {
+      const icons = await getCourseIcons();
+      return icons.default || 'M13 10V3L4 14h7v7l9-11h-7z';
+    }
+    
+    const icons = await getCourseIcons();
+    return icons[iconName] || icons.default || 'M13 10V3L4 14h7v7l9-11h-7z';
+  } catch (error) {
+    console.error('Error fetching icon:', error);
+    return 'M13 10V3L4 14h7v7l9-11h-7z'; // fallback icon
+  }
+};
+
+// Legacy compatibility functions
+export const getCourseIcon = async (course: { iconName?: string }): Promise<string> => {
+  return getIcon(course.iconName);
+};
+
+// Helper for getting specific data with fallbacks
+export const getPostBySlug = async (slug: string) => {
+  return getBlogPostBySlug(slug);
+};
+
+// Health check endpoint
+export const healthCheck = async () => {
+  return apiRequest<any>('/health');
+};

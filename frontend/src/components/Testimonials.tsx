@@ -1,6 +1,65 @@
-import { testimonials, successStats } from '../data/testimonials';
+import { useState, useEffect } from 'react';
+import { getTestimonialsData } from '../utils/dataAdapter';
+import type { Testimonial } from '../types';
 
 export default function Testimonials() {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Static success stats (these don't change often, so keeping them static for now)
+  const successStats = [
+    { value: '1000+', label: 'Students Trained' },
+    { value: '95%', label: 'Job Placement Rate' },
+    { value: '4.9/5', label: 'Average Rating' }
+  ];
+
+  useEffect(() => {
+    const loadTestimonials = async () => {
+      try {
+        const data = await getTestimonialsData();
+        setTestimonials(data);
+      } catch (error) {
+        console.error('Error loading testimonials:', error);
+        setTestimonials([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTestimonials();
+  }, []);
+
+  // Initialize scroll reveal for dynamic content after data loads
+  useEffect(() => {
+    if (!loading && testimonials.length > 0) {
+      const timer = setTimeout(() => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("visible");
+            });
+          },
+          { threshold: 0.1 }
+        );
+        
+        const testimonialRevealElements = document.querySelectorAll('.testimonial-reveal');
+        testimonialRevealElements.forEach((el) => observer.observe(el));
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [loading, testimonials.length]);
+
+  if (loading) {
+    return (
+      <section id="testimonials" className="py-16 md:py-24 relative overflow-hidden bg-white">
+        <div className="mx-auto max-w-7xl px-6 text-center">
+          <div className="text-gray-600 text-lg">Loading testimonials...</div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="testimonials" className="py-16 md:py-24 relative overflow-hidden bg-white">
       <div className="mx-auto max-w-7xl px-6">
@@ -22,7 +81,7 @@ export default function Testimonials() {
         {/* Success Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {successStats.map((stat, index) => (
-            <div key={index} className="text-center reveal">
+            <div key={index} className="text-center testimonial-reveal reveal">
               <div className={`text-4xl md:text-5xl font-extrabold mb-2 ${
                 index === 0 ? 'text-edtech-green' : 
                 index === 1 ? 'text-edtech-orange' : 
@@ -39,10 +98,15 @@ export default function Testimonials() {
 
         {/* Testimonials Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial) => (
+          {testimonials.length === 0 ? (
+            <div className="col-span-full text-center text-gray-600">
+              No testimonials available at the moment.
+            </div>
+          ) : (
+            testimonials.map((testimonial) => (
             <article 
               key={testimonial.id} 
-              className="testimonial-card group reveal"
+              className="testimonial-card group testimonial-reveal reveal"
               data-accent={testimonial.accent}
             >
               {/* Category Badge */}
@@ -92,7 +156,8 @@ export default function Testimonials() {
                 <div className="pulse-dot"></div>
               </div>
             </article>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </section>

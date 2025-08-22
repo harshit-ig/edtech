@@ -1,6 +1,58 @@
-import { mentorFeatures as features } from '../data/mentors';
+import { useState, useEffect } from 'react';
+import { getMentorFeaturesData } from '../utils/dataAdapter';
+import type { MentorFeature } from '../types';
 
 export default function WhyChooseUs() {
+  const [features, setFeatures] = useState<MentorFeature[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadFeatures = async () => {
+      try {
+        const data = await getMentorFeaturesData();
+        setFeatures(data);
+      } catch (error) {
+        console.error('Error loading mentor features:', error);
+        setFeatures([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadFeatures();
+  }, []);
+
+  // Initialize scroll reveal animation after features are loaded
+  useEffect(() => {
+    if (!loading && features.length > 0) {
+      const timer = setTimeout(() => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("visible");
+            });
+          },
+          { threshold: 0.1 }
+        );
+        
+        const featureCards = document.querySelectorAll('.advantage-stat-card.reveal');
+        featureCards.forEach((el) => observer.observe(el));
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [loading, features.length]);
+
+  if (loading) {
+    return (
+      <section className="py-16 md:py-24 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <div className="text-gray-600 text-lg">Loading features...</div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <>
       <section className="py-16 md:py-24 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
