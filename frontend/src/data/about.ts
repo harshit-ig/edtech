@@ -117,7 +117,7 @@ export const companyValues: Value[] = [
 export const aboutStats: Stat[] = [
   { number: "50,000+", label: "Students Graduated", color: "edtech-green" },
   { number: "95%", label: "Job Placement Rate", color: "edtech-orange" },
-  { number: "150+", label: "Industry Partners", color: "edtech-blue" },
+  { number: "150+", label: "Industry Partners", color: "edtech-red" },
   { number: "4.9/5", label: "Average Rating", color: "edtech-green" }
 ];
 
