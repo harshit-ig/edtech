@@ -1,13 +1,18 @@
+
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import FloatingDots from "../FloatingDots";
+import TechBackground from "../TechBackground";
+import useRevealOnScroll from "../hooks/useRevealOnScroll";
 import { blogPosts, categories, featuredPosts } from "../data/blog";
 
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Add scroll reveal animations
+  useRevealOnScroll();
 
   const allCategories = useMemo(() => ['All', ...categories], []);
   
@@ -37,48 +42,79 @@ export default function BlogPage() {
     <div className="min-h-screen">
       <Navbar />
       
-      {/* Background dots */}
+      {/* Background */}
       <div className="fixed inset-0 -z-10">
-        <FloatingDots numDots={50} className="mix-blend-screen opacity-40" />
+        <TechBackground className="mix-blend-screen opacity-30" />
       </div>
       
       <main className="pt-20">
-        {/* Hero Section */}
-        <section className="py-16 md:py-24">
-          <div className="mx-auto max-w-7xl px-6">
-            <div className="text-center mb-16">
-              <div className="badge-hero mx-auto w-max mb-6">
-                <span>📝</span><span>TECH INSIGHTS</span>
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6">
-                Latest <span className="text-glow-green">Tech Insights</span> & Tutorials
-              </h1>
-              <p className="text-white/80 text-lg md:text-xl max-w-3xl mx-auto mb-12">
-                Stay updated with the latest trends, tutorials, and insights from the world of technology. 
-                Learn from industry experts and advance your career.
-              </p>
+        {/* SECTION 1: Hero Section - BRAND COLORS */}
+        <section className="py-16 md:py-24 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-edtech-blue via-bg-deep to-edtech-blue/90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+          <TechBackground className="opacity-15" />
+          
+          <div className="relative mx-auto max-w-7xl px-6 text-center">
+            <div className="badge-hero mx-auto w-max mb-8 reveal">
+              <span>📝</span><span>TECH INSIGHTS & TUTORIALS</span>
+            </div>
 
-              {/* Search and Filter */}
-              <div className="max-w-4xl mx-auto">
-                <div className="flex flex-col gap-4 mb-8">
-                  <div className="w-full">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold mb-8 leading-tight reveal">
+              Latest <span className="text-transparent bg-clip-text bg-gradient-to-r from-edtech-green to-edtech-orange">Tech Insights</span> & Tutorials
+            </h1>
+            <p className="text-white/80 text-xl md:text-2xl max-w-4xl mx-auto mb-12 leading-relaxed reveal">
+              Stay ahead of the curve with cutting-edge insights, expert tutorials, and industry trends 
+              that shape the future of technology and accelerate your career growth
+            </p>
+
+            {/* Blog Stats Preview */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-4xl mx-auto mb-12 reveal">
+              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                <div className="text-3xl md:text-4xl font-bold text-edtech-green mb-2">{blogPosts.length}+</div>
+                <div className="text-white/80 text-sm font-medium">Expert Articles</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                <div className="text-3xl md:text-4xl font-bold text-edtech-orange mb-2">{categories.length}</div>
+                <div className="text-white/80 text-sm font-medium">Categories</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                <div className="text-3xl md:text-4xl font-bold text-edtech-blue mb-2">Weekly</div>
+                <div className="text-white/80 text-sm font-medium">New Content</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2">Expert</div>
+                <div className="text-white/80 text-sm font-medium">Authors</div>
+              </div>
+            </div>
+
+            {/* Enhanced Search and Filter */}
+            <div className="max-w-5xl mx-auto reveal">
+              <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-8">
+                <h3 className="text-2xl font-bold text-white mb-6">Find Your Next Read</h3>
+                <div className="flex flex-col gap-6">
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+                      <svg className="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                    </div>
                     <input
                       type="text"
-                      placeholder="Search articles..."
+                      placeholder="Search articles, tutorials, technologies, or topics..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full bg-black/30 border border-white/10 rounded-lg px-6 py-3 text-white placeholder-white/50 focus:outline-none focus:border-edtech-green/50 focus:bg-black/40 transition-all min-w-0"
+                      className="w-full bg-white/10 border-2 border-white/20 rounded-2xl pl-16 pr-6 py-4 text-white placeholder-white/50 focus:outline-none focus:border-edtech-green/50 focus:bg-white/15 transition-all text-lg"
                     />
                   </div>
-                  <div className="flex flex-wrap gap-2 justify-center">
+                  <div className="flex flex-wrap gap-3 justify-center">
                     {allCategories.map(category => (
                       <button
                         key={category}
                         onClick={() => setSelectedCategory(category)}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                        className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:scale-105 ${
                           selectedCategory === category
-                            ? 'bg-edtech-green text-black'
-                            : 'bg-white/10 text-white/70 hover:bg-white/20 hover:text-white'
+                            ? 'bg-gradient-to-r from-edtech-green to-edtech-orange text-black shadow-lg'
+                            : 'bg-white/10 text-white/80 hover:bg-white/20 hover:text-white border border-white/20'
                         }`}
                       >
                         {category}
@@ -91,63 +127,89 @@ export default function BlogPage() {
           </div>
         </section>
 
-        {/* Featured Posts Section */}
+        {/* SECTION 2: Featured Posts - LIGHT THEME */}
         {selectedCategory === 'All' && !searchTerm && (
-          <section className="py-12 bg-black/20">
+          <section className="py-16 md:py-20 bg-gradient-to-br from-white via-gray-50 to-white">
             <div className="mx-auto max-w-7xl px-6">
-              <h2 className="text-2xl md:text-3xl font-bold mb-12 text-center">Featured Articles</h2>
+              <div className="text-center mb-12 reveal">
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                  <span className="text-edtech-blue">Featured</span> Articles
+                </h2>
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                  Discover our most popular and insightful articles that are shaping the tech industry
+                </p>
+              </div>
               
-              <div className="grid lg:grid-cols-2 gap-8">
-                {featuredPosts.slice(0, 2).map((post, _index) => (
-                  <article key={post.id} className="card p-0 overflow-hidden hover:transform hover:scale-105 transition-all duration-300">
-                    <div className="aspect-video bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 relative">
+              <div className="grid lg:grid-cols-2 gap-8 mb-12 reveal">
+                {featuredPosts.slice(0, 2).map((post) => (
+                  <article key={post.id} className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:scale-[1.02]">
+                    {/* Featured Badge */}
+                    <div className="absolute top-6 right-6 z-10">
+                      <span className="bg-gradient-to-r from-edtech-green to-edtech-orange text-black px-4 py-2 rounded-full text-xs font-bold shadow-lg">
+                        ⭐ FEATURED
+                      </span>
+                    </div>
+
+                    {/* Article Image Placeholder */}
+                    <div className="aspect-video bg-gradient-to-br from-edtech-blue/10 to-edtech-green/10 relative overflow-hidden">
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center">
-                          <svg className="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                          <svg className="w-8 h-8 text-edtech-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                           </svg>
                         </div>
                       </div>
-                      <div className="absolute top-4 left-4">
-                        <span className="bg-edtech-green text-black px-3 py-1 rounded-full text-xs font-bold">
-                          FEATURED
+                      <div className="absolute top-6 left-6">
+                        <span className="bg-edtech-blue/20 backdrop-blur-sm text-edtech-blue px-3 py-1.5 rounded-full text-sm font-medium border border-edtech-blue/20">
+                          {post.category}
                         </span>
                       </div>
                     </div>
                     
-                    <div className="p-6">
-                      <div className="flex items-center gap-4 mb-3 text-sm text-white/60">
-                        <span className="bg-edtech-blue/20 text-edtech-blue px-2 py-1 rounded text-xs font-medium">
-                          {post.category}
-                        </span>
-                        <span>{formatDate(post.publishedAt)}</span>
-                        <span>{post.readTime} min read</span>
+                    <div className="p-8">
+                      <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
+                        <div className="flex items-center gap-2">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                          <span>{formatDate(post.publishedAt)}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span>{post.readTime} min read</span>
+                        </div>
                       </div>
                       
-                      <h3 className="text-xl font-bold mb-3 line-clamp-2 hover:text-edtech-green transition-colors">
-                        <Link to={`/blog/${post.slug}`}>{post.title}</Link>
+                      <h3 className="text-2xl font-bold mb-4 line-clamp-2 hover:text-edtech-blue transition-colors group-hover:text-edtech-blue">
+                        <Link to={`/blog/${post.slug}`} className="block">
+                          {post.title}
+                        </Link>
                       </h3>
                       
-                      <p className="text-white/70 line-clamp-3 mb-4">{post.excerpt}</p>
+                      <p className="text-gray-600 line-clamp-3 mb-6 leading-relaxed">
+                        {post.excerpt}
+                      </p>
                       
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 rounded-full flex items-center justify-center">
-                            <span className="text-xs font-bold">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 rounded-full flex items-center justify-center border-2 border-gray-100">
+                            <span className="font-bold text-edtech-blue">
                               {post.author.name.charAt(0)}
                             </span>
                           </div>
                           <div>
-                            <div className="font-medium text-sm">{post.author.name}</div>
-                            <div className="text-xs text-white/50">{post.author.role}</div>
+                            <div className="font-semibold text-gray-900">{post.author.name}</div>
+                            <div className="text-sm text-gray-500">{post.author.role}</div>
                           </div>
                         </div>
                         
                         <Link 
                           to={`/blog/${post.slug}`}
-                          className="text-edtech-green hover:text-edtech-orange transition-colors font-medium text-sm"
+                          className="bg-gradient-to-r from-edtech-green to-edtech-orange text-black px-6 py-3 rounded-full font-semibold hover:brightness-110 transition-all duration-300 hover:scale-105 text-sm"
                         >
-                          Read More →
+                          Read Article →
                         </Link>
                       </div>
                     </div>
@@ -158,13 +220,21 @@ export default function BlogPage() {
           </section>
         )}
 
-        {/* All Posts Section */}
-        <section className="py-16">
-          <div className="mx-auto max-w-7xl px-6">
-            <div className="mb-8 flex items-center justify-between">
-              <h2 className="text-2xl font-bold">
-                {selectedCategory === 'All' && !searchTerm ? 'All Articles' : `${filteredPosts.length} Article${filteredPosts.length !== 1 ? 's' : ''} Found`}
-              </h2>
+        {/* SECTION 3: All Posts Grid - DARK */}
+        <section className="py-16 md:py-20 relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-bg-deep via-bg-deep to-edtech-blue/5" />
+          
+          <div className="relative mx-auto max-w-7xl px-6">
+            <div className="flex items-center justify-between mb-12 reveal">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                  All <span className="text-edtech-orange">Articles</span>
+                </h2>
+                <p className="text-white/70 text-lg">
+                  Showing {filteredPosts.length} article{filteredPosts.length !== 1 ? 's' : ''}
+                  {selectedCategory !== 'All' && ` in ${selectedCategory}`}
+                </p>
+              </div>
               
               {(selectedCategory !== 'All' || searchTerm) && (
                 <button
@@ -172,7 +242,7 @@ export default function BlogPage() {
                     setSelectedCategory('All');
                     setSearchTerm('');
                   }}
-                  className="text-edtech-green hover:text-edtech-orange transition-colors text-sm font-medium"
+                  className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full font-medium transition-all duration-300 border border-white/20 hover:border-white/40"
                 >
                   Clear Filters
                 </button>
@@ -180,152 +250,221 @@ export default function BlogPage() {
             </div>
 
             {filteredPosts.length > 0 ? (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
                 {filteredPosts.map((post) => (
-                  <article key={post.id} className="card p-0 overflow-hidden hover:transform hover:scale-105 transition-all duration-300">
-                    <div className="aspect-video bg-gradient-to-br from-edtech-blue/20 to-edtech-green/20 relative">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
-                          <svg className="w-6 h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                        </div>
+                  <article key={post.id} className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300 hover:scale-[1.02] group relative overflow-hidden">
+                    {/* Article Header */}
+                    <div className="flex items-start justify-between mb-4">
+                      <span className="px-3 py-1 bg-black/30 text-white/80 rounded-full text-xs font-medium border border-white/20">
+                        {post.category}
+                      </span>
+                      <div className="p-3 rounded-xl bg-gradient-to-br from-edtech-blue/20 to-edtech-green/20">
+                        <svg className="w-6 h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
                       </div>
-                      {post.featured && (
-                        <div className="absolute top-3 left-3">
-                          <span className="bg-edtech-orange text-black px-2 py-1 rounded text-xs font-bold">
-                            FEATURED
+                    </div>
+
+                    {/* Article Content */}
+                    <div className="mb-6">
+                      <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-edtech-orange transition-colors">
+                        <Link to={`/blog/${post.slug}`} className="block">
+                          {post.title}
+                        </Link>
+                      </h3>
+                      <p className="text-white/70 text-sm line-clamp-3 leading-relaxed">
+                        {post.excerpt}
+                      </p>
+                    </div>
+
+                    {/* Article Meta */}
+                    <div className="flex items-center gap-4 text-xs text-white/60 mb-6">
+                      <span className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-emerald-400"></div>
+                        {formatDate(post.publishedAt)}
+                      </span>
+                      <span className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-blue-400"></div>
+                        {post.readTime} min read
+                      </span>
+                    </div>
+
+                    {/* Author and Read More */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 rounded-full flex items-center justify-center border border-white/20">
+                          <span className="text-xs font-bold text-white">
+                            {post.author.name.charAt(0)}
                           </span>
                         </div>
-                      )}
+                        <div>
+                          <div className="text-xs text-white/80 font-medium">{post.author.name}</div>
+                          <div className="text-xs text-white/50">{post.author.role}</div>
+                        </div>
+                      </div>
+                      
+                      <Link 
+                        to={`/blog/${post.slug}`}
+                        className="text-edtech-green hover:text-edtech-orange transition-colors text-sm font-medium"
+                      >
+                        Read More →
+                      </Link>
+                    </div>
+
+                    {/* Tags */}
+                    <div className="pt-4 border-t border-white/10">
+                      <div className="flex flex-wrap gap-2">
+                        {post.tags.slice(0, 3).map((tag, tagIndex) => (
+                          <span key={tagIndex} className="text-xs bg-white/5 text-white/50 px-2 py-1 rounded border border-white/10">
+                            #{tag}
+                          </span>
+                        ))}
+                        {post.tags.length > 3 && (
+                          <span className="text-xs text-white/50 px-2 py-1">
+                            +{post.tags.length - 3} more
+                          </span>
+                        )}
+                      </div>
                     </div>
                     
-                    <div className="p-4">
-                      <div className="flex items-center gap-3 mb-3 text-sm text-white/60">
-                        <span className="bg-edtech-blue/20 text-edtech-blue px-2 py-1 rounded text-xs font-medium">
-                          {post.category}
-                        </span>
-                        <span>{formatDate(post.publishedAt)}</span>
-                      </div>
-                      
-                      <h3 className="text-lg font-bold mb-2 line-clamp-2 hover:text-edtech-green transition-colors">
-                        <Link to={`/blog/${post.slug}`}>{post.title}</Link>
-                      </h3>
-                      
-                      <p className="text-white/70 text-sm line-clamp-3 mb-4">{post.excerpt}</p>
-                      
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 rounded-full flex items-center justify-center">
-                            <span className="text-xs font-bold">
-                              {post.author.name.charAt(0)}
-                            </span>
-                          </div>
-                          <span className="text-xs text-white/60">{post.author.name}</span>
-                        </div>
-                        
-                        <div className="flex items-center gap-2 text-xs text-white/50">
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          <span>{post.readTime} min</span>
-                        </div>
-                      </div>
-                      
-                      <div className="mt-4 pt-4 border-t border-white/10">
-                        <div className="flex flex-wrap gap-1">
-                          {post.tags.slice(0, 3).map((tag, tagIndex) => (
-                            <span key={tagIndex} className="text-xs bg-white/5 text-white/50 px-2 py-1 rounded">
-                              {tag}
-                            </span>
-                          ))}
-                          {post.tags.length > 3 && (
-                            <span className="text-xs text-white/50 px-2 py-1">
-                              +{post.tags.length - 3} more
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+                    {/* Featured Badge */}
+                    {post.featured && (
+                      <span className="absolute top-4 right-4 bg-gradient-to-r from-edtech-green to-edtech-orange text-black px-2.5 py-1 text-xs font-bold rounded-full shadow-lg">
+                        FEATURED
+                      </span>
+                    )}
                   </article>
                 ))}
               </div>
             ) : (
               <div className="text-center py-16">
-                <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">No articles found</h3>
-                <p className="text-white/70 mb-6">
-                  Try adjusting your search or filter criteria to find what you're looking for.
-                </p>
-                <button
+                <div className="text-6xl mb-6">🔍</div>
+                <h3 className="text-2xl font-bold text-white mb-4">No articles found</h3>
+                <p className="text-white/70 text-lg mb-8">Try adjusting your search or filter criteria</p>
+                <button 
                   onClick={() => {
-                    setSelectedCategory('All');
                     setSearchTerm('');
+                    setSelectedCategory('All');
                   }}
-                  className="cta cta-secondary"
+                  className="bg-gradient-to-r from-edtech-green to-edtech-orange text-black px-8 py-3 rounded-full font-semibold hover:brightness-110 transition-all duration-300"
                 >
-                  View All Articles
+                  Reset Filters
                 </button>
               </div>
             )}
           </div>
         </section>
 
-        {/* Newsletter Section */}
-        <section className="py-16 md:py-24 bg-black/20">
-          <div className="mx-auto max-w-4xl px-6 text-center">
-            <div className="card p-8 md:p-12">
-              <div className="w-16 h-16 bg-edtech-green/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-edtech-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        {/* SECTION 4: Newsletter Section - LIGHT */}
+        <section className="py-16 md:py-20 bg-gradient-to-br from-white via-gray-50 to-white">
+          <div className="mx-auto max-w-5xl px-6 text-center">
+            <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 md:p-12 reveal">
+              <div className="w-20 h-20 bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 rounded-full flex items-center justify-center mx-auto mb-8 border-2 border-gray-100">
+                <svg className="w-10 h-10 text-edtech-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Never Miss an Update
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                Never Miss an <span className="text-edtech-blue">Update</span>
               </h2>
-              <p className="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
+              <p className="text-gray-600 text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
                 Subscribe to our newsletter and get the latest tech insights, tutorials, and career advice 
-                delivered straight to your inbox.
+                delivered straight to your inbox every week.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+              <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto mb-6">
                 <input
                   type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 bg-black/30 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-edtech-green/50"
+                  placeholder="Enter your email address"
+                  className="flex-1 bg-gray-50 border-2 border-gray-200 rounded-xl px-6 py-4 text-gray-900 placeholder-gray-500 focus:outline-none focus:border-edtech-blue focus:ring-2 focus:ring-edtech-blue/20 transition-all text-lg"
                 />
-                <button className="cta cta-primary whitespace-nowrap">
-                  Subscribe
+                <button className="bg-gradient-to-r from-edtech-green to-edtech-orange text-black px-8 py-4 rounded-xl font-bold hover:brightness-110 transition-all duration-300 hover:scale-105 whitespace-nowrap">
+                  Subscribe Now
                 </button>
               </div>
-              <p className="text-xs text-white/50 mt-4">
-                No spam. Unsubscribe anytime. We respect your privacy.
-              </p>
+              <div className="flex items-center justify-center gap-8 text-sm text-gray-500">
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>No spam</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>Weekly insights</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>Unsubscribe anytime</span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-16 md:py-24">
-          <div className="mx-auto max-w-4xl px-6 text-center">
-            <div className="card p-8 md:p-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Ready to Level Up Your Skills?
+        {/* SECTION 5: CTA Section - ENHANCED DARK */}
+        <section className="py-16 md:py-24 bg-gradient-to-br from-edtech-blue via-bg-deep to-edtech-blue relative overflow-hidden">
+          <div className="absolute inset-0">
+            <TechBackground className="opacity-10" />
+          </div>
+          
+          <div className="relative mx-auto max-w-5xl px-6 text-center">
+            <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-8 md:p-12 reveal">
+              <div className="mb-6">
+                <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-white/10 text-white border border-white/20">
+                  🚀 Ready to Transform Your Career?
+                </span>
+              </div>
+              
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                Turn <span className="text-transparent bg-clip-text bg-gradient-to-r from-edtech-green to-edtech-orange">Knowledge</span> into Action
               </h2>
-              <p className="text-white/80 text-lg mb-8">
-                Don't just read about technology - learn it hands-on with our comprehensive courses 
-                designed by industry experts.
+              
+              <p className="text-white/80 text-xl mb-8 leading-relaxed max-w-3xl mx-auto">
+                Don't just read about technology - master it hands-on with our comprehensive courses 
+                designed by industry experts who've built real-world solutions.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/courses" className="cta cta-primary">
-                  Browse Courses
+
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                <Link 
+                  to="/courses" 
+                  className="bg-gradient-to-r from-edtech-green to-edtech-orange text-black px-8 py-4 rounded-full font-bold text-lg hover:brightness-110 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                >
+                  🎯 Explore Our Courses
                 </Link>
-                <Link to="/contact" className="cta cta-secondary">
-                  Get Free Consultation
+                <Link 
+                  to="/contact" 
+                  className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105"
+                >
+                  💬 Get Free Consultation
                 </Link>
+              </div>
+
+              {/* Trust Indicators */}
+              <div className="mt-8 pt-8 border-t border-white/20">
+                <div className="flex flex-wrap justify-center items-center gap-8 text-white/60">
+                  <div className="flex items-center gap-2">
+                    <svg className="w-5 h-5 text-edtech-green" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    <span className="text-sm">4.8/5 Rating</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg className="w-5 h-5 text-edtech-blue" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-sm">1000+ Success Stories</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg className="w-5 h-5 text-edtech-orange" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-sm">Industry Certified</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
