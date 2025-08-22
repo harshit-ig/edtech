@@ -88,7 +88,7 @@ export default function Navbar() {
                             <span className={`px-2 py-1 rounded-full text-black font-bold text-xs ${
                               course.badge === 'FEATURED' ? 'bg-edtech-red' :
                               course.badge === 'TRENDING' ? 'bg-edtech-green' :
-                              course.badge === 'MOST POPULAR' ? 'bg-edtech-orange' : 'bg-edtech-blue'
+                              course.badge === 'MOST POPULAR' ? 'bg-edtech-orange' : 'bg-white'
                             }`}>
                               {course.badge}
                             </span>
