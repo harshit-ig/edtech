@@ -26,7 +26,7 @@ export default function Hero() {
       
       {/* Role Carousel positioned on RIGHT side as background - hidden on small screens */}
       <div className="absolute right-8 md:right-12 lg:right-16 xl:right-50 top-0 w-1/2 h-full items-center justify-end hidden md:flex -z-10">
-        <RoleCarousel rolesList={companyInfo.heroRoles} interval={3000} />
+        <RoleCarousel rolesList={companyInfo.carouselRoles} interval={3000} />
       </div>
       
       {/* Gradient overlays for better text readability */}
@@ -40,11 +40,7 @@ export default function Hero() {
             <h1 className="type-glow text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-wide leading-tight">
               <Typewriter
                 options={{
-                  strings: [
-                    'Data • AI • Analytics ',
-                    'Generative AI',
-                    'Data Science',
-                  ],
+                  strings: companyInfo.heroRoles,
                   autoStart: true,
                   loop: true,
                   delay: 40,

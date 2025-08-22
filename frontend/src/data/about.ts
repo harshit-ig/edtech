@@ -47,6 +47,7 @@ export interface CompanyInfo {
   whatsappNumber: string;
   supportEmail: string;
   heroRoles: string[];
+  carouselRoles: string[];
   marketingStats: { number: string; label: string }[];
 }
 
@@ -183,12 +184,17 @@ export const companyInfo: CompanyInfo = {
   whatsappNumber: "+919643274676",
   supportEmail: "support@edtechinformative.com",
   heroRoles: [
+    "Data • AI • Analytics ",
+    "Generative AI",
+    "Data Science"
+
+  ],
+  carouselRoles: [
     "Data Analyst",
     "Data Scientist", 
     "AI Researcher",
     "Data Engineer",
     "Generative AI"
-
   ],
   marketingStats: [
     { number: "99.9%", label: "Uptime" },
