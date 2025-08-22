@@ -6,6 +6,7 @@ import RoleCarousel from "./RoleCarousel";
 import { useState, useEffect } from "react";
 import { getCompanyInfoData } from "../utils/dataAdapter";
 import type { CompanyInfo } from "../types";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo | null>(null);
@@ -90,8 +91,8 @@ export default function Hero() {
             Choose tech courses that fit your goals and shape a successful digital future.
           </p>
           <div className="flex items-center justify-center md:justify-start gap-4 flex-wrap">
-            <a id="get-started" href="#featured-programs" className="cta cta-primary">Get Started</a>
-            <a href="#contact" className="cta cta-secondary">Talk to us</a>
+            <Link to="/courses" className="cta cta-primary">Get Started</Link>
+            <Link to="/contact" className="cta cta-secondary">Talk to us</Link>
           </div>
         </div>
       </div>
