@@ -26,7 +26,9 @@ import type {
   GeoJsonCollection,
   AboutDataResponse,
   MentorDataResponse,
-  IconsDataResponse
+  IconsDataResponse,
+  PricingFAQ,
+  CourseBenefit
 } from '../types';
 
 // Cache to avoid repeated API calls for static data
@@ -107,6 +109,22 @@ export const getContactDataData = (): Promise<ContactData> => getCachedData('con
 export const getCompanyInfoData = (): Promise<CompanyInfo> => getCachedData('companyInfo', api.getCompanyInfo);
 export const getUpcomingSkillsData = (): Promise<UpcomingSkill[]> => getCachedData('upcomingSkills', api.getUpcomingSkills);
 export const getHighlightedCountriesData = (): Promise<string[]> => getCachedData('highlightedCountries', api.getHighlightedCountries);
+
+// Helper functions for specific company data
+export const getWhatsAppQuickMessages = async (): Promise<string[]> => {
+  const companyInfo = await getCompanyInfoData();
+  return companyInfo.whatsappQuickMessages || [];
+};
+
+export const getPricingFAQ = async (): Promise<PricingFAQ[]> => {
+  const companyInfo = await getCompanyInfoData();
+  return companyInfo.pricingFaq || [];
+};
+
+export const getCourseBenefitsComparison = async (): Promise<CourseBenefit[]> => {
+  const companyInfo = await getCompanyInfoData();
+  return companyInfo.courseBenefitsComparison || [];
+};
 
 // ===== COURSE DATA ADAPTERS =====
 

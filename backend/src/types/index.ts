@@ -46,12 +46,28 @@ export interface UpcomingSkill {
   accent: string;
 }
 
+export interface PricingFAQ {
+  id: number;
+  question: string;
+  answer: string;
+}
+
+export interface CourseBenefit {
+  feature: string;
+  description: string;
+  us: boolean | string;
+  others: boolean | string;
+}
+
 export interface CompanyInfo {
   whatsappNumber: string;
   supportEmail: string;
   heroRoles: string[];
   carouselRoles: string[];
   marketingStats: { number: string; label: string }[];
+  whatsappQuickMessages: string[];
+  pricingFaq: PricingFAQ[];
+  courseBenefitsComparison: CourseBenefit[];
 }
 
 export interface ContactData {

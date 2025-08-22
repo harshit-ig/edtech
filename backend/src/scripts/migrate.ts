@@ -164,6 +164,27 @@ const aboutData = {
       { number: "+42%", label: "Productivity" },
       { number: "2M+", label: "Automations" },
       { number: "120+", label: "Integrations" }
+    ],
+    whatsappQuickMessages: [
+      "I'm interested in learning more about your courses",
+      "Can you help me choose the right program?",
+      "What are your course schedules?",
+      "I'd like to book a consultation call"
+    ],
+    pricingFaq: [
+      { id: 1, question: "What payment methods do you accept?", answer: "We accept all major credit cards, PayPal, and bank transfers." },
+      { id: 2, question: "Can I get a refund?", answer: "Yes, we offer a 30-day money-back guarantee if you're not satisfied." },
+      { id: 3, question: "Are there any hidden fees?", answer: "No, the price you see is the final price. No hidden fees or charges." }
+    ],
+    courseBenefitsComparison: [
+      { feature: "Expert-Led Live Sessions", description: "Real-time interaction with industry professionals", us: true, others: "Pre-recorded only" },
+      { feature: "1-on-1 Mentorship", description: "Personal guidance and career coaching", us: true, others: false },
+      { feature: "Lifetime Access", description: "Keep access to all materials forever", us: true, others: "Limited time" },
+      { feature: "Industry Certification", description: "Recognized credentials that employers value", us: true, others: "Basic completion certificate" },
+      { feature: "Job Placement Support", description: "Active assistance in finding roles", us: true, others: false },
+      { feature: "Project-Based Learning", description: "Build real-world portfolio projects", us: true, others: "Theoretical exercises" },
+      { feature: "24/7 Support", description: "Round-the-clock technical assistance", us: true, others: "Business hours only" },
+      { feature: "Updated Content", description: "Regular curriculum updates with latest trends", us: true, others: "Outdated materials" }
     ]
   },
   upcomingSkills: [

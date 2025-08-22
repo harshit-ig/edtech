@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { getCompanyInfoData } from '../utils/dataAdapter';
+import { getCompanyInfoData, getWhatsAppQuickMessages } from '../utils/dataAdapter';
 import type { CompanyInfo } from '../types';
 
 interface WhatsAppWidgetProps {
@@ -18,15 +18,12 @@ export default function WhatsAppWidget({
   useEffect(() => {
     const loadData = async () => {
       try {
-        const data = await getCompanyInfoData();
-        setCompanyInfo(data);
-        // For now, using static quick messages since they're not in the API
-        setWhatsappQuickMessages([
-          "I'm interested in learning more about your courses",
-          "Can you help me choose the right program?",
-          "What are your course schedules?",
-          "I'd like to book a consultation call"
+        const [companyData, quickMessages] = await Promise.all([
+          getCompanyInfoData(),
+          getWhatsAppQuickMessages()
         ]);
+        setCompanyInfo(companyData);
+        setWhatsappQuickMessages(quickMessages);
       } catch (error) {
         console.error('Error loading company data:', error);
         setCompanyInfo({
@@ -34,11 +31,12 @@ export default function WhatsAppWidget({
           supportEmail: '',
           heroRoles: [],
           carouselRoles: [],
-          marketingStats: []
+          marketingStats: [],
+          whatsappQuickMessages: [],
+          pricingFaq: [],
+          courseBenefitsComparison: []
         });
         setWhatsappQuickMessages([]);
-      } finally {
-        // Data loading complete
       }
     };
 

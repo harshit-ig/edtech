@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { TeamMember, Value, Stat, Milestone, ContactData, CompanyInfo, UpcomingSkill } from '../types';
+import { TeamMember, Value, Stat, Milestone, ContactData, CompanyInfo, UpcomingSkill, PricingFAQ, CourseBenefit } from '../types';
 
 // Company Info Schema
 const CompanyInfoSchema = new Schema<CompanyInfo & Document>({
@@ -10,6 +10,18 @@ const CompanyInfoSchema = new Schema<CompanyInfo & Document>({
   marketingStats: [{
     number: { type: String, required: true },
     label: { type: String, required: true }
+  }],
+  whatsappQuickMessages: [{ type: String, required: true }],
+  pricingFaq: [{
+    id: { type: Number, required: true },
+    question: { type: String, required: true },
+    answer: { type: String, required: true }
+  }],
+  courseBenefitsComparison: [{
+    feature: { type: String, required: true },
+    description: { type: String, required: true },
+    us: { type: Schema.Types.Mixed, required: true }, // boolean or string
+    others: { type: Schema.Types.Mixed, required: true } // boolean or string
   }]
 }, { timestamps: true });
 

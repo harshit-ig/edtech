@@ -7,43 +7,35 @@ import MicrosoftBadge from "../components/MicrosoftBadge";
 import useRevealOnScroll from "../hooks/useRevealOnScroll";
 import { useCourseEnrollmentModal } from "../contexts/CourseEnrollmentModalContext";
 import { useContactModal } from "../contexts/ContactModalContext";
-import { getCoursePricingData } from "../utils/dataAdapter";
-import type { CoursePricing, FAQ } from "../types";
+import { getCoursePricingData, getPricingFAQ, getCourseBenefitsComparison } from "../utils/dataAdapter";
+import type { CoursePricing, PricingFAQ, CourseBenefit } from "../types";
 
 export default function PricingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [paymentMode, setPaymentMode] = useState<'one-time' | 'installment'>('one-time');
   const [coursePricing, setCoursePricing] = useState<CoursePricing[]>([]);
+  const [faqs, setFaqs] = useState<PricingFAQ[]>([]);
+  const [courseBenefits, setCourseBenefits] = useState<CourseBenefit[]>([]);
   const [loading, setLoading] = useState(true);
   const { openModal: openEnrollmentModal } = useCourseEnrollmentModal();
   const { openModal } = useContactModal();
 
-  // Static data that doesn't change often
-  const faqs: FAQ[] = [
-    { id: 1, question: "What payment methods do you accept?", answer: "We accept all major credit cards, PayPal, and bank transfers." },
-    { id: 2, question: "Can I get a refund?", answer: "Yes, we offer a 30-day money-back guarantee if you're not satisfied." },
-    { id: 3, question: "Are there any hidden fees?", answer: "No, the price you see is the final price. No hidden fees or charges." }
-  ];
-
-  const courseBenefits: [string, string, boolean | string, boolean | string][] = [
-    ["Expert-Led Live Sessions", "Real-time interaction with industry professionals", true, "Pre-recorded only"],
-    ["1-on-1 Mentorship", "Personal guidance and career coaching", true, false],
-    ["Lifetime Access", "Keep access to all materials forever", true, "Limited time"],
-    ["Industry Certification", "Recognized credentials that employers value", true, "Basic completion certificate"],
-    ["Job Placement Support", "Active assistance in finding roles", true, false],
-    ["Project-Based Learning", "Build real-world portfolio projects", true, "Theoretical exercises"],
-    ["24/7 Support", "Round-the-clock technical assistance", true, "Business hours only"],
-    ["Updated Content", "Regular curriculum updates with latest trends", true, "Outdated materials"]
-  ];
-
   useEffect(() => {
     const loadPricingData = async () => {
       try {
-        const data = await getCoursePricingData();
-        setCoursePricing(data);
+        const [pricingData, faqData, benefitsData] = await Promise.all([
+          getCoursePricingData(),
+          getPricingFAQ(),
+          getCourseBenefitsComparison()
+        ]);
+        setCoursePricing(pricingData);
+        setFaqs(faqData);
+        setCourseBenefits(benefitsData);
       } catch (error) {
         console.error('Error loading pricing data:', error);
         setCoursePricing([]);
+        setFaqs([]);
+        setCourseBenefits([]);
       } finally {
         setLoading(false);
       }
@@ -378,32 +370,32 @@ export default function PricingPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/10">
-                    {courseBenefits.map(([feature, description, us, others], index) => (
+                    {courseBenefits.map((benefit, index) => (
                       <tr key={index} className="hover:bg-white/5 transition-colors">
                         <td className="p-6">
-                          <div className="font-semibold text-white">{feature}</div>
-                          <div className="text-sm text-white/60 mt-1">{description}</div>
+                          <div className="font-semibold text-white">{benefit.feature}</div>
+                          <div className="text-sm text-white/60 mt-1">{benefit.description}</div>
                         </td>
                         <td className="p-6 text-center">
-                          {us === true ? (
+                          {benefit.us === true ? (
                             <svg className="w-6 h-6 text-edtech-green mx-auto" fill="currentColor" viewBox="0 0 8 8">
                               <path d="m2.3 6.73.04-.04L6.67 2.3c.4-.4 1.06-.4 1.46 0s.4 1.06 0 1.46L3.8 8.09c-.4.4-1.06.4-1.46 0L.1 5.85c-.4-.4-.4-1.06 0-1.46s1.06-.4 1.46 0l.74.74z"/>
                             </svg>
                           ) : (
-                            <span className="text-edtech-green font-semibold text-sm">{us}</span>
+                            <span className="text-edtech-green font-semibold text-sm">{benefit.us}</span>
                           )}
                         </td>
                         <td className="p-6 text-center text-white/60">
-                          {others === true ? (
+                          {benefit.others === true ? (
                             <svg className="w-6 h-6 text-edtech-green mx-auto" fill="currentColor" viewBox="0 0 8 8">
-                              <path d="m2.3 6.73.04-.04L6.67 2.3c.4-.4 1.06-.4 1.46 0s.4 1.06 0 1.46L3.8 8.09c-.4.4-1.06.4-1.46 0L.1 5.85c-.4-.4-.4-1.06 0-1.46s1.06-.4 1.46 0l.74.74z"/>
+                              <path d="m2.3 6.73.04-.04L6.67 2.3c.4-.4 1.06-.4 1.46 0s.4 1.06 0 1.46L3.8 8.09c-.4.4-1.06-.4-1.46 0L.1 5.85c-.4-.4-.4-1.06 0-1.46s1.06-.4 1.46 0l.74.74z"/>
                             </svg>
-                          ) : others === false ? (
+                          ) : benefit.others === false ? (
                             <svg className="w-6 h-6 text-red-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                             </svg>
                           ) : (
-                            <span className="text-sm font-medium">{others}</span>
+                            <span className="text-sm font-medium">{benefit.others}</span>
                           )}
                         </td>
                       </tr>

@@ -25,7 +25,10 @@ export default function Hero() {
           supportEmail: '',
           heroRoles: ['Build', 'Learn', 'Grow'],
           carouselRoles: ['Developer', 'Designer', 'Engineer'],
-          marketingStats: []
+          marketingStats: [],
+          whatsappQuickMessages: [],
+          pricingFaq: [],
+          courseBenefitsComparison: []
         });
       } finally {
         setLoading(false);
