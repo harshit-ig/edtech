@@ -1,6 +1,9 @@
 // API layer for backend server communications only
 // UI utilities and third-party integrations remain in components
 
+// NoCodeAPI Google Sheets configuration
+const GOOGLE_SHEETS_API_BASE = 'https://v1.nocodeapi.com/harshitig/google_sheets/qjpIHLdbQIlkotdA';
+
 export interface ContactFormData {
   fullName: string;
   email: string;
@@ -30,49 +33,87 @@ export interface CourseEnrollmentResponse {
   enrollmentId?: string;
 }
 
-// Contact Form API - Submit contact form to backend (works for both modal and page)
+// Contact Form API - Submit contact form to Google Sheets (call sheet)
 export const submitContactForm = async (formData: ContactFormData): Promise<ContactFormResponse> => {
-  // TODO: Replace with actual API call when backend is ready
-  // const response = await fetch('/api/contact', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify(formData)
-  // });
-  // return response.json();
-  
-  // Temporary simulation
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      resolve({
-        success: true,
-        message: `Thank you ${formData.fullName}! We'll contact you within 24 hours.`
-      });
-    }, 1000);
-  });
+  try {
+    const response = await fetch(`${GOOGLE_SHEETS_API_BASE}?tabId=call`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify([
+        [
+          formData.fullName,
+          formData.email,
+          formData.phone || '',
+          formData.subject || '',
+          formData.message || '',
+          new Date().toISOString(),
+          'Contact Form'
+        ]
+      ])
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    await response.json();
+    
+    return {
+      success: true,
+      message: `Thank you ${formData.fullName}! We'll contact you within 24 hours.`
+    };
+  } catch (error) {
+    console.error('Contact form submission error:', error);
+    return {
+      success: false,
+      message: 'Sorry, there was an error submitting your form. Please try again.'
+    };
+  }
 };
 
-// Course Enrollment API - Submit course enrollment to backend
+// Course Enrollment API - Submit course enrollment to Google Sheets (course sheet)
 export const submitCourseEnrollment = async (enrollmentData: CourseEnrollmentData): Promise<CourseEnrollmentResponse> => {
-  // TODO: Replace with actual API call when backend is ready
-  // const response = await fetch('/api/course-enrollment', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify(enrollmentData)
-  // });
-  // return response.json();
-  
-  // Temporary simulation
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('Course enrollment submitted:', enrollmentData);
-      resolve({
-        success: true,
-        message: `Thank you for your interest in ${enrollmentData.courseName}! Our team will contact you within 24 hours to discuss enrollment details.`,
-        enrollmentId: `ENR-${Date.now()}`
-      });
-    }, 1200);
-  });
+  try {
+    const response = await fetch(`${GOOGLE_SHEETS_API_BASE}?tabId=course`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify([
+        [
+          enrollmentData.fullName,
+          enrollmentData.email,
+          enrollmentData.phone,
+          enrollmentData.courseId,
+          enrollmentData.courseName,
+          enrollmentData.courseCategory || '',
+          enrollmentData.source || '',
+          new Date().toISOString(),
+          'Course Enrollment'
+        ]
+      ])
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    await response.json();
+    
+    return {
+      success: true,
+      message: `Thank you for your interest in ${enrollmentData.courseName}! Our team will contact you within 24 hours to discuss enrollment details.`,
+      enrollmentId: `ENR-${Date.now()}`
+    };
+  } catch (error) {
+    console.error('Course enrollment submission error:', error);
+    return {
+      success: false,
+      message: 'Sorry, there was an error processing your enrollment. Please try again.'
+    };
+  }
 };
 
 // Future backend APIs to add:
