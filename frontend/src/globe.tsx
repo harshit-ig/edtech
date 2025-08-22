@@ -118,16 +118,21 @@ function Globe() {
     if (!geoData || !Array.isArray(geoData.features)) return { landAlphaTexture: null as THREE.Texture | null, highlightedTexture: null as THREE.Texture | null, bordersTexture: null as THREE.Texture | null };
     const getName = (f: any) => f?.properties?.name ?? "";
     const getISO3 = (f: any) => f?.id ?? f?.properties?.iso_a3 ?? "";
-    const getContinent = (f: any) => (f?.properties?.continent ?? "").toLowerCase();
 
     const isHighlighted = (f: any) => {
-      const continent = getContinent(f);
-      // Include all Europe and Americas continents
-      if (continent === "europe" || continent === "north america" || continent === "south america") return true;
       const name = getName(f);
       const iso3 = getISO3(f);
-      if (iso3 === "USA") return true; // ensure USA included
-      return highlightedCountries.includes(name);
+      
+      // Check if country is in the highlighted countries list
+      if (highlightedCountries.includes(name)) return true;
+      
+      // Special handling for USA variants
+      if (iso3 === "USA" || name === "USA") return true;
+      
+      // Special handling for UK (England) via ISO code
+      if (iso3 === "GBR") return true;
+      
+      return false;
     };
 
     const highlightedFeatures = geoData.features.filter((f: any) => isHighlighted(f));
@@ -140,7 +145,7 @@ function Globe() {
   }, [geoData, buildMaskTexture, buildStrokeTexture]);
 
   return (
-    <group ref={globeRef}>
+    <group ref={globeRef} rotation={[0.4, 0, 0]}>
       {/* Ocean sphere */}
       <Sphere args={[1, 128, 128]}>
         <meshStandardMaterial color="#20286B" flatShading />
@@ -206,8 +211,6 @@ function Globe() {
           />
         </Sphere>
       )}
-
-      {/* <OrbitControls enablePan={false} enableZoom minDistance={2} maxDistance={6} /> */}
     </group>
   );
 }
