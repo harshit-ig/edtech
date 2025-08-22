@@ -4,6 +4,7 @@ import { useFrame } from "@react-three/fiber";
 import { Sphere } from "@react-three/drei";
 import * as THREE from "three";
 import worldGeoJson from "./data/world.geojson?url";
+import { highlightedCountries } from "./data/about";
 
 function Globe() {
   const globeRef = useRef<THREE.Group>(null);
@@ -113,104 +114,27 @@ function Globe() {
   }, [MIRROR_HORIZONTAL]);
 
   // Build continent highlights (Americas + Europe) and base land alpha when data is ready
-  const { landAlphaTexture, americasTexture, europeTexture, bordersTexture } = useMemo(() => {
-    if (!geoData || !Array.isArray(geoData.features)) return { usaTexture: null as THREE.Texture | null, europeTexture: null as THREE.Texture | null };
+  const { landAlphaTexture, highlightedTexture, bordersTexture } = useMemo(() => {
+    if (!geoData || !Array.isArray(geoData.features)) return { landAlphaTexture: null as THREE.Texture | null, highlightedTexture: null as THREE.Texture | null, bordersTexture: null as THREE.Texture | null };
     const getName = (f: any) => f?.properties?.name ?? "";
     const getISO3 = (f: any) => f?.id ?? f?.properties?.iso_a3 ?? "";
     const getContinent = (f: any) => (f?.properties?.continent ?? "").toLowerCase();
-    const europeCountries = [
-      "France",
-      "Germany",
-      "Italy",
-      "Spain",
-      "United Kingdom",
-      "Poland",
-      "Portugal",
-      "Belgium",
-      "Netherlands",
-      "Switzerland",
-      "Austria",
-      "Czech Republic",
-      "Denmark",
-      "Norway",
-      "Sweden",
-      "Finland",
-      "Ireland",
-      "Greece",
-      "Hungary",
-      "Romania",
-      "Bulgaria",
-      "Slovakia",
-      "Slovenia",
-      "Croatia",
-      "Estonia",
-      "Latvia",
-      "Lithuania",
-    ];
 
-    const americasCountries = [
-      "Canada",
-      "United States of America",
-      "United States",
-      "Mexico",
-      "Guatemala",
-      "Belize",
-      "Honduras",
-      "El Salvador",
-      "Nicaragua",
-      "Costa Rica",
-      "Panama",
-      "Bahamas",
-      "Cuba",
-      "Jamaica",
-      "Haiti",
-      "Dominican Republic",
-      "Trinidad and Tobago",
-      "Barbados",
-      "Saint Lucia",
-      "Saint Vincent and the Grenadines",
-      "Grenada",
-      "Antigua and Barbuda",
-      "Dominica",
-      "Saint Kitts and Nevis",
-      "Bermuda",
-      "Greenland",
-      "Colombia",
-      "Venezuela",
-      "Guyana",
-      "Suriname",
-      "Ecuador",
-      "Peru",
-      "Bolivia",
-      "Chile",
-      "Argentina",
-      "Uruguay",
-      "Paraguay",
-      "Brazil",
-    ];
-
-    const isAmericas = (f: any) => {
+    const isHighlighted = (f: any) => {
       const continent = getContinent(f);
-      if (continent === "north america" || continent === "south america") return true;
+      // Include all Europe and Americas continents
+      if (continent === "europe" || continent === "north america" || continent === "south america") return true;
       const name = getName(f);
       const iso3 = getISO3(f);
       if (iso3 === "USA") return true; // ensure USA included
-      return americasCountries.includes(name);
+      return highlightedCountries.includes(name);
     };
 
-    const isEurope = (f: any) => {
-      const continent = getContinent(f);
-      if (continent === "europe") return true;
-      return europeCountries.includes(getName(f));
-    };
-
-    const americasFeatures = geoData.features.filter((f: any) => isAmericas(f));
-    const europeFeatures = geoData.features.filter((f: any) => isEurope(f));
+    const highlightedFeatures = geoData.features.filter((f: any) => isHighlighted(f));
 
     return {
       landAlphaTexture: buildMaskTexture(geoData.features),
-      americasTexture: buildMaskTexture(americasFeatures),
-      europeTexture: buildMaskTexture(europeFeatures),
+      highlightedTexture: buildMaskTexture(highlightedFeatures),
       bordersTexture: buildStrokeTexture(geoData.features, 2048, 1024, 0.2),
     };
   }, [geoData, buildMaskTexture, buildStrokeTexture]);
@@ -266,8 +190,8 @@ function Globe() {
         </>
       )}
 
-      {/* Neon highlight for Americas */}
-      {americasTexture && (
+      {/* Neon highlight for highlighted countries (Americas + Europe) */}
+      {highlightedTexture && (
         <Sphere args={[1.004, 128, 128]}>
           <meshStandardMaterial
             transparent
@@ -275,25 +199,8 @@ function Globe() {
             opacity={1}
             emissive="#D5DE24"
             emissiveIntensity={2.2}
-            emissiveMap={americasTexture}
-            alphaMap={americasTexture}
-            depthWrite={false}
-            toneMapped={false}
-          />
-        </Sphere>
-      )}
-
-      {/* Neon highlight for Europe */}
-      {europeTexture && (
-        <Sphere args={[1.006, 128, 128]}>
-          <meshStandardMaterial
-            transparent
-            color="#000000"
-            opacity={1}
-            emissive="#D5DE24"
-            emissiveIntensity={2.2}
-            emissiveMap={europeTexture}
-            alphaMap={europeTexture}
+            emissiveMap={highlightedTexture}
+            alphaMap={highlightedTexture}
             depthWrite={false}
             toneMapped={false}
           />
