@@ -1,9 +1,15 @@
 import { getFeaturedCourses, getCourseIcon } from "../data/courses";
 import { Link } from "react-router-dom";
 import MicrosoftBadge from "./MicrosoftBadge";
+import { useCourseEnrollmentModal } from "../contexts/CourseEnrollmentModalContext";
 
 export default function CoursesSection() {
   const featuredCourses = getFeaturedCourses();
+  const { openModal } = useCourseEnrollmentModal();
+
+  const handleApplyNow = (courseId: string, courseName: string, courseCategory: string) => {
+    openModal(courseId, courseName, courseCategory, 'home-featured-courses');
+  };
 
   return (
     <section  id="featured-programs" className="py-24 md:py-32">
@@ -45,7 +51,12 @@ export default function CoursesSection() {
 
               <div className="mt-4 flex items-center gap-3">
                 <Link to={`/course/${c.id}`} className="cta cta-secondary">View Details</Link>
-                <a className="cta course-card-apply" href="#get-started">Apply Now</a>
+                <button 
+                  onClick={() => handleApplyNow(c.id, c.title, c.category)}
+                  className="cta course-card-apply"
+                >
+                  Apply Now
+                </button>
               </div>
                 <span className="corner-badge">{c.badge}</span>
             </article>

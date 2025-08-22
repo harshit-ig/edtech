@@ -5,10 +5,18 @@ import Footer from "../components/Footer";
 import FloatingDots from "../FloatingDots";
 import { getAllCourses, getCourseIcon } from "../data/courses";
 import MicrosoftBadge from "../components/MicrosoftBadge";
+import { useCourseEnrollmentModal } from "../contexts/CourseEnrollmentModalContext";
+import { useContactModal } from "../contexts/ContactModalContext";
 
 export default function CoursesPage() {
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [searchTerm, setSearchTerm] = useState('');
+  const { openModal: openEnrollmentModal } = useCourseEnrollmentModal();
+  const { openModal } = useContactModal();
+
+  const handleApplyNow = (courseId: string, courseName: string, courseCategory: string) => {
+    openEnrollmentModal(courseId, courseName, courseCategory);
+  };
 
   // Use centralized course data
   const allCourses = getAllCourses();
@@ -142,9 +150,12 @@ export default function CoursesPage() {
                     >
                       View Details
                     </Link>
-                    <a className="cta cta-primary" href="#get-started">
+                    <button 
+                      onClick={() => handleApplyNow(course.id, course.title, course.category)}
+                      className="cta cta-primary"
+                    >
                       Apply Now
-                    </a>
+                    </button>
                   </div>
                   
                   <span className="corner-badge">{course.badge}</span>
@@ -173,9 +184,12 @@ export default function CoursesPage() {
                 Join thousands of successful students who have transformed their careers with our programs
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#get-started" className="cta cta-primary">
+                <button 
+                  onClick={() => openModal("Book FREE Strategy Call", "Schedule a personalized consultation to discuss your career goals and find the perfect course for you")}
+                  className="cta cta-primary"
+                >
                   Book FREE Strategy Call
-                </a>
+                </button>
                 <Link to="/contact" className="cta cta-secondary">
                   Contact Us
                 </Link>

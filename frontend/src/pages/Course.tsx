@@ -6,12 +6,18 @@ import TechBackground from "../TechBackground";
 import { courses, getCourseIcon } from "../data/courses";
 import MicrosoftBadge from "../components/MicrosoftBadge";
 import { useContactModal } from "../contexts/ContactModalContext";
+import { useCourseEnrollmentModal } from "../contexts/CourseEnrollmentModalContext";
 import { courseDetails, getDefaultCourseDetails } from "../data/courseDetails";
 
 export default function CoursePage() {
   const { courseId } = useParams();
   const [openModules, setOpenModules] = useState<Record<number, boolean>>({});
   const { openModal } = useContactModal();
+  const { openModal: openEnrollmentModal } = useCourseEnrollmentModal();
+  
+  const handleApplyNow = (courseId: string, courseTitle: string, category: string) => {
+    openEnrollmentModal(courseId, courseTitle, category);
+  };
   
   const toggleModule = (index: number) => {
     setOpenModules(prev => ({ ...prev, [index]: !prev[index] }));
@@ -253,9 +259,12 @@ export default function CoursePage() {
                     </div>
 
                     <div className="space-y-3">
-                      <a href="#get-started" className="bg-edtech-green hover:bg-green-600 text-black px-6 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl w-full block text-center">
+                      <button 
+                        onClick={() => handleApplyNow(course.id, course.title, course.category)}
+                        className="bg-edtech-green hover:bg-green-600 text-black px-6 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl w-full block text-center"
+                      >
                         Enroll Now →
-                      </a>
+                      </button>
                       <button 
                         onClick={() => openModal("Book a FREE Demo Session", "Get a personalized demo of the course content and discuss your learning goals with our experts")}
                         className="border-2 border-white/50 text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-full font-medium transition-all duration-300 hover:scale-105 w-full block text-center"
@@ -416,9 +425,12 @@ export default function CoursePage() {
                   Join our next cohort and start building the skills that top companies are looking for.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a href="#get-started" className="bg-white text-edtech-blue px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                  <button 
+                    onClick={() => handleApplyNow(course.id, course.title, course.category)}
+                    className="bg-white text-edtech-blue px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                  >
                     Start Your Journey Today →
-                  </a>
+                  </button>
                   <button 
                     onClick={() => openModal("Schedule FREE Consultation", "Get expert advice on course selection and career planning tailored to your goals")}
                     className="border-2 border-white text-white hover:bg-white hover:text-edtech-blue px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105"
@@ -618,12 +630,12 @@ export default function CoursePage() {
                 </div>
 
                 <div className="space-y-4">
-                  <a 
-                    href="#get-started" 
+                  <button 
+                    onClick={() => handleApplyNow(course.id, course.title, course.category)}
                     className="bg-gradient-to-r from-edtech-green to-edtech-orange text-black px-8 py-4 rounded-full font-bold text-xl hover:brightness-110 transition-all duration-300 hover:scale-105 hover:shadow-2xl w-full block text-center"
                   >
                     🎯 Enroll Now {details.pricing?.original ? `& Save $${details.pricing.original - details.pricing.current}` : ''}
-                  </a>
+                  </button>
                   <button 
                     onClick={() => openModal("Talk to Our Career Advisor", "Speak with our career experts to get personalized guidance before enrolling")}
                     className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 w-full block text-center"

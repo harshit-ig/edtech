@@ -1,8 +1,10 @@
 import type { ReactNode } from 'react';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import ContactModal from './components/ContactModal';
+import CourseEnrollmentModal from './components/CourseEnrollmentModal';
 import ScrollToTop from './components/ScrollToTop';
 import { ContactModalProvider, useContactModal } from './contexts/ContactModalContext';
+import { CourseEnrollmentModalProvider, useCourseEnrollmentModal } from './contexts/CourseEnrollmentModalContext';
 
 interface LayoutProps {
   children: ReactNode;
@@ -10,6 +12,14 @@ interface LayoutProps {
 
 function LayoutContent({ children }: LayoutProps) {
   const { isOpen, closeModal, title, subtitle } = useContactModal();
+  const { 
+    isOpen: isEnrollmentOpen, 
+    closeModal: closeEnrollmentModal, 
+    courseId, 
+    courseName, 
+    courseCategory, 
+    source 
+  } = useCourseEnrollmentModal();
 
   return (
     <>
@@ -23,6 +33,14 @@ function LayoutContent({ children }: LayoutProps) {
         title={title}
         subtitle={subtitle}
       />
+      <CourseEnrollmentModal 
+        isOpen={isEnrollmentOpen}
+        onClose={closeEnrollmentModal}
+        courseId={courseId}
+        courseName={courseName}
+        courseCategory={courseCategory}
+        source={source}
+      />
     </>
   );
 }
@@ -30,7 +48,9 @@ function LayoutContent({ children }: LayoutProps) {
 export default function Layout({ children }: LayoutProps) {
   return (
     <ContactModalProvider>
-      <LayoutContent>{children}</LayoutContent>
+      <CourseEnrollmentModalProvider>
+        <LayoutContent>{children}</LayoutContent>
+      </CourseEnrollmentModalProvider>
     </ContactModalProvider>
   );
 }
