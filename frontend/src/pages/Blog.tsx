@@ -78,11 +78,11 @@ export default function BlogPage() {
                 <div className="text-white/80 text-sm font-medium">Categories</div>
               </div>
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
-                <div className="text-3xl md:text-4xl font-bold text-edtech-blue mb-2">Weekly</div>
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2">Weekly</div>
                 <div className="text-white/80 text-sm font-medium">New Content</div>
               </div>
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2">Expert</div>
+                <div className="text-3xl md:text-4xl font-bold text-edtech-red mb-2">Expert</div>
                 <div className="text-white/80 text-sm font-medium">Authors</div>
               </div>
             </div>

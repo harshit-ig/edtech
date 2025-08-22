@@ -91,11 +91,11 @@ export default function CoursesPage() {
                 <div className="text-white/80 text-sm font-medium">Specializations</div>
               </div>
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
-                <div className="text-3xl md:text-4xl font-bold text-edtech-blue mb-2">24/7</div>
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2">24/7</div>
                 <div className="text-white/80 text-sm font-medium">Support</div>
               </div>
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2">95%</div>
+                <div className="text-3xl md:text-4xl font-bold text-edtech-red mb-2">95%</div>
                 <div className="text-white/80 text-sm font-medium">Success Rate</div>
               </div>
             </div>
@@ -169,8 +169,10 @@ export default function CoursesPage() {
                   {/* Course Icon */}
                   <div className="p-8 pb-4">
                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${
-                      course.accent === 'edtech-green' ? 'bg-gradient-to-br from-edtech-green/20 to-green-400/20' : 
-                      'bg-gradient-to-br from-edtech-orange/20 to-orange-400/20'
+                      course.accent === 'edtech-green' ? 'bg-gradient-to-br from-edtech-green to-green-400' : 
+                      course.accent === 'edtech-orange' ? 'bg-gradient-to-br from-edtech-orange to-orange-400' :
+                      course.accent === 'edtech-red' ? 'bg-gradient-to-br from-red-500 to-red-400' :
+                      'bg-gradient-to-br from-edtech-orange to-orange-400'
                     }`}>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-8 h-8">
                         <path strokeLinecap="round" strokeLinejoin="round" d={getCourseIcon(course)}/>
@@ -268,6 +270,8 @@ export default function CoursesPage() {
                     </span>
                     <div className={`p-3 rounded-xl ${
                       course.accent === 'edtech-green' ? 'bg-gradient-to-br from-edtech-green/20 to-green-400/20' : 
+                      course.accent === 'edtech-orange' ? 'bg-gradient-to-br from-edtech-orange/20 to-orange-400/20' :
+                      course.accent === 'edtech-red' ? 'bg-gradient-to-br from-red-500/20 to-red-400/20' :
                       'bg-gradient-to-br from-edtech-orange/20 to-orange-400/20'
                     }`}>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
