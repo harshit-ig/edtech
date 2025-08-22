@@ -724,7 +724,7 @@ export const courseDetails: Record<string, CourseDetails> = {
       }
     ],
     successStats: [
-      { label: "App Store Success Rate", value: "89%", color: "green" },
+      { label: "App Store Success Rate", value: "89%", color: "edtech-green" },
       { label: "Apps Built", value: "10+", color: "blue" },
       { label: "Cross-Platform Efficiency", value: "70%+", color: "orange" }
     ],
