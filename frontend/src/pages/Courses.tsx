@@ -15,7 +15,7 @@ export default function CoursesPage() {
   const { openModal } = useContactModal();
 
   const handleApplyNow = (courseId: string, courseName: string, courseCategory: string) => {
-    openEnrollmentModal(courseId, courseName, courseCategory);
+    openEnrollmentModal(courseId, courseName, courseCategory, 'courses-page');
   };
 
   // Use centralized course data

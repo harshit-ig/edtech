@@ -16,7 +16,7 @@ export default function CoursePage() {
   const { openModal: openEnrollmentModal } = useCourseEnrollmentModal();
   
   const handleApplyNow = (courseId: string, courseTitle: string, category: string) => {
-    openEnrollmentModal(courseId, courseTitle, category);
+    openEnrollmentModal(courseId, courseTitle, category, 'course-detail-page');
   };
   
   const toggleModule = (index: number) => {
