@@ -19,4 +19,19 @@ router.get('/blog-images/:filename', (req: Request, res: Response) => {
   res.sendFile(filePath);
 });
 
+// Serve team member images
+router.get('/team-images/:filename', (req: Request, res: Response) => {
+  const { filename } = req.params;
+  const filePath = path.join(__dirname, '../../../uploads/team-images', filename);
+  
+  // Check if file exists first
+  const fs = require('fs');
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).send('Image not found');
+  }
+  
+  // Send the file
+  res.sendFile(filePath);
+});
+
 export default router;

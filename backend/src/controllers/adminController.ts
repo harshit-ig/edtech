@@ -19,6 +19,7 @@ import {
   AdvantageStatModel,
   TestimonialModel
 } from '../models';
+import { getImageUrl } from '../middleware';
 
 // Generic CRUD operations for any model
 class AdminController {
@@ -204,11 +205,165 @@ export const createCompanyInfo = AdminController.create(CompanyInfoModel);
 export const updateCompanyInfo = AdminController.update(CompanyInfoModel);
 export const deleteCompanyInfo = AdminController.delete(CompanyInfoModel);
 
-// Team Member Controllers
-export const getAllTeamMembers = AdminController.getAll(TeamMemberModel);
-export const getTeamMemberById = AdminController.getById(TeamMemberModel);
-export const createTeamMember = AdminController.create(TeamMemberModel);
-export const updateTeamMember = AdminController.update(TeamMemberModel);
+// Team Member Controllers with image upload support
+export const getAllTeamMembers = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const teamMembers = await TeamMemberModel.find({}).sort({ createdAt: -1 });
+    
+    // Transform image URLs in the response
+    const transformedTeamMembers = teamMembers.map(member => {
+      const memberObj = member.toObject() as any;
+      if (memberObj.image) {
+        memberObj.imageUrl = getImageUrl(memberObj.image, req, 'team');
+      }
+      return memberObj;
+    });
+
+    res.json({
+      success: true,
+      message: 'Team members retrieved successfully.',
+      data: transformedTeamMembers
+    });
+  } catch (error: any) {
+    console.error('Get all team members error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error while retrieving team members.'
+    });
+  }
+};
+
+export const getTeamMemberById = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const teamMember = await TeamMemberModel.findById(id);
+    
+    if (!teamMember) {
+      res.status(404).json({
+        success: false,
+        message: 'Team member not found.'
+      });
+      return;
+    }
+
+    // Transform image URL in the response
+    const responseData = teamMember.toObject() as any;
+    if (responseData.image) {
+      responseData.imageUrl = getImageUrl(responseData.image, req, 'team');
+    }
+
+    res.json({
+      success: true,
+      message: 'Team member retrieved successfully.',
+      data: responseData
+    });
+  } catch (error: any) {
+    console.error('Get team member by ID error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error while retrieving team member.'
+    });
+  }
+};
+
+export const createTeamMember = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const teamMemberData = req.body;
+    
+    // If there's an image uploaded, set the image property to the filename
+    if (req.file) {
+      teamMemberData.image = req.file.filename;
+    }
+
+    // Create new team member
+    const teamMember = new TeamMemberModel(teamMemberData);
+    await teamMember.save();
+
+    // Transform the image URL in the response
+    const responseData = teamMember.toObject() as any;
+    if (responseData.image) {
+      responseData.imageUrl = getImageUrl(responseData.image, req, 'team');
+    }
+
+    res.status(201).json({
+      success: true,
+      message: 'Team member created successfully.',
+      data: responseData
+    });
+  } catch (error: any) {
+    console.error('Create team member error:', error);
+    
+    if (error.code === 11000) {
+      res.status(409).json({
+        success: false,
+        message: 'A team member with this identifier already exists.',
+        error: error.message
+      });
+      return;
+    }
+
+    res.status(400).json({
+      success: false,
+      message: 'Invalid data for team member creation.',
+      error: error.message
+    });
+  }
+};
+
+export const updateTeamMember = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const teamMemberData = req.body;
+    
+    // If there's an image uploaded, set the image property to the filename
+    if (req.file) {
+      teamMemberData.image = req.file.filename;
+    }
+
+    const teamMember = await TeamMemberModel.findByIdAndUpdate(id, teamMemberData, { 
+      new: true, 
+      runValidators: true 
+    });
+    
+    if (!teamMember) {
+      res.status(404).json({
+        success: false,
+        message: 'Team member not found.'
+      });
+      return;
+    }
+
+    // Transform the image URL in the response
+    const responseData = teamMember.toObject() as any;
+    if (responseData.image) {
+      responseData.imageUrl = getImageUrl(responseData.image, req, 'team');
+    }
+
+    res.json({
+      success: true,
+      message: 'Team member updated successfully.',
+      data: responseData
+    });
+  } catch (error: any) {
+    console.error('Update team member error:', error);
+    
+    if (error.code === 11000) {
+      res.status(409).json({
+        success: false,
+        message: 'A team member with this identifier already exists.',
+        error: error.message
+      });
+      return;
+    }
+
+    res.status(400).json({
+      success: false,
+      message: 'Invalid data for team member update.',
+      error: error.message
+    });
+  }
+};
+
 export const deleteTeamMember = AdminController.delete(TeamMemberModel);
 
 // Value Controllers

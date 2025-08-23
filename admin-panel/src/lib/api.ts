@@ -160,8 +160,30 @@ export const blogsApi = {
 export const teamMembersApi = {
   getAll: () => adminApi.getAll('team-members'),
   getById: (id: string) => adminApi.getById('team-members', id),
-  create: (data: unknown) => adminApi.create('team-members', data),
-  update: (id: string, data: unknown) => adminApi.update('team-members', id, data),
+  create: (data: unknown) => {
+    // For multipart/form-data (file uploads)
+    if (data instanceof FormData) {
+      return api.post('/admin/team-members', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(response => response.data);
+    }
+    // For regular JSON data
+    return adminApi.create('team-members', data);
+  },
+  update: (id: string, data: unknown) => {
+    // For multipart/form-data (file uploads)
+    if (data instanceof FormData) {
+      return api.put(`/admin/team-members/${id}`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(response => response.data);
+    }
+    // For regular JSON data
+    return adminApi.update('team-members', id, data);
+  },
   delete: (id: string) => adminApi.delete('team-members', id),
 };
 

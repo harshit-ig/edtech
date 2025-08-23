@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { teamMembersApi } from '../lib/api';
 import type { TeamMember } from '../types';
-import { Plus, Edit, Trash2, Eye, Search, Linkedin, Twitter, Save, X } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Search, Linkedin, Twitter, Save, X, Upload, Image } from 'lucide-react';
 
 const TeamMembersList: React.FC = () => {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
@@ -11,6 +11,9 @@ const TeamMembersList: React.FC = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<TeamMember>>({});
   const [saving, setSaving] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetchTeamMembers();
@@ -42,11 +45,35 @@ const TeamMembersList: React.FC = () => {
       linkedin: '',
       twitter: ''
     });
+    setImagePreview('');
+    setImageFile(null);
   };
 
   const handleEdit = (member: TeamMember) => {
     setEditingId(member._id);
     setFormData(member);
+    // Set image preview - handle both filename and URL cases
+    const imageValue = member.image || '';
+    if (imageValue && !imageValue.startsWith('http')) {
+      setImagePreview(`/api/uploads/team-images/${imageValue}`);
+    } else {
+      setImagePreview(imageValue);
+    }
+    setImageFile(null);
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    setImageFile(file);
+    
+    // Create preview URL
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSave = async () => {
@@ -59,16 +86,34 @@ const TeamMembersList: React.FC = () => {
       setSaving(true);
       let response;
       
+      // Create FormData object for file upload
+      const formDataObj = new FormData();
+      
+      // Add all form fields to FormData
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && key !== 'image') {
+          // Skip image field since we're handling it separately
+          formDataObj.append(key, value.toString());
+        }
+      });
+      
+      // Add image file if selected
+      if (imageFile) {
+        formDataObj.append('image', imageFile);
+      }
+      
       if (editingId === 'new') {
-        response = await teamMembersApi.create(formData);
+        response = await teamMembersApi.create(formDataObj);
       } else if (editingId) {
-        response = await teamMembersApi.update(editingId, formData);
+        response = await teamMembersApi.update(editingId, formDataObj);
       }
 
       if (response?.success) {
         await fetchTeamMembers();
         setEditingId(null);
         setFormData({});
+        setImageFile(null);
+        setImagePreview('');
         setError('');
       } else {
         setError(response?.message || 'Failed to save team member');
@@ -209,14 +254,55 @@ const TeamMembersList: React.FC = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Profile Image URL</label>
-              <input
-                type="url"
-                className="form-input"
-                value={formData.image || ''}
-                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                placeholder="https://example.com/profile.jpg"
-              />
+              <label className="form-label">Profile Image</label>
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                <div className="space-y-6">
+                  {imagePreview ? (
+                    <div className="relative">
+                      <img
+                        src={imagePreview}
+                        alt="Profile image preview"
+                        className="h-32 w-32 object-cover mx-auto rounded-full"
+                      />
+                      <button
+                        onClick={() => {
+                          setImagePreview('');
+                          setImageFile(null);
+                          setFormData({ ...formData, image: '' });
+                          if (fileInputRef.current) fileInputRef.current.value = '';
+                        }}
+                        className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                        title="Remove image"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center text-gray-500">
+                      <Image className="w-16 h-16 mb-2 text-gray-400" />
+                      <p className="mb-2 text-sm">Drag and drop or click to upload</p>
+                      <p className="text-xs">PNG, JPG, GIF up to 5MB</p>
+                    </div>
+                  )}
+                  
+                  <div className="flex justify-center">
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/gif,image/webp"
+                      onChange={handleImageChange}
+                      className="hidden"
+                      ref={fileInputRef}
+                    />
+                    <button
+                      onClick={() => fileInputRef.current?.click()}
+                      className="btn btn-secondary"
+                    >
+                      <Upload className="w-4 h-4 mr-2" />
+                      {imagePreview ? 'Change Image' : 'Upload Image'}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -270,7 +356,7 @@ const TeamMembersList: React.FC = () => {
               {/* Profile Image */}
               <div className="mx-auto w-24 h-24 mb-4">
                 <img
-                  src={member.image}
+                  src={member.image.startsWith('http') ? member.image : `/api/uploads/team-images/${member.image}`}
                   alt={member.name}
                   className="w-24 h-24 rounded-full object-cover border-4 border-gray-100"
                   onError={(e) => {

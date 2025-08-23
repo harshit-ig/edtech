@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { requireAdminAuth } from '../middleware/auth';
-import { createAdminRateLimiter, uploadBlogImages, handleUploadError } from '../middleware';
+import { createAdminRateLimiter, uploadBlogImages, uploadTeamImage, handleUploadError } from '../middleware';
 import {
   getAllBlogs,
   getBlogById,
@@ -196,8 +196,8 @@ router.delete('/company-info/:id', deleteCompanyInfo);
  */
 router.get('/team-members', getAllTeamMembers);
 router.get('/team-members/:id', getTeamMemberById);
-router.post('/team-members', createTeamMember);
-router.put('/team-members/:id', updateTeamMember);
+router.post('/team-members', uploadTeamImage, handleUploadError, createTeamMember);
+router.put('/team-members/:id', uploadTeamImage, handleUploadError, updateTeamMember);
 router.delete('/team-members/:id', deleteTeamMember);
 
 /**

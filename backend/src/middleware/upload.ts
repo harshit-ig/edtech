@@ -16,6 +16,7 @@ const ALLOWED_IMAGE_MIMETYPES = [
 const createUploadDirectories = () => {
   const baseDir = path.join(__dirname, '../../../uploads');
   const blogImagesDir = path.join(baseDir, 'blog-images');
+  const teamImagesDir = path.join(baseDir, 'team-images');
   
   if (!fs.existsSync(baseDir)) {
     fs.mkdirSync(baseDir, { recursive: true });
@@ -25,14 +26,18 @@ const createUploadDirectories = () => {
     fs.mkdirSync(blogImagesDir, { recursive: true });
   }
   
-  return { baseDir, blogImagesDir };
+  if (!fs.existsSync(teamImagesDir)) {
+    fs.mkdirSync(teamImagesDir, { recursive: true });
+  }
+  
+  return { baseDir, blogImagesDir, teamImagesDir };
 };
 
 // Create directories
-const { blogImagesDir } = createUploadDirectories();
+const { blogImagesDir, teamImagesDir } = createUploadDirectories();
 
-// Configure storage
-const storage = multer.diskStorage({
+// Configure storage for blog images
+const blogStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     // Store blog images in the blog-images directory
     cb(null, blogImagesDir);
@@ -42,6 +47,20 @@ const storage = multer.diskStorage({
     const uniqueSuffix = Date.now() + '-' + crypto.randomBytes(6).toString('hex');
     const fileExt = path.extname(file.originalname).toLowerCase();
     cb(null, `blog-${uniqueSuffix}${fileExt}`);
+  }
+});
+
+// Configure storage for team member images
+const teamStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // Store team member images in the team-images directory
+    cb(null, teamImagesDir);
+  },
+  filename: (req, file, cb) => {
+    // Generate a unique filename using a timestamp and random hash
+    const uniqueSuffix = Date.now() + '-' + crypto.randomBytes(6).toString('hex');
+    const fileExt = path.extname(file.originalname).toLowerCase();
+    cb(null, `team-${uniqueSuffix}${fileExt}`);
   }
 });
 
@@ -55,9 +74,17 @@ const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilt
   }
 };
 
-// Create the multer instance with configuration
-const upload = multer({
-  storage,
+// Create the multer instances with configuration
+const blogUpload = multer({
+  storage: blogStorage,
+  fileFilter,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB max file size
+  }
+});
+
+const teamUpload = multer({
+  storage: teamStorage,
   fileFilter,
   limits: {
     fileSize: 5 * 1024 * 1024, // 5MB max file size
@@ -93,16 +120,19 @@ export const handleUploadError = (err: any, req: Request, res: Response, next: N
 };
 
 // Export the configured upload middleware for different purposes
-export const uploadBlogImage = upload.single('image');
+export const uploadBlogImage = blogUpload.single('image');
 
 // For multiple file uploads (featured image + avatar)
-export const uploadBlogImages = upload.fields([
+export const uploadBlogImages = blogUpload.fields([
   { name: 'image', maxCount: 1 },
   { name: 'avatarImage', maxCount: 1 }
 ]);
 
+// For team member image uploads
+export const uploadTeamImage = teamUpload.single('image');
+
 // Helper function to get the public URL for an image
-export const getImageUrl = (filename: string, req: Request): string => {
+export const getImageUrl = (filename: string, req: Request, type: 'blog' | 'team' = 'blog'): string => {
   if (!filename) return '';
   
   // If it already starts with http, assume it's an external URL
@@ -112,5 +142,6 @@ export const getImageUrl = (filename: string, req: Request): string => {
   
   // Otherwise, construct the URL to our server's image route
   const baseUrl = `${req.protocol}://${req.get('host')}`;
-  return `${baseUrl}/uploads/blog-images/${filename}`;
+  const folder = type === 'team' ? 'team-images' : 'blog-images';
+  return `${baseUrl}/uploads/${folder}/${filename}`;
 };
