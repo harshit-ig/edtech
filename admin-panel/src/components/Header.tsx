@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { Menu, LogOut, User, Settings, Bell } from 'lucide-react';
+import { Menu, LogOut, User } from 'lucide-react';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -38,12 +38,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
 
       {/* Right side - Actions */}
       <div className="flex items-center gap-4">
-        {/* Notifications */}
-        <button className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 relative">
-          <Bell className="h-5 w-5" />
-          <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-        </button>
-
         {/* User menu */}
         <div className="relative">
           <button
@@ -70,16 +64,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                   {user?.role || 'Administrator'}
                 </span>
               </div>
-              
-              <button
-                onClick={() => {
-                  setDropdownOpen(false);
-                }}
-                className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                <Settings className="w-4 h-4 mr-3" />
-                Account Settings
-              </button>
               
               <button
                 onClick={handleLogout}

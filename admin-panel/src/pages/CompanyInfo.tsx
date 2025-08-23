@@ -289,8 +289,8 @@ const CompanyInfo: React.FC = () => {
           <div className="flex items-center gap-3">
             <div className="text-2xl">🌍</div>
             <div>
-              <h3 className="text-xl font-bold">Highlighted Countries</h3>
-              <p className="text-blue-100 mt-1">
+              <h3 className="text-xl text-gray-900 font-bold">Highlighted Countries</h3>
+              <p className="text-gray-600 mt-1">
                 Select countries to highlight on the website. These countries will be displayed in the about section.
               </p>
             </div>

@@ -64,6 +64,19 @@ const UsersList: React.FC = () => {
       return;
     }
 
+    // Check if trying to change the last admin to user
+    if (editingId !== 'new') {
+      const currentUser = users.find(u => u.id === editingId);
+      const adminCount = users.filter(u => u.role === 'admin').length;
+      const isChangingToUser = formData.role === 'user';
+      const isCurrentlyAdmin = currentUser?.role === 'admin';
+      
+      if (isCurrentlyAdmin && isChangingToUser && adminCount <= 1) {
+        setError('Cannot change the last admin to user. At least one admin must remain.');
+        return;
+      }
+    }
+
     try {
       setSaving(true);
       let response;
@@ -213,14 +226,34 @@ const UsersList: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="form-group">
                 <label className="form-label">Role</label>
-                <select
-                  className="form-input"
-                  value={formData.role || 'user'}
-                  onChange={(e) => setFormData({ ...formData, role: e.target.value as 'admin' | 'user' })}
-                >
-                  <option value="user">User</option>
-                  <option value="admin">Admin</option>
-                </select>
+                {(() => {
+                  const currentUser = editingId !== 'new' ? users.find(u => u.id === editingId) : null;
+                  const adminCount = users.filter(u => u.role === 'admin').length;
+                  const isLastAdmin = currentUser?.role === 'admin' && adminCount <= 1;
+                  
+                  return (
+                    <select
+                      className={`form-input ${isLastAdmin ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+                      value={formData.role || 'user'}
+                      onChange={(e) => setFormData({ ...formData, role: e.target.value as 'admin' | 'user' })}
+                      disabled={isLastAdmin}
+                    >
+                      <option value="user">User</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  );
+                })()}
+                {(() => {
+                  const currentUser = editingId !== 'new' ? users.find(u => u.id === editingId) : null;
+                  const adminCount = users.filter(u => u.role === 'admin').length;
+                  const isLastAdmin = currentUser?.role === 'admin' && adminCount <= 1;
+                  
+                  return isLastAdmin ? (
+                    <p className="text-xs text-red-600 mt-1">
+                      Cannot change role: This is the last admin account
+                    </p>
+                  ) : null;
+                })()}
               </div>
               {editingId === 'new' && (
                 <div className="form-group">
@@ -369,7 +402,7 @@ const UsersList: React.FC = () => {
           <div className="ml-3">
             <h3 className="text-sm font-medium text-blue-800">Security Note</h3>
             <p className="text-sm text-blue-600 mt-1">
-              Only admin users can access this panel. Use caution when changing user roles.
+              Only admin users can access this panel. At least one admin account must remain active at all times.
             </p>
           </div>
         </div>
