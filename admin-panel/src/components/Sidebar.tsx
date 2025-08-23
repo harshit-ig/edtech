@@ -9,7 +9,6 @@ import {
   Settings,
   Sparkles,
   BarChart3,
-  MapPin,
   Calendar,
   Laptop,
   HelpCircle,

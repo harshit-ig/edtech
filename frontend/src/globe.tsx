@@ -136,7 +136,6 @@ function Globe() {
   const { landAlphaTexture, highlightedTexture, bordersTexture } = useMemo(() => {
     if (!geoData || !Array.isArray(geoData.features)) return { landAlphaTexture: null as THREE.Texture | null, highlightedTexture: null as THREE.Texture | null, bordersTexture: null as THREE.Texture | null };
     const getName = (f: any) => f?.properties?.name ?? "";
-    const getISO3 = (f: any) => f?.id ?? f?.properties?.iso_a3 ?? "";
 
     const isHighlighted = (f: any) => {
       const name = getName(f);

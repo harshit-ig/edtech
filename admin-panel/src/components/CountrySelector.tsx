@@ -13,24 +13,16 @@ interface CountrySelectorProps {
 const CountrySelector: React.FC<CountrySelectorProps> = ({
   selectedCountries,
   onSelectionChange,
-  placeholder = "Search countries...",
-  maxHeight = "300px"
+  placeholder = "Search countries..."
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const [dropdownPosition, setDropdownPosition] = useState<'bottom' | 'top'>('bottom');
   const [dropdownCoords, setDropdownCoords] = useState({ top: 0, left: 0, width: 0 });
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // Handle click outside to close dropdown and update position on scroll
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (isOpen && inputRef.current && !inputRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
     const updateDropdownPosition = () => {
       if (isOpen && inputRef.current) {
         // Clear existing timeout
@@ -46,7 +38,6 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
             const spaceAbove = rect.top;
             
             const position = spaceAbove > spaceBelow && spaceAbove > 350 ? 'top' : 'bottom';
-            setDropdownPosition(position);
             
             const top = position === 'top' 
               ? rect.top - 350
@@ -63,13 +54,11 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
     };
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
       window.addEventListener('scroll', updateDropdownPosition, { passive: true });
       window.addEventListener('resize', updateDropdownPosition, { passive: true });
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
       window.removeEventListener('scroll', updateDropdownPosition);
       window.removeEventListener('resize', updateDropdownPosition);
       if (scrollTimeoutRef.current) {
@@ -119,7 +108,6 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
       
       // Calculate dropdown position
       const position = spaceAbove > spaceBelow && spaceAbove > 350 ? 'top' : 'bottom';
-      setDropdownPosition(position);
       
       // Calculate coordinates for the dropdown
       const top = position === 'top' 
@@ -217,6 +205,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
         {/* Dropdown Portal */}
         {isOpen && createPortal(
           <div 
+            data-dropdown="country-selector"
             className="fixed z-[99999] bg-white border-2 border-blue-300 rounded-lg shadow-2xl"
             style={{
               top: dropdownCoords.top,
@@ -284,7 +273,14 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
       {isOpen && createPortal(
         <div
           className="fixed inset-0 z-[99998]"
-          onClick={() => setIsOpen(false)}
+          onClick={(e) => {
+            // Don't close if clicking on the dropdown itself
+            const target = e.target as HTMLElement;
+            if (target.closest('[data-dropdown="country-selector"]')) {
+              return;
+            }
+            setIsOpen(false);
+          }}
         />,
         document.body
       )}
