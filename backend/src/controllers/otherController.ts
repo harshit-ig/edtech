@@ -6,9 +6,7 @@ import {
   CompanyLogoModel,
   AdvantageStatModel,
   TestimonialModel,
-  CourseIconModel,
-  IconCategoryModel,
-  GeoDataModel
+  CourseIconModel
 } from '../models';
 
 // FAQ Controllers
@@ -93,23 +91,6 @@ export const getCourseIcons = async (req: Request, res: Response): Promise<void>
   }
 };
 
-export const getIconCategories = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const categories = await IconCategoryModel.find();
-    
-    // Convert to object format like frontend expects
-    const categoriesObject = categories.reduce((acc: any, category: any) => {
-      acc[category.category] = category.icons;
-      return acc;
-    }, {});
-    
-    res.json(categoriesObject);
-  } catch (error) {
-    console.error('Error fetching icon categories:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
-
 export const getIconByName = async (req: Request, res: Response): Promise<void> => {
   try {
     const { iconName } = req.params;
@@ -129,23 +110,6 @@ export const getIconByName = async (req: Request, res: Response): Promise<void> 
     res.json({ iconPath: icon.iconPath });
   } catch (error) {
     console.error('Error fetching icon:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
-
-// Geographic Data Controllers
-export const getGeoData = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const geoData = await GeoDataModel.findOne();
-    
-    if (!geoData) {
-      res.status(404).json({ error: 'Geographic data not found' });
-      return;
-    }
-    
-    res.json(geoData);
-  } catch (error) {
-    console.error('Error fetching geo data:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
@@ -172,10 +136,7 @@ export const getMentorData = async (req: Request, res: Response): Promise<void> 
 
 export const getIconsData = async (req: Request, res: Response): Promise<void> => {
   try {
-    const [icons, categories] = await Promise.all([
-      CourseIconModel.find(),
-      IconCategoryModel.find()
-    ]);
+    const icons = await CourseIconModel.find();
     
     // Convert to frontend expected format
     const iconsObject = icons.reduce((acc: any, icon: any) => {
@@ -183,14 +144,8 @@ export const getIconsData = async (req: Request, res: Response): Promise<void> =
       return acc;
     }, {});
     
-    const categoriesObject = categories.reduce((acc: any, category: any) => {
-      acc[category.category] = category.icons;
-      return acc;
-    }, {});
-    
     res.json({
-      courseIcons: iconsObject,
-      iconCategories: categoriesObject
+      courseIcons: iconsObject
     });
   } catch (error) {
     console.error('Error fetching icons data:', error);

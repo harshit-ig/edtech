@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import rateLimit from 'express-rate-limit';
+import jwt from 'jsonwebtoken';
+import { uploadBlogImage, uploadBlogImages, handleUploadError, getImageUrl } from './upload';
 
 // Rate limiting middleware
-export const createRateLimiter = (windowMs: number = 15 * 60 * 1000, max: number = 100) => {
+export const createRateLimiter = (windowMs: number = 15 * 60 * 1000, max: number = 10000) => {
   return rateLimit({
     windowMs,
     max,
@@ -11,6 +13,57 @@ export const createRateLimiter = (windowMs: number = 15 * 60 * 1000, max: number
     },
     standardHeaders: true,
     legacyHeaders: false,
+    // Skip rate limiting for admin users
+    skip: (req: Request) => {
+      try {
+        // Check if there's an authorization header
+        const authHeader = req.header('Authorization');
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+          return false;
+        }
+
+        const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+        
+        // Verify and decode token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret') as any;
+        
+        // Skip rate limiting if user is admin
+        return decoded && decoded.role === 'admin';
+      } catch (error) {
+        // If token verification fails, don't skip rate limiting
+        return false;
+      }
+    }
+  });
+};
+
+// Admin-specific rate limiter (very high limits or disabled)
+export const createAdminRateLimiter = (windowMs: number = 15 * 60 * 1000, max: number = 1000) => {
+  return rateLimit({
+    windowMs,
+    max,
+    message: {
+      error: 'Too many requests from this IP, please try again later.'
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    // Always skip rate limiting for admin routes if user is authenticated as admin
+    skip: (req: Request) => {
+      try {
+        const authHeader = req.header('Authorization');
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+          return false;
+        }
+
+        const token = authHeader.substring(7);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret') as any;
+        
+        // Skip rate limiting for admin users on admin routes
+        return decoded && decoded.role === 'admin';
+      } catch (error) {
+        return false;
+      }
+    }
   });
 };
 
@@ -66,10 +119,13 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction): 
   next();
 };
 
+// Export upload middleware
+export { uploadBlogImage, uploadBlogImages, handleUploadError, getImageUrl };
+
 // CORS configuration
 export const corsOptions = {
   origin: process.env.NODE_ENV === 'development' 
-    ? ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173']
+    ? ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000', 'http://127.0.0.1:5173', 'http://127.0.0.1:5174']
     : (process.env.CORS_ORIGIN || 'http://localhost:5173'),
   credentials: true,
   optionsSuccessStatus: 200,

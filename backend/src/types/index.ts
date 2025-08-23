@@ -1,5 +1,30 @@
 // Exact interfaces from frontend - maintaining 100% compatibility
 
+// User Types
+export interface AuthUser {
+  id: string;
+  email: string;
+  name: string;
+  role: 'admin' | 'user';
+}
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: AuthUser;
+}
+
+export interface CreateUserRequest {
+  email: string;
+  password: string;
+  name: string;
+  role?: 'admin' | 'user';
+}
+
 // About & Company Types
 export interface TeamMember {
   name: string;
@@ -91,6 +116,7 @@ export interface Course {
 }
 
 export interface CourseDetails {
+  courseId: string;
   overview: string;
   features?: Array<{
     icon: string;
@@ -251,10 +277,6 @@ export interface Testimonial {
 // Icons Types
 export interface CourseIcons {
   [key: string]: string;
-}
-
-export interface IconCategories {
-  [key: string]: string[];
 }
 
 // GeoJSON Types

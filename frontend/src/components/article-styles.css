@@ -85,6 +85,18 @@ h1[id], h2[id], h3[id] {
   outline-offset: 2px;
   border-radius: 4px;
 }
+/* Reveal animation fix */
+.reveal {
+  opacity: 1; /* Make sure elements are visible by default */
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* The reveal animation effect - but start as already visible */
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {

@@ -259,11 +259,35 @@ export default function PostPage() {
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pb-8 border-b border-white/10">
                 {/* Author Info */}
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 rounded-full flex items-center justify-center border border-white/10">
-                    <span className="font-bold text-xl">
-                      {post.author.name.charAt(0)}
-                    </span>
-                  </div>
+                  {post.author.avatar ? (
+                    <div className="w-16 h-16 rounded-full overflow-hidden border border-white/20">
+                      <img 
+                        src={post.author.avatar.startsWith('http') ? post.author.avatar : `/api/uploads/blog-images/${post.author.avatar}`}
+                        alt={post.author.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          if (!(e.target as HTMLImageElement).dataset.usedFallback) {
+                            const target = e.target as HTMLImageElement;
+                            target.dataset.usedFallback = 'true';
+                            target.style.display = 'none';
+                            target.parentElement!.classList.add('bg-gradient-to-br', 'from-edtech-green/20', 'to-edtech-orange/20', 'flex', 'items-center', 'justify-center');
+                            
+                            // Add fallback letter
+                            const fallbackLetter = document.createElement('span');
+                            fallbackLetter.className = 'font-bold text-xl';
+                            fallbackLetter.textContent = post.author.name.charAt(0);
+                            target.parentElement!.appendChild(fallbackLetter);
+                          }
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-16 h-16 bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 rounded-full flex items-center justify-center border border-white/10">
+                      <span className="font-bold text-xl">
+                        {post.author.name.charAt(0)}
+                      </span>
+                    </div>
+                  )}
                   <div>
                     <div className="font-semibold text-lg">{post.author.name}</div>
                     <div className="text-white/60">{post.author.role}</div>
@@ -338,11 +362,35 @@ export default function PostPage() {
                       About the Author
                     </h3>
                     <div className="flex items-center gap-4 mb-4">
-                      <div className="w-16 h-16 bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 rounded-full flex items-center justify-center border-2 border-gray-100">
-                        <span className="font-bold text-xl text-edtech-blue">
-                          {post.author.name.charAt(0)}
-                        </span>
-                      </div>
+                      {post.author.avatar ? (
+                        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-100">
+                          <img 
+                            src={post.author.avatar.startsWith('http') ? post.author.avatar : `/api/uploads/blog-images/${post.author.avatar}`}
+                            alt={post.author.name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              if (!(e.target as HTMLImageElement).dataset.usedFallback) {
+                                const target = e.target as HTMLImageElement;
+                                target.dataset.usedFallback = 'true';
+                                target.style.display = 'none';
+                                target.parentElement!.classList.add('bg-gradient-to-br', 'from-edtech-green/20', 'to-edtech-orange/20', 'flex', 'items-center', 'justify-center');
+                                
+                                // Add fallback letter
+                                const fallbackLetter = document.createElement('span');
+                                fallbackLetter.className = 'font-bold text-xl text-edtech-blue';
+                                fallbackLetter.textContent = post.author.name.charAt(0);
+                                target.parentElement!.appendChild(fallbackLetter);
+                              }
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-16 h-16 bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 rounded-full flex items-center justify-center border-2 border-gray-100">
+                          <span className="font-bold text-xl text-edtech-blue">
+                            {post.author.name.charAt(0)}
+                          </span>
+                        </div>
+                      )}
                       <div>
                         <div className="font-semibold text-gray-900">{post.author.name}</div>
                         <div className="text-edtech-blue text-sm font-medium">{post.author.role}</div>
@@ -382,13 +430,42 @@ export default function PostPage() {
 
               {/* Main Content - Mobile: Show second, Desktop: Show on left */}
               <div className="lg:col-span-3 lg:order-1 reveal">
-                {/* Featured Image Placeholder */}
-                <div className="aspect-video bg-gradient-to-br from-edtech-blue/10 to-edtech-green/10 rounded-3xl mb-12 flex items-center justify-center border border-gray-200 shadow-lg overflow-hidden group">
-                  <div className="w-20 h-20 bg-white/80 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                    <svg className="w-10 h-10 text-edtech-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
+                {/* Featured Image */}
+                <div className="aspect-video rounded-3xl mb-12 border border-gray-200 shadow-lg overflow-hidden group">
+                  {post.image ? (
+                    <img 
+                      src={post.image.startsWith('http') ? post.image : `/api/uploads/blog-images/${post.image}`}
+                      alt={post.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      onError={(e) => {
+                        if (!(e.target as HTMLImageElement).dataset.usedFallback) {
+                          const target = e.target as HTMLImageElement;
+                          target.dataset.usedFallback = 'true';
+                          target.style.display = 'none';
+                          
+                          // Add fallback
+                          const fallbackDiv = document.createElement('div');
+                          fallbackDiv.className = "w-full h-full bg-gradient-to-br from-edtech-blue/10 to-edtech-green/10 flex items-center justify-center";
+                          fallbackDiv.innerHTML = `
+                            <div class="w-20 h-20 bg-white/80 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                              <svg class="w-10 h-10 text-edtech-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                              </svg>
+                            </div>
+                          `;
+                          target.parentElement!.appendChild(fallbackDiv);
+                        }
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-edtech-blue/10 to-edtech-green/10 flex items-center justify-center">
+                      <div className="w-20 h-20 bg-white/80 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <svg className="w-10 h-10 text-edtech-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Article Content */}
@@ -519,15 +596,45 @@ export default function PostPage() {
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
                 {relatedPosts.map((relatedPost) => (
                   <article key={relatedPost.id} className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300 hover:scale-[1.02] group">
-                    <div className="aspect-video bg-gradient-to-br from-edtech-blue/20 to-edtech-green/20 relative overflow-hidden">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                          <svg className="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
+                    <div className="aspect-video relative overflow-hidden">
+                      {relatedPost.image ? (
+                        <div className="w-full h-full">
+                          <img 
+                            src={relatedPost.image.startsWith('http') ? relatedPost.image : `/api/uploads/blog-images/${relatedPost.image}`}
+                            alt={relatedPost.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            onError={(e) => {
+                              if (!(e.target as HTMLImageElement).dataset.usedFallback) {
+                                const target = e.target as HTMLImageElement;
+                                target.dataset.usedFallback = 'true';
+                                target.parentElement!.classList.add('bg-gradient-to-br', 'from-edtech-blue/20', 'to-edtech-green/20');
+                                target.style.display = 'none';
+                                
+                                // Create fallback icon
+                                const fallback = document.createElement('div');
+                                fallback.className = "absolute inset-0 flex items-center justify-center";
+                                fallback.innerHTML = `
+                                  <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                    <svg class="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                  </div>
+                                `;
+                                target.parentElement!.appendChild(fallback);
+                              }
+                            }}
+                          />
                         </div>
-                      </div>
-                      <div className="absolute top-4 left-4">
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-edtech-blue/20 to-edtech-green/20 flex items-center justify-center">
+                          <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <svg className="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </div>
+                        </div>
+                      )}
+                      <div className="absolute top-4 left-4 z-10">
                         <span className="bg-edtech-blue/30 backdrop-blur-sm text-edtech-blue px-3 py-1 rounded-full text-xs font-medium border border-edtech-blue/20">
                           {relatedPost.category}
                         </span>
@@ -562,11 +669,35 @@ export default function PostPage() {
                       
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 rounded-full flex items-center justify-center">
-                            <span className="text-xs font-bold">
-                              {relatedPost.author.name.charAt(0)}
-                            </span>
-                          </div>
+                          {relatedPost.author.avatar ? (
+                            <div className="w-8 h-8 rounded-full overflow-hidden">
+                              <img 
+                                src={relatedPost.author.avatar.startsWith('http') ? relatedPost.author.avatar : `/api/uploads/blog-images/${relatedPost.author.avatar}`}
+                                alt={relatedPost.author.name}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  if (!(e.target as HTMLImageElement).dataset.usedFallback) {
+                                    const target = e.target as HTMLImageElement;
+                                    target.dataset.usedFallback = 'true';
+                                    target.style.display = 'none';
+                                    target.parentElement!.classList.add('bg-gradient-to-br', 'from-edtech-green/20', 'to-edtech-orange/20', 'flex', 'items-center', 'justify-center');
+                                    
+                                    // Add fallback letter
+                                    const fallbackLetter = document.createElement('span');
+                                    fallbackLetter.className = 'text-xs font-bold';
+                                    fallbackLetter.textContent = relatedPost.author.name.charAt(0);
+                                    target.parentElement!.appendChild(fallbackLetter);
+                                  }
+                                }}
+                              />
+                            </div>
+                          ) : (
+                            <div className="w-8 h-8 bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 rounded-full flex items-center justify-center">
+                              <span className="text-xs font-bold">
+                                {relatedPost.author.name.charAt(0)}
+                              </span>
+                            </div>
+                          )}
                           <div>
                             <div className="text-xs text-white/80 font-medium">{relatedPost.author.name}</div>
                             <div className="text-xs text-white/50">{relatedPost.author.role}</div>

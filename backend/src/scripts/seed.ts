@@ -1,10 +1,45 @@
 import migrateData from './migrate';
 import fullMigrateData from './fullMigrate';
+import { UserModel } from '../models/User';
+import { connectDatabase } from '../utils/database';
+
+async function createAdminUser(): Promise<void> {
+  console.log('👑 Creating admin user...');
+  
+  try {
+    // Check if admin user already exists
+    const existingAdmin = await UserModel.findOne({ role: 'admin' });
+    if (existingAdmin) {
+      console.log('🔹 Admin user already exists:', existingAdmin.email);
+      return;
+    }
+
+    // Create default admin user
+    const adminUser = new UserModel({
+      email: process.env.ADMIN_EMAIL || 'admin@edtech.com',
+      password: process.env.ADMIN_PASSWORD || 'admin123456',
+      name: process.env.ADMIN_NAME || 'Admin User',
+      role: 'admin'
+    });
+
+    await adminUser.save();
+    console.log('✅ Admin user created successfully:', adminUser.email);
+  } catch (error) {
+    console.error('❌ Failed to create admin user:', error);
+    throw error;
+  }
+}
 
 async function seedDatabase(): Promise<void> {
   console.log('🌱 Starting complete database seeding...');
   
   try {
+    // Connect to database if not already connected
+    await connectDatabase();
+    
+    // Create admin user first
+    await createAdminUser();
+    
     // Run basic migration first
     await migrateData();
     

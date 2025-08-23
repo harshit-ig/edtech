@@ -22,7 +22,6 @@ import type {
   AdvantageStat,
   Testimonial,
   CourseIcons,
-  IconCategories,
   GeoJsonCollection,
   AboutDataResponse,
   MentorDataResponse,
@@ -149,7 +148,6 @@ export const getPartnerCompaniesData = (): Promise<CompanyLogo[]> => getCachedDa
 export const getAdvantageStatsData = (): Promise<AdvantageStat[]> => getCachedData('advantageStats', api.getAdvantageStats);
 export const getTestimonialsData = (): Promise<Testimonial[]> => getCachedData('testimonials', api.getTestimonials);
 export const getCourseIconsData = (): Promise<CourseIcons> => getCachedData('courseIcons', api.getCourseIcons);
-export const getIconCategoriesData = (): Promise<IconCategories> => getCachedData('iconCategories', api.getIconCategories);
 export const getGeoDataData = (): Promise<GeoJsonCollection> => getCachedData('geoData', api.getGeoData);
 
 // ===== LEGACY COMPATIBILITY FUNCTIONS =====
@@ -177,17 +175,6 @@ export const getIcon = async (iconName?: string): Promise<string> => {
 
 export const getCourseIcon = async (course: { iconName?: string }): Promise<string> => {
   return getIcon(course.iconName);
-};
-
-export const getSuggestedIcons = async (category: string): Promise<string[]> => {
-  try {
-    const iconCategories = await getIconCategoriesData();
-    const categoryKey = category.toLowerCase().replace(/\s+/g, '-');
-    return iconCategories[categoryKey] || ['default'];
-  } catch (error) {
-    console.error('Error fetching suggested icons:', error);
-    return ['default'];
-  }
 };
 
 // ===== COMBINED DATA FUNCTIONS =====
@@ -244,14 +231,12 @@ export const getIconsPageData = async (): Promise<IconsDataResponse> => {
   try {
     const data = await api.getIconsData() as IconsDataResponse;
     return {
-      courseIcons: data.courseIcons || {},
-      iconCategories: data.iconCategories || {}
+      courseIcons: data.courseIcons || {}
     };
   } catch (error) {
     console.error('Error fetching icons data:', error);
     return {
-      courseIcons: {},
-      iconCategories: {}
+      courseIcons: {}
     };
   }
 };

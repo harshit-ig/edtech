@@ -253,10 +253,6 @@ export interface CourseIcons {
   [key: string]: string;
 }
 
-export interface IconCategories {
-  [key: string]: string[];
-}
-
 // GeoJSON Types
 export interface GeoJsonFeature {
   type: 'Feature';
@@ -295,5 +291,4 @@ export interface MentorDataResponse {
 
 export interface IconsDataResponse {
   courseIcons: CourseIcons;
-  iconCategories: IconCategories;
 }

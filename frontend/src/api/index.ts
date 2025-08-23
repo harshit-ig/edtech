@@ -302,10 +302,6 @@ export const getCourseIcons = async () => {
   return apiRequest<any>('/icons');
 };
 
-export const getIconCategories = async () => {
-  return apiRequest<any>('/icons/categories');
-};
-
 export const getIconByName = async (iconName: string) => {
   return apiRequest<any>(`/icons/${iconName}`);
 };

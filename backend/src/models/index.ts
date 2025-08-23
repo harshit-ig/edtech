@@ -5,4 +5,7 @@ export * from './Blog';
 export * from './FAQ';
 export * from './Mentor';
 export * from './Statistics';
+export * from './User';
+
+// Asset models (CourseIcon, IconCategory, etc.)
 export * from './Assets';

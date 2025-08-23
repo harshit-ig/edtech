@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import path from 'path';
 
 import { connectDatabase } from './utils/database';
 import routes from './routes';
@@ -38,6 +39,9 @@ app.use(morgan('combined'));
 // Body parsing
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Static file serving for uploads
+app.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
 
 // API routes
 app.use(process.env.API_PREFIX || '/api', routes);

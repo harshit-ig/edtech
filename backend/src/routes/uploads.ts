@@ -1,0 +1,22 @@
+import { Router } from 'express';
+import path from 'path';
+import { Request, Response } from 'express';
+
+const router = Router();
+
+// Serve static files from the uploads directory
+router.get('/blog-images/:filename', (req: Request, res: Response) => {
+  const { filename } = req.params;
+  const filePath = path.join(__dirname, '../../../uploads/blog-images', filename);
+  
+  // Check if file exists first
+  const fs = require('fs');
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).send('Image not found');
+  }
+  
+  // Send the file
+  res.sendFile(filePath);
+});
+
+export default router;
