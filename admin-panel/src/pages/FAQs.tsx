@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { adminApi } from '../lib/api';
-import { Plus, Edit2, Trash2, Save, X, HelpCircle } from 'lucide-react';
+import { faqsApi } from '../lib/api';
+import { Save, Plus, Trash2, Edit3, HelpCircle } from 'lucide-react';
 
 interface FAQ {
   _id: string;
@@ -13,9 +13,9 @@ const FAQs: React.FC = () => {
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [showModal, setShowModal] = useState(false);
-  const [editData, setEditData] = useState<Partial<FAQ>>({});
+  const [formData, setFormData] = useState<Partial<FAQ>>({});
 
   useEffect(() => {
     fetchFAQs();
@@ -23,41 +23,70 @@ const FAQs: React.FC = () => {
 
   const fetchFAQs = async () => {
     try {
+      console.log('Fetching FAQs...');
       setLoading(true);
-      const response = await adminApi.getAll('faqs');
+      const response = await faqsApi.getAll();
+      console.log('Fetch response:', response);
       if (response.success) {
-        setFaqs(Array.isArray(response.data) ? response.data : []);
-      } else {
-        setError(response.message || 'Failed to fetch FAQs');
+        setFaqs(response.data as FAQ[]);
       }
     } catch (error) {
+      console.error('Fetch error:', error);
       setError(error instanceof Error ? error.message : 'Failed to fetch FAQs');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleCreate = () => {
+    console.log('handleCreate called');
+    const nextId = Math.max(...faqs.map(f => f.id), 0) + 1;
+    setEditingId('new');
+    setFormData({
+      id: nextId,
+      question: '',
+      answer: ''
+    });
+  };
+
   const handleEdit = (faq: FAQ) => {
-    setEditData(faq);
     setEditingId(faq._id);
-    setShowModal(true);
+    setFormData(faq);
   };
 
   const handleSave = async () => {
-    if (!editingId || !editData) return;
+    console.log('handleSave called', { formData, editingId });
+    if (!formData.id || !formData.question || !formData.answer) {
+      setError('All fields are required');
+      return;
+    }
 
     try {
-      const response = await adminApi.update('faqs', editingId, editData);
-      if (response.success) {
-        fetchFAQs();
-        setShowModal(false);
+      setSaving(true);
+      let response;
+      
+      if (editingId === 'new') {
+        console.log('Creating new FAQ...');
+        response = await faqsApi.create(formData);
+      } else if (editingId) {
+        console.log('Updating FAQ...');
+        response = await faqsApi.update(editingId, formData);
+      }
+
+      console.log('API response:', response);
+      if (response?.success) {
+        await fetchFAQs();
         setEditingId(null);
-        setEditData({});
+        setFormData({});
+        setError('');
       } else {
-        setError(response.message || 'Failed to update FAQ');
+        setError(response?.message || 'Failed to save FAQ');
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to update FAQ');
+      console.error('Save error:', error);
+      setError(error instanceof Error ? error.message : 'Failed to save FAQ');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -65,185 +94,217 @@ const FAQs: React.FC = () => {
     if (!confirm('Are you sure you want to delete this FAQ?')) return;
 
     try {
-      const response = await adminApi.delete('faqs', id);
-      if (response.success) {
-        fetchFAQs();
+      const response = await faqsApi.delete(id);
+      if (response?.success) {
+        await fetchFAQs();
       } else {
-        setError(response.message || 'Failed to delete FAQ');
+        setError(response?.message || 'Failed to delete FAQ');
       }
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Failed to delete FAQ');
     }
   };
 
-  const handleCreate = () => {
-    const nextId = Math.max(...faqs.map(f => f.id), 0) + 1;
-    setEditData({
-      id: nextId,
-      question: '',
-      answer: ''
-    });
+  const handleCancel = () => {
     setEditingId(null);
-    setShowModal(true);
-  };
-
-  const handleCreateSave = async () => {
-    try {
-      const response = await adminApi.create('faqs', editData);
-      if (response.success) {
-        fetchFAQs();
-        setShowModal(false);
-        setEditData({});
-      } else {
-        setError(response.message || 'Failed to create FAQ');
-      }
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to create FAQ');
-    }
+    setFormData({});
+    setError('');
   };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="loading-spinner w-8 h-8"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">FAQs</h1>
-          <p className="text-gray-600 mt-2">Manage frequently asked questions</p>
+          <h1 className="text-2xl font-bold text-gray-900">FAQs</h1>
+          <p className="text-gray-600">Manage frequently asked questions</p>
         </div>
-        <button onClick={handleCreate} className="btn btn-primary">
-          <Plus className="w-4 h-4" />
+        <button
+          onClick={handleCreate}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2"
+        >
+          <Plus size={20} />
           Add FAQ
         </button>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-sm text-red-600">{error}</p>
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+          {error}
         </div>
       )}
 
-      {/* FAQs List */}
-      {faqs.length > 0 ? (
-        <div className="space-y-4">
-          {faqs.map((faq) => (
-            <div key={faq._id} className="card">
-              <div className="card-body">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="text-sm font-medium text-gray-500">#{faq.id}</span>
-                      <h3 className="text-lg font-semibold text-gray-900">{faq.question}</h3>
-                    </div>
-                    <p className="text-gray-600">{faq.answer}</p>
+      {/* New FAQ Form */}
+      {editingId === 'new' && (
+        <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New FAQ</h3>
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  ID
+                </label>
+                <input
+                  type="number"
+                  value={formData.id || ''}
+                  onChange={(e) => setFormData({ ...formData, id: parseInt(e.target.value) })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="e.g., 1"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Question
+                </label>
+                <input
+                  type="text"
+                  value={formData.question || ''}
+                  onChange={(e) => setFormData({ ...formData, question: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="e.g., What courses do you offer?"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Answer
+                </label>
+                <textarea
+                  value={formData.answer || ''}
+                  onChange={(e) => setFormData({ ...formData, answer: e.target.value })}
+                  rows={4}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Provide a detailed answer..."
+                />
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={handleSave}
+                disabled={saving}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
+              >
+                <Save size={16} />
+                {saving ? 'Saving...' : 'Save'}
+              </button>
+              <button
+                onClick={handleCancel}
+                className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="grid gap-6">
+        {faqs.map((faq) => (
+          <div key={faq._id} className="bg-white border border-gray-200 rounded-lg p-6">
+            {editingId === faq._id ? (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      ID
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.id || ''}
+                      onChange={(e) => setFormData({ ...formData, id: parseInt(e.target.value) })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="e.g., 1"
+                    />
                   </div>
-                  <div className="flex items-center gap-2 ml-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Question
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.question || ''}
+                      onChange={(e) => setFormData({ ...formData, question: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="e.g., What courses do you offer?"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Answer
+                    </label>
+                    <textarea
+                      value={formData.answer || ''}
+                      onChange={(e) => setFormData({ ...formData, answer: e.target.value })}
+                      rows={4}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Provide a detailed answer..."
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
+                  >
+                    <Save size={16} />
+                    {saving ? 'Saving...' : 'Save'}
+                  </button>
+                  <button
+                    onClick={handleCancel}
+                    className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="flex justify-between items-start">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <HelpCircle className="text-blue-600" size={24} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-sm font-medium text-gray-500">ID: {faq.id}</span>
+                      </div>
+                      <div className="text-lg font-semibold text-gray-900 mb-2">{faq.question}</div>
+                      <div className="text-gray-600">{faq.answer}</div>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
                     <button
                       onClick={() => handleEdit(faq)}
-                      className="btn btn-secondary btn-sm"
+                      className="text-blue-600 hover:text-blue-800 p-2"
                     >
-                      <Edit2 className="w-3 h-3" />
+                      <Edit3 size={16} />
                     </button>
                     <button
                       onClick={() => handleDelete(faq._id)}
-                      className="btn btn-danger btn-sm"
+                      className="text-red-600 hover:text-red-800 p-2"
                     >
-                      <Trash2 className="w-3 h-3" />
+                      <Trash2 size={16} />
                     </button>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="card">
-          <div className="card-body text-center py-12">
-            <HelpCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No FAQs found</h3>
-            <p className="text-gray-500 mb-4">Get started by creating your first FAQ</p>
-            <button onClick={handleCreate} className="btn btn-primary">
-              <Plus className="w-4 h-4" />
-              Add FAQ
-            </button>
+            )}
           </div>
-        </div>
-      )}
+        ))}
+      </div>
 
-      {/* Edit/Create Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="card-header flex items-center justify-between">
-              <h3 className="text-lg font-medium">
-                {editingId ? 'Edit FAQ' : 'Create FAQ'}
-              </h3>
-              <button
-                onClick={() => setShowModal(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            
-            <div className="card-body space-y-4">
-              <div className="form-group">
-                <label className="form-label">ID</label>
-                <input
-                  type="number"
-                  className="form-input"
-                  value={editData.id || ''}
-                  onChange={(e) => setEditData({ ...editData, id: Number(e.target.value) })}
-                  placeholder="1"
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Question</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  value={editData.question || ''}
-                  onChange={(e) => setEditData({ ...editData, question: e.target.value })}
-                  placeholder="What is your refund policy?"
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Answer</label>
-                <textarea
-                  className="form-input"
-                  rows={4}
-                  value={editData.answer || ''}
-                  onChange={(e) => setEditData({ ...editData, answer: e.target.value })}
-                  placeholder="Provide a detailed answer to the question..."
-                />
-              </div>
-            </div>
-
-            <div className="card-footer flex items-center justify-end gap-3">
-              <button
-                onClick={() => setShowModal(false)}
-                className="btn btn-secondary"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={editingId ? handleSave : handleCreateSave}
-                className="btn btn-primary"
-              >
-                <Save className="w-4 h-4" />
-                {editingId ? 'Update' : 'Create'}
-              </button>
-            </div>
-          </div>
+      {faqs.length === 0 && !loading && (
+        <div className="text-center py-12">
+          <HelpCircle className="mx-auto h-12 w-12 text-gray-400" />
+          <h3 className="mt-2 text-sm font-medium text-gray-900">No FAQs</h3>
+          <p className="mt-1 text-sm text-gray-500">Get started by creating your first FAQ.</p>
         </div>
       )}
     </div>

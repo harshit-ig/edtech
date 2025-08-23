@@ -11,11 +11,14 @@ import TeamMembersList from './pages/TeamMembers';
 import UsersList from './pages/Users';
 import FAQs from './pages/FAQs';
 import Mentors from './pages/Mentors';
+import MentorFeatures from './pages/MentorFeatures';
+import CompanyLogos from './pages/CompanyLogos';
+import AdvantageStats from './pages/AdvantageStats';
+import Testimonials from './pages/Testimonials';
 import CompanyInfo from './pages/CompanyInfo';
 import Statistics from './pages/Statistics';
 import Values from './pages/Values';
 import Milestones from './pages/Milestones';
-import ContactData from './pages/ContactData';
 import UpcomingSkills from './pages/UpcomingSkills';
 import './index.css';
 
@@ -88,6 +91,10 @@ const AppRoutes: React.FC = () => {
         <Route path="users" element={<UsersList />} />
         <Route path="faqs" element={<FAQs />} />
         <Route path="mentors" element={<Mentors />} />
+        <Route path="mentor-features" element={<MentorFeatures />} />
+        <Route path="company-logos" element={<CompanyLogos />} />
+        <Route path="advantage-stats" element={<AdvantageStats />} />
+        <Route path="testimonials" element={<Testimonials />} />
         
         {/* Additional management pages */}
         <Route path="company-info" element={<CompanyInfo />} />
@@ -95,7 +102,7 @@ const AppRoutes: React.FC = () => {
         <Route path="values" element={<Values />} />
         <Route path="stats" element={<Statistics />} />
         <Route path="milestones" element={<Milestones />} />
-        <Route path="contact-data" element={<ContactData />} />
+
       </Route>
 
       {/* Catch all route */}

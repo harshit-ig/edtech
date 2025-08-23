@@ -25,7 +25,6 @@ const TestimonialSchema = new Schema<Testimonial & Document>({
   rating: { type: Number, required: true },
   review: { type: String, required: true },
   category: { type: String, required: true },
-  avatar: { type: String },
   accent: { 
     type: String, 
     required: true,

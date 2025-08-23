@@ -140,18 +140,9 @@ function Globe() {
 
     const isHighlighted = (f: any) => {
       const name = getName(f);
-      const iso3 = getISO3(f);
       
-      // Check if country is in the highlighted countries list
-      if (highlightedCountries.includes(name)) return true;
-      
-      // Special handling for USA variants
-      if (iso3 === "USA" || name === "USA") return true;
-      
-      // Special handling for UK (England) via ISO code
-      if (iso3 === "GBR") return true;
-      
-      return false;
+      // Only highlight countries that are in the highlighted countries list
+      return highlightedCountries.includes(name);
     };
 
     const highlightedFeatures = geoData.features.filter((f: any) => isHighlighted(f));

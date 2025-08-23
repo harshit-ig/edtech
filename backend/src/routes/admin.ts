@@ -79,6 +79,55 @@ import {
   updateUpcomingSkill,
   deleteUpcomingSkill,
   
+  // Highlighted Countries routes
+  getAllHighlightedCountries,
+  getHighlightedCountriesById,
+  createHighlightedCountries,
+  updateHighlightedCountries,
+  deleteHighlightedCountries,
+  
+  // Mentor routes
+  getAllMentors,
+  getMentorById,
+  createMentor,
+  updateMentor,
+  deleteMentor,
+  
+  // Mentor Feature routes
+  getAllMentorFeatures,
+  getMentorFeatureById,
+  createMentorFeature,
+  updateMentorFeature,
+  deleteMentorFeature,
+  
+  // Company Logo routes
+  getAllCompanyLogos,
+  getCompanyLogoById,
+  createCompanyLogo,
+  updateCompanyLogo,
+  deleteCompanyLogo,
+  
+  // FAQ routes
+  getAllFAQs,
+  getFAQById,
+  createFAQ,
+  updateFAQ,
+  deleteFAQ,
+  
+  // Advantage Stat routes
+  getAllAdvantageStats,
+  getAdvantageStatById,
+  createAdvantageStat,
+  updateAdvantageStat,
+  deleteAdvantageStat,
+  
+  // Testimonial routes
+  getAllTestimonials,
+  getTestimonialById,
+  createTestimonial,
+  updateTestimonial,
+  deleteTestimonial,
+  
   // Dashboard
   getDashboardStats
 } from '../controllers/adminController';
@@ -195,5 +244,68 @@ router.get('/upcoming-skills/:id', getUpcomingSkillById);
 router.post('/upcoming-skills', createUpcomingSkill);
 router.put('/upcoming-skills/:id', updateUpcomingSkill);
 router.delete('/upcoming-skills/:id', deleteUpcomingSkill);
+
+/**
+ * Highlighted Countries CRUD Routes
+ */
+router.get('/highlighted-countries', getAllHighlightedCountries);
+router.get('/highlighted-countries/:id', getHighlightedCountriesById);
+router.post('/highlighted-countries', createHighlightedCountries);
+router.put('/highlighted-countries/:id', updateHighlightedCountries);
+router.delete('/highlighted-countries/:id', deleteHighlightedCountries);
+
+/**
+ * Mentors CRUD Routes
+ */
+router.get('/mentors', getAllMentors);
+router.get('/mentors/:id', getMentorById);
+router.post('/mentors', createMentor);
+router.put('/mentors/:id', updateMentor);
+router.delete('/mentors/:id', deleteMentor);
+
+/**
+ * Mentor Features CRUD Routes
+ */
+router.get('/mentor-features', getAllMentorFeatures);
+router.get('/mentor-features/:id', getMentorFeatureById);
+router.post('/mentor-features', createMentorFeature);
+router.put('/mentor-features/:id', updateMentorFeature);
+router.delete('/mentor-features/:id', deleteMentorFeature);
+
+/**
+ * Company Logos CRUD Routes
+ */
+router.get('/company-logos', getAllCompanyLogos);
+router.get('/company-logos/:id', getCompanyLogoById);
+router.post('/company-logos', createCompanyLogo);
+router.put('/company-logos/:id', updateCompanyLogo);
+router.delete('/company-logos/:id', deleteCompanyLogo);
+
+/**
+ * FAQs CRUD Routes
+ */
+router.get('/faqs', getAllFAQs);
+router.get('/faqs/:id', getFAQById);
+router.post('/faqs', createFAQ);
+router.put('/faqs/:id', updateFAQ);
+router.delete('/faqs/:id', deleteFAQ);
+
+/**
+ * Advantage Stats CRUD Routes
+ */
+router.get('/advantage-stats', getAllAdvantageStats);
+router.get('/advantage-stats/:id', getAdvantageStatById);
+router.post('/advantage-stats', createAdvantageStat);
+router.put('/advantage-stats/:id', updateAdvantageStat);
+router.delete('/advantage-stats/:id', deleteAdvantageStat);
+
+/**
+ * Testimonials CRUD Routes
+ */
+router.get('/testimonials', getAllTestimonials);
+router.get('/testimonials/:id', getTestimonialById);
+router.post('/testimonials', createTestimonial);
+router.put('/testimonials/:id', updateTestimonial);
+router.delete('/testimonials/:id', deleteTestimonial);
 
 export default router;

@@ -10,7 +10,14 @@ import {
   StatModel,
   MilestoneModel,
   ContactDataModel,
-  UpcomingSkillModel
+  UpcomingSkillModel,
+  HighlightedCountriesModel,
+  MentorModel,
+  MentorFeatureModel,
+  CompanyLogoModel,
+  FAQModel,
+  AdvantageStatModel,
+  TestimonialModel
 } from '../models';
 
 // Generic CRUD operations for any model
@@ -238,6 +245,55 @@ export const getUpcomingSkillById = AdminController.getById(UpcomingSkillModel);
 export const createUpcomingSkill = AdminController.create(UpcomingSkillModel);
 export const updateUpcomingSkill = AdminController.update(UpcomingSkillModel);
 export const deleteUpcomingSkill = AdminController.delete(UpcomingSkillModel);
+
+// Highlighted Countries Controllers
+export const getAllHighlightedCountries = AdminController.getAll(HighlightedCountriesModel);
+export const getHighlightedCountriesById = AdminController.getById(HighlightedCountriesModel);
+export const createHighlightedCountries = AdminController.create(HighlightedCountriesModel);
+export const updateHighlightedCountries = AdminController.update(HighlightedCountriesModel);
+export const deleteHighlightedCountries = AdminController.delete(HighlightedCountriesModel);
+
+// Mentor Controllers
+export const getAllMentors = AdminController.getAll(MentorModel);
+export const getMentorById = AdminController.getById(MentorModel);
+export const createMentor = AdminController.create(MentorModel);
+export const updateMentor = AdminController.update(MentorModel);
+export const deleteMentor = AdminController.delete(MentorModel);
+
+// Mentor Feature Controllers
+export const getAllMentorFeatures = AdminController.getAll(MentorFeatureModel);
+export const getMentorFeatureById = AdminController.getById(MentorFeatureModel);
+export const createMentorFeature = AdminController.create(MentorFeatureModel);
+export const updateMentorFeature = AdminController.update(MentorFeatureModel);
+export const deleteMentorFeature = AdminController.delete(MentorFeatureModel);
+
+// Company Logo Controllers
+export const getAllCompanyLogos = AdminController.getAll(CompanyLogoModel);
+export const getCompanyLogoById = AdminController.getById(CompanyLogoModel);
+export const createCompanyLogo = AdminController.create(CompanyLogoModel);
+export const updateCompanyLogo = AdminController.update(CompanyLogoModel);
+export const deleteCompanyLogo = AdminController.delete(CompanyLogoModel);
+
+// FAQ Controllers
+export const getAllFAQs = AdminController.getAll(FAQModel);
+export const getFAQById = AdminController.getById(FAQModel);
+export const createFAQ = AdminController.create(FAQModel);
+export const updateFAQ = AdminController.update(FAQModel);
+export const deleteFAQ = AdminController.delete(FAQModel);
+
+// Advantage Stat Controllers
+export const getAllAdvantageStats = AdminController.getAll(AdvantageStatModel);
+export const getAdvantageStatById = AdminController.getById(AdvantageStatModel);
+export const createAdvantageStat = AdminController.create(AdvantageStatModel);
+export const updateAdvantageStat = AdminController.update(AdvantageStatModel);
+export const deleteAdvantageStat = AdminController.delete(AdvantageStatModel);
+
+// Testimonial Controllers
+export const getAllTestimonials = AdminController.getAll(TestimonialModel);
+export const getTestimonialById = AdminController.getById(TestimonialModel);
+export const createTestimonial = AdminController.create(TestimonialModel);
+export const updateTestimonial = AdminController.update(TestimonialModel);
+export const deleteTestimonial = AdminController.delete(TestimonialModel);
 
 /**
  * Dashboard statistics

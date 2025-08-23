@@ -12,7 +12,9 @@ import {
   MapPin,
   Calendar,
   Laptop,
-  HelpCircle
+  HelpCircle,
+  Star,
+  MessageSquare
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -27,13 +29,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     { name: 'Blog Posts', href: '/blogs', icon: BookOpen },
     { name: 'Team Members', href: '/team-members', icon: Users },
     { name: 'Mentors', href: '/mentors', icon: Users },
+    { name: 'Mentor Features', href: '/mentor-features', icon: Star },
+    { name: 'Company Logos', href: '/company-logos', icon: Building2 },
+    { name: 'Advantage Stats', href: '/advantage-stats', icon: TrendingUp },
+    { name: 'Testimonials', href: '/testimonials', icon: MessageSquare },
     { name: 'FAQs', href: '/faqs', icon: HelpCircle },
     { name: 'Company Info', href: '/company-info', icon: Building2 },
     { name: 'Upcoming Skills', href: '/upcoming-skills', icon: TrendingUp },
     { name: 'Values', href: '/values', icon: Sparkles },
     { name: 'Statistics', href: '/stats', icon: BarChart3 },
     { name: 'Milestones', href: '/milestones', icon: Calendar },
-    { name: 'Contact Data', href: '/contact-data', icon: MapPin },
     { name: 'User Management', href: '/users', icon: Settings },
   ];
 

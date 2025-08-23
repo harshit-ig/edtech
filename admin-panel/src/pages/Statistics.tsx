@@ -2,59 +2,41 @@ import React, { useState, useEffect } from 'react';
 import { statsApi } from '../lib/api';
 import { BarChart3, Save, Plus, Trash2, Edit3 } from 'lucide-react';
 
-interface Statistics {
+interface Stat {
   _id: string;
-  totalStudents: number;
-  successRate: number;
-  avgSalaryIncrease: number;
-  companiesPartnered: number;
-  coursesCompleted: number;
-  jobPlacements: number;
-  industryCategories: Array<{
-    category: string;
-    percentage: number;
-    color: string;
-  }>;
-  salaryRanges: Array<{
-    range: string;
-    percentage: number;
-    count: number;
-  }>;
-  locationStats: Array<{
-    city: string;
-    country: string;
-    studentsCount: number;
-    averageSalary: number;
-  }>;
-  yearlyGrowth: Array<{
-    year: number;
-    students: number;
-    revenue: number;
-    placements: number;
-  }>;
+  number: string;
+  label: string;
+  color: string;
 }
 
 const Statistics: React.FC = () => {
-  const [statistics, setStatistics] = useState<Statistics[]>([]);
+  const [stats, setStats] = useState<Stat[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [formData, setFormData] = useState<Partial<Statistics>>({});
+  const [formData, setFormData] = useState<Partial<Stat>>({});
+
+  const colorOptions = [
+    { value: 'edtech-green', label: 'Green', color: '#10b981' },
+    { value: 'edtech-orange', label: 'Orange', color: '#f59e0b' },
+    { value: 'edtech-red', label: 'Red', color: '#ef4444' },
+    { value: 'edtech-blue', label: 'Blue', color: '#3b82f6' }
+  ];
 
   useEffect(() => {
-    fetchStatistics();
+    fetchStats();
   }, []);
 
-  const fetchStatistics = async () => {
+  const fetchStats = async () => {
     try {
       setLoading(true);
       const response = await statsApi.getAll();
       if (response.success) {
-        setStatistics(response.data as Statistics[]);
+        setStats(response.data as Stat[]);
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to fetch statistics');
+      setError(error instanceof Error ? error.message : 'Failed to fetch stats');
     } finally {
       setLoading(false);
     }
@@ -63,25 +45,23 @@ const Statistics: React.FC = () => {
   const handleCreate = () => {
     setEditingId('new');
     setFormData({
-      totalStudents: 0,
-      successRate: 0,
-      avgSalaryIncrease: 0,
-      companiesPartnered: 0,
-      coursesCompleted: 0,
-      jobPlacements: 0,
-      industryCategories: [],
-      salaryRanges: [],
-      locationStats: [],
-      yearlyGrowth: []
+      number: '',
+      label: '',
+      color: 'edtech-green'
     });
   };
 
-  const handleEdit = (stat: Statistics) => {
+  const handleEdit = (stat: Stat) => {
     setEditingId(stat._id);
     setFormData(stat);
   };
 
   const handleSave = async () => {
+    if (!formData.number || !formData.label || !formData.color) {
+      setError('Number, label, and color are required');
+      return;
+    }
+
     try {
       setSaving(true);
       let response;
@@ -93,331 +73,172 @@ const Statistics: React.FC = () => {
       }
 
       if (response?.success) {
-        await fetchStatistics();
+        await fetchStats();
         setEditingId(null);
         setFormData({});
+        setError('');
       } else {
-        setError(response?.message || 'Failed to save statistics');
+        setError(response?.message || 'Failed to save stat');
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to save statistics');
+      setError(error instanceof Error ? error.message : 'Failed to save stat');
     } finally {
       setSaving(false);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this statistics entry?')) return;
+    if (!confirm('Are you sure you want to delete this stat?')) return;
 
     try {
       const response = await statsApi.delete(id);
-      if (response.success) {
-        await fetchStatistics();
+      if (response?.success) {
+        await fetchStats();
       } else {
-        setError(response.message || 'Failed to delete statistics');
+        setError(response?.message || 'Failed to delete stat');
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to delete statistics');
+      setError(error instanceof Error ? error.message : 'Failed to delete stat');
     }
   };
 
-  const addArrayItem = (field: keyof Statistics, defaultValue: any) => {
-    setFormData({
-      ...formData,
-      [field]: [...((formData[field] as any[]) || []), defaultValue]
-    });
-  };
-
-  const updateArrayItem = (field: keyof Statistics, index: number, value: any) => {
-    const array = [...((formData[field] as any[]) || [])];
-    array[index] = value;
-    setFormData({ ...formData, [field]: array });
-  };
-
-  const removeArrayItem = (field: keyof Statistics, index: number) => {
-    const array = [...((formData[field] as any[]) || [])];
-    array.splice(index, 1);
-    setFormData({ ...formData, [field]: array });
+  const handleCancel = () => {
+    setEditingId(null);
+    setFormData({});
+    setError('');
   };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="loading-spinner w-8 h-8"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Statistics Management</h1>
-          <p className="text-gray-600 mt-2">Track and manage platform statistics</p>
+          <h1 className="text-2xl font-bold text-gray-900">About Statistics</h1>
+          <p className="text-gray-600">Manage the statistics displayed on the About page</p>
         </div>
-        <button onClick={handleCreate} className="btn btn-primary">
-          <Plus className="w-4 h-4" />
-          Add Statistics
+        <button
+          onClick={handleCreate}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2"
+        >
+          <Plus size={20} />
+          Add Stat
         </button>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-sm text-red-600">{error}</p>
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+          {error}
         </div>
       )}
 
-      {editingId && (
-        <div className="card">
-          <div className="card-header">
-            <h3 className="text-lg font-medium">
-              {editingId === 'new' ? 'Add New Statistics' : 'Edit Statistics'}
-            </h3>
-          </div>
-          <div className="card-body space-y-6">
-            {/* Basic Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="form-group">
-                <label className="form-label">Total Students</label>
-                <input
-                  type="number"
-                  className="form-input"
-                  value={formData.totalStudents || ''}
-                  onChange={(e) => setFormData({ ...formData, totalStudents: parseInt(e.target.value) || 0 })}
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Success Rate (%)</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  className="form-input"
-                  value={formData.successRate || ''}
-                  onChange={(e) => setFormData({ ...formData, successRate: parseFloat(e.target.value) || 0 })}
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Avg Salary Increase (%)</label>
-                <input
-                  type="number"
-                  className="form-input"
-                  value={formData.avgSalaryIncrease || ''}
-                  onChange={(e) => setFormData({ ...formData, avgSalaryIncrease: parseFloat(e.target.value) || 0 })}
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Companies Partnered</label>
-                <input
-                  type="number"
-                  className="form-input"
-                  value={formData.companiesPartnered || ''}
-                  onChange={(e) => setFormData({ ...formData, companiesPartnered: parseInt(e.target.value) || 0 })}
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Courses Completed</label>
-                <input
-                  type="number"
-                  className="form-input"
-                  value={formData.coursesCompleted || ''}
-                  onChange={(e) => setFormData({ ...formData, coursesCompleted: parseInt(e.target.value) || 0 })}
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Job Placements</label>
-                <input
-                  type="number"
-                  className="form-input"
-                  value={formData.jobPlacements || ''}
-                  onChange={(e) => setFormData({ ...formData, jobPlacements: parseInt(e.target.value) || 0 })}
-                />
-              </div>
-            </div>
-
-            {/* Industry Categories */}
-            <div>
-              <h4 className="text-md font-medium mb-3">Industry Categories</h4>
-              <div className="space-y-3">
-                {(formData.industryCategories || []).map((category, index) => (
-                  <div key={index} className="flex items-center gap-3">
+      <div className="grid gap-6">
+        {stats.map((stat) => (
+          <div key={stat._id} className="bg-white border border-gray-200 rounded-lg p-6">
+            {editingId === stat._id ? (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Number
+                    </label>
                     <input
                       type="text"
-                      className="form-input flex-1"
-                      placeholder="Category"
-                      value={category.category}
-                      onChange={(e) => updateArrayItem('industryCategories', index, { ...category, category: e.target.value })}
+                      value={formData.number || ''}
+                      onChange={(e) => setFormData({ ...formData, number: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="e.g., 50,000+"
                     />
-                    <input
-                      type="number"
-                      className="form-input w-24"
-                      placeholder="Percentage"
-                      min="0"
-                      max="100"
-                      value={category.percentage}
-                      onChange={(e) => updateArrayItem('industryCategories', index, { ...category, percentage: parseFloat(e.target.value) || 0 })}
-                    />
-                    <input
-                      type="color"
-                      className="w-12 h-10 rounded border"
-                      value={category.color}
-                      onChange={(e) => updateArrayItem('industryCategories', index, { ...category, color: e.target.value })}
-                    />
-                    <button
-                      onClick={() => removeArrayItem('industryCategories', index)}
-                      className="btn btn-danger btn-sm"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </button>
                   </div>
-                ))}
-                <button
-                  onClick={() => addArrayItem('industryCategories', { category: '', percentage: 0, color: '#3b82f6' })}
-                  className="btn btn-secondary btn-sm"
-                >
-                  <Plus className="w-3 h-3" />
-                  Add Category
-                </button>
-              </div>
-            </div>
-
-            {/* Salary Ranges */}
-            <div>
-              <h4 className="text-md font-medium mb-3">Salary Ranges</h4>
-              <div className="space-y-3">
-                {(formData.salaryRanges || []).map((range, index) => (
-                  <div key={index} className="flex items-center gap-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Label
+                    </label>
                     <input
                       type="text"
-                      className="form-input flex-1"
-                      placeholder="Range (e.g., $50k-$70k)"
-                      value={range.range}
-                      onChange={(e) => updateArrayItem('salaryRanges', index, { ...range, range: e.target.value })}
+                      value={formData.label || ''}
+                      onChange={(e) => setFormData({ ...formData, label: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="e.g., Students Graduated"
                     />
-                    <input
-                      type="number"
-                      className="form-input w-24"
-                      placeholder="Percentage"
-                      min="0"
-                      max="100"
-                      value={range.percentage}
-                      onChange={(e) => updateArrayItem('salaryRanges', index, { ...range, percentage: parseFloat(e.target.value) || 0 })}
-                    />
-                    <input
-                      type="number"
-                      className="form-input w-24"
-                      placeholder="Count"
-                      value={range.count}
-                      onChange={(e) => updateArrayItem('salaryRanges', index, { ...range, count: parseInt(e.target.value) || 0 })}
-                    />
-                    <button
-                      onClick={() => removeArrayItem('salaryRanges', index)}
-                      className="btn btn-danger btn-sm"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </button>
                   </div>
-                ))}
-                <button
-                  onClick={() => addArrayItem('salaryRanges', { range: '', percentage: 0, count: 0 })}
-                  className="btn btn-secondary btn-sm"
-                >
-                  <Plus className="w-3 h-3" />
-                  Add Range
-                </button>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Color
+                    </label>
+                    <select
+                      value={formData.color || ''}
+                      onChange={(e) => setFormData({ ...formData, color: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                      {colorOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
+                  >
+                    <Save size={16} />
+                    {saving ? 'Saving...' : 'Save'}
+                  </button>
+                  <button
+                    onClick={handleCancel}
+                    className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
-            </div>
-
-            <div className="flex items-center gap-3 pt-4 border-t">
-              <button 
-                onClick={handleSave} 
-                disabled={saving}
-                className="btn btn-primary"
-              >
-                <Save className="w-4 h-4" />
-                {saving ? 'Saving...' : 'Save Statistics'}
-              </button>
-              <button 
-                onClick={() => setEditingId(null)}
-                className="btn btn-secondary"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Statistics List */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {statistics.map((stat) => (
-          <div key={stat._id} className="card">
-            <div className="card-header">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-medium">Statistics Overview</h3>
-                <div className="flex items-center gap-2">
+            ) : (
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <BarChart3 className="text-blue-600" size={24} />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-gray-900">{stat.number}</div>
+                    <div className="text-gray-600">{stat.label}</div>
+                    <div className="text-sm text-gray-500">Color: {stat.color}</div>
+                  </div>
+                </div>
+                <div className="flex gap-2">
                   <button
                     onClick={() => handleEdit(stat)}
-                    className="btn btn-secondary btn-sm"
+                    className="text-blue-600 hover:text-blue-800 p-2"
                   >
-                    <Edit3 className="w-3 h-3" />
+                    <Edit3 size={16} />
                   </button>
                   <button
                     onClick={() => handleDelete(stat._id)}
-                    className="btn btn-danger btn-sm"
+                    className="text-red-600 hover:text-red-800 p-2"
                   >
-                    <Trash2 className="w-3 h-3" />
+                    <Trash2 size={16} />
                   </button>
                 </div>
               </div>
-            </div>
-            <div className="card-body">
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <p className="text-gray-600">Total Students</p>
-                  <p className="font-semibold text-lg">{stat.totalStudents.toLocaleString()}</p>
-                </div>
-                <div>
-                  <p className="text-gray-600">Success Rate</p>
-                  <p className="font-semibold text-lg">{stat.successRate}%</p>
-                </div>
-                <div>
-                  <p className="text-gray-600">Avg Salary Increase</p>
-                  <p className="font-semibold text-lg">{stat.avgSalaryIncrease}%</p>
-                </div>
-                <div>
-                  <p className="text-gray-600">Job Placements</p>
-                  <p className="font-semibold text-lg">{stat.jobPlacements.toLocaleString()}</p>
-                </div>
-              </div>
-              {stat.industryCategories.length > 0 && (
-                <div className="mt-4">
-                  <p className="text-sm text-gray-600 mb-2">Top Industries</p>
-                  <div className="space-y-1">
-                    {stat.industryCategories.slice(0, 3).map((category, index) => (
-                      <div key={index} className="flex items-center justify-between text-sm">
-                        <span>{category.category}</span>
-                        <span className="font-medium">{category.percentage}%</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+            )}
           </div>
         ))}
       </div>
 
-      {statistics.length === 0 && !editingId && (
+      {stats.length === 0 && !loading && (
         <div className="text-center py-12">
-          <BarChart3 className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No statistics found</h3>
-          <p className="text-gray-600 mb-4">Get started by adding your first statistics entry.</p>
-          <button onClick={handleCreate} className="btn btn-primary">
-            <Plus className="w-4 h-4" />
-            Add Statistics
-          </button>
+          <BarChart3 className="mx-auto h-12 w-12 text-gray-400" />
+          <h3 className="mt-2 text-sm font-medium text-gray-900">No statistics</h3>
+          <p className="mt-1 text-sm text-gray-500">Get started by creating your first statistic.</p>
         </div>
       )}
     </div>

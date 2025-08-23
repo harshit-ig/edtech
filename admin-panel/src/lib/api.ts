@@ -213,6 +213,62 @@ export const contactDataApi = {
   delete: (id: string) => adminApi.delete('contact-data', id),
 };
 
+export const highlightedCountriesApi = {
+  getAll: () => adminApi.getAll('highlighted-countries'),
+  getById: (id: string) => adminApi.getById('highlighted-countries', id),
+  create: (data: unknown) => adminApi.create('highlighted-countries', data),
+  update: (id: string, data: unknown) => adminApi.update('highlighted-countries', id, data),
+  delete: (id: string) => adminApi.delete('highlighted-countries', id),
+};
+
+export const mentorsApi = {
+  getAll: () => adminApi.getAll('mentors'),
+  getById: (id: string) => adminApi.getById('mentors', id),
+  create: (data: unknown) => adminApi.create('mentors', data),
+  update: (id: string, data: unknown) => adminApi.update('mentors', id, data),
+  delete: (id: string) => adminApi.delete('mentors', id),
+};
+
+export const mentorFeaturesApi = {
+  getAll: () => adminApi.getAll('mentor-features'),
+  getById: (id: string) => adminApi.getById('mentor-features', id),
+  create: (data: unknown) => adminApi.create('mentor-features', data),
+  update: (id: string, data: unknown) => adminApi.update('mentor-features', id, data),
+  delete: (id: string) => adminApi.delete('mentor-features', id),
+};
+
+export const companyLogosApi = {
+  getAll: () => adminApi.getAll('company-logos'),
+  getById: (id: string) => adminApi.getById('company-logos', id),
+  create: (data: unknown) => adminApi.create('company-logos', data),
+  update: (id: string, data: unknown) => adminApi.update('company-logos', id, data),
+  delete: (id: string) => adminApi.delete('company-logos', id),
+};
+
+export const faqsApi = {
+  getAll: () => adminApi.getAll('faqs'),
+  getById: (id: string) => adminApi.getById('faqs', id),
+  create: (data: unknown) => adminApi.create('faqs', data),
+  update: (id: string, data: unknown) => adminApi.update('faqs', id, data),
+  delete: (id: string) => adminApi.delete('faqs', id),
+};
+
+export const advantageStatsApi = {
+  getAll: () => adminApi.getAll('advantage-stats'),
+  getById: (id: string) => adminApi.getById('advantage-stats', id),
+  create: (data: unknown) => adminApi.create('advantage-stats', data),
+  update: (id: string, data: unknown) => adminApi.update('advantage-stats', id, data),
+  delete: (id: string) => adminApi.delete('advantage-stats', id),
+};
+
+export const testimonialsApi = {
+  getAll: () => adminApi.getAll('testimonials'),
+  getById: (id: string) => adminApi.getById('testimonials', id),
+  create: (data: unknown) => adminApi.create('testimonials', data),
+  update: (id: string, data: unknown) => adminApi.update('testimonials', id, data),
+  delete: (id: string) => adminApi.delete('testimonials', id),
+};
+
 // Icons API
 export const iconsApi = {
   getAll: async (): Promise<ApiResponse> => {

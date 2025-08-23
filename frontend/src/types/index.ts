@@ -244,8 +244,19 @@ export interface Testimonial {
   rating: number;
   review: string;
   category: string;
-  avatar?: string;
   accent: 'blue' | 'orange' | 'green' | 'red';
+}
+
+// Course-specific testimonial with avatar
+export interface CourseTestimonial {
+  id: string;
+  name: string;
+  role: string;
+  company?: string;
+  rating: number;
+  review: string;
+  avatar: string; // URL to avatar image
+  color: string; // CSS color class
 }
 
 // Icons Types

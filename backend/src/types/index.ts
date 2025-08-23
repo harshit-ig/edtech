@@ -270,7 +270,6 @@ export interface Testimonial {
   rating: number;
   review: string;
   category: string;
-  avatar?: string;
   accent: 'blue' | 'orange' | 'green' | 'red';
 }
 

@@ -438,7 +438,7 @@ export default function CoursePage() {
                 {
                   name: "John Smith",
                   role: "Senior Developer",
-                  avatar: "J",
+                  avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
                   rating: 5,
                   content: "Excellent course with practical projects and expert guidance. Highly recommended for career advancement.",
                   color: "edtech-green"
@@ -446,7 +446,7 @@ export default function CoursePage() {
                 {
                   name: "Maria Garcia",
                   role: "Product Manager",
-                  avatar: "M",
+                  avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
                   rating: 5,
                   content: "The comprehensive curriculum and hands-on approach helped me transition to a new role successfully.",
                   color: "edtech-orange"
@@ -454,7 +454,7 @@ export default function CoursePage() {
                 {
                   name: "David Lee",
                   role: "Data Analyst",
-                  avatar: "D",
+                  avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
                   rating: 5,
                   content: "Outstanding support and real-world projects. The skills I learned are directly applicable to my work.",
                   color: "blue-600"
@@ -463,8 +463,26 @@ export default function CoursePage() {
                 <div key={index} className="group">
                   <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105 border border-gray-100 h-full">
                     <div className="flex items-center mb-4">
-                      <div className={`w-12 h-12 bg-gradient-to-br from-${testimonial.color} to-${testimonial.color.includes('edtech') ? testimonial.color.replace('edtech-', '') + '-600' : testimonial.color} rounded-full flex items-center justify-center text-white font-bold text-lg mr-4`}>
-                        {testimonial.avatar}
+                      <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+                        <img 
+                          src={testimonial.avatar} 
+                          alt={testimonial.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            const fallback = target.nextElementSibling as HTMLElement;
+                            if (fallback) {
+                              fallback.style.display = 'flex';
+                            }
+                          }}
+                        />
+                        <div 
+                          className={`w-full h-full bg-gradient-to-br from-${testimonial.color} to-${testimonial.color.includes('edtech') ? testimonial.color.replace('edtech-', '') + '-600' : testimonial.color} flex items-center justify-center text-white font-bold text-lg`}
+                          style={{ display: 'none' }}
+                        >
+                          {testimonial.name.charAt(0)}
+                        </div>
                       </div>
                       <div>
                         <div className="font-semibold text-gray-900">{testimonial.name}</div>

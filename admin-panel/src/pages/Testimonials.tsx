@@ -1,47 +1,58 @@
 import React, { useState, useEffect } from 'react';
-import { mentorsApi } from '../lib/api';
-import { Save, Plus, Trash2, Edit3, Users } from 'lucide-react';
+import { testimonialsApi } from '../lib/api';
+import { Save, Plus, Trash2, Edit3, MessageSquare } from 'lucide-react';
 
-interface Mentor {
+interface Testimonial {
   _id: string;
   id: string;
   name: string;
   role: string;
-  company: string;
-  image: string;
-  accent: 'blue' | 'orange' | 'green';
+  company?: string;
+  rating: number;
+  review: string;
+  category: string;
+  accent: 'blue' | 'orange' | 'green' | 'red';
 }
 
-const Mentors: React.FC = () => {
-  const [mentors, setMentors] = useState<Mentor[]>([]);
+const Testimonials: React.FC = () => {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [formData, setFormData] = useState<Partial<Mentor>>({});
+  const [formData, setFormData] = useState<Partial<Testimonial>>({});
 
   const accentOptions = [
     { value: 'blue', label: 'Blue', color: '#3b82f6' },
     { value: 'orange', label: 'Orange', color: '#f59e0b' },
-    { value: 'green', label: 'Green', color: '#10b981' }
+    { value: 'green', label: 'Green', color: '#10b981' },
+    { value: 'red', label: 'Red', color: '#ef4444' }
+  ];
+
+  const ratingOptions = [
+    { value: 1, label: '1 Star' },
+    { value: 2, label: '2 Stars' },
+    { value: 3, label: '3 Stars' },
+    { value: 4, label: '4 Stars' },
+    { value: 5, label: '5 Stars' }
   ];
 
   useEffect(() => {
-    fetchMentors();
+    fetchTestimonials();
   }, []);
 
-  const fetchMentors = async () => {
+  const fetchTestimonials = async () => {
     try {
-      console.log('Fetching mentors...');
+      console.log('Fetching testimonials...');
       setLoading(true);
-      const response = await mentorsApi.getAll();
+      const response = await testimonialsApi.getAll();
       console.log('Fetch response:', response);
       if (response.success) {
-        setMentors(response.data as Mentor[]);
+        setTestimonials(response.data as Testimonial[]);
       }
     } catch (error) {
       console.error('Fetch error:', error);
-      setError(error instanceof Error ? error.message : 'Failed to fetch mentors');
+      setError(error instanceof Error ? error.message : 'Failed to fetch testimonials');
     } finally {
       setLoading(false);
     }
@@ -55,20 +66,22 @@ const Mentors: React.FC = () => {
       name: '',
       role: '',
       company: '',
-      image: '',
+      rating: 5,
+      review: '',
+      category: '',
       accent: 'blue'
     });
   };
 
-  const handleEdit = (mentor: Mentor) => {
-    setEditingId(mentor._id);
-    setFormData(mentor);
+  const handleEdit = (testimonial: Testimonial) => {
+    setEditingId(testimonial._id);
+    setFormData(testimonial);
   };
 
   const handleSave = async () => {
     console.log('handleSave called', { formData, editingId });
-    if (!formData.id || !formData.name || !formData.role || !formData.company || !formData.image || !formData.accent) {
-      setError('All fields are required');
+    if (!formData.id || !formData.name || !formData.role || !formData.rating || !formData.review || !formData.category || !formData.accent) {
+      setError('All required fields must be filled');
       return;
     }
 
@@ -77,42 +90,42 @@ const Mentors: React.FC = () => {
       let response;
       
       if (editingId === 'new') {
-        console.log('Creating new mentor...');
-        response = await mentorsApi.create(formData);
+        console.log('Creating new testimonial...');
+        response = await testimonialsApi.create(formData);
       } else if (editingId) {
-        console.log('Updating mentor...');
-        response = await mentorsApi.update(editingId, formData);
+        console.log('Updating testimonial...');
+        response = await testimonialsApi.update(editingId, formData);
       }
 
       console.log('API response:', response);
       if (response?.success) {
-        await fetchMentors();
+        await fetchTestimonials();
         setEditingId(null);
         setFormData({});
         setError('');
       } else {
-        setError(response?.message || 'Failed to save mentor');
+        setError(response?.message || 'Failed to save testimonial');
       }
     } catch (error) {
       console.error('Save error:', error);
-      setError(error instanceof Error ? error.message : 'Failed to save mentor');
+      setError(error instanceof Error ? error.message : 'Failed to save testimonial');
     } finally {
       setSaving(false);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this mentor?')) return;
+    if (!confirm('Are you sure you want to delete this testimonial?')) return;
 
     try {
-      const response = await mentorsApi.delete(id);
+      const response = await testimonialsApi.delete(id);
       if (response?.success) {
-        await fetchMentors();
+        await fetchTestimonials();
       } else {
-        setError(response?.message || 'Failed to delete mentor');
+        setError(response?.message || 'Failed to delete testimonial');
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to delete mentor');
+      setError(error instanceof Error ? error.message : 'Failed to delete testimonial');
     }
   };
 
@@ -120,6 +133,10 @@ const Mentors: React.FC = () => {
     setEditingId(null);
     setFormData({});
     setError('');
+  };
+
+  const renderStars = (rating: number) => {
+    return '★'.repeat(rating) + '☆'.repeat(5 - rating);
   };
 
   if (loading) {
@@ -134,15 +151,15 @@ const Mentors: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Mentors</h1>
-          <p className="text-gray-600">Manage the mentors displayed on the website</p>
+          <h1 className="text-2xl font-bold text-gray-900">Testimonials</h1>
+          <p className="text-gray-600">Manage customer testimonials displayed on the website</p>
         </div>
         <button
           onClick={handleCreate}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2"
         >
           <Plus size={20} />
-          Add Mentor
+          Add Testimonial
         </button>
       </div>
 
@@ -152,27 +169,27 @@ const Mentors: React.FC = () => {
         </div>
       )}
 
-      {/* New Mentor Form */}
+      {/* New Testimonial Form */}
       {editingId === 'new' && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New Mentor</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New Testimonial</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  ID
+                  ID *
                 </label>
                 <input
                   type="text"
                   value={formData.id || ''}
                   onChange={(e) => setFormData({ ...formData, id: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="e.g., mentor-001"
+                  placeholder="e.g., testimonial-001"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Name
+                  Name *
                 </label>
                 <input
                   type="text"
@@ -184,14 +201,14 @@ const Mentors: React.FC = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Role
+                  Role *
                 </label>
                 <input
                   type="text"
                   value={formData.role || ''}
                   onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="e.g., Senior Developer"
+                  placeholder="e.g., Software Engineer"
                 />
               </div>
               <div>
@@ -208,23 +225,40 @@ const Mentors: React.FC = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Image URL
+                  Rating *
                 </label>
-                <input
-                  type="url"
-                  value={formData.image || ''}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                <select
+                  value={formData.rating || 5}
+                  onChange={(e) => setFormData({ ...formData, rating: parseInt(e.target.value) })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="https://example.com/image.jpg"
-                />
+                >
+                  {ratingOptions.map((rating) => (
+                    <option key={rating.value} value={rating.value}>
+                      {rating.label}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Accent Color
+                  Category *
+                </label>
+                <input
+                  type="text"
+                  value={formData.category || ''}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="e.g., Web Development"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Accent Color *
                 </label>
                 <select
                   value={formData.accent || ''}
-                  onChange={(e) => setFormData({ ...formData, accent: e.target.value as 'blue' | 'orange' | 'green' })}
+                  onChange={(e) => setFormData({ ...formData, accent: e.target.value as 'blue' | 'orange' | 'green' | 'red' })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   {accentOptions.map((accent) => (
@@ -234,6 +268,18 @@ const Mentors: React.FC = () => {
                   ))}
                 </select>
               </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Review *
+              </label>
+              <textarea
+                value={formData.review || ''}
+                onChange={(e) => setFormData({ ...formData, review: e.target.value })}
+                rows={4}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Write the customer review..."
+              />
             </div>
             <div className="flex gap-2">
               <button
@@ -256,26 +302,26 @@ const Mentors: React.FC = () => {
       )}
 
       <div className="grid gap-6">
-        {mentors.map((mentor) => (
-          <div key={mentor._id} className="bg-white border border-gray-200 rounded-lg p-6">
-            {editingId === mentor._id ? (
+        {testimonials.map((testimonial) => (
+          <div key={testimonial._id} className="bg-white border border-gray-200 rounded-lg p-6">
+            {editingId === testimonial._id ? (
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      ID
+                      ID *
                     </label>
                     <input
                       type="text"
                       value={formData.id || ''}
                       onChange={(e) => setFormData({ ...formData, id: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="e.g., mentor-001"
+                      placeholder="e.g., testimonial-001"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Name
+                      Name *
                     </label>
                     <input
                       type="text"
@@ -287,14 +333,14 @@ const Mentors: React.FC = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Role
+                      Role *
                     </label>
                     <input
                       type="text"
                       value={formData.role || ''}
                       onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="e.g., Senior Developer"
+                      placeholder="e.g., Software Engineer"
                     />
                   </div>
                   <div>
@@ -311,23 +357,40 @@ const Mentors: React.FC = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Image URL
+                      Rating *
                     </label>
-                    <input
-                      type="url"
-                      value={formData.image || ''}
-                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                    <select
+                      value={formData.rating || 5}
+                      onChange={(e) => setFormData({ ...formData, rating: parseInt(e.target.value) })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="https://example.com/image.jpg"
-                    />
+                    >
+                      {ratingOptions.map((rating) => (
+                        <option key={rating.value} value={rating.value}>
+                          {rating.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Accent Color
+                      Category *
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.category || ''}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="e.g., Web Development"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Accent Color *
                     </label>
                     <select
                       value={formData.accent || ''}
-                      onChange={(e) => setFormData({ ...formData, accent: e.target.value as 'blue' | 'orange' | 'green' })}
+                      onChange={(e) => setFormData({ ...formData, accent: e.target.value as 'blue' | 'orange' | 'green' | 'red' })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
                       {accentOptions.map((accent) => (
@@ -337,6 +400,18 @@ const Mentors: React.FC = () => {
                       ))}
                     </select>
                   </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Review *
+                  </label>
+                  <textarea
+                    value={formData.review || ''}
+                    onChange={(e) => setFormData({ ...formData, review: e.target.value })}
+                    rows={4}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Write the customer review..."
+                  />
                 </div>
                 <div className="flex gap-2">
                   <button
@@ -356,50 +431,40 @@ const Mentors: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
-                    {mentor.image ? (
-                      <img 
-                        src={mentor.image} 
-                        alt={mentor.name}
-                        className="w-16 h-16 rounded-lg object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          const nextSibling = target.nextElementSibling as HTMLElement;
-                          if (nextSibling) {
-                            nextSibling.style.display = 'flex';
-                          }
-                        }}
-                      />
-                    ) : null}
-                    <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center" style={{ display: mentor.image ? 'none' : 'flex' }}>
-                      <Users className="text-gray-400" size={24} />
+              <div className="space-y-4">
+                <div className="flex justify-between items-start">
+                  <div className="flex items-start gap-4">
+                    <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <MessageSquare className="text-blue-600" size={24} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-sm font-medium text-gray-500">ID: {testimonial.id}</span>
+                        <span className="text-sm font-medium text-gray-500">Category: {testimonial.category}</span>
+                      </div>
+                      <div className="text-lg font-semibold text-gray-900">{testimonial.name}</div>
+                      <div className="text-sm text-gray-600">{testimonial.role}{testimonial.company && ` at ${testimonial.company}`}</div>
+                      <div className="text-yellow-500 text-sm mt-1">{renderStars(testimonial.rating)}</div>
+                      <div className="text-gray-600 mt-2 italic">"{testimonial.review}"</div>
+                      <div className="flex items-center gap-2 text-sm text-gray-500 mt-2">
+                        <span>Accent: {testimonial.accent}</span>
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <div className="text-lg font-semibold text-gray-900">{mentor.name}</div>
-                    <div className="text-sm text-gray-600">{mentor.role} at {mentor.company}</div>
-                    <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
-                      <span>ID: {mentor.id}</span>
-                      <span>Accent: {mentor.accent}</span>
-                    </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleEdit(testimonial)}
+                      className="text-blue-600 hover:text-blue-800 p-2"
+                    >
+                      <Edit3 size={16} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(testimonial._id)}
+                      className="text-red-600 hover:text-red-800 p-2"
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </div>
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleEdit(mentor)}
-                    className="text-blue-600 hover:text-blue-800 p-2"
-                  >
-                    <Edit3 size={16} />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(mentor._id)}
-                    className="text-red-600 hover:text-red-800 p-2"
-                  >
-                    <Trash2 size={16} />
-                  </button>
                 </div>
               </div>
             )}
@@ -407,15 +472,15 @@ const Mentors: React.FC = () => {
         ))}
       </div>
 
-      {mentors.length === 0 && !loading && (
+      {testimonials.length === 0 && !loading && (
         <div className="text-center py-12">
-          <Users className="mx-auto h-12 w-12 text-gray-400" />
-          <h3 className="mt-2 text-sm font-medium text-gray-900">No mentors</h3>
-          <p className="mt-1 text-sm text-gray-500">Get started by creating your first mentor.</p>
+          <MessageSquare className="mx-auto h-12 w-12 text-gray-400" />
+          <h3 className="mt-2 text-sm font-medium text-gray-900">No testimonials</h3>
+          <p className="mt-1 text-sm text-gray-500">Get started by creating your first testimonial.</p>
         </div>
       )}
     </div>
   );
 };
 
-export default Mentors;
+export default Testimonials;
