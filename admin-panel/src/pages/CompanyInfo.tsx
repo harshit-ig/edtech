@@ -45,82 +45,81 @@ const CompanyInfo: React.FC = () => {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetchCompanyInfo();
-    fetchContactData();
-    fetchHighlightedCountries();
-  }, []);
-
-  const fetchCompanyInfo = async () => {
-    try {
-      setLoading(true);
-      const response = await companyInfoApi.getAll();
-      if (response.success && response.data && Array.isArray(response.data) && response.data.length > 0) {
-        setCompanyInfo(response.data[0] as CompanyInfo);
-      } else {
-        // Create empty company info if none exists
-        setCompanyInfo({
-          _id: '',
-          whatsappNumber: '',
-          supportEmail: '',
-          heroRoles: [],
-          carouselRoles: [],
-          marketingStats: [],
-          whatsappQuickMessages: [],
-          pricingFaq: [],
-          courseBenefitsComparison: [],
-          offices: [],
-          responseTime: '',
-          mapEmbedUrl: ''
-        });
-      }
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to fetch company info');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchContactData = async () => {
-    try {
-      const response = await contactDataApi.getAll();
-      if (response.success && response.data && Array.isArray(response.data) && response.data.length > 0) {
-        const contactData = response.data[0];
-        console.log('Fetched contact data:', contactData);
+    const fetchAllData = async () => {
+      try {
+        setLoading(true);
+        setError('');
         
-        // Merge contact data into company info
-        setCompanyInfo(prev => {
-          if (!prev) return prev;
-          return {
-            ...prev,
+        // Fetch all data in parallel
+        const [companyResponse, contactResponse, countriesResponse] = await Promise.all([
+          companyInfoApi.getAll(),
+          contactDataApi.getAll(),
+          highlightedCountriesApi.getAll()
+        ]);
+
+        // Process company info
+        let companyInfoData: CompanyInfo;
+        if (companyResponse.success && companyResponse.data && Array.isArray(companyResponse.data) && companyResponse.data.length > 0) {
+          companyInfoData = companyResponse.data[0] as CompanyInfo;
+        } else {
+          // Create empty company info if none exists
+          companyInfoData = {
+            _id: '',
+            whatsappNumber: '',
+            supportEmail: '',
+            heroRoles: [],
+            carouselRoles: [],
+            marketingStats: [],
+            whatsappQuickMessages: [],
+            pricingFaq: [],
+            courseBenefitsComparison: [],
+            offices: [],
+            responseTime: '',
+            mapEmbedUrl: ''
+          };
+        }
+
+        // Process contact data
+        if (contactResponse.success && contactResponse.data && Array.isArray(contactResponse.data) && contactResponse.data.length > 0) {
+          const contactData = contactResponse.data[0];
+          console.log('Fetched contact data:', contactData);
+          
+          // Merge contact data into company info
+          companyInfoData = {
+            ...companyInfoData,
             offices: contactData.offices || [],
             responseTime: contactData.responseTime || '',
             mapEmbedUrl: contactData.mapEmbedUrl || ''
           };
-        });
-      } else {
-        console.log('No contact data found, using defaults');
-      }
-    } catch (error) {
-      console.error('Failed to fetch contact data:', error);
-    }
-  };
+        } else {
+          console.log('No contact data found, using defaults');
+        }
 
-  const fetchHighlightedCountries = async () => {
-    try {
-      const response = await highlightedCountriesApi.getAll();
-      if (response.success && response.data && Array.isArray(response.data) && response.data.length > 0) {
-        setHighlightedCountries(response.data[0] as { _id: string; countries: string[] });
-      } else {
-        // Create empty highlighted countries if none exists
-        setHighlightedCountries({
-          _id: '',
-          countries: []
-        });
+        // Set the merged company info
+        setCompanyInfo(companyInfoData);
+
+        // Process highlighted countries
+        if (countriesResponse.success && countriesResponse.data && Array.isArray(countriesResponse.data) && countriesResponse.data.length > 0) {
+          setHighlightedCountries(countriesResponse.data[0] as { _id: string; countries: string[] });
+        } else {
+          // Create empty highlighted countries if none exists
+          setHighlightedCountries({
+            _id: '',
+            countries: []
+          });
+        }
+
+      } catch (error) {
+        setError(error instanceof Error ? error.message : 'Failed to fetch data');
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Failed to fetch highlighted countries:', error);
-    }
-  };
+    };
+
+    fetchAllData();
+  }, []);
+
+
 
   const handleSave = async () => {
     if (!companyInfo) return;

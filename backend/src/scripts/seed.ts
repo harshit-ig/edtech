@@ -1,5 +1,4 @@
 import migrateData from './migrate';
-import fullMigrateData from './fullMigrate';
 import { UserModel } from '../models/User';
 import { connectDatabase } from '../utils/database';
 
@@ -40,11 +39,8 @@ async function seedDatabase(): Promise<void> {
     // Create admin user first
     await createAdminUser();
     
-    // Run basic migration first
+    // Run comprehensive migration (now includes all data)
     await migrateData();
-    
-    // Then run comprehensive migration
-    await fullMigrateData();
     
     console.log('🎉 Complete database seeding finished successfully!');
   } catch (error) {

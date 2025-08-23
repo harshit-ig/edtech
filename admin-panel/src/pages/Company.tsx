@@ -76,13 +76,13 @@ const Company: React.FC = () => {
       ]);
 
       setData({
-        companyInfo: companyInfoResponse.success ? companyInfoResponse.data : [],
-        teamMembers: teamMembersResponse.success ? teamMembersResponse.data : [],
-        values: valuesResponse.success ? valuesResponse.data : [],
-        stats: statsResponse.success ? statsResponse.data : [],
-        milestones: milestonesResponse.success ? milestonesResponse.data : [],
-        contactData: contactDataResponse.success ? contactDataResponse.data : [],
-        upcomingSkills: upcomingSkillsResponse.success ? upcomingSkillsResponse.data : []
+        companyInfo: companyInfoResponse.success ? (companyInfoResponse.data as any[]) : [],
+        teamMembers: teamMembersResponse.success ? (teamMembersResponse.data as any[]) : [],
+        values: valuesResponse.success ? (valuesResponse.data as any[]) : [],
+        stats: statsResponse.success ? (statsResponse.data as any[]) : [],
+        milestones: milestonesResponse.success ? (milestonesResponse.data as any[]) : [],
+        contactData: contactDataResponse.success ? (contactDataResponse.data as any[]) : [],
+        upcomingSkills: upcomingSkillsResponse.success ? (upcomingSkillsResponse.data as any[]) : []
       });
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Failed to fetch company data');

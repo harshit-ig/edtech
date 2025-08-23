@@ -263,6 +263,21 @@ const TeamMembersList: React.FC = () => {
                         src={imagePreview}
                         alt="Profile image preview"
                         className="h-32 w-32 object-cover mx-auto rounded-full"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          // Prevent infinite retry by checking if we're already using a fallback
+                          if (!target.dataset.fallbackUsed) {
+                            target.dataset.fallbackUsed = 'true';
+                            target.src = '/api/placeholder/150/150';
+                          } else {
+                            // If fallback also fails, show a default avatar
+                            target.style.display = 'none';
+                            const fallbackDiv = document.createElement('div');
+                            fallbackDiv.className = 'h-32 w-32 mx-auto rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold text-2xl';
+                            fallbackDiv.textContent = '👤';
+                            target.parentNode?.appendChild(fallbackDiv);
+                          }
+                        }}
                       />
                       <button
                         onClick={() => {
@@ -361,7 +376,19 @@ const TeamMembersList: React.FC = () => {
                   className="w-24 h-24 rounded-full object-cover border-4 border-gray-100"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = '/api/placeholder/150/150';
+                    // Prevent infinite retry by checking if we're already using a fallback
+                    if (!target.dataset.fallbackUsed) {
+                      target.dataset.fallbackUsed = 'true';
+                      target.src = '/api/placeholder/150/150';
+                    } else {
+                      // If fallback also fails, show a default avatar or hide the image
+                      target.style.display = 'none';
+                      // Add a fallback div with initials
+                      const fallbackDiv = document.createElement('div');
+                      fallbackDiv.className = 'w-24 h-24 rounded-full border-4 border-gray-100 bg-gray-200 flex items-center justify-center text-gray-600 font-semibold text-lg';
+                      fallbackDiv.textContent = member.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+                      target.parentNode?.appendChild(fallbackDiv);
+                    }
                   }}
                 />
               </div>
