@@ -53,7 +53,7 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
 
     // Add user to request object
     req.user = {
-      id: user._id.toString(),
+      id: (user._id as any).toString(),
       email: user.email,
       name: user.name,
       role: user.role

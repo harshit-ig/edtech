@@ -93,6 +93,11 @@ export interface Course {
   accent: 'edtech-green' | 'edtech-orange' | 'edtech-red';
   iconName?: string;
   featured?: boolean;
+  pricing?: {
+    current: number;
+    original?: number;
+    discount?: string;
+  };
 }
 
 export interface CourseDetails {
@@ -125,16 +130,16 @@ export interface CourseDetails {
     value: string;
     color: string;
   }>;
-  pricing: {
+  pricing?: {
     current: number;
-    original: number;
-    discount: string;
-    deadline: string;
-    features: Array<{
+    original?: number;
+    discount?: string;
+    deadline?: string;
+    features?: Array<{
       text: string;
       icon: string;
     }>;
-  };
+  } | null;
   courseInfo: {
     startDate: string;
     format: string;

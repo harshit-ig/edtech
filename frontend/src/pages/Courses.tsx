@@ -3,18 +3,18 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import TechBackground from "../TechBackground";
-import { getCoursesData, getCourseIcon } from "../utils/dataAdapter";
+import { getCoursesData, getCourseIcon, getCourseDetailsData } from "../utils/dataAdapter";
 import type { Course } from "../types";
 import MicrosoftBadge from "../components/MicrosoftBadge";
 import Stats from "../components/Stats";
 import useRevealOnScroll from "../hooks/useRevealOnScroll";
-import { useCourseEnrollmentModal } from "../contexts/CourseEnrollmentModalContext";
+import { usePaymentModal } from "../contexts/PaymentModalContext";
 import { useContactModal } from "../contexts/ContactModalContext";
 
 export default function CoursesPage() {
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [searchTerm, setSearchTerm] = useState('');
-  const { openModal: openEnrollmentModal } = useCourseEnrollmentModal();
+  const { openModal: openPaymentModal } = usePaymentModal();
   const { openModal } = useContactModal();
 
   // Add scroll reveal animations
@@ -75,8 +75,18 @@ export default function CoursesPage() {
     }
   }, [loading, allCourses.length]);
 
-  const handleApplyNow = (courseId: string, courseName: string, courseCategory: string) => {
-    openEnrollmentModal(courseId, courseName, courseCategory, 'courses-page');
+  const handleApplyNow = async (course: Course) => {
+    // Get course pricing from details API
+    try {
+      const courseDetails = await getCourseDetailsData(course.id);
+      if (!courseDetails?.pricing?.current) {
+        alert('Pricing information not available for this course. Please contact support.');
+        return;
+      }
+      openPaymentModal(course, courseDetails.pricing.current, 'courses-page');
+    } catch (error) {
+      alert('Unable to load course pricing. Please contact support.');
+    }
   };
   
   // Memoize categories to avoid recalculation
@@ -263,7 +273,7 @@ export default function CoursesPage() {
                         View Details
                       </Link>
                       <button 
-                        onClick={() => handleApplyNow(course.id, course.title, course.category)}
+                        onClick={() => handleApplyNow(course)}
                         className="bg-gradient-to-r from-edtech-green to-edtech-orange text-black px-6 py-3 rounded-xl font-semibold hover:brightness-110 transition-all duration-300 hover:scale-105"
                       >
                         Apply Now
@@ -373,7 +383,7 @@ export default function CoursesPage() {
                       View Details
                     </Link>
                     <button 
-                      onClick={() => handleApplyNow(course.id, course.title, course.category)}
+                      onClick={() => handleApplyNow(course)}
                       className="bg-gradient-to-r from-edtech-green to-edtech-orange text-black px-6 py-3 rounded-xl font-semibold hover:brightness-110 transition-all duration-300 hover:scale-105"
                     >
                       Apply Now

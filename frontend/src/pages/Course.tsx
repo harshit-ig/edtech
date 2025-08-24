@@ -7,7 +7,8 @@ import { getCoursesData, getCourseIcon, getCourseDetailsData } from "../utils/da
 import type { Course, CourseDetails } from "../types";
 import MicrosoftBadge from "../components/MicrosoftBadge";
 import { useContactModal } from "../contexts/ContactModalContext";
-import { useCourseEnrollmentModal } from "../contexts/CourseEnrollmentModalContext";
+// Removed - using direct payment flow now
+import { usePaymentModal } from "../contexts/PaymentModalContext";
 
 export default function CoursePage() {
   const { courseId } = useParams();
@@ -17,16 +18,17 @@ export default function CoursePage() {
   const [courseIcons, setCourseIcons] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const { openModal } = useContactModal();
-  const { openModal: openEnrollmentModal } = useCourseEnrollmentModal();
+  // All enrollment actions now use payment modal
+  const { openModal: openPaymentModal } = usePaymentModal();
 
   useEffect(() => {
-    const loadData = async () => {
+    const loadData = async (): Promise<void> => {
       try {
-        const coursesData = await getCoursesData();
+        const coursesData = await getCoursesData() as Course[];
         setCourses(coursesData);
         
         // Load icons for all courses
-        const iconPromises = coursesData.map(async (course) => {
+        const iconPromises = coursesData.map(async (course: Course) => {
           const icon = await getCourseIcon(course);
           return { id: course.id, icon };
         });
@@ -55,8 +57,15 @@ export default function CoursePage() {
     loadData();
   }, [courseId]);
   
-  const handleApplyNow = (courseId: string, courseTitle: string, category: string) => {
-    openEnrollmentModal(courseId, courseTitle, category, 'course-detail-page');
+  // Apply Now functionality removed - all enrollment uses Buy Now with pricing
+  
+  const handleBuyNow = (course: Course, price?: number) => {
+    const coursePrice = price || details.pricing?.current;
+    if (!coursePrice) {
+      alert('Pricing information not available for this course. Please contact support.');
+      return;
+    }
+    openPaymentModal(course, coursePrice, 'course-detail-page');
   };
   
   const toggleModule = (index: number) => {
@@ -100,18 +109,27 @@ export default function CoursePage() {
     );
   }
 
-  // Get course details (fallback to default if needed)
-  const details = courseDetails || {
-    overview: `Comprehensive ${course.title} training program`,
-    curriculum: [{ module: 'Introduction', duration: '1 week', topics: ['Basics'] }],
-    tools: [{ name: course.title, icon: '🚀' }],
-    prerequisites: 'Basic computer knowledge',
-    testimonials: [],
-    successStats: [],
-    pricing: { current: 9999, original: 19999, discount: '50%', deadline: '2024-12-31', features: [] },
-    courseInfo: { startDate: 'Next Monday', format: 'Online', support: '24/7', studentsEnrolled: '100+' },
-    trustIndicators: { rating: '4.8', reviewCount: '1000+', testimonialPreview: { text: 'Great course!', author: 'Student' } }
-  };
+  // Course details must exist - no fallbacks allowed
+  if (!courseDetails) {
+    return (
+      <div className="min-h-screen">
+        <Navbar />
+        <main className="pt-20 flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="text-6xl mb-4">⚠️</div>
+            <h1 className="text-2xl font-bold mb-2">Course Details Unavailable</h1>
+            <p className="text-white/70 mb-6">This course is not yet available for enrollment. Please contact support.</p>
+            <Link to="/courses" className="cta cta-primary">
+              Browse Available Courses
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  const details = courseDetails;
 
   return (
     <div className="min-h-screen">
@@ -294,7 +312,9 @@ export default function CoursePage() {
                   {/* Enrollment Card */}
                   <div className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300">
                     <div className="text-center mb-6">
-                      <div className="text-4xl font-bold mb-2 text-white">${details.pricing?.current || 1999}</div>
+                      <div className="text-4xl font-bold mb-2 text-white">
+                        {details.pricing?.current ? `$${details.pricing.current}` : 'Price TBD'}
+                      </div>
                       {details.pricing?.original && (
                         <div className="text-white/60 line-through text-lg">${details.pricing.original}</div>
                       )}
@@ -326,10 +346,10 @@ export default function CoursePage() {
 
                     <div className="space-y-3">
                       <button 
-                        onClick={() => handleApplyNow(course.id, course.title, course.category)}
+                        onClick={() => handleBuyNow(course, details.pricing?.current)}
                         className="bg-edtech-green hover:bg-green-600 text-black px-6 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl w-full block text-center"
                       >
-                        Enroll Now →
+                        {details.pricing?.current ? `Buy Now $${details.pricing.current} →` : 'Pricing Unavailable'}
                       </button>
                       <button 
                         onClick={() => openModal("Book a FREE Demo Session", "Get a personalized demo of the course content and discuss your learning goals with our experts")}
@@ -510,7 +530,7 @@ export default function CoursePage() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button 
-                    onClick={() => handleApplyNow(course.id, course.title, course.category)}
+                    onClick={() => handleBuyNow(course, details.pricing?.current)}
                     className="bg-white text-edtech-blue px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105 hover:shadow-lg"
                   >
                     Start Your Journey Today →
@@ -684,7 +704,9 @@ export default function CoursePage() {
               {/* Enhanced Pricing Card */}
               <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/20 mb-8 max-w-2xl mx-auto">
                 <div className="text-center mb-6">
-                  <div className="text-5xl md:text-6xl font-bold text-white mb-2">${details.pricing?.current || 1999}</div>
+                  <div className="text-5xl md:text-6xl font-bold text-white mb-2">
+                    {details.pricing?.current ? `$${details.pricing.current}` : 'Price TBD'}
+                  </div>
                   {details.pricing?.original && (
                     <div className="text-white/60 line-through text-2xl mb-2">${details.pricing.original}</div>
                   )}
@@ -715,10 +737,10 @@ export default function CoursePage() {
 
                 <div className="space-y-4">
                   <button 
-                    onClick={() => handleApplyNow(course.id, course.title, course.category)}
+                    onClick={() => handleBuyNow(course, details.pricing?.current)}
                     className="bg-gradient-to-r from-edtech-green to-edtech-orange text-black px-8 py-4 rounded-full font-bold text-xl hover:brightness-110 transition-all duration-300 hover:scale-105 hover:shadow-2xl w-full block text-center"
                   >
-                    🎯 Enroll Now {details.pricing?.original ? `& Save $${details.pricing.original - details.pricing.current}` : ''}
+                    {details.pricing?.current ? `🎯 Buy Now $${details.pricing.current}` : '🎯 Pricing Unavailable'} {details.pricing?.original && details.pricing.current ? ` & Save $${details.pricing.original - details.pricing.current}` : ''}
                   </button>
                   <button 
                     onClick={() => openModal("Talk to Our Career Advisor", "Speak with our career experts to get personalized guidance before enrolling")}

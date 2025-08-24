@@ -1617,7 +1617,7 @@ const UnifiedCourseManagement: React.FC = () => {
                               current: Number(e.target.value) 
                             } 
                           })}
-                          placeholder="1999"
+                          placeholder="Enter price"
                           disabled={sameAsStates.detailsPricingCurrent}
                           required
                         />
@@ -2279,7 +2279,7 @@ const UnifiedCourseManagement: React.FC = () => {
                         className="form-input"
                         value={formData.currentPrice || ''}
                         onChange={(e) => setFormData({ ...formData, currentPrice: Number(e.target.value) })}
-                          placeholder="1999"
+                          placeholder="Enter price"
                           required
                       />
                     </div>

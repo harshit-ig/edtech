@@ -43,7 +43,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     // Return user data (without password) and token
     const userData: AuthUser = {
-      id: user._id.toString(),
+      id: (user._id as any).toString(),
       email: user.email,
       name: user.name,
       role: user.role
@@ -107,7 +107,7 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
 
     // Return user data (without password)
     const userData: AuthUser = {
-      id: user._id.toString(),
+      id: (user._id as any).toString(),
       email: user.email,
       name: user.name,
       role: user.role
@@ -173,7 +173,7 @@ export const getAllUsers = async (req: Request, res: Response): Promise<void> =>
     const users = await UserModel.find({}, '-password').sort({ createdAt: -1 });
     
     const userData: AuthUser[] = users.map(user => ({
-      id: user._id.toString(),
+      id: (user._id as any).toString(),
       email: user.email,
       name: user.name,
       role: user.role

@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
-import { getFeaturedCoursesData, getCourseIcon } from "../utils/dataAdapter";
+import { getFeaturedCoursesData, getCourseIcon, getCourseDetailsData } from "../utils/dataAdapter";
 import type { Course } from "../types";
 import { Link } from "react-router-dom";
 import MicrosoftBadge from "./MicrosoftBadge";
-import { useCourseEnrollmentModal } from "../contexts/CourseEnrollmentModalContext";
+// Removed - using direct payment flow now
+import { usePaymentModal } from "../contexts/PaymentModalContext";
 
 export default function CoursesSection() {
   const [featuredCourses, setFeaturedCourses] = useState<Course[]>([]);
   const [courseIcons, setCourseIcons] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
-  const { openModal } = useCourseEnrollmentModal();
+  // Removed - using direct payment flow now
+  const { openModal: openPaymentModal } = usePaymentModal();
 
   useEffect(() => {
     const loadFeaturedCourses = async () => {
@@ -71,8 +73,20 @@ export default function CoursesSection() {
     }
   }, [loading, featuredCourses.length]);
 
-  const handleApplyNow = (courseId: string, courseName: string, courseCategory: string) => {
-    openModal(courseId, courseName, courseCategory, 'home-featured-courses');
+  // Removed - not used after payment integration
+
+  const handleBuyNow = async (course: Course) => {
+    // Course pricing comes from CourseDetails, not Course directly
+    try {
+      const courseDetails = await getCourseDetailsData(course.id);
+      if (!courseDetails?.pricing?.current) {
+        alert('Pricing information not available for this course. Please contact support.');
+        return;
+      }
+      openPaymentModal(course, courseDetails.pricing.current, 'home-featured-courses');
+    } catch (error) {
+      alert('Unable to load course pricing. Please contact support.');
+    }
   };
 
   return (
@@ -116,10 +130,10 @@ export default function CoursesSection() {
               <div className="mt-4 flex items-center gap-3">
                 <Link to={`/course/${c.id}`} className="cta cta-secondary">View Details</Link>
                 <button 
-                  onClick={() => handleApplyNow(c.id, c.title, c.category)}
+                  onClick={() => handleBuyNow(c)}
                   className="cta course-card-apply"
                 >
-                  Apply Now
+                  Buy Now
                 </button>
               </div>
                 <span className="corner-badge">{c.badge}</span>

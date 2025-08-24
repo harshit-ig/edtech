@@ -48,77 +48,10 @@ export const getCourseDetails = async (req: Request, res: Response): Promise<voi
     const courseDetails = await CourseDetailsModel.findOne({ courseId: id });
     
     if (!courseDetails) {
-      // If no specific details found, get basic course info for default details
-      const course = await CourseModel.findOne({ id });
-      if (!course) {
-        res.status(404).json({ error: 'Course not found' });
-        return;
-      }
-      
-      // Return default course details structure
-      const defaultDetails = {
-        overview: course.desc + " This comprehensive program combines theoretical knowledge with practical, hands-on experience to ensure you're job-ready upon completion.",
-        curriculum: [
-          {
-            module: "Module 1: Foundations",
-            duration: "4 weeks",
-            topics: ["Core Concepts", "Industry Overview", "Tools Introduction", "Best Practices"]
-          },
-          {
-            module: "Module 2: Practical Application", 
-            duration: "6 weeks",
-            topics: ["Hands-on Projects", "Real-world Scenarios", "Problem Solving", "Case Studies"]
-          },
-          {
-            module: "Module 3: Advanced Techniques",
-            duration: "4 weeks", 
-            topics: ["Advanced Concepts", "Optimization", "Performance", "Scaling"]
-          },
-          {
-            module: "Module 4: Professional Development",
-            duration: "2 weeks",
-            topics: ["Portfolio Building", "Career Preparation", "Interview Skills", "Industry Networking"]
-          }
-        ],
-        tools: [
-          { name: "Industry-standard tools", icon: "🛠️" },
-          { name: "Modern frameworks", icon: "⚡" },
-          { name: "Professional software", icon: "💻" },
-          { name: "Cloud platforms", icon: "☁️" }
-        ],
-        prerequisites: "Basic computer literacy and enthusiasm to learn",
-        testimonials: [],
-        successStats: [],
-        pricing: {
-          current: 1999,
-          original: 2999,
-          discount: "33% OFF",
-          deadline: "Limited Time",
-          features: [
-            { text: "Live sessions", icon: "🎥" },
-            { text: "Recorded content", icon: "📹" },
-            { text: "Projects", icon: "💻" },
-            { text: "Mentorship", icon: "👨‍🏫" },
-            { text: "Certificate", icon: "🏆" }
-          ]
-        },
-        courseInfo: {
-          startDate: "Flexible Start",
-          format: "Online",
-          support: "Expert Support",
-          studentsEnrolled: "Join Today"
-        },
-        trustIndicators: {
-          rating: "4.8/5",
-          reviewCount: "100+ reviews",
-          testimonialPreview: {
-            text: "Great course with practical skills!",
-            author: "Student Review"
-          }
-        }
-      };
-      
-      res.json(defaultDetails);
+      res.status(404).json({ 
+        success: false, 
+        error: 'Course details not found. This course may not be available for purchase.' 
+      });
       return;
     }
     

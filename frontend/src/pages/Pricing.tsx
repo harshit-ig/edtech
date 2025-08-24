@@ -6,6 +6,7 @@ import TechBackground from "../TechBackground";
 import MicrosoftBadge from "../components/MicrosoftBadge";
 import useRevealOnScroll from "../hooks/useRevealOnScroll";
 import { useCourseEnrollmentModal } from "../contexts/CourseEnrollmentModalContext";
+import { usePaymentModal } from "../contexts/PaymentModalContext";
 import { useContactModal } from "../contexts/ContactModalContext";
 import { getCoursePricingData, getPricingFAQ, getCourseBenefitsComparison } from "../utils/dataAdapter";
 import type { CoursePricing, PricingFAQ, CourseBenefit } from "../types";
@@ -18,6 +19,7 @@ export default function PricingPage() {
   const [courseBenefits, setCourseBenefits] = useState<CourseBenefit[]>([]);
   const [loading, setLoading] = useState(true);
   const { openModal: openEnrollmentModal } = useCourseEnrollmentModal();
+  const { openModal: openPaymentModal } = usePaymentModal();
   const { openModal } = useContactModal();
 
   useEffect(() => {
@@ -72,8 +74,26 @@ export default function PricingPage() {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  const handleEnrollNow = (courseId: string, courseName: string, courseCategory: string) => {
-    openEnrollmentModal(courseId, courseName, courseCategory, 'pricing-page');
+
+
+  const handleEnrollNow = (course: any, pricing: any) => {
+    if (paymentMode === 'installment') {
+      // Use enrollment modal for installment inquiries
+      openEnrollmentModal(course.id, course.name, course.category, 'pricing-page');
+    } else {
+      // Use payment modal for one-time payments
+      const courseObj = {
+        id: course.id,
+        title: course.name,
+        category: course.category,
+        badge: course.badge,
+        desc: course.description,
+        duration: course.duration,
+        extra: course.extra,
+        accent: course.accent
+      };
+      openPaymentModal(courseObj, pricing.price, 'pricing-page');
+    }
   };
 
   // Get display price based on payment mode
@@ -305,7 +325,7 @@ export default function PricingPage() {
                       {/* Course Actions - Fixed at bottom */}
                       <div className="space-y-3 mt-auto">
                         <button 
-                          onClick={() => handleEnrollNow(course.id, course.name, course.category)}
+                          onClick={() => handleEnrollNow(course, pricing)}
                           className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-105 shadow-lg ${
                             course.highlighted 
                               ? 'bg-gradient-to-r from-edtech-green to-edtech-orange text-black hover:brightness-110' 
@@ -535,6 +555,8 @@ export default function PricingPage() {
           </div>
         </section>
       </main>
+
+
       
       <Footer />
     </div>

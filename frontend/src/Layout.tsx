@@ -5,6 +5,7 @@ import CourseEnrollmentModal from './components/CourseEnrollmentModal';
 import ScrollToTop from './components/ScrollToTop';
 import { ContactModalProvider, useContactModal } from './contexts/ContactModalContext';
 import { CourseEnrollmentModalProvider, useCourseEnrollmentModal } from './contexts/CourseEnrollmentModalContext';
+import { PaymentModalProvider } from './contexts/PaymentModalContext';
 
 interface LayoutProps {
   children: ReactNode;
@@ -49,7 +50,9 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <ContactModalProvider>
       <CourseEnrollmentModalProvider>
-        <LayoutContent>{children}</LayoutContent>
+        <PaymentModalProvider>
+          <LayoutContent>{children}</LayoutContent>
+        </PaymentModalProvider>
       </CourseEnrollmentModalProvider>
     </ContactModalProvider>
   );

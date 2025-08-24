@@ -4,6 +4,8 @@ export * from './Course';
 export * from './Blog';
 export * from './FAQ';
 export * from './Mentor';
+export * from './Payment';
+export * from './Coupon';
 export * from './Statistics';
 export * from './User';
 

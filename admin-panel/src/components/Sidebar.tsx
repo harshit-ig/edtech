@@ -13,7 +13,9 @@ import {
   Laptop,
   HelpCircle,
   Star,
-  MessageSquare
+  MessageSquare,
+  CreditCard,
+  Ticket
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -25,6 +27,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Courses', href: '/courses', icon: BookOpen },
+    { name: 'Payments', href: '/payments', icon: CreditCard },
+    { name: 'Coupons', href: '/coupons', icon: Ticket },
     { name: 'Blog Posts', href: '/blogs', icon: BookOpen },
     { name: 'Team Members', href: '/team-members', icon: Users },
     { name: 'Mentors', href: '/mentors', icon: Users },

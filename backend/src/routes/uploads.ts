@@ -16,7 +16,7 @@ router.get('/blog-images/:filename', (req: Request, res: Response) => {
   }
   
   // Send the file
-  res.sendFile(filePath);
+  return res.sendFile(filePath);
 });
 
 // Serve team member images
@@ -31,7 +31,7 @@ router.get('/team-images/:filename', (req: Request, res: Response) => {
   }
   
   // Send the file
-  res.sendFile(filePath);
+  return res.sendFile(filePath);
 });
 
 export default router;

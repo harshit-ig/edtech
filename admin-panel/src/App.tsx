@@ -6,6 +6,8 @@ import Layout from './components/Layout';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Courses from './pages/Courses';
+import Payments from './pages/Payments';
+import Coupons from './pages/Coupons';
 import BlogsList from './pages/Blogs';
 import TeamMembersList from './pages/TeamMembers';
 import UsersList from './pages/Users';
@@ -87,6 +89,8 @@ const AppRoutes: React.FC = () => {
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="courses" element={<Courses />} />
+                    <Route path="payments" element={<Payments />} />
+            <Route path="coupons" element={<Coupons />} />
         <Route path="blogs" element={<BlogsList />} />
         <Route path="team-members" element={<TeamMembersList />} />
         <Route path="users" element={<UsersList />} />

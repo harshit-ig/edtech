@@ -39,6 +39,78 @@ api.interceptors.response.use(
   }
 );
 
+// Payment API
+export const paymentsApi = {
+  getStats: async (period: number = 30): Promise<ApiResponse> => {
+    const response = await api.get(`/payments/stats?period=${period}`);
+    return response.data;
+  },
+
+  getTransactions: async (params?: { page?: number; limit?: number; status?: string; courseId?: string }): Promise<ApiResponse> => {
+    const queryParams = new URLSearchParams();
+    if (params?.page) queryParams.append('page', params.page.toString());
+    if (params?.limit) queryParams.append('limit', params.limit.toString());
+    if (params?.status) queryParams.append('status', params.status);
+    if (params?.courseId) queryParams.append('courseId', params.courseId);
+    
+    const query = queryParams.toString();
+    const response = await api.get(`/payments/transactions${query ? `?${query}` : ''}`);
+    return response.data;
+  },
+
+  getOrders: async (params?: { page?: number; limit?: number; status?: string; courseId?: string }): Promise<ApiResponse> => {
+    const queryParams = new URLSearchParams();
+    if (params?.page) queryParams.append('page', params.page.toString());
+    if (params?.limit) queryParams.append('limit', params.limit.toString());
+    if (params?.status) queryParams.append('status', params.status);
+    if (params?.courseId) queryParams.append('courseId', params.courseId);
+    
+    const query = queryParams.toString();
+    const response = await api.get(`/payments/orders${query ? `?${query}` : ''}`);
+    return response.data;
+  }
+};
+
+export const couponsApi = {
+  getAll: async (params?: { page?: number; limit?: number; search?: string; isActive?: boolean; discountType?: string }): Promise<ApiResponse> => {
+    const queryParams = new URLSearchParams();
+    if (params?.page) queryParams.append('page', params.page.toString());
+    if (params?.limit) queryParams.append('limit', params.limit.toString());
+    if (params?.search) queryParams.append('search', params.search);
+    if (params?.isActive !== undefined) queryParams.append('isActive', params.isActive.toString());
+    if (params?.discountType) queryParams.append('discountType', params.discountType);
+    
+    const query = queryParams.toString();
+    const response = await api.get(`/coupons/admin${query ? `?${query}` : ''}`);
+    return response.data;
+  },
+  getById: async (id: string): Promise<ApiResponse> => {
+    const response = await api.get(`/coupons/admin/${id}`);
+    return response.data;
+  },
+  create: async (data: any): Promise<ApiResponse> => {
+    const response = await api.post('/coupons/admin', data);
+    return response.data;
+  },
+  update: async (id: string, data: any): Promise<ApiResponse> => {
+    const response = await api.put(`/coupons/admin/${id}`, data);
+    return response.data;
+  },
+  delete: async (id: string): Promise<ApiResponse> => {
+    const response = await api.delete(`/coupons/admin/${id}`);
+    return response.data;
+  },
+  getAnalytics: async (params?: { courseId?: string; days?: number }): Promise<ApiResponse> => {
+    const queryParams = new URLSearchParams();
+    if (params?.courseId) queryParams.append('courseId', params.courseId);
+    if (params?.days) queryParams.append('days', params.days.toString());
+    
+    const query = queryParams.toString();
+    const response = await api.get(`/coupons/admin/analytics${query ? `?${query}` : ''}`);
+    return response.data;
+  }
+};
+
 // Auth API
 export const authApi = {
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
