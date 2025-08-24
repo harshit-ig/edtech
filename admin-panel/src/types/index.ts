@@ -73,7 +73,6 @@ export interface CourseDetails {
     title: string;
     description: string;
   }>;
-  objectives: string[];
   curriculum: Array<{
     module: string;
     duration: string;
@@ -83,9 +82,7 @@ export interface CourseDetails {
     name: string;
     icon: string;
   }>;
-  skills: string[];
   prerequisites: string;
-  certification: string;
   testimonials: Array<{
     name: string;
     role: string;
@@ -123,12 +120,6 @@ export interface CourseDetails {
       author: string;
     };
   };
-  careerSupport?: string[];
-  instructors?: Array<{
-    name: string;
-    title: string;
-    experience: string;
-  }>;
   createdAt?: string;
   updatedAt?: string;
 }

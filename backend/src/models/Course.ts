@@ -28,7 +28,6 @@ const CourseDetailsSchema = new Schema<CourseDetails & Document>({
     title: { type: String, required: true },
     description: { type: String, required: true }
   }],
-  objectives: [{ type: String, required: true }],
   curriculum: [{
     module: { type: String, required: true },
     duration: { type: String, required: true },
@@ -38,9 +37,7 @@ const CourseDetailsSchema = new Schema<CourseDetails & Document>({
     name: { type: String, required: true },
     icon: { type: String, required: true }
   }],
-  skills: [{ type: String, required: true }],
   prerequisites: { type: String, required: true },
-  certification: { type: String, required: true },
   testimonials: [{
     name: { type: String, required: true },
     role: { type: String, required: true },
@@ -77,13 +74,7 @@ const CourseDetailsSchema = new Schema<CourseDetails & Document>({
       text: { type: String, required: true },
       author: { type: String, required: true }
     }
-  },
-  careerSupport: [{ type: String }],
-  instructors: [{
-    name: { type: String, required: true },
-    title: { type: String, required: true },
-    experience: { type: String, required: true }
-  }]
+  }
 }, { timestamps: true });
 
 // Course Pricing Schema

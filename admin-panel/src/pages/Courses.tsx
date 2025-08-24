@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { coursesApi, courseDetailsApi, coursePricingApi, iconsApi } from '../lib/api';
 import type { Course, CourseDetails, CoursePricing } from '../types';
-import { Plus, Edit, Trash2, Eye, Search, Save, X, BookOpen, DollarSign, Info, Users, GraduationCap, Settings, Star, ChevronDown, Upload } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Search, Save, X, BookOpen, DollarSign, Info, GraduationCap, Settings, Star, ChevronDown, Upload } from 'lucide-react';
 
 interface UnifiedCourseData {
   // Basic course info (from Courses collection)
@@ -24,7 +24,6 @@ interface UnifiedCourseData {
     title: string;
     description: string;
   }>;
-  objectives: string[];
   curriculum: Array<{
     module: string;
     duration: string;
@@ -34,9 +33,7 @@ interface UnifiedCourseData {
     name: string;
     icon: string;
   }>;
-  skills: string[];
   prerequisites: string;
-  certification: string;
   testimonials: Array<{
     name: string;
     role: string;
@@ -75,12 +72,6 @@ interface UnifiedCourseData {
       author: string;
     };
   };
-  careerSupport?: string[];
-  instructors?: Array<{
-    name: string;
-    title: string;
-    experience: string;
-  }>;
 
   // Pricing info (from CoursePricing collection)
   pricingName: string; // Plan name for pricing
@@ -100,16 +91,89 @@ interface UnifiedCourseData {
   cta: string;
 }
 
-// Icon Selector Component
-interface IconSelectorProps {
-  value: string;
-  onChange: (iconName: string) => void;
-  placeholder?: string;
-}
+  // Icon Selector Component
+  interface IconSelectorProps {
+    value: string;
+    onChange: (iconName: string) => void;
+    placeholder?: string;
+    type?: 'svg' | 'emoji';
+  }
 
-const IconSelector: React.FC<IconSelectorProps> = ({ value, onChange, placeholder = "Select an icon" }) => {
-  const [icons, setIcons] = useState<Record<string, string>>({});
-  const [isOpen, setIsOpen] = useState(false);
+    const IconSelector: React.FC<IconSelectorProps> = ({ value, onChange, placeholder = "Select an icon", type = 'svg' }) => {
+    const [icons, setIcons] = useState<Record<string, string>>({});
+    const [isOpen, setIsOpen] = useState(false);
+
+    // Emoji icons for tools and features
+    const emojiIcons = {
+      '🐍': 'Python',
+      '📊': 'Data Analysis',
+      '🧠': 'AI/ML',
+      '🔥': 'PyTorch',
+      '⚡': 'Fast',
+      '🚀': 'Rocket',
+      '💻': 'Computer',
+      '📈': 'Chart',
+      '📋': 'Excel',
+      '🗃️': 'Database',
+      '📓': 'Jupyter',
+      '🔀': 'Git',
+      '☁️': 'Cloud',
+      '🐳': 'Docker',
+      '⚓': 'Kubernetes',
+      '🔄': 'MLflow',
+      '🤖': 'OpenAI',
+      '🤗': 'Hugging Face',
+      '🔗': 'LangChain',
+      '🎥': 'Video',
+      '📹': 'Recording',
+      '👨‍🏫': 'Mentor',
+      '🏆': 'Certificate',
+      '🌐': 'Community',
+      '📚': 'Lessons',
+      '👨‍🔬': 'Research',
+      '🔬': 'Research Project',
+      '👔': 'Executive',
+      '📰': 'Publication',
+      '✅': 'Check',
+      '👩‍🏫': 'Instructor',
+      '🛠️': 'Tools',
+      '🌍': 'Global',
+      '🎯': 'Target',
+      '💬': 'Chat',
+      '📱': 'Mobile',
+      '🛡️': 'Security',
+      '🔒': 'Lock',
+      '🎓': 'Education',
+      '📖': 'Book',
+      '⚙️': 'Settings',
+      '🎨': 'Design',
+      '💡': 'Idea',
+      '🎉': 'Celebration',
+      '⭐': 'Star',
+      '💎': 'Premium',
+      '🎪': 'Show',
+      '🏅': 'Achievement',
+      '🎖️': 'Medal',
+      '💪': 'Strength',
+      '💯': 'Perfect',
+      '🌟': 'Star',
+      '✨': 'Sparkle',
+      '💫': 'Dizzy',
+      '🌙': 'Moon',
+      '☀️': 'Sun',
+      '🌈': 'Rainbow',
+      '🎭': 'Theater',
+      '🎲': 'Dice',
+      '🎮': 'Game',
+      '🎸': 'Guitar',
+      '🎹': 'Piano',
+      '🎺': 'Trumpet',
+      '🎻': 'Violin',
+      '🎼': 'Music',
+      '🎵': 'Note',
+      '🎶': 'Notes',
+      '🎷': 'Saxophone'
+    };
   const [loading, setLoading] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
   const [newIcon, setNewIcon] = useState({ name: '', path: '' });
@@ -164,12 +228,16 @@ const IconSelector: React.FC<IconSelectorProps> = ({ value, onChange, placeholde
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-2">
-          {selectedIcon ? (
+          {value ? (
             <>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d={selectedIcon} />
-              </svg>
-              <span>{value}</span>
+              {type === 'emoji' ? (
+                <span className="text-xl">{value}</span>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d={selectedIcon} />
+                </svg>
+              )}
+              <span>{type === 'emoji' ? (emojiIcons as Record<string, string>)[value] || value : value}</span>
             </>
           ) : (
             <span className="text-gray-500">{placeholder}</span>
@@ -184,22 +252,41 @@ const IconSelector: React.FC<IconSelectorProps> = ({ value, onChange, placeholde
             <div className="p-4 text-center text-gray-500">Loading icons...</div>
           ) : (
             <>
-              {Object.entries(icons).map(([iconName, iconPath]) => (
-                <button
-                  key={iconName}
-                  type="button"
-                  className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 text-left border-b border-gray-100"
-                  onClick={() => {
-                    onChange(iconName);
-                    setIsOpen(false);
-                  }}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d={iconPath} />
-                  </svg>
-                  <span>{iconName}</span>
-                </button>
-              ))}
+              {type === 'emoji' ? (
+                <div className="grid grid-cols-6 gap-2 p-3">
+                  {Object.entries(emojiIcons).map(([emoji, name]) => (
+                    <button
+                      key={emoji}
+                      type="button"
+                      className="flex flex-col items-center p-2 rounded hover:bg-gray-50 transition-colors"
+                      onClick={() => {
+                        onChange(emoji);
+                        setIsOpen(false);
+                      }}
+                    >
+                      <span className="text-2xl mb-1">{emoji}</span>
+                      <span className="text-xs text-gray-600 text-center">{name}</span>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                Object.entries(icons).map(([iconName, iconPath]) => (
+                  <button
+                    key={iconName}
+                    type="button"
+                    className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 text-left border-b border-gray-100"
+                    onClick={() => {
+                      onChange(iconName);
+                      setIsOpen(false);
+                    }}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d={iconPath} />
+                    </svg>
+                    <span>{iconName}</span>
+                  </button>
+                ))
+              )}
               
               <div className="border-t border-gray-200">
                 {!showAddForm ? (
@@ -273,7 +360,7 @@ const UnifiedCourseManagement: React.FC = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<UnifiedCourseData>>({});
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState<'basic' | 'details' | 'features' | 'curriculum' | 'testimonials' | 'instructors' | 'pricing'>('basic');
+  const [activeTab, setActiveTab] = useState<'basic' | 'details' | 'features' | 'curriculum' | 'testimonials' | 'pricing'>('basic');
   
   // Checkbox states for "Same as..." functionality
   const [sameAsStates, setSameAsStates] = useState({
@@ -319,12 +406,9 @@ const UnifiedCourseManagement: React.FC = () => {
           // Details data - keeping empty if not provided (required fields should be enforced)
           overview: details?.overview || '',
           features: details?.features || [],
-          objectives: details?.objectives || [],
           curriculum: details?.curriculum || [],
           tools: details?.tools || [],
-          skills: details?.skills || [],
           prerequisites: details?.prerequisites || '',
-          certification: details?.certification || '',
           testimonials: details?.testimonials || [],
           successStats: details?.successStats || [],
           detailsPricing: details?.pricing || {
@@ -345,8 +429,7 @@ const UnifiedCourseManagement: React.FC = () => {
             reviewCount: '',
             testimonialPreview: { text: '', author: '' }
           },
-          careerSupport: details?.careerSupport || [],
-          instructors: details?.instructors || [],
+
 
           // Pricing data - keeping empty if not provided (required fields should be enforced)
           pricingName: pricing?.name || '',
@@ -392,14 +475,11 @@ const UnifiedCourseManagement: React.FC = () => {
       // Course Details - required fields empty
       overview: '',
       features: [],
-      objectives: [],
-      curriculum: [],
-      tools: [],
-      skills: [],
-      prerequisites: '',
-      certification: '',
-      testimonials: [],
-      successStats: [],
+                curriculum: [],
+          tools: [],
+          prerequisites: '',
+          testimonials: [],
+          successStats: [],
       detailsPricing: {
         current: 0,
         original: 0,
@@ -418,8 +498,7 @@ const UnifiedCourseManagement: React.FC = () => {
         reviewCount: '',
         testimonialPreview: { text: '', author: '' }
       },
-      careerSupport: [],
-      instructors: [],
+      
       
       // Pricing - required fields empty
       pricingName: '',
@@ -480,8 +559,8 @@ const UnifiedCourseManagement: React.FC = () => {
     }
 
     // Validate required fields from CourseDetails schema
-    if (!formData.overview || !formData.prerequisites || !formData.certification) {
-      setError('Required course details: Overview, Prerequisites, and Certification');
+          if (!formData.overview || !formData.prerequisites) {
+        setError('Required course details: Overview and Prerequisites');
       return;
     }
 
@@ -524,12 +603,9 @@ const UnifiedCourseManagement: React.FC = () => {
         courseId: trimmedId,
         overview: formData.overview!,
         features: formData.features || [],
-        objectives: formData.objectives || [],
-        curriculum: formData.curriculum || [],
-        tools: formData.tools || [],
-        skills: formData.skills || [],
-        prerequisites: formData.prerequisites!,
-        certification: formData.certification!,
+                  curriculum: formData.curriculum || [],
+          tools: formData.tools || [],
+          prerequisites: formData.prerequisites!,
         testimonials: formData.testimonials || [],
         successStats: formData.successStats || [],
         pricing: {
@@ -553,8 +629,7 @@ const UnifiedCourseManagement: React.FC = () => {
             author: formData.trustIndicators?.testimonialPreview?.author || 'Anonymous'
           }
         },
-        careerSupport: formData.careerSupport || [],
-        instructors: formData.instructors || []
+        
       };
 
       const coursePricingData: Partial<CoursePricing> = {
@@ -821,45 +896,7 @@ const UnifiedCourseManagement: React.FC = () => {
 
   // Helper functions for form management
   
-  // Objectives
-  const addObjective = () => {
-    setFormData({
-      ...formData,
-      objectives: [...(formData.objectives || []), '']
-    });
-  };
 
-  const updateObjective = (index: number, value: string) => {
-    const objectives = [...(formData.objectives || [])];
-    objectives[index] = value;
-    setFormData({ ...formData, objectives });
-  };
-
-  const removeObjective = (index: number) => {
-    const objectives = [...(formData.objectives || [])];
-    objectives.splice(index, 1);
-    setFormData({ ...formData, objectives });
-  };
-
-  // Skills
-  const addSkill = () => {
-    setFormData({
-      ...formData,
-      skills: [...(formData.skills || []), '']
-    });
-  };
-
-  const updateSkill = (index: number, value: string) => {
-    const skills = [...(formData.skills || [])];
-    skills[index] = value;
-    setFormData({ ...formData, skills });
-  };
-
-  const removeSkill = (index: number) => {
-    const skills = [...(formData.skills || [])];
-    skills.splice(index, 1);
-    setFormData({ ...formData, skills });
-  };
 
   // Features
   const addFeature = () => {
@@ -986,45 +1023,7 @@ const UnifiedCourseManagement: React.FC = () => {
     setFormData({ ...formData, successStats });
   };
 
-  // Instructors
-  const addInstructor = () => {
-    setFormData({
-      ...formData,
-      instructors: [...(formData.instructors || []), { name: '', title: '', experience: '' }]
-    });
-  };
 
-  const updateInstructor = (index: number, field: 'name' | 'title' | 'experience', value: string) => {
-    const instructors = [...(formData.instructors || [])];
-    instructors[index] = { ...instructors[index], [field]: value };
-    setFormData({ ...formData, instructors });
-  };
-
-  const removeInstructor = (index: number) => {
-    const instructors = [...(formData.instructors || [])];
-    instructors.splice(index, 1);
-    setFormData({ ...formData, instructors });
-  };
-
-  // Career Support
-  const addCareerSupport = () => {
-    setFormData({
-      ...formData,
-      careerSupport: [...(formData.careerSupport || []), '']
-    });
-  };
-
-  const updateCareerSupport = (index: number, value: string) => {
-    const careerSupport = [...(formData.careerSupport || [])];
-    careerSupport[index] = value;
-    setFormData({ ...formData, careerSupport });
-  };
-
-  const removeCareerSupport = (index: number) => {
-    const careerSupport = [...(formData.careerSupport || [])];
-    careerSupport.splice(index, 1);
-    setFormData({ ...formData, careerSupport });
-  };
 
   // Pricing Features
   const addPricingFeature = () => {
@@ -1216,17 +1215,7 @@ const UnifiedCourseManagement: React.FC = () => {
                   <Star className="w-4 h-4 inline mr-2" />
                   Testimonials
                 </button>
-                <button
-                  className={`px-4 py-2 font-medium text-sm border-b-2 whitespace-nowrap ${
-                    activeTab === 'instructors' 
-                      ? 'border-blue-500 text-blue-600' 
-                      : 'border-transparent text-gray-500 hover:text-gray-700'
-                  }`}
-                  onClick={() => setActiveTab('instructors')}
-                >
-                  <Users className="w-4 h-4 inline mr-2" />
-                  Instructors
-                </button>
+
                 <button
                   className={`px-4 py-2 font-medium text-sm border-b-2 whitespace-nowrap ${
                     activeTab === 'pricing' 
@@ -1413,85 +1402,13 @@ const UnifiedCourseManagement: React.FC = () => {
                           required
                     />
                   </div>
-                  <div className="form-group">
-                        <label className="form-label">Certification *</label>
-                    <input
-                      type="text"
-                      className="form-input"
-                      value={formData.certification || ''}
-                      onChange={(e) => setFormData({ ...formData, certification: e.target.value })}
-                      placeholder="Certificate details..."
-                          required
-                    />
-                      </div>
+
                     </div>
                   </div>
 
-                  {/* Learning Objectives */}
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <h3 className="text-lg font-semibold mb-4">Learning Objectives</h3>
-                    <div className="space-y-2">
-                      {(formData.objectives || []).map((objective, index) => (
-                        <div key={index} className="flex items-center gap-2">
-                          <input
-                            type="text"
-                            className="form-input flex-1"
-                            value={objective}
-                            onChange={(e) => updateObjective(index, e.target.value)}
-                            placeholder="Learning objective"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => removeObjective(index)}
-                            className="btn btn-danger btn-sm"
-                          >
-                            <X className="w-3 h-3" />
-                          </button>
-                        </div>
-                      ))}
-                      <button
-                        type="button"
-                        onClick={addObjective}
-                        className="btn btn-secondary btn-sm"
-                      >
-                        <Plus className="w-3 h-3" />
-                        Add Objective
-                      </button>
-                    </div>
-                  </div>
 
-                  {/* Skills */}
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <h3 className="text-lg font-semibold mb-4">Skills You'll Learn</h3>
-                    <div className="space-y-2">
-                      {(formData.skills || []).map((skill, index) => (
-                        <div key={index} className="flex items-center gap-2">
-                          <input
-                            type="text"
-                            className="form-input flex-1"
-                            value={skill}
-                            onChange={(e) => updateSkill(index, e.target.value)}
-                            placeholder="Skill name"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => removeSkill(index)}
-                            className="btn btn-danger btn-sm"
-                          >
-                            <X className="w-3 h-3" />
-                          </button>
-                        </div>
-                      ))}
-                      <button
-                        type="button"
-                        onClick={addSkill}
-                        className="btn btn-secondary btn-sm"
-                      >
-                        <Plus className="w-3 h-3" />
-                        Add Skill
-                      </button>
-                    </div>
-                  </div>
+
+
 
                   {/* Course Information */}
                   <div className="border border-gray-200 rounded-lg p-4">
@@ -1799,6 +1716,7 @@ const UnifiedCourseManagement: React.FC = () => {
                                   value={feature.icon}
                                   onChange={(iconName) => updateDetailsPricingFeature(index, 'icon', iconName)}
                                   placeholder="Select pricing feature icon"
+                                  type="emoji"
                                 />
                               </div>
                               <button
@@ -1847,6 +1765,7 @@ const UnifiedCourseManagement: React.FC = () => {
                                 value={feature.icon}
                                 onChange={(iconName) => updateFeature(index, 'icon', iconName)}
                                 placeholder="Select feature icon"
+                                type="emoji"
                               />
                             </div>
                             <div className="form-group">
@@ -1912,6 +1831,7 @@ const UnifiedCourseManagement: React.FC = () => {
                                 value={tool.icon}
                                 onChange={(iconName) => updateTool(index, 'icon', iconName)}
                                 placeholder="Select tool icon"
+                                type="emoji"
                               />
                             </div>
                             <button
@@ -2197,111 +2117,7 @@ const UnifiedCourseManagement: React.FC = () => {
                 </div>
               )}
 
-              {/* Instructors Tab */}
-              {activeTab === 'instructors' && (
-                <div className="space-y-6">
-                  <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-6">
-                    <p className="text-indigo-800 text-sm">
-                      <span className="font-medium">Instructors & Career Support:</span> Course instructors and career services
-                    </p>
-                  </div>
 
-                  {/* Instructors */}
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <h3 className="text-lg font-semibold mb-4">Course Instructors</h3>
-                    <div className="space-y-4">
-                      {(formData.instructors || []).map((instructor, index) => (
-                        <div key={index} className="border border-gray-100 rounded-lg p-4">
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div className="form-group">
-                              <label className="form-label">Name *</label>
-                              <input
-                                type="text"
-                                className="form-input"
-                                value={instructor.name}
-                                onChange={(e) => updateInstructor(index, 'name', e.target.value)}
-                                placeholder="Sarah Johnson"
-                                required
-                              />
-                            </div>
-                            <div className="form-group">
-                              <label className="form-label">Title *</label>
-                              <input
-                                type="text"
-                                className="form-input"
-                                value={instructor.title}
-                                onChange={(e) => updateInstructor(index, 'title', e.target.value)}
-                                placeholder="Senior Full Stack Developer"
-                                required
-                              />
-                            </div>
-                            <div className="form-group">
-                              <label className="form-label">Experience *</label>
-                              <input
-                                type="text"
-                                className="form-input"
-                                value={instructor.experience}
-                                onChange={(e) => updateInstructor(index, 'experience', e.target.value)}
-                                placeholder="8+ years at Meta & Netflix"
-                                required
-                              />
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => removeInstructor(index)}
-                            className="btn btn-danger btn-sm mt-2"
-                          >
-                            <X className="w-3 h-3 mr-1" />
-                            Remove Instructor
-                          </button>
-                        </div>
-                      ))}
-                      <button
-                        type="button"
-                        onClick={addInstructor}
-                        className="btn btn-secondary"
-                      >
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add Instructor
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Career Support */}
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <h3 className="text-lg font-semibold mb-4">Career Support Services</h3>
-                    <div className="space-y-2">
-                      {(formData.careerSupport || []).map((support, index) => (
-                        <div key={index} className="flex items-center gap-2">
-                          <input
-                            type="text"
-                            className="form-input flex-1"
-                            value={support}
-                            onChange={(e) => updateCareerSupport(index, e.target.value)}
-                            placeholder="Resume Review & Optimization"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => removeCareerSupport(index)}
-                            className="btn btn-danger btn-sm"
-                          >
-                            <X className="w-3 h-3" />
-                          </button>
-                        </div>
-                      ))}
-                      <button
-                        type="button"
-                        onClick={addCareerSupport}
-                        className="btn btn-secondary btn-sm"
-                      >
-                        <Plus className="w-3 h-3 mr-1" />
-                        Add Career Support
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
 
               {/* Pricing Tab */}
               {activeTab === 'pricing' && (
@@ -2669,11 +2485,11 @@ const UnifiedCourseManagement: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-gray-500">
-                    {course.objectives?.length || 0} objectives
+                    {course.curriculum?.length || 0} modules
                   </span>
                   <span className="text-sm text-gray-500">•</span>
                   <span className="text-sm text-gray-500">
-                    {course.skills?.length || 0} skills
+                    {course.tools?.length || 0} tools
                   </span>
                 </div>
                 <div className="flex items-center space-x-2">

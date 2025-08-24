@@ -241,14 +241,14 @@ const Testimonials: React.FC = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Category *
+                  Category (Emoji + Text) *
                 </label>
                 <input
                   type="text"
                   value={formData.category || ''}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="e.g., Web Development"
+                  placeholder="e.g., 🚀 Incredible bootcamp experience!"
                 />
               </div>
 
@@ -373,14 +373,14 @@ const Testimonials: React.FC = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Category *
+                      Category (Emoji + Text) *
                     </label>
                     <input
                       type="text"
                       value={formData.category || ''}
                       onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="e.g., Web Development"
+                      placeholder="e.g., 🚀 Incredible bootcamp experience!"
                     />
                   </div>
 

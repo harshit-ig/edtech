@@ -103,12 +103,9 @@ export default function CoursePage() {
   // Get course details (fallback to default if needed)
   const details = courseDetails || {
     overview: `Comprehensive ${course.title} training program`,
-    objectives: [`Master ${course.title}`, 'Build real-world projects'],
     curriculum: [{ module: 'Introduction', duration: '1 week', topics: ['Basics'] }],
     tools: [{ name: course.title, icon: '🚀' }],
-    skills: [course.title],
     prerequisites: 'Basic computer knowledge',
-    certification: 'Certificate of completion',
     testimonials: [],
     successStats: [],
     pricing: { current: 9999, original: 19999, discount: '50%', deadline: '2024-12-31', features: [] },

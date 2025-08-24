@@ -58,13 +58,6 @@ export const getCourseDetails = async (req: Request, res: Response): Promise<voi
       // Return default course details structure
       const defaultDetails = {
         overview: course.desc + " This comprehensive program combines theoretical knowledge with practical, hands-on experience to ensure you're job-ready upon completion.",
-        objectives: [
-          `Master ${course.category.toLowerCase()} fundamentals and advanced concepts`,
-          "Build a professional portfolio with real-world projects",
-          "Develop industry-relevant skills and best practices", 
-          "Prepare for certifications and career advancement",
-          "Network with industry professionals and peers"
-        ],
         curriculum: [
           {
             module: "Module 1: Foundations",
@@ -93,9 +86,7 @@ export const getCourseDetails = async (req: Request, res: Response): Promise<voi
           { name: "Professional software", icon: "💻" },
           { name: "Cloud platforms", icon: "☁️" }
         ],
-        skills: [],
         prerequisites: "Basic computer literacy and enthusiasm to learn",
-        certification: `Professional ${course.category} Certificate`,
         testimonials: [],
         successStats: [],
         pricing: {

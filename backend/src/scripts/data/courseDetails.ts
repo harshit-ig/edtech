@@ -36,14 +36,7 @@ export const courseDetails = [
         description: "Leadership development and career advancement support"
       }
     ],
-    objectives: [
-      "Master advanced machine learning algorithms and deep learning techniques",
-      "Develop expertise in AI ethics and responsible AI deployment",
-      "Build production-ready MLOps pipelines and deployment systems",
-      "Understand business intelligence and strategic decision-making",
-      "Conduct independent research and present findings to industry experts",
-      "Prepare for senior data scientist and ML engineer roles"
-    ],
+
     curriculum: [
       {
         module: "Module 1: Data Science Foundations",
@@ -130,20 +123,9 @@ export const courseDetails = [
       { name: "Git", icon: "🔀" },
       { name: "Tableau/Power BI", icon: "📈" }
     ],
-    skills: [
-      "Advanced Machine Learning",
-      "Deep Learning", 
-      "AI Ethics",
-      "MLOps & Deployment",
-      "Business Intelligence",
-      "Research Methodology",
-      "Statistical Analysis",
-      "Data Engineering",
-      "Cloud Computing",
-      "Leadership & Strategy"
-    ],
+
     prerequisites: "Bachelor's degree in a quantitative field (Computer Science, Mathematics, Statistics, Engineering) or equivalent experience. Basic programming knowledge in Python or R. Fundamental understanding of statistics and linear algebra.",
-    certification: "Master of Science in Data Analytics - Industry-recognized masters-level certificate upon completion of all modules and successful defense of capstone research project",
+
     testimonials: [
       {
         name: "Dr. Emily Rodriguez",
@@ -206,30 +188,7 @@ export const courseDetails = [
         author: "Dr. Emily Rodriguez, Senior Data Scientist at Google"
       }
     },
-    careerSupport: [
-      "Executive-level career coaching",
-      "C-suite interview preparation",
-      "Research publication assistance",
-      "Industry conference speaking opportunities",
-      "Alumni executive network access"
-    ],
-    instructors: [
-      {
-        name: "Dr. Michael Thompson",
-        title: "Former Director of Data Science at Netflix",
-        experience: "PhD in Computer Science, 15+ years leading data science teams"
-      },
-      {
-        name: "Dr. Lisa Chen",
-        title: "AI Research Scientist at OpenAI",
-        experience: "PhD in Machine Learning, 50+ research publications"
-      },
-      {
-        name: "Dr. James Wilson",
-        title: "Chief Data Officer at Uber",
-        experience: "PhD in Statistics, Former McKinsey Principal"
-      }
-    ]
+
   },
   {
     courseId: 'data-analytics',
@@ -266,13 +225,7 @@ export const courseDetails = [
         description: "Comprehensive job placement and career guidance"
       }
     ],
-    objectives: [
-      "Master data analysis fundamentals and advanced techniques",
-      "Build proficiency in Python, SQL, and data visualization tools",
-      "Learn machine learning and AI implementation",
-      "Develop real-world data projects for your portfolio",
-      "Prepare for industry certifications and interviews"
-    ],
+
     curriculum: [
       {
         module: "Module 1: Data Foundations",
@@ -316,9 +269,9 @@ export const courseDetails = [
       { name: "Git", icon: "🔀" },
       { name: "Azure/AWS", icon: "☁️" }
     ],
-    skills: ["Data Analysis", "Statistical Modeling", "Machine Learning", "Data Visualization", "SQL Queries", "Python Programming", "Business Intelligence", "Predictive Analytics"],
+
     prerequisites: "Basic computer skills and eagerness to learn. No prior programming experience required.",
-    certification: "Industry-recognized certification upon completion + Microsoft certification eligibility",
+
     testimonials: [
       {
         name: "Sarah Mitchell",
@@ -380,25 +333,7 @@ export const courseDetails = [
         author: "Sarah K., Data Analyst at Google"
       }
     },
-    careerSupport: [
-      "1-on-1 career coaching sessions",
-      "Resume and LinkedIn profile optimization", 
-      "Mock interview preparation",
-      "Job placement assistance",
-      "Alumni network access"
-    ],
-    instructors: [
-      {
-        name: "Dr. Sarah Johnson",
-        title: "Senior Data Scientist at Microsoft",
-        experience: "10+ years in data analytics and machine learning"
-      },
-      {
-        name: "Michael Chen", 
-        title: "AI Research Director",
-        experience: "Former Google AI researcher with 200+ publications"
-      }
-    ]
+
   },
   {
     courseId: 'gen-ai',
@@ -440,13 +375,7 @@ export const courseDetails = [
         description: "Earn industry-recognized certifications that validate your AI expertise and boost your career prospects."
       }
     ],
-    objectives: [
-      "Master GPT, DALL-E, and other generative models",
-      "Build AI-powered applications and solutions",
-      "Understand prompt engineering and fine-tuning",
-      "Deploy AI solutions in production environments",
-      "Navigate ethical AI and responsible development"
-    ],
+
     curriculum: [
       {
         module: "Module 1: Introduction to Data Science and AI",
@@ -499,9 +428,9 @@ export const courseDetails = [
       { name: "Streamlit", icon: "⚡" },
       { name: "FastAPI", icon: "🚀" }
     ],
-    skills: ["Generative AI", "Prompt Engineering", "Model Fine-tuning", "AI Application Development", "Natural Language Processing", "Computer Vision", "AI Ethics", "MLOps"],
+
     prerequisites: "Basic programming knowledge (Python preferred) and familiarity with APIs",
-    certification: "Generative AI Expert Certificate + OpenAI partnership certification track",
+
     testimonials: [
       {
         name: "Alex Thompson",
@@ -563,29 +492,5 @@ export const courseDetails = [
         author: "Alex T., AI Engineer at OpenAI"
       }
     },
-    careerSupport: [
-      "AI career path guidance",
-      "Portfolio development support",
-      "Industry networking opportunities",
-      "AI project showcase assistance",
-      "Startup and consulting guidance"
-    ],
-    instructors: [
-      {
-        name: "Dr. Alex Chen",
-        title: "AI Research Scientist at OpenAI",
-        experience: "PhD in Computer Science, 8+ years in AI research and development"
-      },
-      {
-        name: "Dr. Maria Rodriguez",
-        title: "ML Engineer at Meta",
-        experience: "PhD in Machine Learning, 10+ years building production AI systems"
-      },
-      {
-        name: "James Wilson",
-        title: "AI Consultant & Entrepreneur",
-        experience: "Former Google AI engineer, founded successful AI consulting firm"
-      }
-    ]
   }
 ];
