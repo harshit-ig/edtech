@@ -114,8 +114,8 @@ const MentorFeatures: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Mentor Features</h1>
-          <p className="text-gray-600">Manage the features displayed for mentors</p>
+          <h1 className="text-2xl font-bold text-gray-900">Why Choose Us Section</h1>
+          <p className="text-gray-600">Manage the features displayed in the "Why Choose Us" section on the homepage</p>
         </div>
         <button
           onClick={handleCreate}
@@ -136,7 +136,7 @@ const MentorFeatures: React.FC = () => {
       {editingId === 'new' && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New Mentor Feature</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New "Why Choose Us" Feature</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -289,8 +289,8 @@ const MentorFeatures: React.FC = () => {
       {features.length === 0 && !loading && (
         <div className="text-center py-12">
           <Star className="mx-auto h-12 w-12 text-gray-400" />
-          <h3 className="mt-2 text-sm font-medium text-gray-900">No mentor features</h3>
-          <p className="mt-1 text-sm text-gray-500">Get started by creating your first mentor feature.</p>
+          <h3 className="mt-2 text-sm font-medium text-gray-900">No "Why Choose Us" features</h3>
+          <p className="mt-1 text-sm text-gray-500">Get started by creating your first "Why Choose Us" feature.</p>
         </div>
       )}
     </div>

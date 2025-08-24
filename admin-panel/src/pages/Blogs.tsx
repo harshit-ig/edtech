@@ -249,7 +249,7 @@ const BlogsList: React.FC = () => {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Blog Posts</h1>
           <p className="mt-2 text-sm text-gray-700">
-            Manage your blog content and articles
+            Manage blog content and articles displayed on the Blog page
           </p>
         </div>
         <button onClick={handleCreate} className="btn btn-primary">

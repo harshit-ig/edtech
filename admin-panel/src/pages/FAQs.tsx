@@ -123,8 +123,8 @@ const FAQs: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">FAQs</h1>
-          <p className="text-gray-600">Manage frequently asked questions</p>
+          <h1 className="text-2xl font-bold text-gray-900">FAQ Section</h1>
+          <p className="text-gray-600">Manage the frequently asked questions displayed in the FAQ section on the homepage</p>
         </div>
         <button
           onClick={handleCreate}

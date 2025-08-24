@@ -111,8 +111,8 @@ const CompanyLogos: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Company Logos</h1>
-          <p className="text-gray-600">Manage company logos displayed on the website</p>
+          <h1 className="text-2xl font-bold text-gray-900">Global Placements Section</h1>
+          <p className="text-gray-600">Manage the company logos displayed in the "Global Placements" section on the homepage</p>
         </div>
         <button
           onClick={handleCreate}

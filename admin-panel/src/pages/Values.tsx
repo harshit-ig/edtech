@@ -6,9 +6,7 @@ interface Value {
   _id: string;
   title: string;
   description: string;
-  icon: string;
-  color: string;
-  order: number;
+  iconPath: string;
 }
 
 const Values: React.FC = () => {
@@ -42,9 +40,7 @@ const Values: React.FC = () => {
     setFormData({
       title: '',
       description: '',
-      icon: '💡',
-      color: '#3b82f6',
-      order: values.length + 1
+      iconPath: 'M13 10V3L4 14h7v7l9-11h-7z'
     });
   };
 
@@ -99,30 +95,7 @@ const Values: React.FC = () => {
     }
   };
 
-  const moveValue = async (id: string, direction: 'up' | 'down') => {
-    const currentIndex = values.findIndex(v => v._id === id);
-    if (currentIndex === -1) return;
 
-    const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
-    if (newIndex < 0 || newIndex >= values.length) return;
-
-    const newValues = [...values];
-    [newValues[currentIndex], newValues[newIndex]] = [newValues[newIndex], newValues[currentIndex]];
-    
-    // Update orders
-    newValues[currentIndex].order = currentIndex + 1;
-    newValues[newIndex].order = newIndex + 1;
-
-    try {
-      await Promise.all([
-        valuesApi.update(newValues[currentIndex]._id, { order: newValues[currentIndex].order }),
-        valuesApi.update(newValues[newIndex]._id, { order: newValues[newIndex].order })
-      ]);
-      setValues(newValues);
-    } catch (error) {
-      setError('Failed to reorder values');
-    }
-  };
 
   if (loading) {
     return (
@@ -137,8 +110,8 @@ const Values: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Company Values</h1>
-          <p className="text-gray-600 mt-2">Manage your organization's core values</p>
+          <h1 className="text-3xl font-bold text-gray-900">Our Core Values Section</h1>
+          <p className="text-gray-600 mt-2">Manage the core values displayed in the "Our Core Values" section on the About page</p>
         </div>
         <button onClick={handleCreate} className="btn btn-primary">
           <Plus className="w-4 h-4" />
@@ -172,15 +145,17 @@ const Values: React.FC = () => {
                 />
               </div>
               <div className="form-group">
-                <label className="form-label">Icon (Emoji)</label>
+                <label className="form-label">Icon (SVG Path)</label>
                 <input
                   type="text"
                   className="form-input"
-                  value={formData.icon || ''}
-                  onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                  placeholder="💡"
-                  maxLength={2}
+                  value={formData.iconPath || ''}
+                  onChange={(e) => setFormData({ ...formData, iconPath: e.target.value })}
+                  placeholder="M13 10V3L4 14h7v7l9-11h-7z"
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  Enter SVG path for the icon (e.g., M13 10V3L4 14h7v7l9-11h-7z for lightning)
+                </p>
               </div>
             </div>
             
@@ -195,36 +170,7 @@ const Values: React.FC = () => {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="form-group">
-                <label className="form-label">Accent Color</label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="color"
-                    className="w-12 h-10 rounded border"
-                    value={formData.color || '#3b82f6'}
-                    onChange={(e) => setFormData({ ...formData, color: e.target.value })}
-                  />
-                  <input
-                    type="text"
-                    className="form-input flex-1"
-                    value={formData.color || ''}
-                    onChange={(e) => setFormData({ ...formData, color: e.target.value })}
-                    placeholder="#3b82f6"
-                  />
-                </div>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Order</label>
-                <input
-                  type="number"
-                  className="form-input"
-                  value={formData.order || ''}
-                  onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 1 })}
-                  min="1"
-                />
-              </div>
-            </div>
+
 
             <div className="flex items-center gap-3 pt-4 border-t">
               <button 
@@ -248,31 +194,17 @@ const Values: React.FC = () => {
 
       {/* Values List */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {values
-          .sort((a, b) => a.order - b.order)
-          .map((value) => (
+        {values.map((value) => (
           <div key={value._id} className="card hover:shadow-lg transition-shadow">
             <div className="card-header">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">{value.icon}</span>
+                  <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={value.iconPath} />
+                  </svg>
                   <h3 className="text-lg font-medium">{value.title}</h3>
                 </div>
                 <div className="flex items-center gap-1">
-                  <button
-                    onClick={() => moveValue(value._id, 'up')}
-                    className="btn btn-secondary btn-sm"
-                    disabled={value.order === 1}
-                  >
-                    ↑
-                  </button>
-                  <button
-                    onClick={() => moveValue(value._id, 'down')}
-                    className="btn btn-secondary btn-sm"
-                    disabled={value.order === values.length}
-                  >
-                    ↓
-                  </button>
                   <button
                     onClick={() => handleEdit(value)}
                     className="btn btn-secondary btn-sm"
@@ -292,13 +224,6 @@ const Values: React.FC = () => {
               <p className="text-gray-600 text-sm leading-relaxed">
                 {value.description}
               </p>
-              <div className="mt-3 flex items-center gap-2">
-                <div 
-                  className="w-4 h-4 rounded-full"
-                  style={{ backgroundColor: value.color }}
-                ></div>
-                <span className="text-xs text-gray-500">Order: {value.order}</span>
-              </div>
             </div>
           </div>
         ))}

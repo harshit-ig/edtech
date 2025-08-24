@@ -120,8 +120,8 @@ const Statistics: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">About Statistics</h1>
-          <p className="text-gray-600">Manage the statistics displayed on the About page</p>
+          <h1 className="text-2xl font-bold text-gray-900">Marketing Statistics Section</h1>
+          <p className="text-gray-600">Manage the statistics displayed in the marketing stats section on the About page</p>
         </div>
         <button
           onClick={handleCreate}

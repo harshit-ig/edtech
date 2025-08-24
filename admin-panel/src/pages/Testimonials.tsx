@@ -151,8 +151,8 @@ const Testimonials: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Testimonials</h1>
-          <p className="text-gray-600">Manage customer testimonials displayed on the website</p>
+          <h1 className="text-2xl font-bold text-gray-900">Success Stories Section</h1>
+          <p className="text-gray-600">Manage the testimonials displayed in the "Success Stories" section on the homepage</p>
         </div>
         <button
           onClick={handleCreate}

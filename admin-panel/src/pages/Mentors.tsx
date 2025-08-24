@@ -134,8 +134,8 @@ const Mentors: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Mentors</h1>
-          <p className="text-gray-600">Manage the mentors displayed on the website</p>
+          <h1 className="text-2xl font-bold text-gray-900">Expert Mentors Section</h1>
+          <p className="text-gray-600">Manage the mentors displayed in the "Expert Mentors" section on the About page</p>
         </div>
         <button
           onClick={handleCreate}

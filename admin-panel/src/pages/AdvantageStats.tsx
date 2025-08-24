@@ -136,8 +136,8 @@ const AdvantageStats: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Advantage Stats</h1>
-          <p className="text-gray-600">Manage advantage statistics displayed on the website</p>
+          <h1 className="text-2xl font-bold text-gray-900">The EdTech Advantage Section</h1>
+          <p className="text-gray-600">Manage the statistics displayed in the "The EdTech Advantage" section on the About page</p>
         </div>
         <button
           onClick={handleCreate}
@@ -158,7 +158,7 @@ const AdvantageStats: React.FC = () => {
       {editingId === 'new' && (
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New Advantage Stat</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New EdTech Advantage Stat</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">

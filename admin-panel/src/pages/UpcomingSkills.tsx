@@ -138,8 +138,8 @@ const UpcomingSkills: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Upcoming Skills</h1>
-          <p className="text-gray-600">Manage the upcoming skills displayed on the website</p>
+          <h1 className="text-2xl font-bold text-gray-900">Future-Ready Skills Section</h1>
+          <p className="text-gray-600">Manage the skills displayed in the "Future-Ready Skills" section on the homepage</p>
         </div>
         <button
           onClick={handleCreate}

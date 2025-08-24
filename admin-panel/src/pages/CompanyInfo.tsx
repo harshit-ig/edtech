@@ -264,8 +264,8 @@ const CompanyInfo: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Company Information</h1>
-          <p className="text-gray-600 mt-2">Manage company settings and content</p>
+          <h1 className="text-3xl font-bold text-gray-900">Company Information & Settings</h1>
+          <p className="text-gray-600 mt-2">Manage company information used across the website including Hero section, Stats, WhatsApp widget, and contact details</p>
         </div>
         <button 
           onClick={handleSave} 

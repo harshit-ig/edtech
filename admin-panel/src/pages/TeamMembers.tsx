@@ -160,9 +160,9 @@ const TeamMembersList: React.FC = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Team Members</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Meet Our Team Section</h1>
           <p className="mt-2 text-sm text-gray-700">
-            Manage your team member profiles
+            Manage the team members displayed in the "Meet Our Team" section on the About page
           </p>
         </div>
         <button onClick={handleCreate} className="btn btn-primary">

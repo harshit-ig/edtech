@@ -113,8 +113,8 @@ const Milestones: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Company Milestones</h1>
-          <p className="text-gray-600">Manage the company milestones displayed on the About page</p>
+          <h1 className="text-2xl font-bold text-gray-900">Company Milestones Section</h1>
+          <p className="text-gray-600">Manage the company milestones displayed in the milestones section on the About page</p>
         </div>
         <button
           onClick={handleCreate}

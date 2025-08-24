@@ -1099,9 +1099,9 @@ const UnifiedCourseManagement: React.FC = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Unified Course Management</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Course Management</h1>
           <p className="mt-2 text-sm text-gray-700">
-            Manage courses, details, and pricing from one place
+            Manage courses, details, and pricing displayed on the Courses page
           </p>
         </div>
         <button onClick={handleCreate} className="btn btn-primary">
