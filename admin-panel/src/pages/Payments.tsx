@@ -111,6 +111,62 @@ const Payments: React.FC = () => {
     });
   };
 
+  const exportToCSV = () => {
+    if (!transactions.length) {
+      alert('No data to export');
+      return;
+    }
+
+    // Create CSV headers
+    const headers = [
+      'Transaction ID',
+      'Order ID',
+      'Customer Name',
+      'Customer Email',
+      'Customer Phone',
+      'Course Name',
+      'Course Category',
+      'Amount',
+      'Currency',
+      'Payment Method',
+      'Status',
+      'Payment Date',
+      'Created At'
+    ];
+
+    // Create CSV rows
+    const csvRows = [
+      headers.join(','),
+      ...transactions.map(transaction => [
+        transaction.id,
+        transaction.orderId,
+        `"${transaction.customerInfo.name}"`,
+        transaction.customerInfo.email,
+        transaction.customerInfo.phone,
+        `"${transaction.courseInfo.courseName}"`,
+        transaction.courseInfo.category,
+        transaction.amount,
+        transaction.currency,
+        transaction.method,
+        transaction.status,
+        transaction.paymentDate,
+        transaction.createdAt
+      ].join(','))
+    ];
+
+    // Create and download CSV file
+    const csvContent = csvRows.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `payment-transactions-${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (loading && !stats) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -140,7 +196,11 @@ const Payments: React.FC = () => {
             <option value={90}>Last 90 days</option>
             <option value={365}>Last year</option>
           </select>
-          <button className="btn btn-secondary">
+          <button 
+            onClick={exportToCSV}
+            className="btn btn-secondary"
+            disabled={!transactions.length}
+          >
             <Download className="w-4 h-4 mr-2" />
             Export
           </button>

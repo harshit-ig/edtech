@@ -77,7 +77,7 @@ export const getAllCoupons = async (req: Request, res: Response): Promise<void> 
     const query: any = {};
 
     // Apply filters
-    if (courseId) query.courseId = courseId;
+    if (courseId) query.courseIds = courseId;
     if (isActive !== undefined) query.isActive = isActive === 'true';
     if (discountType) query.discountType = discountType;
     
@@ -167,7 +167,7 @@ export const createCoupon = async (req: Request, res: Response): Promise<void> =
       code,
       discountType,
       discountValue,
-      courseId,
+      courseIds,
       isActive = true,
       expiryDate,
       usageLimit,
@@ -177,10 +177,10 @@ export const createCoupon = async (req: Request, res: Response): Promise<void> =
     } = req.body;
 
     // Validate required fields
-    if (!code || !discountType || !discountValue || !courseId) {
+    if (!code || !discountType || !discountValue || !courseIds || !Array.isArray(courseIds) || courseIds.length === 0) {
       res.status(400).json({
         success: false,
-        error: 'Code, discount type, discount value, and course ID are required'
+        error: 'Code, discount type, discount value, and at least one course are required'
       });
       return;
     }
@@ -202,7 +202,7 @@ export const createCoupon = async (req: Request, res: Response): Promise<void> =
       code,
       discountType,
       discountValue,
-      courseId,
+      courseIds,
       isActive,
       expiryDate: expiryDate ? new Date(expiryDate) : null,
       usageLimit,
@@ -258,7 +258,7 @@ export const updateCoupon = async (req: Request, res: Response): Promise<void> =
       code,
       discountType,
       discountValue,
-      courseId,
+      courseIds,
       isActive,
       expiryDate,
       usageLimit,
@@ -296,7 +296,7 @@ export const updateCoupon = async (req: Request, res: Response): Promise<void> =
     if (code !== undefined) coupon.code = code;
     if (discountType !== undefined) coupon.discountType = discountType;
     if (discountValue !== undefined) coupon.discountValue = discountValue;
-    if (courseId !== undefined) coupon.courseId = courseId;
+    if (courseIds !== undefined) coupon.courseIds = courseIds;
     if (isActive !== undefined) coupon.isActive = isActive;
     if (expiryDate !== undefined) coupon.expiryDate = expiryDate ? new Date(expiryDate) : undefined;
     if (usageLimit !== undefined) coupon.usageLimit = usageLimit;

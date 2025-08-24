@@ -7,7 +7,7 @@ interface Coupon {
   code: string;
   discountType: 'percentage' | 'flat';
   discountValue: number;
-  courseId: string;
+  courseIds: string[];
   isActive: boolean;
   expiryDate?: string;
   usageLimit?: number;
@@ -27,7 +27,7 @@ interface CouponFormData {
   code: string;
   discountType: 'percentage' | 'flat';
   discountValue: number;
-  courseId: string;
+  courseIds: string[];
   isActive: boolean;
   expiryDate: string;
   usageLimit: string;
@@ -59,6 +59,7 @@ export default function Coupons() {
   const [showForm, setShowForm] = useState(false);
   const [editingCoupon, setEditingCoupon] = useState<Coupon | null>(null);
   const [analytics, setAnalytics] = useState<any>(null);
+  const [courseSearchTerm, setCourseSearchTerm] = useState('');
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
@@ -70,7 +71,7 @@ export default function Coupons() {
     code: '',
     discountType: 'percentage',
     discountValue: 0,
-    courseId: '',
+    courseIds: [],
     isActive: true,
     expiryDate: '',
     usageLimit: '',
@@ -99,7 +100,7 @@ export default function Coupons() {
       };
 
       const response = await couponsApi.getAll(params);
-      
+
       if (response.success) {
         setCoupons((response as any).coupons || []);
         setPagination(prev => ({
@@ -145,7 +146,7 @@ export default function Coupons() {
     if (formData.discountType === 'percentage' && formData.discountValue > 100) {
       errors.discountValue = 'Percentage cannot exceed 100%';
     }
-    if (!formData.courseId.trim()) errors.courseId = 'Course ID is required';
+    if (!formData.courseIds.length) errors.courseId = 'At least one course must be selected';
 
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -153,7 +154,7 @@ export default function Coupons() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     try {
@@ -192,7 +193,7 @@ export default function Coupons() {
       code: coupon.code,
       discountType: coupon.discountType,
       discountValue: coupon.discountValue,
-      courseId: coupon.courseId,
+      courseIds: coupon.courseIds || [],
       isActive: coupon.isActive,
       expiryDate: coupon.expiryDate ? coupon.expiryDate.split('T')[0] : '',
       usageLimit: coupon.usageLimit?.toString() || '',
@@ -225,7 +226,7 @@ export default function Coupons() {
       code: '',
       discountType: 'percentage',
       discountValue: 0,
-      courseId: '',
+      courseIds: [],
       isActive: true,
       expiryDate: '',
       usageLimit: '',
@@ -236,11 +237,12 @@ export default function Coupons() {
     setFormErrors({});
     setEditingCoupon(null);
     setShowForm(false);
+    setCourseSearchTerm('');
   };
 
   const filteredCoupons = coupons.filter(coupon => {
     const matchesSearch = coupon.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         coupon.description?.toLowerCase().includes(searchTerm.toLowerCase());
+      coupon.description?.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesSearch;
   });
 
@@ -356,7 +358,7 @@ export default function Coupons() {
               />
             </div>
           </div>
-          
+
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
@@ -392,7 +394,7 @@ export default function Coupons() {
                   Type & Value
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Course ID
+                  Courses
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Usage
@@ -434,15 +436,42 @@ export default function Coupons() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
-                        {coupon.discountType === 'percentage' 
-                          ? `${coupon.discountValue}%` 
+                        {coupon.discountType === 'percentage'
+                          ? `${coupon.discountValue}%`
                           : formatCurrency(coupon.discountValue)
                         }
                       </div>
                       <div className="text-sm text-gray-500 capitalize">{coupon.discountType}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {courses.find(c => c.id === coupon.courseId)?.title || coupon.courseId}
+                    <td className="px-6 py-4 text-sm text-gray-900">
+                      <div className="max-w-xs">
+                        {coupon.courseIds.length === 0 ? (
+                          <span className="text-gray-400">No courses</span>
+                        ) : coupon.courseIds.length <= 2 ? (
+                          <div className="space-y-1">
+                            {coupon.courseIds.map(courseId => {
+                              const course = courses.find(c => c.id === courseId);
+                              return (
+                                <div key={courseId} className="text-gray-900">
+                                  {course?.title || courseId}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <div className="space-y-1">
+                            <div className="text-gray-900">
+                              {courses.find(c => c.id === coupon.courseIds[0])?.title || coupon.courseIds[0]}
+                            </div>
+                            <div className="text-gray-900">
+                              {courses.find(c => c.id === coupon.courseIds[1])?.title || coupon.courseIds[1]}
+                            </div>
+                            <div className="text-blue-600 text-xs">
+                              +{coupon.courseIds.length - 2} more courses
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
@@ -455,22 +484,21 @@ export default function Coupons() {
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        !coupon.isActive 
+                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${!coupon.isActive
                           ? 'bg-gray-100 text-gray-800'
                           : coupon.isExpired
-                          ? 'bg-red-100 text-red-800'
-                          : coupon.isUsageLimitReached
-                          ? 'bg-orange-100 text-orange-800'
-                          : 'bg-green-100 text-green-800'
-                      }`}>
-                        {!coupon.isActive 
+                            ? 'bg-red-100 text-red-800'
+                            : coupon.isUsageLimitReached
+                              ? 'bg-orange-100 text-orange-800'
+                              : 'bg-green-100 text-green-800'
+                        }`}>
+                        {!coupon.isActive
                           ? 'Inactive'
                           : coupon.isExpired
-                          ? 'Expired'
-                          : coupon.isUsageLimitReached
-                          ? 'Limit Reached'
-                          : 'Active'
+                            ? 'Expired'
+                            : coupon.isUsageLimitReached
+                              ? 'Limit Reached'
+                              : 'Active'
                         }
                       </span>
                     </td>
@@ -531,7 +559,7 @@ export default function Coupons() {
 
       {/* Create/Edit Form Modal */}
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999]">
           <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
@@ -610,21 +638,120 @@ export default function Coupons() {
                 {/* Course Selection */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Course *
+                    Courses *
                   </label>
-                  <select
-                    value={formData.courseId}
-                    onChange={(e) => setFormData(prev => ({ ...prev, courseId: e.target.value }))}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
-                  >
-                    <option value="">Select a course</option>
-                    {courses.map((course) => (
-                      <option key={course._id} value={course.id}>
-                        {course.title} ({course.category})
-                      </option>
-                    ))}
-                  </select>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm text-gray-600">
+                        Select courses (multiple selection allowed):
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setFormData(prev => ({ ...prev, courseIds: courses.map(c => c.id) }))}
+                          className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
+                        >
+                          Select All
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setFormData(prev => ({ ...prev, courseIds: [] }))}
+                          className="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
+                        >
+                          Clear All
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Selected Courses Summary */}
+                    {formData.courseIds.length > 0 && (
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                        <div className="text-sm font-medium text-blue-800 mb-2">
+                          Selected ({formData.courseIds.length}):
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {formData.courseIds.map(courseId => {
+                            const course = courses.find(c => c.id === courseId);
+                            return course ? (
+                              <span
+                                key={courseId}
+                                className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+                              >
+                                {course.title}
+                                <button
+                                  type="button"
+                                  onClick={() => setFormData(prev => ({
+                                    ...prev,
+                                    courseIds: prev.courseIds.filter(id => id !== courseId)
+                                  }))}
+                                  className="text-blue-600 hover:text-blue-800"
+                                >
+                                  ×
+                                </button>
+                              </span>
+                            ) : null;
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Course Dropdown */}
+                    <div className="relative">
+                      <input
+                        type="text"
+                        placeholder="Search and select courses..."
+                        value={courseSearchTerm}
+                        onChange={(e) => setCourseSearchTerm(e.target.value)}
+                        onFocus={() => setCourseSearchTerm('')}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                      
+                      {/* Dropdown Menu */}
+                      {courseSearchTerm !== '' && (
+                        <div className="absolute z-[9999] w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                          <div className="p-2 space-y-1">
+                            {(() => {
+                              const filteredCourses = courses.filter(course =>
+                                course.title.toLowerCase().includes(courseSearchTerm.toLowerCase()) ||
+                                course.category.toLowerCase().includes(courseSearchTerm.toLowerCase())
+                              );
+
+                              if (filteredCourses.length === 0) {
+                                return (
+                                  <div className="text-sm text-gray-500 text-center py-4">
+                                    No courses found matching your search
+                                  </div>
+                                );
+                              }
+
+                              return filteredCourses.map((course) => (
+                                <button
+                                  key={course._id}
+                                  type="button"
+                                  onClick={() => {
+                                    if (!formData.courseIds.includes(course.id)) {
+                                      setFormData(prev => ({
+                                        ...prev,
+                                        courseIds: [...prev.courseIds, course.id]
+                                      }));
+                                    }
+                                    setCourseSearchTerm('');
+                                  }}
+                                  disabled={formData.courseIds.includes(course.id)}
+                                  className={`w-full text-left px-3 py-2 rounded text-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                    formData.courseIds.includes(course.id) ? 'bg-gray-100' : ''
+                                  }`}
+                                >
+                                  <div className="font-medium text-gray-900">{course.title}</div>
+                                  <div className="text-xs text-gray-500">{course.category}</div>
+                                </button>
+                              ));
+                            })()}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                   {formErrors.courseId && <p className="text-red-500 text-sm mt-1">{formErrors.courseId}</p>}
                 </div>
 

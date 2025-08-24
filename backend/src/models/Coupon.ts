@@ -5,7 +5,7 @@ export interface ICoupon extends Document {
   code: string;
   discountType: 'percentage' | 'flat';
   discountValue: number;
-  courseId: string;
+  courseIds: string[];
   isActive: boolean;
   expiryDate?: Date;
   usageLimit?: number;
@@ -80,10 +80,16 @@ const CouponSchema: Schema = new Schema({
       message: 'Invalid discount value for the selected discount type'
     }
   },
-  courseId: {
-    type: String,
+  courseIds: {
+    type: [String],
     required: true,
-    index: true
+    index: true,
+    validate: {
+      validator: function(value: string[]) {
+        return value && value.length > 0;
+      },
+      message: 'At least one course must be selected'
+    }
   },
   isActive: {
     type: Boolean,
@@ -192,7 +198,7 @@ CouponSchema.methods.calculateDiscount = function(this: ICoupon, originalPrice: 
 CouponSchema.statics.validateCoupon = async function(code: string, courseId: string, originalPrice: number) {
   const coupon = await this.findOne({ 
     code: code.toUpperCase(), 
-    courseId,
+    courseIds: courseId,
     isActive: true 
   });
   
