@@ -291,6 +291,14 @@ export const testimonialsApi = {
   delete: (id: string) => adminApi.delete('testimonials', id),
 };
 
+export const successStatsApi = {
+  getAll: () => adminApi.getAll('success-stats'),
+  getById: (id: string) => adminApi.getById('success-stats', id),
+  create: (data: unknown) => adminApi.create('success-stats', data),
+  update: (id: string, data: unknown) => adminApi.update('success-stats', id, data),
+  delete: (id: string) => adminApi.delete('success-stats', id),
+};
+
 // Icons API
 export const iconsApi = {
   getAll: async (): Promise<ApiResponse> => {

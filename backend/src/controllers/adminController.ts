@@ -17,7 +17,8 @@ import {
   CompanyLogoModel,
   FAQModel,
   AdvantageStatModel,
-  TestimonialModel
+  TestimonialModel,
+  SuccessStatModel
 } from '../models';
 import { getImageUrl } from '../middleware';
 
@@ -449,6 +450,13 @@ export const getTestimonialById = AdminController.getById(TestimonialModel);
 export const createTestimonial = AdminController.create(TestimonialModel);
 export const updateTestimonial = AdminController.update(TestimonialModel);
 export const deleteTestimonial = AdminController.delete(TestimonialModel);
+
+// Success Stat Controllers
+export const getAllSuccessStats = AdminController.getAll(SuccessStatModel);
+export const getSuccessStatById = AdminController.getById(SuccessStatModel);
+export const createSuccessStat = AdminController.create(SuccessStatModel);
+export const updateSuccessStat = AdminController.update(SuccessStatModel);
+export const deleteSuccessStat = AdminController.delete(SuccessStatModel);
 
 /**
  * Dashboard statistics

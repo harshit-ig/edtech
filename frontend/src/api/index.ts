@@ -298,6 +298,10 @@ export const getTestimonials = async () => {
   return apiRequest<any>('/testimonials');
 };
 
+export const getSuccessStats = async () => {
+  return apiRequest<any>('/success-stats');
+};
+
 export const getCourseIcons = async () => {
   return apiRequest<any>('/icons');
 };

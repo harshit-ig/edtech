@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { TeamMember, Value, Stat, Milestone, ContactData, CompanyInfo, UpcomingSkill, PricingFAQ, CourseBenefit } from '../types';
+import { TeamMember, Value, Stat, Milestone, ContactData, CompanyInfo, UpcomingSkill, PricingFAQ, CourseBenefit, SuccessStat } from '../types';
 
 // Company Info Schema
 const CompanyInfoSchema = new Schema<CompanyInfo & Document>({
@@ -80,6 +80,12 @@ const UpcomingSkillSchema = new Schema<UpcomingSkill & Document>({
   accent: { type: String, required: true }
 }, { timestamps: true });
 
+// Success Stats Schema
+const SuccessStatSchema = new Schema<SuccessStat & Document>({
+  value: { type: String, required: true },
+  label: { type: String, required: true }
+}, { timestamps: true });
+
 // Create and export models
 export const CompanyInfoModel = mongoose.model<CompanyInfo & Document>('CompanyInfo', CompanyInfoSchema);
 export const TeamMemberModel = mongoose.model<TeamMember & Document>('TeamMember', TeamMemberSchema);
@@ -88,3 +94,4 @@ export const StatModel = mongoose.model<Stat & Document>('Stat', StatSchema);
 export const MilestoneModel = mongoose.model<Milestone & Document>('Milestone', MilestoneSchema);
 export const ContactDataModel = mongoose.model<ContactData & Document>('ContactData', ContactDataSchema);
 export const UpcomingSkillModel = mongoose.model<UpcomingSkill & Document>('UpcomingSkill', UpcomingSkillSchema);
+export const SuccessStatModel = mongoose.model<SuccessStat & Document>('SuccessStat', SuccessStatSchema);

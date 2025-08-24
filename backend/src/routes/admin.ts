@@ -128,6 +128,13 @@ import {
   updateTestimonial,
   deleteTestimonial,
   
+  // Success Stat routes
+  getAllSuccessStats,
+  getSuccessStatById,
+  createSuccessStat,
+  updateSuccessStat,
+  deleteSuccessStat,
+  
   // Dashboard
   getDashboardStats
 } from '../controllers/adminController';
@@ -307,5 +314,14 @@ router.get('/testimonials/:id', getTestimonialById);
 router.post('/testimonials', createTestimonial);
 router.put('/testimonials/:id', updateTestimonial);
 router.delete('/testimonials/:id', deleteTestimonial);
+
+/**
+ * Success Stats CRUD Routes
+ */
+router.get('/success-stats', getAllSuccessStats);
+router.get('/success-stats/:id', getSuccessStatById);
+router.post('/success-stats', createSuccessStat);
+router.put('/success-stats/:id', updateSuccessStat);
+router.delete('/success-stats/:id', deleteSuccessStat);
 
 export default router;

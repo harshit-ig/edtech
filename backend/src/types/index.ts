@@ -47,6 +47,11 @@ export interface Stat {
   color: string;
 }
 
+export interface SuccessStat {
+  value: string;
+  label: string;
+}
+
 export interface Milestone {
   year: string;
   title: string;

@@ -20,6 +20,7 @@ import Statistics from './pages/Statistics';
 import Values from './pages/Values';
 import Milestones from './pages/Milestones';
 import UpcomingSkills from './pages/UpcomingSkills';
+import SuccessStats from './pages/SuccessStats';
 import './index.css';
 
 // Protected Route Component
@@ -95,6 +96,7 @@ const AppRoutes: React.FC = () => {
         <Route path="company-logos" element={<CompanyLogos />} />
         <Route path="advantage-stats" element={<AdvantageStats />} />
         <Route path="testimonials" element={<Testimonials />} />
+        <Route path="success-stats" element={<SuccessStats />} />
         
         {/* Additional management pages */}
         <Route path="company-info" element={<CompanyInfo />} />

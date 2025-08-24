@@ -235,6 +235,14 @@ export interface Stat {
   updatedAt?: string;
 }
 
+export interface SuccessStat {
+  _id: string;
+  value: string;
+  label: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface Milestone {
   _id: string;
   year: string;

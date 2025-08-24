@@ -1,32 +1,32 @@
 import { useState, useEffect } from 'react';
-import { getTestimonialsData } from '../utils/dataAdapter';
-import type { Testimonial } from '../types';
+import { getTestimonialsData, getSuccessStatsData } from '../utils/dataAdapter';
+import type { Testimonial, SuccessStat } from '../types';
 
 export default function Testimonials() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Static success stats (these don't change often, so keeping them static for now)
-  const successStats = [
-    { value: '1000+', label: 'Students Trained' },
-    { value: '95%', label: 'Job Placement Rate' },
-    { value: '4.9/5', label: 'Average Rating' }
-  ];
+  const [successStats, setSuccessStats] = useState<SuccessStat[]>([]);
 
   useEffect(() => {
-    const loadTestimonials = async () => {
+    const loadData = async () => {
       try {
-        const data = await getTestimonialsData();
-        setTestimonials(data);
+        const [testimonialsData, successStatsData] = await Promise.all([
+          getTestimonialsData(),
+          getSuccessStatsData()
+        ]);
+        setTestimonials(testimonialsData);
+        setSuccessStats(successStatsData);
       } catch (error) {
-        console.error('Error loading testimonials:', error);
+        console.error('Error loading testimonials data:', error);
         setTestimonials([]);
+        setSuccessStats([]);
       } finally {
         setLoading(false);
       }
     };
 
-    loadTestimonials();
+    loadData();
   }, []);
 
   // Initialize scroll reveal for dynamic content after data loads
@@ -79,22 +79,24 @@ export default function Testimonials() {
         </div>
 
         {/* Success Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          {successStats.map((stat, index) => (
-            <div key={index} className="text-center testimonial-reveal reveal">
-              <div className={`text-4xl md:text-5xl font-extrabold mb-2 ${
-                index === 0 ? 'text-edtech-green' : 
-                index === 1 ? 'text-edtech-orange' : 
-                'text-edtech-blue'
-              }`}>
-                {stat.value}
+        {successStats.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {successStats.map((stat, index) => (
+              <div key={index} className="text-center testimonial-reveal reveal">
+                <div className={`text-4xl md:text-5xl font-extrabold mb-2 ${
+                  index === 0 ? 'text-edtech-green' : 
+                  index === 1 ? 'text-edtech-orange' : 
+                  'text-edtech-blue'
+                }`}>
+                  {stat.value}
+                </div>
+                <div className="text-gray-700 font-semibold">
+                  {stat.label}
+                </div>
               </div>
-              <div className="text-gray-700 font-semibold">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Testimonials Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

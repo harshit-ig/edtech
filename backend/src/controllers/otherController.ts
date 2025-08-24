@@ -6,6 +6,7 @@ import {
   CompanyLogoModel,
   AdvantageStatModel,
   TestimonialModel,
+  SuccessStatModel,
   CourseIconModel
 } from '../models';
 
@@ -69,6 +70,17 @@ export const getTestimonials = async (req: Request, res: Response): Promise<void
     res.json(testimonials);
   } catch (error) {
     console.error('Error fetching testimonials:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// Success Stats Controllers
+export const getSuccessStats = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const stats = await SuccessStatModel.find();
+    res.json(stats);
+  } catch (error) {
+    console.error('Error fetching success stats:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

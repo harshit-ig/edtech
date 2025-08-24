@@ -32,6 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     { name: 'Company Logos', href: '/company-logos', icon: Building2 },
     { name: 'Advantage Stats', href: '/advantage-stats', icon: TrendingUp },
     { name: 'Testimonials', href: '/testimonials', icon: MessageSquare },
+    { name: 'Success Stats', href: '/success-stats', icon: TrendingUp },
     { name: 'FAQs', href: '/faqs', icon: HelpCircle },
     { name: 'Company Info', href: '/company-info', icon: Building2 },
     { name: 'Upcoming Skills', href: '/upcoming-skills', icon: TrendingUp },

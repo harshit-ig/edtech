@@ -56,7 +56,8 @@ async function migrateData(): Promise<void> {
       models.CoursePricingModel.deleteMany({}),
       models.CourseDetailsModel.deleteMany({}),
       models.MentorFeatureModel.deleteMany({}),
-      models.CompanyLogoModel.deleteMany({})
+      models.CompanyLogoModel.deleteMany({}),
+      models.SuccessStatModel.deleteMany({})
     ]);
 
     // Insert company data
@@ -92,6 +93,15 @@ async function migrateData(): Promise<void> {
     // Insert testimonials
     console.log('💬 Migrating testimonials...');
     await models.TestimonialModel.insertMany(testimonials);
+
+    // Insert success stats
+    console.log('📈 Migrating success statistics...');
+    const successStatsData = [
+      { value: '1000+', label: 'Students Trained' },
+      { value: '95%', label: 'Job Placement Rate' },
+      { value: '4.9/5', label: 'Average Rating' }
+    ];
+    await models.SuccessStatModel.insertMany(successStatsData);
 
     // Insert mentors
     console.log('👨‍🏫 Migrating mentors...');
@@ -147,6 +157,7 @@ async function migrateData(): Promise<void> {
       console.log(`   • Icons: ${courseIcons.length} records`);
     console.log(`   • Blog Posts: ${blogPosts.length} records`);
     console.log(`   • Testimonials: ${testimonials.length} records`);
+    console.log(`   • Success Stats: ${successStatsData.length} records`);
     console.log(`   • Mentors: ${mentors.length} records`);
     console.log(`   • Advantage Stats: ${advantageStats.length} records`);
     console.log(`   • Mentor Features: ${mentorFeaturesData.length} records`);

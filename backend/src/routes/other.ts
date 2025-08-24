@@ -6,6 +6,7 @@ import {
   getPartnerCompanies,
   getAdvantageStats,
   getTestimonials,
+  getSuccessStats,
   getCourseIcons,
   getIconByName,
   getMentorData,
@@ -28,6 +29,9 @@ router.get('/stats', getAdvantageStats);
 
 // Testimonial endpoints
 router.get('/testimonials', getTestimonials);
+
+// Success Stats endpoints
+router.get('/success-stats', getSuccessStats);
 
 // Icon endpoints
 router.get('/icons', getCourseIcons);
