@@ -4,7 +4,7 @@ import type { ApiResponse, AuthResponse, LoginCredentials, DashboardStats } from
 
 // Create axios instance with default config
 const api: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

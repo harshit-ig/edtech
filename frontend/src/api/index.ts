@@ -2,9 +2,7 @@
 // UI utilities and third-party integrations remain in components
 
 // Backend API Configuration
-const API_BASE_URL = import.meta.env.MODE === 'production' 
-  ? 'https://your-production-api.com/api' 
-  : '/api'; // Use proxy in development
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Generic API error handling
 interface APIError {

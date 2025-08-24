@@ -126,7 +126,7 @@ export { uploadBlogImage, uploadBlogImages, uploadTeamImage, handleUploadError, 
 export const corsOptions = {
   origin: process.env.NODE_ENV === 'development' 
     ? ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000', 'http://127.0.0.1:5173', 'http://127.0.0.1:5174']
-    : (process.env.CORS_ORIGIN || 'http://localhost:5173'),
+    : (process.env.FRONTEND_URL || process.env.ADMIN_URL),
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
