@@ -1,27 +1,29 @@
 import { useState } from 'react';
-import { submitStrategyCall } from '../api';
+import { submitContactForm } from '../api';
 
-interface ContactModalProps {
+interface GeneralContactFormProps {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
   subtitle?: string;
 }
 
-export default function ContactModal({ 
+export default function GeneralContactForm({ 
   isOpen, 
   onClose, 
-  title = "Book FREE Strategy Call",
-  subtitle = "Connect with our career transformation experts to discuss your goals and create a personalized roadmap"
-}: ContactModalProps) {
+  title = "Contact Us",
+  subtitle = "Have a question? We'd love to hear from you. Send us a message and we'll respond as soon as possible."
+}: GeneralContactFormProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: ''
+    phone: '',
+    subject: '',
+    message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
@@ -31,12 +33,12 @@ export default function ContactModal({
     setIsSubmitting(true);
     
     try {
-      const result = await submitStrategyCall({
+      const result = await submitContactForm({
         ...formData,
-        source: 'strategy_call_modal'
+        source: 'contact_form'
       });
       setIsSubmitting(false);
-      setFormData({ name: '', email: '', phone: '' });
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
       onClose();
       alert(result.message);
     } catch (error) {
@@ -46,7 +48,7 @@ export default function ContactModal({
   };
 
   const handleCancel = () => {
-    setFormData({ name: '', email: '', phone: '' });
+    setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
     onClose();
   };
 
@@ -136,6 +138,38 @@ export default function ContactModal({
               />
             </div>
 
+            {/* Subject */}
+            <div>
+              <label htmlFor="subject" className="block text-sm font-medium text-white/90 mb-2">
+                Subject
+              </label>
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                value={formData.subject}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:ring-2 focus:ring-edtech-green focus:border-edtech-green transition-all duration-200 text-white placeholder-white/50"
+                placeholder="What is this about?"
+              />
+            </div>
+
+            {/* Message */}
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-white/90 mb-2">
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows={4}
+                value={formData.message}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:ring-2 focus:ring-edtech-green focus:border-edtech-green transition-all duration-200 text-white placeholder-white/50 resize-none"
+                placeholder="Tell us more about your inquiry..."
+              />
+            </div>
+
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <button
@@ -159,7 +193,7 @@ export default function ContactModal({
                     Submitting...
                   </>
                 ) : (
-                  'Submit Request'
+                  'Send Message'
                 )}
               </button>
             </div>
@@ -172,13 +206,13 @@ export default function ContactModal({
                 <svg className="w-4 h-4 text-edtech-green" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                Free Consultation
+                Quick Response
               </div>
               <div className="flex items-center gap-1">
                 <svg className="w-4 h-4 text-edtech-blue" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                 </svg>
-                No Commitment
+                Expert Support
               </div>
               <div className="flex items-center gap-1">
                 <svg className="w-4 h-4 text-edtech-orange" fill="currentColor" viewBox="0 0 20 20">

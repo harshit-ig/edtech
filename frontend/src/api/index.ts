@@ -1,121 +1,6 @@
 // API layer for backend server communications only
 // UI utilities and third-party integrations remain in components
 
-// NoCodeAPI Google Sheets configuration
-const GOOGLE_SHEETS_API_BASE = 'https://v1.nocodeapi.com/harshitig/google_sheets/qjpIHLdbQIlkotdA';
-
-export interface ContactFormData {
-  fullName: string;
-  email: string;
-  phone?: string;
-  subject?: string;
-  message?: string;
-}
-
-export interface ContactFormResponse {
-  success: boolean;
-  message: string;
-}
-
-export interface CourseEnrollmentData {
-  fullName: string;
-  email: string;
-  phone: string;
-  courseId: string;
-  courseName: string;
-  courseCategory?: string;
-  source?: string; // Where the enrollment came from (home, courses-page, course-details, etc.)
-}
-
-export interface CourseEnrollmentResponse {
-  success: boolean;
-  message: string;
-  enrollmentId?: string;
-}
-
-// Contact Form API - Submit contact form to Google Sheets (call sheet)
-export const submitContactForm = async (formData: ContactFormData): Promise<ContactFormResponse> => {
-  try {
-    const response = await fetch(`${GOOGLE_SHEETS_API_BASE}?tabId=call`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify([
-        [
-          formData.fullName,
-          formData.email,
-          formData.phone || '',
-          formData.subject || '',
-          formData.message || '',
-          new Date().toISOString(),
-          'Contact Form'
-        ]
-      ])
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    await response.json();
-    
-    return {
-      success: true,
-      message: `Thank you ${formData.fullName}! We'll contact you within 24 hours.`
-    };
-  } catch (error) {
-    console.error('Contact form submission error:', error);
-    return {
-      success: false,
-      message: 'Sorry, there was an error submitting your form. Please try again.'
-    };
-  }
-};
-
-// Course Enrollment API - Submit course enrollment to Google Sheets (course sheet)
-export const submitCourseEnrollment = async (enrollmentData: CourseEnrollmentData): Promise<CourseEnrollmentResponse> => {
-  try {
-    const response = await fetch(`${GOOGLE_SHEETS_API_BASE}?tabId=course`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify([
-        [
-          enrollmentData.fullName,
-          enrollmentData.email,
-          enrollmentData.phone,
-          enrollmentData.courseId,
-          enrollmentData.courseName,
-          enrollmentData.courseCategory || '',
-          enrollmentData.source || '',
-          new Date().toISOString(),
-          'Course Enrollment'
-        ]
-      ])
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    await response.json();
-    
-    return {
-      success: true,
-      message: `Thank you for your interest in ${enrollmentData.courseName}! Our team will contact you within 24 hours to discuss enrollment details.`,
-      enrollmentId: `ENR-${Date.now()}`
-    };
-  } catch (error) {
-    console.error('Course enrollment submission error:', error);
-    return {
-      success: false,
-      message: 'Sorry, there was an error processing your enrollment. Please try again.'
-    };
-  }
-};
-
 // Backend API Configuration
 const API_BASE_URL = import.meta.env.MODE === 'production' 
   ? 'https://your-production-api.com/api' 
@@ -277,77 +162,85 @@ export const getMentors = async () => {
   return apiRequest<any>('/mentors');
 };
 
-export const getMentorFeatures = async () => {
-  return apiRequest<any>('/mentors/features');
+// ===== CONTACT FORM APIs =====
+
+export const submitContactForm = async (data: {
+  name: string;
+  email: string;
+  phone: string;
+  subject?: string;
+  message?: string;
+  source?: string;
+}) => {
+  return apiRequest<any>('/contact/submit', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
 };
 
-export const getPartnerCompanies = async () => {
-  return apiRequest<any>('/mentors/companies');
+export const submitStrategyCall = async (data: {
+  name: string;
+  email: string;
+  phone: string;
+  source?: string;
+}) => {
+  return apiRequest<any>('/contact/strategy-call', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
 };
 
-// Combined mentor data
-export const getMentorData = async () => {
-  return apiRequest<any>('/mentors/all');
+export const submitInstallmentInquiry = async (data: {
+  name: string;
+  email: string;
+  phone: string;
+  courseId?: string;
+  courseName?: string;
+  source?: string;
+}) => {
+  return apiRequest<any>('/contact/installment-inquiry', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
 };
 
-export const getAdvantageStats = async () => {
-  return apiRequest<any>('/stats');
+// ===== PAYMENT APIs =====
+
+export const createPaymentOrder = async (orderData: {
+  courseId: string;
+  courseName: string;
+  amount: number;
+  currency: string;
+  customerInfo: {
+    name: string;
+    email: string;
+    phone: string;
+  };
+  couponCode?: string;
+}) => {
+  return apiRequest<any>('/payments/create-order', {
+    method: 'POST',
+    body: JSON.stringify(orderData)
+  });
 };
 
-export const getTestimonials = async () => {
-  return apiRequest<any>('/testimonials');
+export const verifyPayment = async (paymentData: {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
+}) => {
+  return apiRequest<any>('/payments/verify', {
+    method: 'POST',
+    body: JSON.stringify(paymentData)
+  });
 };
 
-export const getSuccessStats = async () => {
-  return apiRequest<any>('/success-stats');
+export const validateCoupon = async (couponCode: string, courseId: string) => {
+  return apiRequest<any>(`/coupons/validate?code=${couponCode}&courseId=${courseId}`);
 };
 
-export const getCourseIcons = async () => {
-  return apiRequest<any>('/icons');
-};
+// ===== HEALTH CHECK =====
 
-export const getIconByName = async (iconName: string) => {
-  return apiRequest<any>(`/icons/${iconName}`);
-};
-
-// Combined icons data
-export const getIconsData = async () => {
-  return apiRequest<any>('/icons/all');
-};
-
-export const getGeoData = async () => {
-  return apiRequest<any>('/geo');
-};
-
-// ===== HELPER FUNCTIONS (maintain frontend compatibility) =====
-
-// Helper functions that mirror the frontend data utilities
-export const getIcon = async (iconName?: string): Promise<string> => {
-  try {
-    if (!iconName) {
-      const icons = await getCourseIcons();
-      return icons.default || 'M13 10V3L4 14h7v7l9-11h-7z';
-    }
-    
-    const icons = await getCourseIcons();
-    return icons[iconName] || icons.default || 'M13 10V3L4 14h7v7l9-11h-7z';
-  } catch (error) {
-    console.error('Error fetching icon:', error);
-    return 'M13 10V3L4 14h7v7l9-11h-7z'; // fallback icon
-  }
-};
-
-// Legacy compatibility functions
-export const getCourseIcon = async (course: { iconName?: string }): Promise<string> => {
-  return getIcon(course.iconName);
-};
-
-// Helper for getting specific data with fallbacks
-export const getPostBySlug = async (slug: string) => {
-  return getBlogPostBySlug(slug);
-};
-
-// Health check endpoint
 export const healthCheck = async () => {
   return apiRequest<any>('/health');
 };

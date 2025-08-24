@@ -8,6 +8,8 @@ export * from './Payment';
 export * from './Coupon';
 export * from './Statistics';
 export * from './User';
+export * from './Customer';
+export * from './Inquiry';
 
 // Asset models (CourseIcon, IconCategory, etc.)
 export * from './Assets';

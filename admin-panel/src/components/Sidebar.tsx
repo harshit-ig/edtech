@@ -6,7 +6,6 @@ import {
   Users,
   Building2,
   TrendingUp,
-  Settings,
   Sparkles,
   BarChart3,
   Calendar,
@@ -15,7 +14,8 @@ import {
   Star,
   MessageSquare,
   CreditCard,
-  Ticket
+  Ticket,
+  UserCheck
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -26,6 +26,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { name: 'User Management', href: '/user-management', icon: UserCheck },
     { name: 'Courses', href: '/courses', icon: BookOpen },
     { name: 'Payments', href: '/payments', icon: CreditCard },
     { name: 'Coupons', href: '/coupons', icon: Ticket },
@@ -43,7 +44,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     { name: 'Values', href: '/values', icon: Sparkles },
     { name: 'Statistics', href: '/stats', icon: BarChart3 },
     { name: 'Milestones', href: '/milestones', icon: Calendar },
-    { name: 'User Management', href: '/users', icon: Settings },
+    { name: 'Users', href: '/users', icon: Users },
   ];
 
   return (

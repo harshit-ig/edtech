@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
-import { PaymentOrderModel, PaymentTransactionModel, CourseModel, CourseDetailsModel, CouponModel } from '../models';
+import { PaymentOrderModel, PaymentTransactionModel, CourseModel, CourseDetailsModel, CouponModel, CustomerModel } from '../models';
+import { generateCustomerId } from '../utils/idGenerator';
 
 // Validate Razorpay environment variables
 if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
@@ -242,6 +243,28 @@ export const verifyPayment = async (req: Request, res: Response): Promise<void> 
 
     await transaction.save();
 
+    // Create customer record
+    const customer = new CustomerModel({
+      id: generateCustomerId(),
+      name: paymentOrder.customerInfo.name,
+      email: paymentOrder.customerInfo.email,
+      phone: paymentOrder.customerInfo.phone,
+      courseId: paymentOrder.courseId,
+      courseName: paymentOrder.courseName,
+      courseCategory: paymentOrder.notes?.courseCategory || 'General',
+      paymentType: 'full_payment',
+      paymentStatus: 'paid',
+      customerStatus: 'pending', // Will be manually approved by admin
+      amount: paymentOrder.amount,
+      currency: paymentOrder.currency,
+      paymentId: razorpay_payment_id,
+      orderId: paymentOrder.orderId,
+      source: 'payment_modal',
+      notes: `Payment verified successfully. Transaction ID: ${transaction.id}`
+    });
+
+    await customer.save();
+
     res.json({
       success: true,
       message: 'Payment verified successfully',
@@ -252,6 +275,10 @@ export const verifyPayment = async (req: Request, res: Response): Promise<void> 
         courseInfo: transaction.courseInfo,
         customerInfo: transaction.customerInfo,
         paymentDate: transaction.paymentDate
+      },
+      customer: {
+        id: customer.id,
+        status: customer.customerStatus
       }
     });
 

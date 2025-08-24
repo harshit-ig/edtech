@@ -8,6 +8,9 @@ import adminRoutes from './admin';
 import uploadsRoutes from './uploads';
 import paymentRoutes from './payment';
 import couponRoutes from './coupon';
+import customerRoutes from './customer';
+import inquiryRoutes from './inquiry';
+import contactRoutes from './contact';
 
 const router = Router();
 
@@ -20,6 +23,9 @@ router.use('/admin', adminRoutes);
 router.use('/uploads', uploadsRoutes);
 router.use('/payments', paymentRoutes);
 router.use('/coupons', couponRoutes);
+router.use('/customers', customerRoutes);
+router.use('/inquiries', inquiryRoutes);
+router.use('/contact', contactRoutes);
 router.use('/', otherRoutes);
 
 // Health check endpoint

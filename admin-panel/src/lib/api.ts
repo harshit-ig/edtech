@@ -371,6 +371,182 @@ export const successStatsApi = {
   delete: (id: string) => adminApi.delete('success-stats', id),
 };
 
+// Customer API
+export const customersApi = {
+  getAll: async (params?: { 
+    page?: number; 
+    limit?: number; 
+    search?: string; 
+    status?: string; 
+    paymentStatus?: string; 
+    paymentType?: string; 
+    courseId?: string; 
+    source?: string; 
+    startDate?: string; 
+    endDate?: string; 
+    sortBy?: string; 
+    sortOrder?: string; 
+  }): Promise<ApiResponse> => {
+    const queryParams = new URLSearchParams();
+    if (params?.page) queryParams.append('page', params.page.toString());
+    if (params?.limit) queryParams.append('limit', params.limit.toString());
+    if (params?.search) queryParams.append('search', params.search);
+    if (params?.status) queryParams.append('status', params.status);
+    if (params?.paymentStatus) queryParams.append('paymentStatus', params.paymentStatus);
+    if (params?.paymentType) queryParams.append('paymentType', params.paymentType);
+    if (params?.courseId) queryParams.append('courseId', params.courseId);
+    if (params?.source) queryParams.append('source', params.source);
+    if (params?.startDate) queryParams.append('startDate', params.startDate);
+    if (params?.endDate) queryParams.append('endDate', params.endDate);
+    if (params?.sortBy) queryParams.append('sortBy', params.sortBy);
+    if (params?.sortOrder) queryParams.append('sortOrder', params.sortOrder);
+    
+    const query = queryParams.toString();
+    const response = await api.get(`/customers${query ? `?${query}` : ''}`);
+    return response.data;
+  },
+
+  getById: async (id: string): Promise<ApiResponse> => {
+    const response = await api.get(`/customers/${id}`);
+    return response.data;
+  },
+
+  create: async (data: any): Promise<ApiResponse> => {
+    const response = await api.post('/customers', data);
+    return response.data;
+  },
+
+  update: async (id: string, data: any): Promise<ApiResponse> => {
+    const response = await api.put(`/customers/${id}`, data);
+    return response.data;
+  },
+
+  delete: async (id: string): Promise<ApiResponse> => {
+    const response = await api.delete(`/customers/${id}`);
+    return response.data;
+  },
+
+  getStats: async (period: number = 30): Promise<ApiResponse> => {
+    const response = await api.get(`/customers/stats?period=${period}`);
+    return response.data;
+  },
+
+  export: async (params?: { format?: string; [key: string]: any }): Promise<void> => {
+    const queryParams = new URLSearchParams();
+    if (params?.format) queryParams.append('format', params.format);
+    // Add other filter params
+    Object.keys(params || {}).forEach(key => {
+      if (key !== 'format' && params![key]) {
+        queryParams.append(key, params![key]);
+      }
+    });
+    
+    const query = queryParams.toString();
+    const response = await api.get(`/customers/export${query ? `?${query}` : ''}`, {
+      responseType: 'blob'
+    });
+    
+    // Create blob and download
+    const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `customers-export-${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+};
+
+// Inquiry API
+export const inquiriesApi = {
+  getAll: async (params?: { 
+    page?: number; 
+    limit?: number; 
+    search?: string; 
+    status?: string; 
+    type?: string; 
+    source?: string; 
+    assignedTo?: string; 
+    startDate?: string; 
+    endDate?: string; 
+    sortBy?: string; 
+    sortOrder?: string; 
+  }): Promise<ApiResponse> => {
+    const queryParams = new URLSearchParams();
+    if (params?.page) queryParams.append('page', params.page.toString());
+    if (params?.limit) queryParams.append('limit', params.limit.toString());
+    if (params?.search) queryParams.append('search', params.search);
+    if (params?.status) queryParams.append('status', params.status);
+    if (params?.type) queryParams.append('type', params.type);
+    if (params?.source) queryParams.append('source', params.source);
+    if (params?.assignedTo) queryParams.append('assignedTo', params.assignedTo);
+    if (params?.startDate) queryParams.append('startDate', params.startDate);
+    if (params?.endDate) queryParams.append('endDate', params.endDate);
+    if (params?.sortBy) queryParams.append('sortBy', params.sortBy);
+    if (params?.sortOrder) queryParams.append('sortOrder', params.sortOrder);
+    
+    const query = queryParams.toString();
+    const response = await api.get(`/inquiries${query ? `?${query}` : ''}`);
+    return response.data;
+  },
+
+  getById: async (id: string): Promise<ApiResponse> => {
+    const response = await api.get(`/inquiries/${id}`);
+    return response.data;
+  },
+
+  create: async (data: any): Promise<ApiResponse> => {
+    const response = await api.post('/inquiries', data);
+    return response.data;
+  },
+
+  update: async (id: string, data: any): Promise<ApiResponse> => {
+    const response = await api.put(`/inquiries/${id}`, data);
+    return response.data;
+  },
+
+  delete: async (id: string): Promise<ApiResponse> => {
+    const response = await api.delete(`/inquiries/${id}`);
+    return response.data;
+  },
+
+  getStats: async (period: number = 30): Promise<ApiResponse> => {
+    const response = await api.get(`/inquiries/stats?period=${period}`);
+    return response.data;
+  },
+
+  export: async (params?: { format?: string; [key: string]: any }): Promise<void> => {
+    const queryParams = new URLSearchParams();
+    if (params?.format) queryParams.append('format', params.format);
+    // Add other filter params
+    Object.keys(params || {}).forEach(key => {
+      if (key !== 'format' && params![key]) {
+        queryParams.append(key, params![key]);
+      }
+    });
+    
+    const query = queryParams.toString();
+    const response = await api.get(`/inquiries/export${query ? `?${query}` : ''}`, {
+      responseType: 'blob'
+    });
+    
+    // Create blob and download
+    const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `inquiries-export-${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+};
+
 // Icons API
 export const iconsApi = {
   getAll: async (): Promise<ApiResponse> => {

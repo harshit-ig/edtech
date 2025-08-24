@@ -23,6 +23,7 @@ import Values from './pages/Values';
 import Milestones from './pages/Milestones';
 import UpcomingSkills from './pages/UpcomingSkills';
 import SuccessStats from './pages/SuccessStats';
+import UserManagement from './pages/UserManagement';
 import './index.css';
 
 // Protected Route Component
@@ -91,6 +92,7 @@ const AppRoutes: React.FC = () => {
         <Route path="courses" element={<Courses />} />
                     <Route path="payments" element={<Payments />} />
             <Route path="coupons" element={<Coupons />} />
+        <Route path="user-management" element={<UserManagement />} />
         <Route path="blogs" element={<BlogsList />} />
         <Route path="team-members" element={<TeamMembersList />} />
         <Route path="users" element={<UsersList />} />

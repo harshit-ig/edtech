@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { getContactDataData } from "../utils/dataAdapter";
 import type { ContactData } from "../types";
-import { submitContactForm, type ContactFormData } from "../api";
+import { submitContactForm } from "../api";
 
 export default function ContactSection() {
-  const [formData, setFormData] = useState<ContactFormData>({
-    fullName: '',
+  const [formData, setFormData] = useState({
+    name: '',
     email: '',
+    phone: '',
     subject: '',
     message: ''
   });
@@ -45,10 +46,13 @@ export default function ContactSection() {
     setIsSubmitting(true);
     
     try {
-      await submitContactForm(formData);
+      await submitContactForm({
+        ...formData,
+        source: 'contact_section'
+      });
       setIsSubmitting(false);
       setSubmitStatus('success');
-      setFormData({ fullName: '', email: '', subject: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
       setTimeout(() => setSubmitStatus('idle'), 5000);
     } catch (error) {
       setIsSubmitting(false);
@@ -148,14 +152,14 @@ export default function ContactSection() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-2 gap-4">
                   <div className="group">
                     <label className="block text-sm font-medium text-white/80 mb-2">Full Name *</label>
                     <input 
                       className="w-full bg-white/[0.02] border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:ring-2 focus:ring-edtech-green focus:border-transparent transition-all duration-300 group-hover:border-white/30"
                       placeholder="Enter your full name" 
-                      name="fullName"
-                      value={formData.fullName}
+                      name="name"
+                      value={formData.name}
                       onChange={handleInputChange}
                       required 
                     />
@@ -172,6 +176,19 @@ export default function ContactSection() {
                       required 
                     />
                   </div>
+                </div>
+                
+                <div className="group">
+                  <label className="block text-sm font-medium text-white/80 mb-2">Phone Number *</label>
+                  <input 
+                    className="w-full bg-white/[0.02] border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:ring-2 focus:ring-edtech-green focus:border-transparent transition-all duration-300 group-hover:border-white/30"
+                    placeholder="Enter your phone number" 
+                    type="tel" 
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    required 
+                  />
                 </div>
                 
                 <div className="group">

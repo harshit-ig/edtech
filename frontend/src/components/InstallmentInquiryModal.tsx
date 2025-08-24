@@ -1,19 +1,19 @@
 import { useState } from 'react';
-import { submitStrategyCall } from '../api';
+import { submitInstallmentInquiry } from '../api';
 
-interface ContactModalProps {
+interface InstallmentInquiryModalProps {
   isOpen: boolean;
   onClose: () => void;
-  title?: string;
-  subtitle?: string;
+  courseId?: string;
+  courseName?: string;
 }
 
-export default function ContactModal({ 
+export default function InstallmentInquiryModal({ 
   isOpen, 
   onClose, 
-  title = "Book FREE Strategy Call",
-  subtitle = "Connect with our career transformation experts to discuss your goals and create a personalized roadmap"
-}: ContactModalProps) {
+  courseId,
+  courseName = "this course"
+}: InstallmentInquiryModalProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -31,9 +31,11 @@ export default function ContactModal({
     setIsSubmitting(true);
     
     try {
-      const result = await submitStrategyCall({
+      const result = await submitInstallmentInquiry({
         ...formData,
-        source: 'strategy_call_modal'
+        courseId,
+        courseName,
+        source: 'pricing_section'
       });
       setIsSubmitting(false);
       setFormData({ name: '', email: '', phone: '' });
@@ -76,10 +78,10 @@ export default function ContactModal({
           {/* Header */}
           <div className="mb-6 pr-8">
             <h2 className="text-2xl font-bold text-white mb-2">
-              {title}
+              Installment Plan Inquiry
             </h2>
             <p className="text-white/70 text-sm leading-relaxed">
-              {subtitle}
+              Interested in paying for {courseName} in installments? Let us know and we'll get back to you with flexible payment options.
             </p>
           </div>
 
@@ -159,7 +161,7 @@ export default function ContactModal({
                     Submitting...
                   </>
                 ) : (
-                  'Submit Request'
+                  'Request Installment Plan'
                 )}
               </button>
             </div>
@@ -172,13 +174,13 @@ export default function ContactModal({
                 <svg className="w-4 h-4 text-edtech-green" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                Free Consultation
+                Flexible Payment
               </div>
               <div className="flex items-center gap-1">
                 <svg className="w-4 h-4 text-edtech-blue" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                 </svg>
-                No Commitment
+                No Hidden Fees
               </div>
               <div className="flex items-center gap-1">
                 <svg className="w-4 h-4 text-edtech-orange" fill="currentColor" viewBox="0 0 20 20">

@@ -1,0 +1,15 @@
+import { Router } from 'express';
+import {
+  submitContactForm,
+  submitStrategyCall,
+  submitInstallmentInquiry
+} from '../controllers/contactController';
+
+const router = Router();
+
+// Public contact routes (no authentication required)
+router.post('/submit', submitContactForm);
+router.post('/strategy-call', submitStrategyCall);
+router.post('/installment-inquiry', submitInstallmentInquiry);
+
+export default router;
