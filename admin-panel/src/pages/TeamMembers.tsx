@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import toast from 'react-hot-toast';
 import { teamMembersApi } from '../lib/api';
 import type { TeamMember } from '../types';
 import { Plus, Edit, Trash2, Eye, Search, Linkedin, Twitter, Save, X, Upload, Image } from 'lucide-react';
@@ -138,7 +139,7 @@ const TeamMembersList: React.FC = () => {
         throw new Error(response.message || 'Failed to delete team member');
       }
     } catch (error) {
-      alert(error instanceof Error ? error.message : 'Failed to delete team member');
+      toast.error(error instanceof Error ? error.message : 'Failed to delete team member');
     }
   };
 

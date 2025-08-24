@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import toast from 'react-hot-toast';
 import { blogsApi } from '../lib/api';
 import type { BlogPost } from '../types';
 import { Plus, Edit, Trash2, Eye, Search, Calendar, User, Save, X, Upload, Image, File } from 'lucide-react';
@@ -208,7 +209,7 @@ const BlogsList: React.FC = () => {
         throw new Error(response.message || 'Failed to delete blog post');
       }
     } catch (error) {
-      alert(error instanceof Error ? error.message : 'Failed to delete blog post');
+      toast.error(error instanceof Error ? error.message : 'Failed to delete blog post');
     }
   };
 

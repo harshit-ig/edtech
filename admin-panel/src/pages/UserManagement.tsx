@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
   Trash2,
   Search,
@@ -212,14 +213,13 @@ const UserManagement: React.FC = () => {
       
       if (activeTab === 'customers') {
         await customersApi.export({ format: 'csv', ...filters });
-        alert('Customers data exported successfully!');
+        toast.success('Customers data exported successfully!');
       } else {
         await inquiriesApi.export({ format: 'csv', ...filters });
-        alert('Inquiries data exported successfully!');
+        toast.success('Inquiries data exported successfully!');
       }
     } catch (error) {
-      console.error('Error exporting data:', error);
-      alert('Failed to export data. Please try again.');
+      toast.error('Failed to export data. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -268,10 +268,9 @@ const UserManagement: React.FC = () => {
       
       // Reload data
       loadData();
-      alert('Item deleted successfully');
+      toast.success('Item deleted successfully');
     } catch (error) {
-      console.error('Error deleting item:', error);
-      alert('Failed to delete item');
+      toast.error('Failed to delete item');
     }
   };
 
@@ -288,10 +287,9 @@ const UserManagement: React.FC = () => {
       
       // Reload data
       loadData();
-      alert('Status updated successfully');
+      toast.success('Status updated successfully');
     } catch (error) {
-      console.error('Error updating status:', error);
-      alert('Failed to update status');
+      toast.error('Failed to update status');
     }
   };
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import type { Course } from '../types';
 
 declare global {
@@ -231,7 +232,7 @@ export default function PaymentModal({
             await verifyPayment(response);
             
             // Payment successful
-            alert(`Payment successful! Welcome to ${course.title}. You will receive course access details via email shortly.`);
+            toast.success(`Payment successful! Welcome to ${course.title}. You will receive course access details via email shortly.`);
             
             // Reset form and close modal
             setCustomerInfo({ name: '', email: '', phone: '' });
@@ -242,7 +243,7 @@ export default function PaymentModal({
             onClose();
           } catch (error) {
             console.error('Payment verification failed:', error);
-            alert('Payment verification failed. Please contact support if amount was deducted.');
+            toast.error('Payment verification failed. Please contact support if amount was deducted.');
           }
         },
         prefill: {
@@ -270,7 +271,7 @@ export default function PaymentModal({
 
     } catch (error: any) {
       console.error('Error in payment process:', error);
-      alert(error.message || 'Payment failed. Please try again.');
+      toast.error(error.message || 'Payment failed. Please try again.');
     } finally {
       setIsProcessing(false);
     }

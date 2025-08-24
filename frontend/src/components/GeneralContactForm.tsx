@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { submitContactForm } from '../api';
 
 interface GeneralContactFormProps {
@@ -40,10 +41,10 @@ export default function GeneralContactForm({
       setIsSubmitting(false);
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
       onClose();
-      alert(result.message);
+      toast.success(result.message);
     } catch (error) {
       setIsSubmitting(false);
-      alert('Something went wrong. Please try again.');
+      toast.error('Something went wrong. Please try again.');
     }
   };
 

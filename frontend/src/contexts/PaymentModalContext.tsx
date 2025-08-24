@@ -28,10 +28,10 @@ export const PaymentModalProvider: React.FC<PaymentModalProviderProps> = ({ chil
   const [coursePrice, setCoursePrice] = useState<number>(0);
   const [source, setSource] = useState<string>('unknown');
 
-  const openModal = (course: Course, price: number, modalSource: string = 'unknown') => {
+  const openModal = (course: Course, price?: number, source?: string) => {
     setCurrentCourse(course);
-    setCoursePrice(price);
-    setSource(modalSource);
+    setCoursePrice(price || 0);
+    setSource(source || 'unknown');
     setIsOpen(true);
   };
 

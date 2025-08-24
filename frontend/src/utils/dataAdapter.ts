@@ -23,7 +23,6 @@ import type {
   Testimonial,
   SuccessStat,
   CourseIcons,
-  GeoJsonCollection,
   AboutDataResponse,
   MentorDataResponse,
   IconsDataResponse,
@@ -74,7 +73,7 @@ const getCachedData = async <T>(key: string, fetchFn: () => Promise<T>): Promise
   }
   
   try {
-    console.log(`Fetching fresh data for: ${key}`);
+
     const data = await fetchFn();
     
     // Store in both caches
@@ -87,11 +86,11 @@ const getCachedData = async <T>(key: string, fetchFn: () => Promise<T>): Promise
     
     // Return any cached data if available, even if expired
     if (memoryCached) {
-      console.log(`Using expired memory cache for: ${key}`);
+
       return memoryCached.data;
     }
     if (persistentCached) {
-      console.log(`Using expired persistent cache for: ${key}`);
+
       return persistentCached.data;
     }
     
@@ -151,7 +150,6 @@ export const getTestimonialsData = (): Promise<Testimonial[]> => getCachedData('
 
 export const getSuccessStatsData = (): Promise<SuccessStat[]> => getCachedData('success-stats', api.getSuccessStats);
 export const getCourseIconsData = (): Promise<CourseIcons> => getCachedData('courseIcons', api.getCourseIcons);
-export const getGeoDataData = (): Promise<GeoJsonCollection> => getCachedData('geoData', api.getGeoData);
 
 // ===== LEGACY COMPATIBILITY FUNCTIONS =====
 
@@ -260,7 +258,7 @@ export const clearCache = () => {
       }
     }
     keysToRemove.forEach(key => localStorage.removeItem(key));
-    console.log(`Cleared ${keysToRemove.length} cached items`);
+
   } catch (error) {
     console.warn('Error clearing persistent cache:', error);
   }

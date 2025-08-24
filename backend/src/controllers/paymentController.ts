@@ -45,7 +45,7 @@ export const createPaymentOrder = async (req: Request, res: Response): Promise<v
     try {
       courseDetails = await CourseDetailsModel.findOne({ courseId });
     } catch (error) {
-      console.log('Course details not found');
+      // Course details not found
     }
 
     const originalAmount = courseDetails?.pricing?.current;
@@ -476,12 +476,11 @@ export const handleWebhook = async (req: Request, res: Response): Promise<void> 
     // Handle different webhook events
     switch (event) {
       case 'payment.captured':
-        console.log('Payment captured:', payload.payment.entity.id);
+        // Payment captured - webhook handled
         break;
       
       case 'payment.failed':
-        console.log('Payment failed:', payload.payment.entity.id);
-        // Update order status to failed
+        // Payment failed - update order status
         await PaymentOrderModel.updateOne(
           { razorpayOrderId: payload.payment.entity.order_id },
           { status: 'failed' }
@@ -489,7 +488,7 @@ export const handleWebhook = async (req: Request, res: Response): Promise<void> 
         break;
       
       default:
-        console.log('Unhandled webhook event:', event);
+        // Unhandled webhook event
     }
 
     res.json({ success: true });

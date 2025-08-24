@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { companyInfoApi, highlightedCountriesApi, contactDataApi } from '../lib/api';
 import { Save, Plus, Trash2 } from 'lucide-react';
 import CountrySelector from '../components/CountrySelector';
@@ -82,7 +83,7 @@ const CompanyInfo: React.FC = () => {
         // Process contact data
         if (contactResponse.success && contactResponse.data && Array.isArray(contactResponse.data) && contactResponse.data.length > 0) {
           const contactData = contactResponse.data[0];
-          console.log('Fetched contact data:', contactData);
+
           
           // Merge contact data into company info
           companyInfoData = {
@@ -92,7 +93,7 @@ const CompanyInfo: React.FC = () => {
             mapEmbedUrl: contactData.mapEmbedUrl || ''
           };
         } else {
-          console.log('No contact data found, using defaults');
+
         }
 
         // Set the merged company info
@@ -191,7 +192,7 @@ const CompanyInfo: React.FC = () => {
         }
       }
 
-      alert('Company info, contact data, and highlighted countries saved successfully!');
+      toast.success('Company info, contact data, and highlighted countries saved successfully!');
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Failed to save data');
     } finally {
@@ -205,13 +206,12 @@ const CompanyInfo: React.FC = () => {
       return;
     }
     
-    console.log('Adding item to field:', field, 'with value:', defaultValue);
-    console.log('Current array:', companyInfo[field]);
+
     
     const currentArray = companyInfo[field] as any[] || [];
     const newArray = [...currentArray, defaultValue];
     
-    console.log('New array:', newArray);
+
     
     setCompanyInfo({
       ...companyInfo,
@@ -229,7 +229,7 @@ const CompanyInfo: React.FC = () => {
     const newArray = [...currentArray];
     newArray[index] = value;
     
-    console.log('Updating item in field:', field, 'at index:', index, 'with value:', value);
+
     
     setCompanyInfo({ ...companyInfo, [field]: newArray });
   };
@@ -244,7 +244,7 @@ const CompanyInfo: React.FC = () => {
     const newArray = [...currentArray];
     newArray.splice(index, 1);
     
-    console.log('Removing item from field:', field, 'at index:', index);
+
     
     setCompanyInfo({ ...companyInfo, [field]: newArray });
   };
@@ -591,7 +591,7 @@ const CompanyInfo: React.FC = () => {
               <div className="text-center">
                 <button
                   onClick={() => {
-                    console.log('Adding office...');
+
                     addArrayItem('offices', { 
                       name: '', 
                       address: '', 

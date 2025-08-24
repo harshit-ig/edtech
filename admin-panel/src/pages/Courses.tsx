@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { coursesApi, courseDetailsApi, coursePricingApi, iconsApi } from '../lib/api';
 import type { Course, CourseDetails, CoursePricing } from '../types';
 import { Plus, Edit, Trash2, Eye, Search, Save, X, BookOpen, DollarSign, Info, GraduationCap, Settings, Star, ChevronDown, Upload } from 'lucide-react';
@@ -196,7 +197,7 @@ interface UnifiedCourseData {
 
   const handleAddIcon = async () => {
     if (!newIcon.name.trim() || !newIcon.path.trim()) {
-      alert('Please provide both icon name and SVG path');
+      toast.error('Please provide both icon name and SVG path');
       return;
     }
 
@@ -213,8 +214,7 @@ interface UnifiedCourseData {
       setShowAddForm(false);
       setIsOpen(false);
     } catch (error) {
-      console.error('Error creating icon:', error);
-      alert('Failed to create icon. Please try again.');
+      toast.error('Failed to create icon. Please try again.');
     }
   };
 
@@ -735,7 +735,7 @@ const UnifiedCourseManagement: React.FC = () => {
       setError('');
       
       // Show success message
-      alert('Course saved successfully across all collections!');
+      toast.success('Course saved successfully across all collections!');
     } catch (error) {
       console.error('Error saving course:', error);
       if (error instanceof Error) {
@@ -792,10 +792,9 @@ const UnifiedCourseManagement: React.FC = () => {
       setCourses(prev => prev.filter(course => course._id !== id));
       
       // Show success message
-      alert('Course deleted successfully from all collections!');
+      toast.success('Course deleted successfully from all collections!');
     } catch (error) {
-      console.error('Error deleting course:', error);
-      alert(error instanceof Error ? error.message : 'Failed to delete course');
+      toast.error(error instanceof Error ? error.message : 'Failed to delete course');
     }
   };
 

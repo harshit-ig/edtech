@@ -43,10 +43,10 @@ const Testimonials: React.FC = () => {
 
   const fetchTestimonials = async () => {
     try {
-      console.log('Fetching testimonials...');
+
       setLoading(true);
       const response = await testimonialsApi.getAll();
-      console.log('Fetch response:', response);
+
       if (response.success) {
         setTestimonials(response.data as Testimonial[]);
       }
@@ -59,7 +59,7 @@ const Testimonials: React.FC = () => {
   };
 
   const handleCreate = () => {
-    console.log('handleCreate called');
+
     setEditingId('new');
     setFormData({
       id: '',
@@ -79,7 +79,7 @@ const Testimonials: React.FC = () => {
   };
 
   const handleSave = async () => {
-    console.log('handleSave called', { formData, editingId });
+
     if (!formData.id || !formData.name || !formData.role || !formData.rating || !formData.review || !formData.category || !formData.accent) {
       setError('All required fields must be filled');
       return;
@@ -90,14 +90,14 @@ const Testimonials: React.FC = () => {
       let response;
       
       if (editingId === 'new') {
-        console.log('Creating new testimonial...');
+
         response = await testimonialsApi.create(formData);
       } else if (editingId) {
-        console.log('Updating testimonial...');
+
         response = await testimonialsApi.update(editingId, formData);
       }
 
-      console.log('API response:', response);
+
       if (response?.success) {
         await fetchTestimonials();
         setEditingId(null);

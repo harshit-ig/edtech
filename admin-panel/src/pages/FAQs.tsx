@@ -23,10 +23,8 @@ const FAQs: React.FC = () => {
 
   const fetchFAQs = async () => {
     try {
-      console.log('Fetching FAQs...');
       setLoading(true);
       const response = await faqsApi.getAll();
-      console.log('Fetch response:', response);
       if (response.success) {
         setFaqs(response.data as FAQ[]);
       }
@@ -39,7 +37,7 @@ const FAQs: React.FC = () => {
   };
 
   const handleCreate = () => {
-    console.log('handleCreate called');
+
     const nextId = Math.max(...faqs.map(f => f.id), 0) + 1;
     setEditingId('new');
     setFormData({
@@ -55,7 +53,7 @@ const FAQs: React.FC = () => {
   };
 
   const handleSave = async () => {
-    console.log('handleSave called', { formData, editingId });
+
     if (!formData.id || !formData.question || !formData.answer) {
       setError('All fields are required');
       return;
@@ -66,14 +64,14 @@ const FAQs: React.FC = () => {
       let response;
       
       if (editingId === 'new') {
-        console.log('Creating new FAQ...');
+
         response = await faqsApi.create(formData);
       } else if (editingId) {
-        console.log('Updating FAQ...');
+
         response = await faqsApi.update(editingId, formData);
       }
 
-      console.log('API response:', response);
+
       if (response?.success) {
         await fetchFAQs();
         setEditingId(null);

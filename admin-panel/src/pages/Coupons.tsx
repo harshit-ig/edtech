@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { Plus, Search, Edit, Trash2, TrendingUp, Users, DollarSign, Percent } from 'lucide-react';
 import { couponsApi, coursesApi } from '../lib/api';
 
@@ -177,13 +178,12 @@ export default function Coupons() {
       if (response.success) {
         loadCoupons();
         resetForm();
-        alert(`Coupon ${editingCoupon ? 'updated' : 'created'} successfully!`);
+        toast.success(`Coupon ${editingCoupon ? 'updated' : 'created'} successfully!`);
       } else {
-        alert((response as any).error || 'Failed to save coupon');
+        toast.error((response as any).error || 'Failed to save coupon');
       }
     } catch (error: any) {
-      console.error('Error saving coupon:', error);
-      alert(error.message || 'Failed to save coupon');
+      toast.error(error.message || 'Failed to save coupon');
     }
   };
 
@@ -211,13 +211,12 @@ export default function Coupons() {
       const response = await couponsApi.delete(couponId);
       if (response.success) {
         loadCoupons();
-        alert('Coupon deleted successfully!');
+        toast.success('Coupon deleted successfully!');
       } else {
-        alert((response as any).error || 'Failed to delete coupon');
+        toast.error((response as any).error || 'Failed to delete coupon');
       }
     } catch (error: any) {
-      console.error('Error deleting coupon:', error);
-      alert(error.message || 'Failed to delete coupon');
+      toast.error(error.message || 'Failed to delete coupon');
     }
   };
 

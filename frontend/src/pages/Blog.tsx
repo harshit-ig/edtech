@@ -42,7 +42,7 @@ export default function BlogPage() {
         setCategories(categoriesData);
         setFeaturedPosts(featuredData);
         
-        console.log(`Loaded ${allPosts.length} blog posts (${featuredData.length} featured)`);
+
       } catch (error) {
         console.error('Error loading blog data:', error);
         setBlogPosts([]);

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { authApi, adminApi } from '../lib/api';
 import type { User } from '../types';
 import { Plus, Edit, Trash2, Search, Shield, User as UserIcon, Mail, Save, X } from 'lucide-react';
@@ -118,7 +119,7 @@ const UsersList: React.FC = () => {
         throw new Error(response.message || 'Failed to delete user');
       }
     } catch (error) {
-      alert(error instanceof Error ? error.message : 'Failed to delete user');
+      toast.error(error instanceof Error ? error.message : 'Failed to delete user');
     }
   };
 

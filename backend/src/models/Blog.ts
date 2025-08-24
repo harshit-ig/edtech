@@ -45,7 +45,7 @@ BlogPostSchema.pre('findOneAndDelete', async function(next) {
         // Check if file exists before attempting to delete
         if (fs.existsSync(imagePath)) {
           fs.unlinkSync(imagePath);
-          console.log(`Deleted image file: ${doc.image}`);
+
         }
       }
     }
@@ -79,7 +79,7 @@ BlogPostSchema.pre('findOneAndUpdate', async function(next) {
         // Check if file exists before attempting to delete
         if (fs.existsSync(oldImagePath)) {
           fs.unlinkSync(oldImagePath);
-          console.log(`Deleted old image file: ${doc.image}`);
+
         }
       }
     }

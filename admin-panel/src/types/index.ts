@@ -38,12 +38,38 @@ export interface ApiResponse<T = unknown> {
 
 // Dashboard stats
 export interface DashboardStats {
+  // Revenue Metrics
+  totalRevenue: number;
+  monthlyRevenue: number;
+  revenueGrowth: number;
+  averageOrderValue: number;
+  
+  // Customer Metrics
+  totalCustomers: number;
+  newCustomers: number;
+  paidCustomers: number;
+  pendingCustomers: number;
+  customerGrowth: number;
+  
+  // Business Performance
+  totalInquiries: number;
+  newInquiries: number;
+  convertedInquiries: number;
+  conversionRate: number;
+  inquiryGrowth: number;
+  
+  // Top Performance
+  topCourses: Array<{
+    courseName: string;
+    revenue: number;
+    enrollments: number;
+  }>;
+  
+  // Content Stats (secondary)
   courses: number;
-  courseDetails: number;
-  coursePricing: number;
   blogs: number;
   teamMembers: number;
-  upcomingSkills: number;
+  
   lastUpdated: string;
 }
 

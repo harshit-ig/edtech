@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { 
   companyInfoApi, 
   teamMembersApi, 
@@ -129,7 +130,7 @@ const Company: React.FC = () => {
       await api.delete(id);
       await fetchAllCompanyData();
     } catch (error) {
-      alert(error instanceof Error ? error.message : 'Failed to delete');
+      toast.error(error instanceof Error ? error.message : 'Failed to delete');
     }
   };
 

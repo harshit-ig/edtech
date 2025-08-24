@@ -18,7 +18,10 @@ export default function Stats() {
           supportEmail: '', 
           heroRoles: [], 
           carouselRoles: [], 
-          marketingStats: [] 
+          marketingStats: [],
+          whatsappQuickMessages: [],
+          pricingFaq: [],
+          courseBenefitsComparison: []
         });
       } finally {
         setLoading(false);

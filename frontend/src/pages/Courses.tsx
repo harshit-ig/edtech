@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
+import toast from 'react-hot-toast';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import TechBackground from "../TechBackground";
@@ -80,12 +81,12 @@ export default function CoursesPage() {
     try {
       const courseDetails = await getCourseDetailsData(course.id);
       if (!courseDetails?.pricing?.current) {
-        alert('Pricing information not available for this course. Please contact support.');
+        toast.error('Pricing information not available for this course. Please contact support.');
         return;
       }
       openPaymentModal(course, courseDetails.pricing.current, 'courses-page');
     } catch (error) {
-      alert('Unable to load course pricing. Please contact support.');
+      toast.error('Unable to load course pricing. Please contact support.');
     }
   };
   

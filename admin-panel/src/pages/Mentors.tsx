@@ -32,10 +32,8 @@ const Mentors: React.FC = () => {
 
   const fetchMentors = async () => {
     try {
-      console.log('Fetching mentors...');
       setLoading(true);
       const response = await mentorsApi.getAll();
-      console.log('Fetch response:', response);
       if (response.success) {
         setMentors(response.data as Mentor[]);
       }
@@ -48,7 +46,7 @@ const Mentors: React.FC = () => {
   };
 
   const handleCreate = () => {
-    console.log('handleCreate called');
+
     setEditingId('new');
     setFormData({
       id: '',
@@ -66,7 +64,7 @@ const Mentors: React.FC = () => {
   };
 
   const handleSave = async () => {
-    console.log('handleSave called', { formData, editingId });
+
     if (!formData.id || !formData.name || !formData.role || !formData.company || !formData.image || !formData.accent) {
       setError('All fields are required');
       return;
@@ -77,14 +75,14 @@ const Mentors: React.FC = () => {
       let response;
       
       if (editingId === 'new') {
-        console.log('Creating new mentor...');
+
         response = await mentorsApi.create(formData);
       } else if (editingId) {
-        console.log('Updating mentor...');
+
         response = await mentorsApi.update(editingId, formData);
       }
 
-      console.log('API response:', response);
+
       if (response?.success) {
         await fetchMentors();
         setEditingId(null);

@@ -20,6 +20,9 @@ import {
   TestimonialModel,
   SuccessStatModel
 } from '../models';
+import { PaymentTransactionModel } from '../models/Payment';
+import { CustomerModel } from '../models/Customer';
+import { InquiryModel } from '../models/Inquiry';
 import { getImageUrl } from '../middleware';
 
 // Generic CRUD operations for any model
@@ -463,32 +466,137 @@ export const deleteSuccessStat = AdminController.delete(SuccessStatModel);
  */
 export const getDashboardStats = async (req: Request, res: Response): Promise<void> => {
   try {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    
+    const sixtyDaysAgo = new Date();
+    sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
+
+    // Parallel data fetching for performance
     const [
+      // Revenue Metrics
+      totalRevenue,
+      monthlyRevenue,
+      previousMonthRevenue,
+      totalTransactions,
+      
+      // Customer Metrics
+      totalCustomers,
+      newCustomers,
+      previousMonthCustomers,
+      paidCustomers,
+      pendingCustomers,
+      
+      // Inquiry Metrics
+      totalInquiries,
+      newInquiries,
+      previousMonthInquiries,
+      convertedInquiries,
+      
+      // Top Courses
+      topCourses,
+      
+      // Content Counts
       coursesCount,
-      courseDetailsCount,
-      coursePricingCount,
       blogsCount,
-      teamMembersCount,
-      upcomingSkillsCount
+      teamMembersCount
     ] = await Promise.all([
+      // Revenue calculations
+      PaymentTransactionModel.aggregate([
+        { $match: { status: 'success' } },
+        { $group: { _id: null, total: { $sum: '$amount' } } }
+      ]),
+      PaymentTransactionModel.aggregate([
+        { $match: { status: 'success', paymentDate: { $gte: thirtyDaysAgo } } },
+        { $group: { _id: null, total: { $sum: '$amount' } } }
+      ]),
+      PaymentTransactionModel.aggregate([
+        { $match: { status: 'success', paymentDate: { $gte: sixtyDaysAgo, $lt: thirtyDaysAgo } } },
+        { $group: { _id: null, total: { $sum: '$amount' } } }
+      ]),
+      PaymentTransactionModel.countDocuments({ status: 'success' }),
+      
+      // Customer calculations
+      CustomerModel.countDocuments(),
+      CustomerModel.countDocuments({ createdAt: { $gte: thirtyDaysAgo } }),
+      CustomerModel.countDocuments({ createdAt: { $gte: sixtyDaysAgo, $lt: thirtyDaysAgo } }),
+      CustomerModel.countDocuments({ paymentStatus: 'paid' }),
+      CustomerModel.countDocuments({ paymentStatus: 'pending' }),
+      
+      // Inquiry calculations
+      InquiryModel.countDocuments(),
+      InquiryModel.countDocuments({ createdAt: { $gte: thirtyDaysAgo } }),
+      InquiryModel.countDocuments({ createdAt: { $gte: sixtyDaysAgo, $lt: thirtyDaysAgo } }),
+      InquiryModel.countDocuments({ status: 'converted' }),
+      
+      // Top performing courses
+      PaymentTransactionModel.aggregate([
+        { $match: { status: 'success' } },
+        { 
+          $group: { 
+            _id: '$courseInfo.courseId',
+            courseName: { $first: '$courseInfo.courseName' },
+            revenue: { $sum: '$amount' },
+            enrollments: { $sum: 1 }
+          } 
+        },
+        { $sort: { revenue: -1 } },
+        { $limit: 5 }
+      ]),
+      
+      // Content counts
       CourseModel.countDocuments(),
-      CourseDetailsModel.countDocuments(),
-      CoursePricingModel.countDocuments(),
       BlogPostModel.countDocuments(),
-      TeamMemberModel.countDocuments(),
-      UpcomingSkillModel.countDocuments()
+      TeamMemberModel.countDocuments()
     ]);
+
+    // Calculate derived metrics
+    const totalRev = totalRevenue[0]?.total || 0;
+    const monthlyRev = monthlyRevenue[0]?.total || 0;
+    const prevMonthRev = previousMonthRevenue[0]?.total || 0;
+    const avgOrderValue = totalTransactions > 0 ? totalRev / totalTransactions : 0;
+    
+    const revenueGrowth = prevMonthRev > 0 ? ((monthlyRev - prevMonthRev) / prevMonthRev) * 100 : 0;
+    const customerGrowth = previousMonthCustomers > 0 ? ((newCustomers - previousMonthCustomers) / previousMonthCustomers) * 100 : 0;
+    const inquiryGrowth = previousMonthInquiries > 0 ? ((newInquiries - previousMonthInquiries) / previousMonthInquiries) * 100 : 0;
+    const conversionRate = totalInquiries > 0 ? (convertedInquiries / totalInquiries) * 100 : 0;
 
     res.json({
       success: true,
       message: 'Dashboard statistics retrieved successfully.',
       data: {
+        // Revenue Metrics
+        totalRevenue: totalRev,
+        monthlyRevenue: monthlyRev,
+        revenueGrowth: Math.round(revenueGrowth * 100) / 100,
+        averageOrderValue: Math.round(avgOrderValue * 100) / 100,
+        
+        // Customer Metrics
+        totalCustomers,
+        newCustomers,
+        paidCustomers,
+        pendingCustomers,
+        customerGrowth: Math.round(customerGrowth * 100) / 100,
+        
+        // Business Performance
+        totalInquiries,
+        newInquiries,
+        convertedInquiries,
+        conversionRate: Math.round(conversionRate * 100) / 100,
+        inquiryGrowth: Math.round(inquiryGrowth * 100) / 100,
+        
+        // Top Performance
+        topCourses: topCourses.map(course => ({
+          courseName: course.courseName || 'Unknown Course',
+          revenue: course.revenue,
+          enrollments: course.enrollments
+        })),
+        
+        // Content Stats
         courses: coursesCount,
-        courseDetails: courseDetailsCount,
-        coursePricing: coursePricingCount,
         blogs: blogsCount,
         teamMembers: teamMembersCount,
-        upcomingSkills: upcomingSkillsCount,
+        
         lastUpdated: new Date().toISOString()
       }
     });

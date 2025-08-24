@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import toast from 'react-hot-toast';
 import { getFeaturedCoursesData, getCourseIcon, getCourseDetailsData } from "../utils/dataAdapter";
 import type { Course } from "../types";
 import { Link } from "react-router-dom";
@@ -80,12 +81,12 @@ export default function CoursesSection() {
     try {
       const courseDetails = await getCourseDetailsData(course.id);
       if (!courseDetails?.pricing?.current) {
-        alert('Pricing information not available for this course. Please contact support.');
+        toast.error('Pricing information not available for this course. Please contact support.');
         return;
       }
       openPaymentModal(course, courseDetails.pricing.current, 'home-featured-courses');
     } catch (error) {
-      alert('Unable to load course pricing. Please contact support.');
+      toast.error('Unable to load course pricing. Please contact support.');
     }
   };
 

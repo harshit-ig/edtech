@@ -162,6 +162,53 @@ export const getMentors = async () => {
   return apiRequest<any>('/mentors');
 };
 
+export const getMentorFeatures = async () => {
+  // Placeholder - returns empty array for now
+  return [];
+};
+
+export const getPartnerCompanies = async () => {
+  // Placeholder - returns empty array for now  
+  return [];
+};
+
+export const getAdvantageStats = async () => {
+  // Placeholder - returns empty array for now
+  return [];
+};
+
+export const getTestimonials = async () => {
+  // Placeholder - returns empty array for now
+  return [];
+};
+
+export const getSuccessStats = async () => {
+  // Placeholder - returns empty array for now
+  return [];
+};
+
+export const getCourseIcons = async () => {
+  // Placeholder - returns empty object for now
+  return {};
+};
+
+
+
+export const getMentorData = async () => {
+  // Return mentor data in the expected format
+  const mentors = await getMentors();
+  return {
+    mentors: mentors || [],
+    mentorFeatures: [],
+    partnerCompanies: []
+  };
+};
+
+export const getIconsData = async () => {
+  // Placeholder - returns empty icons data for now
+  return { courseIcons: {} };
+};
+
 // ===== CONTACT FORM APIs =====
 
 export const submitContactForm = async (data: {

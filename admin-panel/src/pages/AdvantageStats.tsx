@@ -33,15 +33,12 @@ const AdvantageStats: React.FC = () => {
 
   const fetchStats = async () => {
     try {
-      console.log('Fetching advantage stats...');
       setLoading(true);
       const response = await advantageStatsApi.getAll();
-      console.log('Fetch response:', response);
       if (response.success) {
         setStats(response.data as AdvantageStat[]);
       }
     } catch (error) {
-      console.error('Fetch error:', error);
       setError(error instanceof Error ? error.message : 'Failed to fetch advantage stats');
     } finally {
       setLoading(false);
@@ -49,7 +46,6 @@ const AdvantageStats: React.FC = () => {
   };
 
   const handleCreate = () => {
-    console.log('handleCreate called');
     setEditingId('new');
     setFormData({
       id: '',
@@ -68,7 +64,6 @@ const AdvantageStats: React.FC = () => {
   };
 
   const handleSave = async () => {
-    console.log('handleSave called', { formData, editingId });
     if (!formData.id || !formData.title || !formData.value || !formData.label || !formData.description || formData.dots === undefined || !formData.accent) {
       setError('All fields are required');
       return;
@@ -79,14 +74,11 @@ const AdvantageStats: React.FC = () => {
       let response;
       
       if (editingId === 'new') {
-        console.log('Creating new advantage stat...');
         response = await advantageStatsApi.create(formData);
       } else if (editingId) {
-        console.log('Updating advantage stat...');
         response = await advantageStatsApi.update(editingId, formData);
       }
 
-      console.log('API response:', response);
       if (response?.success) {
         await fetchStats();
         setEditingId(null);
@@ -96,7 +88,6 @@ const AdvantageStats: React.FC = () => {
         setError(response?.message || 'Failed to save advantage stat');
       }
     } catch (error) {
-      console.error('Save error:', error);
       setError(error instanceof Error ? error.message : 'Failed to save advantage stat');
     } finally {
       setSaving(false);

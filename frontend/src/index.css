@@ -27,6 +27,26 @@
   .text-glow-white { color: #ffffff; text-shadow: 0 0 14px #ffffff, 0 0 24px rgba(255,255,255,0.6); }
 }
 
+/* Toast notifications */
+@layer components {
+  .toaster {
+    z-index: 9999 !important;
+  }
+  
+  .toast {
+    z-index: 9999 !important;
+  }
+  
+  /* React Hot Toast specific selectors */
+  [data-hot-toast] {
+    z-index: 9999 !important;
+  }
+  
+  [role="status"] {
+    z-index: 9999 !important;
+  }
+}
+
 @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 .reveal { opacity: 0; transform: translateY(12px); }

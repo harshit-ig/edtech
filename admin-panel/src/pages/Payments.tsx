@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { paymentsApi } from '../lib/api';
 import { 
   CreditCard, 
@@ -113,7 +114,7 @@ const Payments: React.FC = () => {
 
   const exportToCSV = () => {
     if (!transactions.length) {
-      alert('No data to export');
+      toast.error('No data to export');
       return;
     }
 

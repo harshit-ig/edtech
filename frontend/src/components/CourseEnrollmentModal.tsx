@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { submitInstallmentInquiry } from '../api';
 
 interface CourseEnrollmentModalProps {
@@ -15,7 +16,6 @@ export default function CourseEnrollmentModal({
   onClose, 
   courseId,
   courseName,
-  courseCategory,
   source = 'unknown'
 }: CourseEnrollmentModalProps) {
   const [formData, setFormData] = useState({
@@ -44,10 +44,10 @@ export default function CourseEnrollmentModal({
       setIsSubmitting(false);
       setFormData({ name: '', email: '', phone: '' });
       onClose();
-      alert(result.message);
+      toast.success(result.message);
     } catch (error) {
       setIsSubmitting(false);
-      alert('Something went wrong. Please try again.');
+      toast.error('Something went wrong. Please try again.');
     }
   };
 

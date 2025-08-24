@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import toast from 'react-hot-toast';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import TechBackground from "../TechBackground";
@@ -62,7 +63,7 @@ export default function CoursePage() {
   const handleBuyNow = (course: Course, price?: number) => {
     const coursePrice = price || details.pricing?.current;
     if (!coursePrice) {
-      alert('Pricing information not available for this course. Please contact support.');
+      toast.error('Pricing information not available for this course. Please contact support.');
       return;
     }
     openPaymentModal(course, coursePrice, 'course-detail-page');
