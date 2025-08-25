@@ -3,6 +3,7 @@ import Razorpay from 'razorpay';
 import crypto from 'crypto';
 import { PaymentOrderModel, PaymentTransactionModel, CourseModel, CourseDetailsModel, CouponModel, CustomerModel } from '../models';
 import { generateCustomerId } from '../utils/idGenerator';
+import EmailService from '../utils/emailService';
 
 // Validate Razorpay environment variables
 if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
@@ -264,6 +265,33 @@ export const verifyPayment = async (req: Request, res: Response): Promise<void> 
     });
 
     await customer.save();
+
+    // Send payment confirmation email
+    try {
+      const emailService = new EmailService();
+      const emailData = {
+        customerName: customer.name,
+        customerEmail: customer.email,
+        courseTitle: customer.courseName,
+        courseCategory: customer.courseCategory,
+        amount: customer.amount,
+        currency: customer.currency,
+        orderId: customer.orderId || paymentOrder.orderId, // Use payment order ID as fallback
+        transactionId: transaction.id,
+        paymentDate: transaction.paymentDate
+      };
+
+      // Send email asynchronously (don't wait for it to complete)
+      emailService.sendPaymentConfirmation(emailData).catch(error => {
+        console.error('Failed to send payment confirmation email:', error);
+        // Don't fail the payment verification if email fails
+      });
+
+      console.log('Payment confirmation email queued for:', customer.email);
+    } catch (emailError) {
+      console.error('Error setting up payment confirmation email:', emailError);
+      // Don't fail the payment verification if email setup fails
+    }
 
     res.json({
       success: true,

@@ -232,7 +232,7 @@ export default function PaymentModal({
             await verifyPayment(response);
             
             // Payment successful
-            toast.success(`Payment successful! Welcome to ${course.title}. You will receive course access details via email shortly.`);
+            toast.success(`Payment successful! Welcome to ${course.title}. A confirmation email has been sent to your email address.`);
             
             // Reset form and close modal
             setCustomerInfo({ name: '', email: '', phone: '' });
