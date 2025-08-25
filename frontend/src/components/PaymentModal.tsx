@@ -223,7 +223,7 @@ export default function PaymentModal({
         key: RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
-        name: 'EdTech Platform',
+        name: 'EdTech Informative',
         description: `Enrollment for ${course.title}${appliedCoupon ? ` (${appliedCoupon.coupon.code} applied)` : ''}`,
         order_id: order.orderId,
         handler: async function (response: any) {
@@ -257,7 +257,7 @@ export default function PaymentModal({
           course_title: course.title
         },
         theme: {
-          color: '#10B981'
+          color: '#0e1589'
         },
         modal: {
           ondismiss: function() {
