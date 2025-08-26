@@ -161,7 +161,7 @@ export const getMentors = async () => {
 };
 
 export const getMentorFeatures = async () => {
-  return apiRequest<any>('/mentor/features');
+  return apiRequest<any>('/mentors/features');
 };
 
 export const getPartnerCompanies = async () => {
@@ -170,7 +170,7 @@ export const getPartnerCompanies = async () => {
 };
 
 export const getAdvantageStats = async () => {
-  return apiRequest<any>('/advantage-stats');
+  return apiRequest<any>('/stats');
 };
 
 export const getTestimonials = async () => {
@@ -182,25 +182,27 @@ export const getSuccessStats = async () => {
 };
 
 export const getCourseIcons = async () => {
-  // Placeholder - returns empty object for now
-  return {};
+  return apiRequest<any>('/icons');
 };
 
 
 
 export const getMentorData = async () => {
-  // Return mentor data in the expected format
-  const mentors = await getMentors();
+  const [mentors, mentorFeatures, partnerCompanies] = await Promise.all([
+    getMentors(),
+    getMentorFeatures(),
+    apiRequest<any>('/mentors/companies')
+  ]);
   return {
     mentors: mentors || [],
-    mentorFeatures: [],
-    partnerCompanies: []
+    mentorFeatures: mentorFeatures || [],
+    partnerCompanies: partnerCompanies || []
   };
 };
 
 export const getIconsData = async () => {
-  // Placeholder - returns empty icons data for now
-  return { courseIcons: {} };
+  const courseIcons = await getCourseIcons();
+  return { courseIcons };
 };
 
 // ===== CONTACT FORM APIs =====
