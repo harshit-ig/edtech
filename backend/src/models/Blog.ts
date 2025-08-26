@@ -26,7 +26,6 @@ const BlogPostSchema = new Schema<BlogPost & Document>({
 });
 
 // Add indexes for better query performance
-BlogPostSchema.index({ slug: 1 });
 BlogPostSchema.index({ category: 1 });
 BlogPostSchema.index({ featured: 1 });
 BlogPostSchema.index({ publishedAt: 1 });
