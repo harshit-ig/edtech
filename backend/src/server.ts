@@ -24,6 +24,7 @@ const PORT = process.env.PORT || 8000;
 // Security middleware
 app.use(helmet());
 app.use(cors(corsOptions));
+console.log(corsOptions);
 
 // Rate limiting
 const limiter = createRateLimiter(
