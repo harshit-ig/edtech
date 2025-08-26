@@ -121,12 +121,17 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction): 
 
 // Export upload middleware
 export { uploadBlogImage, uploadBlogImages, uploadTeamImage, handleUploadError, getImageUrl };
-
+const allowedOrigins: (string | RegExp)[] = [
+  process.env.FRONTEND_URL,
+  process.env.FRONTEND_URL_WWW,
+  process.env.ADMIN_URL,
+  process.env.ADMIN_URL_WWW
+].filter((o): o is string => !!o); // removes undefined
 // CORS configuration
 export const corsOptions = {
   origin: process.env.NODE_ENV === 'development' 
     ? ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000', 'http://127.0.0.1:5173', 'http://127.0.0.1:5174']
-    : [process.env.FRONTEND_URL , process.env.ADMIN_URL , process.env.FRONTEND_URL_WWW , process.env.ADMIN_URL_WWW],
+    : allowedOrigins,
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
