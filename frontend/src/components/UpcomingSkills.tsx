@@ -26,7 +26,7 @@ export default function UpcomingSkills() {
   }, []);
 
   // Duplicate skills for seamless infinite scroll
-  const duplicatedSkills = [...upcomingSkills, ...upcomingSkills];
+  const duplicatedSkills = [...upcomingSkills, ...upcomingSkills , ...upcomingSkills, ...upcomingSkills ,...upcomingSkills, ...upcomingSkills ,...upcomingSkills, ...upcomingSkills ,...upcomingSkills, ...upcomingSkills ,...upcomingSkills, ...upcomingSkills ,...upcomingSkills, ...upcomingSkills ,...upcomingSkills, ...upcomingSkills ,...upcomingSkills, ...upcomingSkills ,...upcomingSkills, ...upcomingSkills ,];
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -71,7 +71,6 @@ export default function UpcomingSkills() {
   return (
     <section className="py-16 md:py-24 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
       {/* Simple light background without gradients */}
-      
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center mb-12">
           <div className="badge-hero mx-auto w-max">

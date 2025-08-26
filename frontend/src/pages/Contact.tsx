@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ContactSection from "../components/Contact";
-import TechBackground from "../TechBackground";
+// import TechBackground from "../TechBackground";
 
 export default function ContactPage() {
   return (
@@ -9,16 +9,16 @@ export default function ContactPage() {
       <Navbar />
       
       {/* Background */}
-      <div className="fixed inset-0 -z-10">
+      {/* <div className="fixed inset-0 -z-10">
         <TechBackground className="mix-blend-screen opacity-30" />
-      </div>
+      </div> */}
       
       <main className="pt-20">
         {/* Hero Section */}
         <section className="py-16 md:py-24 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-edtech-blue via-bg-deep to-edtech-blue/90" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-          <TechBackground className="opacity-15" />
+          {/* <TechBackground className="opacity-15" /> */}
           
           <div className="relative mx-auto max-w-4xl px-6 text-center">
             <div className="badge-hero mx-auto w-max mb-8">

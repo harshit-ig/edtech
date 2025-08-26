@@ -1,7 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import Globe from "../globe";
 import Typewriter from "typewriter-effect";
-import TechBackground from "../TechBackground";
+// import TechBackground from "../TechBackground";
 import RoleCarousel from "./RoleCarousel";
 import { useState, useEffect } from "react";
 import { getCompanyInfoData } from "../utils/dataAdapter";
@@ -49,9 +49,9 @@ export default function Hero() {
   return (
     <header className="relative min-h-[600px] h-[90vh] max-h-[800px] lg:max-h-none lg:h-screen flex items-center overflow-hidden pt-20 scroll-mt-24">
       {/* Background Layer - Animated Tech Elements */}
-      <div className="absolute inset-0 -z-20">
+      {/* <div className="absolute inset-0 -z-20">
         <TechBackground className="mix-blend-screen" />
-      </div>
+      </div> */}
       
       {/* Globe positioned CENTER on mobile, LEFT with padding on medium+ screens */}
       <div className="absolute inset-0 md:left-8 md:top-8 md:w-1/2 h-full flex items-center justify-center -z-10">
@@ -77,7 +77,7 @@ export default function Hero() {
       <div className="relative z-10 mx-auto max-w-7xl px-6 md:pl-16 lg:pl-16 xl:pl-16 w-full h-full flex items-center">
         <div className="w-full md:w-1/2 text-center md:text-left">
           <div className="h-[120px] sm:h-[140px] lg:h-[160px] flex items-start justify-center md:justify-start mb-6">
-            <h1 className="type-glow text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-wide leading-tight">
+            <h1 className=" text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-wide leading-tight">
               <Typewriter
                 options={{
                   strings: companyInfo.heroRoles,

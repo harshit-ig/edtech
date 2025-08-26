@@ -161,8 +161,7 @@ export const getMentors = async () => {
 };
 
 export const getMentorFeatures = async () => {
-  // Placeholder - returns empty array for now
-  return [];
+  return apiRequest<any>('/mentor/features');
 };
 
 export const getPartnerCompanies = async () => {
@@ -171,18 +170,15 @@ export const getPartnerCompanies = async () => {
 };
 
 export const getAdvantageStats = async () => {
-  // Placeholder - returns empty array for now
-  return [];
+  return apiRequest<any>('/advantage-stats');
 };
 
 export const getTestimonials = async () => {
-  // Placeholder - returns empty array for now
-  return [];
+  return apiRequest<any>('/testimonials');
 };
 
 export const getSuccessStats = async () => {
-  // Placeholder - returns empty array for now
-  return [];
+  return apiRequest<any>('/success-stats');
 };
 
 export const getCourseIcons = async () => {

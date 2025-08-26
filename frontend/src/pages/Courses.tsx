@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import toast from 'react-hot-toast';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import TechBackground from "../TechBackground";
+// import TechBackground from "../TechBackground";
 import { getCoursesData, getCourseIcon, getCourseDetailsData } from "../utils/dataAdapter";
 import type { Course } from "../types";
 import MicrosoftBadge from "../components/MicrosoftBadge";
@@ -115,16 +115,16 @@ export default function CoursesPage() {
       <Navbar />
       
       {/* Background */}
-      <div className="fixed inset-0 -z-10">
+      {/* <div className="fixed inset-0 -z-10">
         <TechBackground className="mix-blend-screen opacity-30" />
-      </div>
+      </div> */}
       
       <main className="pt-20">
         {/* SECTION 1: Hero Section - BRAND COLORS */}
         <section className="py-16 md:py-24 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-edtech-blue via-bg-deep to-edtech-blue/90" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-          <TechBackground className="opacity-15" />
+          {/* <TechBackground className="opacity-15" /> */}
           
           <div className="relative mx-auto max-w-7xl px-6 text-center">
             <div className="badge-hero mx-auto w-max mb-8">
@@ -411,9 +411,9 @@ export default function CoursesPage() {
 
         {/* SECTION 5: CTA Section - ENHANCED */}
         <section className="py-16 md:py-24 bg-gradient-to-br from-edtech-blue via-bg-deep to-edtech-blue relative overflow-hidden">
-          <div className="absolute inset-0">
+          {/* <div className="absolute inset-0">
             <TechBackground className="opacity-10" />
-          </div>
+          </div> */}
           
           <div className="relative mx-auto max-w-5xl px-6 text-center">
             <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-8 md:p-12">

@@ -175,7 +175,7 @@
 }
 
 .animate-marquee {
-  animation: skillsMarquee 30s linear infinite;
+  animation: skillsMarquee 300s linear infinite;
   will-change: transform;
 }
 

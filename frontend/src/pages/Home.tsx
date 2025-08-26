@@ -13,9 +13,9 @@ export default function HomePage() {
     <div className="min-h-screen">
       <Navbar />
       <Hero />
-      <CoursesSection />
       <UpcomingSkills />
       <Testimonials />
+      <CoursesSection />
       <CompanyShowcase />
       <WhyChooseUs />
       <FAQ />

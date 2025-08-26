@@ -74,8 +74,7 @@ export default function Footer() {
               <li><Link to="/blog" className="hover:text-edtech-orange transition-colors font-medium">Blog</Link></li>
               <li><Link to="/pricing" className="hover:text-edtech-orange transition-colors font-medium">Pricing</Link></li>
               <li><Link to="/contact" className="hover:text-edtech-orange transition-colors font-medium">Contact</Link></li>
-              <li><a href="#" className="hover:text-edtech-orange transition-colors font-medium">Careers</a></li>
-            </ul>
+     </ul>
           </div>
         </div>
 
