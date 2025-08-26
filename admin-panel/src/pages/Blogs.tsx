@@ -76,7 +76,7 @@ const BlogsList: React.FC = () => {
     // Set image preview - handle both filename and URL cases
     const imageValue = blog.image || '';
     if (imageValue && !imageValue.startsWith('http')) {
-      setImagePreview(`/api/uploads/blog-images/${imageValue}`);
+      setImagePreview(`${import.meta.env.VITE_API_BASE_URL}/uploads/blog-images/${imageValue}`);
     } else {
       setImagePreview(imageValue);
     }
@@ -84,7 +84,7 @@ const BlogsList: React.FC = () => {
     // Set avatar preview - handle both filename and URL cases
     const avatarValue = blog.author?.avatar || '';
     if (avatarValue && !avatarValue.startsWith('http')) {
-      setAvatarPreview(`/api/uploads/blog-images/${avatarValue}`);
+      setAvatarPreview(`${import.meta.env.VITE_API_BASE_URL}/uploads/blog-images/${avatarValue}`);
     } else {
       setAvatarPreview(avatarValue);
     }
@@ -726,7 +726,7 @@ const BlogsList: React.FC = () => {
                               <div className="w-full h-48 bg-gray-100 flex items-center justify-center rounded-t-lg overflow-hidden">
                   {blog.image ? (
               <img
-                      src={blog.image.startsWith('http') ? blog.image : `/api/uploads/blog-images/${blog.image}`}
+                      src={blog.image.startsWith('http') ? blog.image : `${import.meta.env.VITE_API_BASE_URL}/uploads/blog-images/${blog.image}`}
                 alt={blog.title}
                       className="w-full h-full object-cover"
                 onError={(e) => {

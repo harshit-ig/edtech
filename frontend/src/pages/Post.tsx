@@ -262,7 +262,7 @@ export default function PostPage() {
                   {post.author.avatar ? (
                     <div className="w-16 h-16 rounded-full overflow-hidden border border-white/20">
                       <img 
-                        src={post.author.avatar.startsWith('http') ? post.author.avatar : `/api/uploads/blog-images/${post.author.avatar}`}
+                        src={post.author.avatar.startsWith('http') ? post.author.avatar : `${import.meta.env.VITE_API_BASE_URL}/uploads/blog-images/${post.author.avatar}`}
                         alt={post.author.name}
                         className="w-full h-full object-cover"
                         onError={(e) => {
@@ -365,7 +365,7 @@ export default function PostPage() {
                       {post.author.avatar ? (
                         <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-100">
                           <img 
-                            src={post.author.avatar.startsWith('http') ? post.author.avatar : `/api/uploads/blog-images/${post.author.avatar}`}
+                            src={post.author.avatar.startsWith('http') ? post.author.avatar : `${import.meta.env.VITE_API_BASE_URL}/uploads/blog-images/${post.author.avatar}`}
                             alt={post.author.name}
                             className="w-full h-full object-cover"
                             onError={(e) => {
@@ -434,7 +434,7 @@ export default function PostPage() {
                 <div className="aspect-video rounded-3xl mb-12 border border-gray-200 shadow-lg overflow-hidden group">
                   {post.image ? (
                     <img 
-                      src={post.image.startsWith('http') ? post.image : `/api/uploads/blog-images/${post.image}`}
+                      src={post.image.startsWith('http') ? post.image : `${import.meta.env.VITE_API_BASE_URL}/uploads/blog-images/${post.image}`}
                       alt={post.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       onError={(e) => {
@@ -600,7 +600,7 @@ export default function PostPage() {
                       {relatedPost.image ? (
                         <div className="w-full h-full">
                           <img 
-                            src={relatedPost.image.startsWith('http') ? relatedPost.image : `/api/uploads/blog-images/${relatedPost.image}`}
+                            src={relatedPost.image.startsWith('http') ? relatedPost.image : `${import.meta.env.VITE_API_BASE_URL}/uploads/blog-images/${relatedPost.image}`}
                             alt={relatedPost.title}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             onError={(e) => {
@@ -672,7 +672,7 @@ export default function PostPage() {
                           {relatedPost.author.avatar ? (
                             <div className="w-8 h-8 rounded-full overflow-hidden">
                               <img 
-                                src={relatedPost.author.avatar.startsWith('http') ? relatedPost.author.avatar : `/api/uploads/blog-images/${relatedPost.author.avatar}`}
+                                src={relatedPost.author.avatar.startsWith('http') ? relatedPost.author.avatar : `${import.meta.env.VITE_API_BASE_URL}/uploads/blog-images/${relatedPost.author.avatar}`}
                                 alt={relatedPost.author.name}
                                 className="w-full h-full object-cover"
                                 onError={(e) => {

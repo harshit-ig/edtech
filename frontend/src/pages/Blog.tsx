@@ -218,7 +218,7 @@ export default function BlogPage() {
                       {post.image ? (
                         <div className="w-full h-full">
                           <img 
-                            src={post.image.startsWith('http') ? post.image : `/api/uploads/blog-images/${post.image}`} 
+                            src={post.image.startsWith('http') ? post.image : `${import.meta.env.VITE_API_BASE_URL}/uploads/blog-images/${post.image}`} 
                             alt={post.title}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             onError={(e) => {
@@ -290,7 +290,7 @@ export default function BlogPage() {
                           {post.author.avatar ? (
                           <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-100">
                             <img 
-                              src={post.author.avatar.startsWith('http') ? post.author.avatar : `/api/uploads/blog-images/${post.author.avatar}`} 
+                              src={post.author.avatar.startsWith('http') ? post.author.avatar : `${import.meta.env.VITE_API_BASE_URL}/uploads/blog-images/${post.author.avatar}`} 
                               alt={post.author.name}
                               className="w-full h-full object-cover"
                               onError={(e) => {
@@ -378,7 +378,7 @@ export default function BlogPage() {
                     {post.image && (
                       <div className="w-full h-44 overflow-hidden">
                         <img 
-                          src={post.image.startsWith('http') ? post.image : `/api/uploads/blog-images/${post.image}`} 
+                          src={post.image.startsWith('http') ? post.image : `${import.meta.env.VITE_API_BASE_URL}/uploads/blog-images/${post.image}`} 
                           alt={post.title}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           onError={(e) => {
@@ -449,7 +449,7 @@ export default function BlogPage() {
                           {post.author.avatar ? (
                             <div className="w-8 h-8 rounded-full overflow-hidden border border-white/20">
                               <img 
-                                src={post.author.avatar.startsWith('http') ? post.author.avatar : `/api/uploads/blog-images/${post.author.avatar}`} 
+                                src={post.author.avatar.startsWith('http') ? post.author.avatar : `${import.meta.env.VITE_API_BASE_URL}/uploads/blog-images/${post.author.avatar}`} 
                                 alt={post.author.name}
                                 className="w-full h-full object-cover"
                                 onError={(e) => {

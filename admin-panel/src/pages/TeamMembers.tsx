@@ -56,7 +56,7 @@ const TeamMembersList: React.FC = () => {
     // Set image preview - handle both filename and URL cases
     const imageValue = member.image || '';
     if (imageValue && !imageValue.startsWith('http')) {
-      setImagePreview(`/api/uploads/team-images/${imageValue}`);
+      setImagePreview(`${import.meta.env.VITE_API_BASE_URL}/uploads/team-images/${imageValue}`);
     } else {
       setImagePreview(imageValue);
     }
@@ -372,7 +372,7 @@ const TeamMembersList: React.FC = () => {
               {/* Profile Image */}
               <div className="mx-auto w-24 h-24 mb-4">
                 <img
-                  src={member.image.startsWith('http') ? member.image : `/api/uploads/team-images/${member.image}`}
+                  src={member.image.startsWith('http') ? member.image : `${import.meta.env.VITE_API_BASE_URL}/uploads/team-images/${member.image}`}
                   alt={member.name}
                   className="w-24 h-24 rounded-full object-cover border-4 border-gray-100"
                   onError={(e) => {
