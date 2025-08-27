@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { coursesApi, courseDetailsApi, coursePricingApi, iconsApi } from '../lib/api';
 import type { Course, CourseDetails, CoursePricing } from '../types';
-import { Plus, Edit, Trash2, Eye, Search, Save, X, BookOpen, DollarSign, Info, GraduationCap, Settings, Star, ChevronDown, Upload } from 'lucide-react';
+import { Plus, Edit, Trash2, Search, Save, X, BookOpen, DollarSign, Info, GraduationCap, Settings, Star, ChevronDown, Upload } from 'lucide-react';
 
 interface UnifiedCourseData {
   // Basic course info (from Courses collection)
@@ -2492,9 +2492,6 @@ const UnifiedCourseManagement: React.FC = () => {
                   </span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <button className="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-gray-50">
-                    <Eye className="w-4 h-4" />
-                  </button>
                   <button 
                     onClick={() => handleEdit(course)}
                     className="p-2 text-gray-400 hover:text-green-600 rounded-lg hover:bg-gray-50"

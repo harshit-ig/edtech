@@ -9,7 +9,6 @@ import {
   Sparkles,
   BarChart3,
   Calendar,
-  Laptop,
   HelpCircle,
   Star,
   MessageSquare,
@@ -17,6 +16,7 @@ import {
   Ticket,
   UserCheck
 } from 'lucide-react';
+import Logo from './Logo';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -55,9 +55,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         {/* Logo */}
         <div className="sidebar-header">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
-              <Laptop className="w-5 h-5 text-white" />
-            </div>
+            <Logo size={40} />
             <div>
               <h1 className="text-lg font-bold text-gray-900">EdTech Admin</h1>
               <p className="text-xs text-gray-500">Management Panel</p>

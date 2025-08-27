@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { blogsApi } from '../lib/api';
 import type { BlogPost } from '../types';
-import { Plus, Edit, Trash2, Eye, Search, Calendar, User, Save, X, Upload, Image, File } from 'lucide-react';
+import { Plus, Edit, Trash2, Search, Calendar, User, Save, X, Upload, Image, File } from 'lucide-react';
 
 const BlogsList: React.FC = () => {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
@@ -809,9 +809,6 @@ const BlogsList: React.FC = () => {
               {/* Actions */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <button className="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-gray-50">
-                    <Eye className="w-4 h-4" />
-                  </button>
                   <button 
                     onClick={() => handleEdit(blog)}
                     className="p-2 text-gray-400 hover:text-green-600 rounded-lg hover:bg-gray-50"

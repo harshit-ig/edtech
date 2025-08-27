@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { teamMembersApi } from '../lib/api';
 import type { TeamMember } from '../types';
-import { Plus, Edit, Trash2, Eye, Search, Linkedin, Twitter, Save, X, Upload, Image } from 'lucide-react';
+import { Plus, Edit, Trash2, Search, Linkedin, Twitter, Save, X, Upload, Image } from 'lucide-react';
 
 const TeamMembersList: React.FC = () => {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
@@ -15,10 +15,18 @@ const TeamMembersList: React.FC = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const editFormRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetchTeamMembers();
   }, []);
+
+  // Scroll to edit form when editingId is set
+  useEffect(() => {
+    if (editingId && editFormRef.current) {
+      editFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [editingId]);
 
   const fetchTeamMembers = async () => {
     try {
@@ -66,6 +74,8 @@ const TeamMembersList: React.FC = () => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    
+      setImagePreview('')
     
     setImageFile(file);
     
@@ -205,7 +215,7 @@ const TeamMembersList: React.FC = () => {
 
       {/* Edit Form */}
       {editingId && (
-        <div className="card">
+        <div className="card" ref={editFormRef}>
           <div className="card-header">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-medium">
@@ -264,21 +274,6 @@ const TeamMembersList: React.FC = () => {
                         src={imagePreview}
                         alt="Profile image preview"
                         className="h-32 w-32 object-cover mx-auto rounded-full"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          // Prevent infinite retry by checking if we're already using a fallback
-                          if (!target.dataset.fallbackUsed) {
-                            target.dataset.fallbackUsed = 'true';
-                            target.src = '/api/placeholder/150/150';
-                          } else {
-                            // If fallback also fails, show a default avatar
-                            target.style.display = 'none';
-                            const fallbackDiv = document.createElement('div');
-                            fallbackDiv.className = 'h-32 w-32 mx-auto rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold text-2xl';
-                            fallbackDiv.textContent = '👤';
-                            target.parentNode?.appendChild(fallbackDiv);
-                          }
-                        }}
                       />
                       <button
                         onClick={() => {
@@ -433,9 +428,6 @@ const TeamMembersList: React.FC = () => {
 
               {/* Actions */}
               <div className="flex justify-center space-x-2">
-                <button className="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-gray-50">
-                  <Eye className="w-4 h-4" />
-                </button>
                 <button 
                   onClick={() => handleEdit(member)}
                   className="p-2 text-gray-400 hover:text-green-600 rounded-lg hover:bg-gray-50"
