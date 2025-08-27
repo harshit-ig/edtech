@@ -143,16 +143,6 @@ const Login: React.FC = () => {
                 </button>
               </div>
             </form>
-
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h4 className="text-sm font-medium text-blue-900 mb-2">Demo Credentials</h4>
-                <div className="text-xs text-blue-700 space-y-1">
-                  <p><strong>Email:</strong> admin@edtech.com</p>
-                  <p><strong>Password:</strong> admin123456</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
