@@ -84,11 +84,6 @@ export default function Footer() {
             <div className="text-white/60 text-sm">
               © 2025 EdTech Informative. All rights reserved.
             </div>
-            <div className="flex gap-6 text-sm">
-              <Link to="/privacy" className="text-white/60 hover:text-white transition-colors">Privacy Policy</Link>
-              <Link to="/terms" className="text-white/60 hover:text-white transition-colors">Terms of Service</Link>
-              <Link to="/contact" className="text-white/60 hover:text-white transition-colors">Support</Link>
-            </div>
           </div>
         </div>
       </div>
