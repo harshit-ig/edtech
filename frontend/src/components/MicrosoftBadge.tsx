@@ -23,9 +23,9 @@ export default function MicrosoftBadge({ className = "", size = 'md' }: Microsof
   };
 
   return (
-    <div className={`inline-flex items-center bg-gradient-to-r from-edtech-blue/30 to-edtech-blue/40 backdrop-blur-lg text-white ${sizeClasses[size]} rounded-2xl font-bold border-2 border-blue-400/50 shadow-lg shadow-blue-500/25 ${className}`}>
+     <div className={`inline-flex items-center bg-gradient-to-r from-edtech-blue/30 to-edtech-blue/40 backdrop-blur-lg text-white ${sizeClasses[size]} rounded-2xl font-bold border-2 border-blue-400/50 shadow-lg shadow-blue-500/25 ${className}`}>
       {/* Microsoft Logo Section */}
-      <div className="flex items-center bg-white rounded-lg px-3 py-1 mr-3">
+      <div className="flex items-center bg-white rounded-lg px-3 py-1 mr-3 min-w-fit">
         <div className="flex items-center">
           <div className="grid grid-cols-2 gap-0.5 mr-2">
             <div className={`${logoSizes[size]} bg-red-500`}></div>
