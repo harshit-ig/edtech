@@ -74,7 +74,7 @@ export default function Testimonials() {
             <span className="text-edtech-orange font-extrabold"> learners have to say</span>
           </h2>
           <p className="mt-4 text-gray-800 max-w-3xl mx-auto font-semibold">
-            Real stories from professionals who transformed their careers with 1to10x. Join thousands of learners who've accelerated their growth and landed their dream jobs.
+           Real stories of growth and achievement. See how EdTech Informative is guiding learners to new opportunities and career breakthroughs.
           </p>
         </div>
 
