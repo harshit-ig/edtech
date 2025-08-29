@@ -109,12 +109,23 @@ export default function CoursesSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
           {featuredCourses.map((c, idx) => (
             <article key={`${c.id}-${idx}`} className="course-card p-4 flex flex-col relative reveal" data-accent={c.accent.replace('edtech-','')} style={{ animationDelay: `${idx * 150}ms` }}> 
-              <div className="course-head">
-                <span className="cat-pill">{c.category}</span>
-                <div className="course-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d={courseIcons[c.id] || 'M13 10V3L4 14h7v7l9-11h-7z'}/>
-                  </svg>
+              <div
+                className="course-head relative overflow-hidden"
+                style={c.image ? {
+                  backgroundImage: `url(${import.meta.env.VITE_API_BASE_URL}/uploads/course-images/${c.image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  minHeight: '120px',
+                  borderRadius: '0.75rem',
+                } : {}}
+              >
+                <div className={c.image ? 'absolute inset-0 bg-black/40 z-0' : ''} />
+                <div className="relative z-10 flex items-center gap-2 p-3">
+                  <div className="course-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d={courseIcons[c.id] || 'M13 10V3L4 14h7v7l9-11h-7z'}/>
+                    </svg>
+                  </div>
                 </div>
               </div>
 
