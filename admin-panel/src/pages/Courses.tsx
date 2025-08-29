@@ -17,6 +17,7 @@ interface UnifiedCourseData {
   accent: 'edtech-green' | 'edtech-orange' | 'edtech-red' | 'edtech-blue';
   iconName?: string;
   featured?: boolean;
+  image?: string; // Course image filename
 
   // Detailed course info (from CourseDetails collection)
   overview: string;
