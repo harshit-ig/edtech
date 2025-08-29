@@ -187,14 +187,13 @@ const UserManagement: React.FC = () => {
   const loadStats = async () => {
     try {
       if (activeTab === 'customers') {
-        const response = await customersApi.getStats(30) as ApiResponse<any>;
-        if (response.success) {
-          setCustomerStats(response.stats);
+        const customerResponse = await customersApi.getStats(30) as ApiResponse<any>;
+        if (customerResponse.success) {
+          setCustomerStats(customerResponse.stats);
         }
-      } else {
-        const response = await inquiriesApi.getStats(30) as ApiResponse<any>;
-        if (response.success) {
-          setInquiryStats(response.stats);
+        const inquiryResponse = await inquiriesApi.getStats(30) as ApiResponse<any>;
+        if (inquiryResponse.success) {
+          setInquiryStats(inquiryResponse.stats);
         }
       }
     } catch (error) {
