@@ -34,4 +34,19 @@ router.get('/team-images/:filename', (req: Request, res: Response) => {
   return res.sendFile(filePath);
 });
 
+// Serve static files from the uploads directory
+router.get('/course-images/:filename', (req: Request, res: Response) => {
+  const { filename } = req.params;
+  const filePath = path.join(__dirname, '../../../uploads/course-images', filename);
+
+  // Check if file exists first
+  const fs = require('fs');
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).send('Image not found');
+  }
+  
+  // Send the file
+  return res.sendFile(filePath);
+});
+
 export default router;

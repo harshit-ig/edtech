@@ -1,5 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { Course, CourseDetails, CoursePricing } from '../types';
+import fs from 'fs';
+import path from 'path';
 
 // Course Schema
 const CourseSchema = new Schema<Course & Document>({
@@ -102,6 +104,51 @@ const CoursePricingSchema = new Schema<CoursePricing & Document>({
   cta: { type: String, required: true },
   popular: { type: Boolean, default: false }
 }, { timestamps: true });
+
+
+// Helper method to delete image file when course is deleted
+CourseSchema.pre('findOneAndDelete', async function(next) {
+  try {
+    // @ts-ignore - get the document that will be deleted
+    const doc = await this.model.findOne(this.getFilter());
+    if (doc && doc.image) {
+      // Don't delete if it's a URL (legacy data)
+      if (!doc.image.startsWith('http')) {
+        const imagePath = path.join(__dirname, '../../../uploads/course-images', doc.image);
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+        }
+      }
+    }
+    next();
+  } catch (error) {
+    console.error('Error deleting course image file:', error);
+    next();
+  }
+});
+
+// Helper method to clean up old image when updating with a new one
+CourseSchema.pre('findOneAndUpdate', async function(next) {
+  try {
+    const update = this.getUpdate() as any;
+    if (!update || !update.image) {
+      return next();
+    }
+    const doc = await this.model.findOne(this.getFilter()) as any;
+    if (doc && doc.image && update.image !== doc.image) {
+      if (!doc.image.startsWith('http')) {
+        const oldImagePath = path.join(__dirname, '../../../uploads/course-images', doc.image);
+        if (fs.existsSync(oldImagePath)) {
+          fs.unlinkSync(oldImagePath);
+        }
+      }
+    }
+    next();
+  } catch (error) {
+    console.error('Error cleaning up old course image file:', error);
+    next();
+  }
+});
 
 // Create and export models
 export const CourseModel = mongoose.model<Course & Document>('Course', CourseSchema);
