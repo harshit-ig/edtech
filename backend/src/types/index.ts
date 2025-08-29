@@ -118,6 +118,7 @@ export interface Course {
   accent: 'edtech-green' | 'edtech-orange' | 'edtech-red';
   iconName?: string;
   featured?: boolean;
+  image?: string; // Course image filename
 }
 
 export interface CourseDetails {

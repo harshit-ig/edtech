@@ -16,7 +16,8 @@ const CourseSchema = new Schema<Course & Document>({
     enum: ['edtech-green', 'edtech-orange', 'edtech-red']
   },
   iconName: { type: String },
-  featured: { type: Boolean, default: false }
+  featured: { type: Boolean, default: false },
+  image: { type: String }
 }, { timestamps: true });
 
 // Course Details Schema

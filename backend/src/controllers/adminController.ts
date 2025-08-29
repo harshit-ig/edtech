@@ -177,8 +177,85 @@ class AdminController {
 // Course Controllers
 export const getAllCourses = AdminController.getAll(CourseModel);
 export const getCourseById = AdminController.getById(CourseModel);
-export const createCourse = AdminController.create(CourseModel);
-export const updateCourse = AdminController.update(CourseModel);
+export const createCourse = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const courseData = req.body;
+    if (req.file) {
+      courseData.image = req.file.filename;
+    }
+    const course = new CourseModel(courseData);
+    await course.save();
+    const responseData = course.toObject() as any;
+    if (responseData.image) {
+      responseData.imageUrl = getImageUrl(responseData.image, req, 'course');
+    }
+    res.status(201).json({
+      success: true,
+      message: 'Course created successfully.',
+      data: responseData
+    });
+  } catch (error: any) {
+    console.error('Create course error:', error);
+    if (error.code === 11000) {
+      res.status(409).json({
+        success: false,
+        message: 'A course with this identifier already exists.',
+        error: error.message
+      });
+      return;
+    }
+    res.status(400).json({
+      success: false,
+      message: 'Invalid data for course creation.',
+      error: error.message
+    });
+  }
+};
+
+export const updateCourse = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const courseData = req.body;
+    if (req.file) {
+      courseData.image = req.file.filename;
+    }
+    const course = await CourseModel.findByIdAndUpdate(id, courseData, {
+      new: true,
+      runValidators: true
+    });
+    if (!course) {
+      res.status(404).json({
+        success: false,
+        message: 'Course not found.'
+      });
+      return;
+    }
+    const responseData = course.toObject() as any;
+    if (responseData.image) {
+      responseData.imageUrl = getImageUrl(responseData.image, req, 'course');
+    }
+    res.json({
+      success: true,
+      message: 'Course updated successfully.',
+      data: responseData
+    });
+  } catch (error: any) {
+    console.error('Update course error:', error);
+    if (error.code === 11000) {
+      res.status(409).json({
+        success: false,
+        message: 'A course with this identifier already exists.',
+        error: error.message
+      });
+      return;
+    }
+    res.status(400).json({
+      success: false,
+      message: 'Invalid data for course update.',
+      error: error.message
+    });
+  }
+};
 export const deleteCourse = AdminController.delete(CourseModel);
 
 // Course Details Controllers

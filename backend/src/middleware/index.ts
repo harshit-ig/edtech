@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import rateLimit from 'express-rate-limit';
 import jwt from 'jsonwebtoken';
-import { uploadBlogImage, uploadBlogImages, uploadTeamImage, handleUploadError, getImageUrl } from './upload';
+import { uploadBlogImage, uploadBlogImages, uploadTeamImage, uploadCourseImage, handleUploadError, getImageUrl } from './upload';
 
 // Rate limiting middleware
 export const createRateLimiter = (windowMs: number = 15 * 60 * 1000, max: number = 10000) => {
@@ -120,7 +120,7 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction): 
 };
 
 // Export upload middleware
-export { uploadBlogImage, uploadBlogImages, uploadTeamImage, handleUploadError, getImageUrl };
+export { uploadBlogImage, uploadBlogImages, uploadTeamImage, uploadCourseImage, handleUploadError, getImageUrl };
 const allowedOrigins: (string | RegExp)[] = [
   process.env.FRONTEND_URL,
   process.env.FRONTEND_URL_WWW,

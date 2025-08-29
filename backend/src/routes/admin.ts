@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { requireAdminAuth } from '../middleware/auth';
-import { createAdminRateLimiter, uploadBlogImages, uploadTeamImage, handleUploadError } from '../middleware';
+import { createAdminRateLimiter, uploadBlogImages, uploadTeamImage, uploadCourseImage, handleUploadError } from '../middleware';
 import {
   getAllBlogs,
   getBlogById,
@@ -158,8 +158,8 @@ router.get('/dashboard/stats', getDashboardStats);
  */
 router.get('/courses', getAllCourses);
 router.get('/courses/:id', getCourseById);
-router.post('/courses', createCourse);
-router.put('/courses/:id', updateCourse);
+router.post('/courses', uploadCourseImage, handleUploadError, createCourse);
+router.put('/courses/:id', uploadCourseImage, handleUploadError, updateCourse);
 router.delete('/courses/:id', deleteCourse);
 
 /**

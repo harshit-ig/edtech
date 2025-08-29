@@ -437,8 +437,8 @@ export default function CoursePage() {
               // Default stats if not provided
               [
                 { label: "Students Trained", value: "1000+", color: "edtech-green" },
-                { label: "Job Placement", value: "90%", color: "green-600" },
-                { label: "Average Rating", value: "4.8★", color: "blue-600" },
+                { label: "Job Placement", value: "90%", color: "edtech-blue" },
+                { label: "Average Rating", value: "4.8★", color: "edtech-red" },
                 { label: "Salary Increase", value: "75%", color: "edtech-orange" }
               ].map((stat, index) => (
                 <div key={index} className="text-center group">

@@ -17,24 +17,25 @@ const createUploadDirectories = () => {
   const baseDir = path.join(__dirname, '../../../uploads');
   const blogImagesDir = path.join(baseDir, 'blog-images');
   const teamImagesDir = path.join(baseDir, 'team-images');
+  const courseImagesDir = path.join(baseDir, 'course-images');
   
   if (!fs.existsSync(baseDir)) {
     fs.mkdirSync(baseDir, { recursive: true });
   }
-  
   if (!fs.existsSync(blogImagesDir)) {
     fs.mkdirSync(blogImagesDir, { recursive: true });
   }
-  
   if (!fs.existsSync(teamImagesDir)) {
     fs.mkdirSync(teamImagesDir, { recursive: true });
   }
-  
-  return { baseDir, blogImagesDir, teamImagesDir };
+  if (!fs.existsSync(courseImagesDir)) {
+    fs.mkdirSync(courseImagesDir, { recursive: true });
+  }
+  return { baseDir, blogImagesDir, teamImagesDir, courseImagesDir };
 };
 
 // Create directories
-const { blogImagesDir, teamImagesDir } = createUploadDirectories();
+const { blogImagesDir, teamImagesDir, courseImagesDir } = createUploadDirectories();
 
 // Configure storage for blog images
 const blogStorage = multer.diskStorage({
@@ -64,6 +65,18 @@ const teamStorage = multer.diskStorage({
   }
 });
 
+// Configure storage for course images
+const courseStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, courseImagesDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + crypto.randomBytes(6).toString('hex');
+    const fileExt = path.extname(file.originalname).toLowerCase();
+    cb(null, `course-${uniqueSuffix}${fileExt}`);
+  }
+});
+
 // Create file filter to validate uploads
 const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
   // Check if the file type is in our allowed list
@@ -90,6 +103,14 @@ const teamUpload = multer({
     fileSize: 5 * 1024 * 1024, // 5MB max file size
   }
 });
+const courseUpload = multer({
+  storage: courseStorage,
+  fileFilter,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB max file size
+  }
+});
+
 
 // Middleware to handle file upload errors
 export const handleUploadError = (err: any, req: Request, res: Response, next: NextFunction): void => {
@@ -131,17 +152,19 @@ export const uploadBlogImages = blogUpload.fields([
 // For team member image uploads
 export const uploadTeamImage = teamUpload.single('image');
 
+
+// For course image uploads
+export const uploadCourseImage = courseUpload.single('image');
+
 // Helper function to get the public URL for an image
-export const getImageUrl = (filename: string, req: Request, type: 'blog' | 'team' = 'blog'): string => {
+export const getImageUrl = (filename: string, req: Request, type: 'blog' | 'team' | 'course' = 'blog'): string => {
   if (!filename) return '';
-  
-  // If it already starts with http, assume it's an external URL
   if (filename.startsWith('http')) {
     return filename;
   }
-  
-  // Otherwise, construct the URL to our server's image route
   const baseUrl = `${req.protocol}://${req.get('host')}`;
-  const folder = type === 'team' ? 'team-images' : 'blog-images';
+  let folder = 'blog-images';
+  if (type === 'team') folder = 'team-images';
+  if (type === 'course') folder = 'course-images';
   return `${baseUrl}/uploads/${folder}/${filename}`;
 };
