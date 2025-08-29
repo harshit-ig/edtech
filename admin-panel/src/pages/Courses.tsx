@@ -630,6 +630,7 @@ const UnifiedCourseManagement: React.FC = () => {
         iconName: formData.iconName,
         featured: formData.featured || false
       };
+      // If imageFile is present, upload it. If image is explicitly set to '', send that as well.
       if (imageFile) {
         // Use FormData for file upload
         const formDataObj = new FormData();
@@ -640,6 +641,9 @@ const UnifiedCourseManagement: React.FC = () => {
         });
         formDataObj.append('image', imageFile);
         courseData = formDataObj;
+      } else if (formData.image === '') {
+        // If image was removed, send image: '' to backend
+        (courseData as Partial<Course>).image = '';
       }
 
       const courseDetailsData: Partial<CourseDetails> = {
