@@ -186,15 +186,13 @@ const UserManagement: React.FC = () => {
 
   const loadStats = async () => {
     try {
-      if (activeTab === 'customers') {
-        const customerResponse = await customersApi.getStats(30) as ApiResponse<any>;
-        if (customerResponse.success) {
-          setCustomerStats(customerResponse.stats);
-        }
-        const inquiryResponse = await inquiriesApi.getStats(30) as ApiResponse<any>;
-        if (inquiryResponse.success) {
-          setInquiryStats(inquiryResponse.stats);
-        }
+      const customerResponse = await customersApi.getStats(30) as ApiResponse<any>;
+      if (customerResponse.success) {
+        setCustomerStats(customerResponse.stats);
+      }
+      const inquiryResponse = await inquiriesApi.getStats(30) as ApiResponse<any>;
+      if (inquiryResponse.success) {
+        setInquiryStats(inquiryResponse.stats);
       }
     } catch (error) {
       console.error('Error loading stats:', error);
@@ -209,7 +207,7 @@ const UserManagement: React.FC = () => {
   const handleExport = async () => {
     try {
       setLoading(true);
-      
+
       if (activeTab === 'customers') {
         await customersApi.export({ format: 'csv', ...filters });
         toast.success('Customers data exported successfully!');
@@ -232,12 +230,12 @@ const UserManagement: React.FC = () => {
       rejected: 'bg-red-100 text-red-800',
       completed: 'bg-blue-100 text-blue-800',
       cancelled: 'bg-gray-100 text-gray-800',
-      
+
       // Payment status colors
       paid: 'bg-green-100 text-green-800',
       failed: 'bg-red-100 text-red-800',
       refunded: 'bg-orange-100 text-orange-800',
-      
+
       // Inquiry status colors
       new: 'bg-blue-100 text-blue-800',
       contacted: 'bg-yellow-100 text-yellow-800',
@@ -264,7 +262,7 @@ const UserManagement: React.FC = () => {
       } else {
         await inquiriesApi.delete(item.id);
       }
-      
+
       // Reload data
       loadData();
       toast.success('Item deleted successfully');
@@ -276,14 +274,14 @@ const UserManagement: React.FC = () => {
   const handleStatusChange = async (item: Customer | Inquiry, newStatus: string, statusType?: 'customer' | 'payment') => {
     try {
       if (activeTab === 'customers') {
-        const updateData = statusType === 'payment' 
+        const updateData = statusType === 'payment'
           ? { paymentStatus: newStatus }
           : { customerStatus: newStatus };
         await customersApi.update(item.id, updateData);
       } else {
         await inquiriesApi.update(item.id, { status: newStatus });
       }
-      
+
       // Reload data
       loadData();
       toast.success('Status updated successfully');
@@ -324,11 +322,10 @@ const UserManagement: React.FC = () => {
           <nav className="-mb-px flex space-x-8">
             <button
               onClick={() => setActiveTab('customers')}
-              className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 ${
-                activeTab === 'customers'
+              className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 ${activeTab === 'customers'
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
+                }`}
             >
               <Users className="w-4 h-4" />
               <span>Customers</span>
@@ -340,11 +337,10 @@ const UserManagement: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab('inquiries')}
-              className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 ${
-                activeTab === 'inquiries'
+              className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 ${activeTab === 'inquiries'
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
+                }`}
             >
               <MessageSquare className="w-4 h-4" />
               <span>Inquiries</span>
@@ -713,7 +709,7 @@ const UserManagement: React.FC = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <div className="flex items-center space-x-2">
-                            <button 
+                            <button
                               onClick={() => handleDelete(customer)}
                               className="text-red-600 hover:text-red-900"
                               title="Delete"
@@ -777,7 +773,7 @@ const UserManagement: React.FC = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <div className="flex items-center space-x-2">
-                            <button 
+                            <button
                               onClick={() => handleDelete(inquiry)}
                               className="text-red-600 hover:text-red-900"
                               title="Delete"
@@ -839,11 +835,10 @@ const UserManagement: React.FC = () => {
                         <button
                           key={page}
                           onClick={() => setPagination(prev => ({ ...prev, page }))}
-                          className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                            page === pagination.page
+                          className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${page === pagination.page
                               ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
                               : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
-                          }`}
+                            }`}
                         >
                           {page}
                         </button>
