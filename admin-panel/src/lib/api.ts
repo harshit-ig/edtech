@@ -178,8 +178,30 @@ export const adminApi = {
 export const coursesApi = {
   getAll: () => adminApi.getAll('courses'),
   getById: (id: string) => adminApi.getById('courses', id),
-  create: (data: unknown) => adminApi.create('courses', data),
-  update: (id: string, data: unknown) => adminApi.update('courses', id, data),
+  create: (data: unknown) => {
+    // For multipart/form-data (file uploads)
+    if (data instanceof FormData) {
+      return api.post('/admin/courses', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(response => response.data);
+    }
+    // For regular JSON data
+    return adminApi.create('courses', data);
+  },
+  update: (id: string, data: unknown) => {
+    // For multipart/form-data (file uploads)
+    if (data instanceof FormData) {
+      return api.put(`/admin/courses/${id}`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(response => response.data);
+    }
+    // For regular JSON data
+    return adminApi.update('courses', id, data);
+  },
   delete: (id: string) => adminApi.delete('courses', id),
 };
 

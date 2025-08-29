@@ -361,6 +361,10 @@ const UnifiedCourseManagement: React.FC = () => {
   const [formData, setFormData] = useState<Partial<UnifiedCourseData>>({});
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<'basic' | 'details' | 'features' | 'curriculum' | 'testimonials' | 'pricing'>('basic');
+  // Image upload state
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
   
   // Checkbox states for "Same as..." functionality
   const [sameAsStates, setSameAsStates] = useState({
@@ -517,6 +521,8 @@ const UnifiedCourseManagement: React.FC = () => {
       popular: false,
       cta: ''
     });
+    setImageFile(null);
+    setImagePreview('');
     setActiveTab('basic');
     // Reset same as states
     setSameAsStates({
@@ -535,6 +541,17 @@ const UnifiedCourseManagement: React.FC = () => {
   const handleEdit = (course: UnifiedCourseData) => {
     setEditingId(course._id || '');
     setFormData(course);
+    // Set image preview if image exists
+    if (course.image) {
+      if (course.image.startsWith('http')) {
+        setImagePreview(course.image);
+      } else {
+        setImagePreview(`${import.meta.env.VITE_API_BASE_URL}/uploads/course-images/${course.image}`);
+      }
+    } else {
+      setImagePreview('');
+    }
+    setImageFile(null);
     setActiveTab('basic');
     // Reset same as states
     setSameAsStates({
@@ -548,6 +565,19 @@ const UnifiedCourseManagement: React.FC = () => {
       detailsPricingOriginal: false,
       detailsPricingDiscount: false
     });
+  };
+
+  // Handle image file selection
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImageFile(file);
+    // Create preview URL
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSave = async () => {
@@ -586,7 +616,8 @@ const UnifiedCourseManagement: React.FC = () => {
       setSaving(true);
       
       // Prepare data for each collection
-      const courseData: Partial<Course> = {
+      // --- COURSE IMAGE UPLOAD LOGIC ---
+      let courseData: Partial<Course> | FormData = {
         id: trimmedId,
         category: trimmedCategory,
         badge: formData.badge!,
@@ -598,14 +629,25 @@ const UnifiedCourseManagement: React.FC = () => {
         iconName: formData.iconName,
         featured: formData.featured || false
       };
+      if (imageFile) {
+        // Use FormData for file upload
+        const formDataObj = new FormData();
+        Object.entries(courseData).forEach(([key, value]) => {
+          if (value !== undefined && value !== null && key !== 'image') {
+            formDataObj.append(key, value as string);
+          }
+        });
+        formDataObj.append('image', imageFile);
+        courseData = formDataObj;
+      }
 
       const courseDetailsData: Partial<CourseDetails> = {
         courseId: trimmedId,
         overview: formData.overview!,
         features: formData.features || [],
-                  curriculum: formData.curriculum || [],
-          tools: formData.tools || [],
-          prerequisites: formData.prerequisites!,
+        curriculum: formData.curriculum || [],
+        tools: formData.tools || [],
+        prerequisites: formData.prerequisites!,
         testimonials: formData.testimonials || [],
         successStats: formData.successStats || [],
         pricing: {
@@ -629,7 +671,6 @@ const UnifiedCourseManagement: React.FC = () => {
             author: formData.trustIndicators?.testimonialPreview?.author || 'Anonymous'
           }
         },
-        
       };
 
       const coursePricingData: Partial<CoursePricing> = {
@@ -1233,6 +1274,57 @@ const UnifiedCourseManagement: React.FC = () => {
               {/* Basic Info Tab */}
               {activeTab === 'basic' && (
                 <div className="space-y-4">
+                  {/* Course Image Upload */}
+                  <div className="form-group">
+                    <label className="form-label">Course Image</label>
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                      <div className="space-y-6">
+                        {imagePreview ? (
+                          <div className="relative">
+                            <img
+                              src={imagePreview}
+                              alt="Course image preview"
+                              className="max-h-64 max-w-full mx-auto rounded-lg"
+                            />
+                            <button
+                              onClick={() => {
+                                setImagePreview('');
+                                setImageFile(null);
+                                setFormData({ ...formData, image: '' });
+                                if (fileInputRef.current) fileInputRef.current.value = '';
+                              }}
+                              className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                              title="Remove image"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center text-gray-500">
+                            <Upload className="w-16 h-16 mb-2 text-gray-400" />
+                            <p className="mb-2 text-sm">Drag and drop or click to upload</p>
+                            <p className="text-xs">PNG, JPG, GIF up to 5MB</p>
+                          </div>
+                        )}
+                        <div className="flex justify-center">
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/png,image/gif,image/webp"
+                            onChange={handleImageChange}
+                            className="hidden"
+                            ref={fileInputRef}
+                          />
+                          <button
+                            onClick={() => fileInputRef.current?.click()}
+                            className="btn btn-secondary"
+                          >
+                            <Upload className="w-4 h-4 mr-2" />
+                            {imagePreview ? 'Change Image' : 'Upload Image'}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
                     <p className="text-yellow-800 text-sm">
                       <span className="font-medium">Required fields:</span> All fields marked with * are required for Course schema
