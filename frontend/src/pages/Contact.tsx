@@ -28,23 +28,23 @@ export default function ContactPage() {
               Let's Start a <span className="text-transparent bg-clip-text bg-gradient-to-r from-edtech-green to-edtech-orange">Conversation</span>
             </h1>
             <p className="text-white/80 text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed">
-              Have questions about our courses? Need guidance on your tech career? 
-              We're here to help you succeed every step of the way.
+              ✨ Ready to level up? Have questions about our industry-leading programs? 
+              We're here to fast-track your career with personalized guidance every step of the way.
             </p>
             
             {/* Quick Contact Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
                 <div className="text-edtech-green text-2xl font-bold mb-2">&lt; 1 Hour</div>
-                <div className="text-white/80 text-sm">Average Response Time</div>
+                <div className="text-white/80 text-sm">🚀 Lightning-Fast Response</div>
               </div>
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
                 <div className="text-edtech-orange text-2xl font-bold mb-2">24/7</div>
-                <div className="text-white/80 text-sm">Support Available</div>
+                <div className="text-white/80 text-sm">🌟 Round-the-Clock Support</div>
               </div>
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
                 <div className="text-edtech-green text-2xl font-bold mb-2">98%</div>
-                <div className="text-white/80 text-sm">Satisfaction Rate</div>
+                <div className="text-white/80 text-sm">🌟 Elite Satisfaction Rate</div>
               </div>
             </div>
           </div>

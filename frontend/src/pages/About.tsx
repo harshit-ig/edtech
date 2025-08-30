@@ -107,8 +107,8 @@ export default function AboutPage() {
                 Transforming Lives Through <span className="text-transparent bg-clip-text bg-gradient-to-r from-edtech-green to-edtech-orange">Technology Education</span>
               </h1>
               <p className="text-white/80 text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
-                Since 2018, we've been on a mission to bridge the skills gap in technology by providing world-class, 
-                practical education that prepares students for successful careers in the digital economy.
+                Learn what matters, achieve what you dream — your future in tech starts here. Master in-demand skills
+                that prepare you for success in the rapidly evolving digital economy.
               </p>
             </div>
 
@@ -149,8 +149,8 @@ export default function AboutPage() {
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h3>
                 <p className="text-gray-700 text-lg leading-relaxed">
-                  To make high-quality technology education accessible to everyone, regardless of their background or location. 
-                  We believe that with the right guidance and resources, anyone can build a successful career in tech.
+                  🚀 To make next-gen technology education accessible to everyone, regardless of background or location.
+                  With expert guidance and cutting-edge resources, we empower anyone to build an exceptional career in tech.
                 </p>
               </div>
               
@@ -163,8 +163,8 @@ export default function AboutPage() {
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900 mb-6">Our Vision</h3>
                 <p className="text-gray-700 text-lg leading-relaxed">
-                  To be the world's leading platform for practical technology education, creating a future where talent 
-                  and opportunity meet, regardless of geographical or economic barriers.
+                  🌟 To be the world's premier platform for practical technology education, creating a future where top talent 
+                  and global opportunities connect seamlessly, transcending geographical and economic barriers.
                 </p>
               </div>
             </div>
@@ -179,7 +179,7 @@ export default function AboutPage() {
             <div className="text-center mb-16 about-reveal reveal">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Our Core <span className="text-edtech-green">Values</span></h2>
               <p className="text-white/70 text-xl max-w-3xl mx-auto leading-relaxed">
-                The principles that guide everything we do and shape the learning experience we create.
+                🚀 The principles that drive excellence in everything we do and shape the transformative learning experience we deliver.
               </p>
             </div>
 
@@ -210,7 +210,7 @@ export default function AboutPage() {
             <div className="text-center mb-16 about-reveal reveal">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Our <span className="text-edtech-orange">Journey</span></h2>
               <p className="text-white/70 text-xl max-w-3xl mx-auto leading-relaxed">
-                From a small startup to a global education platform - here's how we've grown together.
+                🌐 From ambitious beginnings to a global education powerhouse — discover the milestones that have defined our path to excellence.
               </p>
             </div>
 
@@ -252,7 +252,7 @@ export default function AboutPage() {
             <div className="text-center mb-16 about-reveal reveal">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Meet Our <span className="text-edtech-red">Team</span></h2>
               <p className="text-white/70 text-xl max-w-3xl mx-auto leading-relaxed">
-                Industry experts and educators passionate about transforming lives through technology.
+                🌟 Industry-leading experts and passionate educators dedicated to helping you master the tech of tomorrow, today.
               </p>
             </div>
 
@@ -308,8 +308,8 @@ export default function AboutPage() {
               </h2>
               
               <p className="text-white/80 text-xl mb-8 leading-relaxed max-w-3xl mx-auto">
-                Join our community of learners and start building the career you've always dreamed of. 
-                The future of tech is waiting for you, and we're here to guide you every step of the way.
+                Ready to level up? Join our community of high-achievers and fast-track your career with skills that matter.
+                Your gateway to global opportunities begins here — we'll guide you every step of the way.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -323,7 +323,7 @@ export default function AboutPage() {
                   to="/contact" 
                   className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105"
                 >
-                  💬 Get in Touch
+                  💬 Claim Your FREE Strategy Call
                 </Link>
               </div>
 

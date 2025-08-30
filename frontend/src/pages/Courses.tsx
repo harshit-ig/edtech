@@ -136,13 +136,13 @@ export default function CoursesPage() {
               <MicrosoftBadge size="lg" />
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold mb-8 leading-tight">
-              Master <span className="text-transparent bg-clip-text bg-gradient-to-r from-edtech-green to-edtech-orange">Tomorrow's</span> Skills Today
-            </h1>
-            <p className="text-white/80 text-xl md:text-2xl max-w-4xl mx-auto mb-12 leading-relaxed">
-              Explore our comprehensive collection of industry-leading courses designed by experts 
-              to accelerate your career growth and unlock limitless opportunities
-            </p>
+                          <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold mb-8 leading-tight">
+                Master <span className="text-transparent bg-clip-text bg-gradient-to-r from-edtech-green to-edtech-orange">Tomorrow's</span> Skills Today
+              </h1>
+              <p className="text-white/80 text-xl md:text-2xl max-w-4xl mx-auto mb-12 leading-relaxed">
+                ✨ Ready to level up? Explore our elite collection of industry-leading courses designed by experts 
+                to fast-track your career growth and position you among the top 1% of tech professionals
+              </p>
 
             {/* Course Stats Preview */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-4xl mx-auto mb-12">
@@ -212,7 +212,7 @@ export default function CoursesPage() {
                 <span className="text-edtech-blue">Featured</span> Courses
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Start with our most popular and highly-rated courses that have helped thousands advance their careers
+                🚀 Start with our top-rated programs that have transformed thousands of careers worldwide
               </p>
             </div>
 
@@ -428,8 +428,8 @@ export default function CoursesPage() {
               </h2>
               
               <p className="text-white/80 text-xl mb-8 leading-relaxed max-w-3xl mx-auto">
-                Join thousands of successful students who have transformed their careers with our expert-led programs. 
-                Get personalized guidance and start building the skills that top companies are looking for.
+                🌐 Your gateway to global careers starts here. Join our elite community of learners-turned-leaders
+                and master the skills that Fortune 500 companies are actively seeking right now.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -437,7 +437,7 @@ export default function CoursesPage() {
                   onClick={() => openModal("Book FREE Strategy Call", "Schedule a personalized consultation to discuss your career goals and find the perfect course for you")}
                   className="bg-gradient-to-r from-edtech-green to-edtech-orange text-black px-8 py-4 rounded-full font-bold text-lg hover:brightness-110 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                 >
-                  🎯 Book FREE Strategy Call
+                  🎯 Claim Your FREE Strategy Call
                 </button>
                 <Link 
                   to="/contact" 
