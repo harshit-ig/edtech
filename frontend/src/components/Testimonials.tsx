@@ -70,11 +70,11 @@ export default function Testimonials() {
             <span>SUCCESS STORIES</span>
           </div>
           <h2 className="mt-6 text-3xl md:text-4xl font-bold text-gray-900">
-            Hear what our 
-            <span className="text-edtech-orange font-extrabold"> learners have to say</span>
+           From Learners to 
+            <span className="text-edtech-orange font-extrabold"> Leaders</span>
           </h2>
           <p className="mt-4 text-gray-800 max-w-3xl mx-auto font-semibold">
-           Real stories of growth and achievement. See how EdTech Informative is guiding learners to new opportunities and career breakthroughs.
+           Discover how our learners turned skills into opportunities and dreams into careers.
           </p>
         </div>
 

@@ -74,15 +74,16 @@ export default function UpcomingSkills() {
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center mb-12">
           <div className="badge-hero mx-auto w-max">
-            <span>🚀</span>
-            <span>FUTURE-READY SKILLS</span>
+            <span>🌟</span>
+            <span>BE THE 1%</span>
           </div>
           <h2 className="mt-6 text-3xl md:text-4xl font-bold text-gray-900">
-            Master Tomorrow's 
-            <span className="text-edtech-orange font-extrabold"> Most Valuable Skills</span>
+            Next-Gen Skills for 
+            <span className="text-edtech-orange font-extrabold"> Next-Level Success</span>
           </h2>
           <p className="mt-4 text-gray-800 max-w-2xl mx-auto font-semibold">
-            Get ahead of 99% of professionals by mastering these breakthrough technologies before they become mainstream
+           Master the tech of tomorrow, today — stay 10 steps ahead while others are catching up.
+
           </p>
         </div>
 

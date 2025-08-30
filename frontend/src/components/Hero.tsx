@@ -91,7 +91,8 @@ export default function Hero() {
             </h1>
           </div>
           <p className="text-white/95 text-lg md:text-xl text-glow-white mb-8 max-w-2xl md:max-w-none">
-            Choose tech courses that fit your goals and shape a successful digital future.
+         🌐 Learn what matters, achieve what you dream — your future in tech starts here.
+
           </p>
           <div className="flex items-center justify-center md:justify-start gap-4 flex-wrap">
             <Link to="/courses" className="cta cta-primary">Get Started</Link>

@@ -101,8 +101,8 @@ export default function CoursesSection() {
             <MicrosoftBadge size="md" />
           </div>
 
-          <h2 className="mt-6 text-3xl md:text-4xl font-bold">Featured <span className="text-edtech-orange font-extrabold">Programs</span></h2>
-          <p className="mt-2 text-white/70 max-w-2xl mx-auto">Transform your career with our industry‑leading certification programs designed by experts for real‑world success</p>
+          <h2 className="mt-6 text-3xl md:text-4xl font-bold">Top-Rated <span className="text-edtech-orange font-extrabold">Programs</span></h2>
+          <p className="mt-2 text-white/70 max-w-2xl mx-auto">Industry-recognized certifications that give you the edge where it matters most — the workplace.</p>
         </div>
 
         {/* Grid layout for featured courses only */}

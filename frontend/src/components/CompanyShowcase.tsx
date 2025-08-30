@@ -51,14 +51,14 @@ export default function CompanyShowcase() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="badge-hero mx-auto w-max">
-              <span>🏢</span>
-              <span>GLOBAL PLACEMENTS</span>
+              <span>🚀 </span>
+              <span>YOUR GATEWAY TO GLOBAL CAREERS</span>
             </div>
             <h2 className="mt-6 text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
               Explore the top companies employing our <span className="text-edtech-orange font-extrabold">alumni</span>
             </h2>
             <p className="text-white/80 max-w-3xl mx-auto font-semibold">
-              Our graduates have successfully launched their careers at leading global companies across technology, finance, consulting, and more. Join thousands who've transformed their professional journey with our platform.
+            From Silicon Valley to Fortune 500 firms, our graduates are shaping industries worldwide. Join the community that turns potential into global success.
             </p>
           </div>
 

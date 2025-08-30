@@ -34,12 +34,12 @@ export default function Navbar() {
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/30 bg-bg-deep/95 backdrop-blur-lg">
       <div className="bg-edtech-green text-black text-center py-2 text-sm">
         <span className="flex items-center justify-center gap-2">
-          <span className="hidden sm:inline">🚀 Transform your career with our industry-leading tech courses - </span>
+          <span className="hidden sm:inline">✨ Ready to level up? Master in-demand tech skills & fast-track your career 🚀 -  </span>
           <button 
             onClick={() => openModal()}
             className="underline hover:text-black/70 transition-colors cursor-pointer font-bold"
           >
-            Book a FREE strategy call today! →
+            Claim your FREE strategy call now! →
           </button>
         </span>
       </div>
