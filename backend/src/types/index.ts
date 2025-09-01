@@ -268,6 +268,7 @@ export interface Testimonial {
   review: string;
   category: string;
   accent: 'blue' | 'orange' | 'green' | 'red';
+  photo?: string;
 }
 
 // Icons Types

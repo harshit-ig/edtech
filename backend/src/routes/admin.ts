@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { requireAdminAuth } from '../middleware/auth';
-import { createAdminRateLimiter, uploadBlogImages, uploadTeamImage, uploadCourseImage, handleUploadError } from '../middleware';
+import { createAdminRateLimiter, uploadBlogImages, uploadTeamImage, uploadCourseImage, uploadTestimonialImage, handleUploadError } from '../middleware';
 import {
   getAllBlogs,
   getBlogById,
@@ -121,13 +121,6 @@ import {
   updateAdvantageStat,
   deleteAdvantageStat,
   
-  // Testimonial routes
-  getAllTestimonials,
-  getTestimonialById,
-  createTestimonial,
-  updateTestimonial,
-  deleteTestimonial,
-  
   // Success Stat routes
   getAllSuccessStats,
   getSuccessStatById,
@@ -138,6 +131,13 @@ import {
   // Dashboard
   getDashboardStats
 } from '../controllers/adminController';
+import {
+  getAllTestimonials,
+  getTestimonialById,
+  createTestimonial,
+  updateTestimonial,
+  deleteTestimonial
+} from '../controllers/testimonialAdminController';
 
 const router = Router();
 
@@ -311,8 +311,8 @@ router.delete('/advantage-stats/:id', deleteAdvantageStat);
  */
 router.get('/testimonials', getAllTestimonials);
 router.get('/testimonials/:id', getTestimonialById);
-router.post('/testimonials', createTestimonial);
-router.put('/testimonials/:id', updateTestimonial);
+router.post('/testimonials', uploadTestimonialImage, handleUploadError, createTestimonial);
+router.put('/testimonials/:id', uploadTestimonialImage, handleUploadError, updateTestimonial);
 router.delete('/testimonials/:id', deleteTestimonial);
 
 /**

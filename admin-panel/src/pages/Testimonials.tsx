@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { testimonialsApi } from '../lib/api';
-import { Save, Plus, Trash2, Edit3, MessageSquare } from 'lucide-react';
+import { Save, Plus, Trash2, Edit3, MessageSquare, Upload, X, User } from 'lucide-react';
 
 interface Testimonial {
   _id: string;
@@ -12,6 +12,7 @@ interface Testimonial {
   review: string;
   category: string;
   accent: 'blue' | 'orange' | 'green' | 'red';
+  photo?: string;
 }
 
 const Testimonials: React.FC = () => {
@@ -21,6 +22,9 @@ const Testimonials: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<Testimonial>>({});
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const accentOptions = [
     { value: 'blue', label: 'Blue', color: '#3b82f6' },
@@ -59,7 +63,6 @@ const Testimonials: React.FC = () => {
   };
 
   const handleCreate = () => {
-
     setEditingId('new');
     setFormData({
       id: '',
@@ -71,15 +74,39 @@ const Testimonials: React.FC = () => {
       category: '',
       accent: 'blue'
     });
+    setImagePreview('');
+    setImageFile(null);
   };
 
   const handleEdit = (testimonial: Testimonial) => {
     setEditingId(testimonial._id);
     setFormData(testimonial);
+    
+    // Set image preview - handle both filename and URL cases
+    const photoValue = testimonial.photo || '';
+    if (photoValue && !photoValue.startsWith('http')) {
+      setImagePreview(`${import.meta.env.VITE_API_BASE_URL}/uploads/testimonial-images/${photoValue}`);
+    } else {
+      setImagePreview(photoValue);
+    }
+    setImageFile(null);
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    setImageFile(file);
+    
+    // Create preview URL
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSave = async () => {
-
     if (!formData.id || !formData.name || !formData.role || !formData.rating || !formData.review || !formData.category || !formData.accent) {
       setError('All required fields must be filled');
       return;
@@ -89,19 +116,40 @@ const Testimonials: React.FC = () => {
       setSaving(true);
       let response;
       
-      if (editingId === 'new') {
-
-        response = await testimonialsApi.create(formData);
-      } else if (editingId) {
-
-        response = await testimonialsApi.update(editingId, formData);
+      // Create FormData if we have an image
+      if (imageFile) {
+        const formDataWithImage = new FormData();
+        
+        // Add all form data fields
+        Object.keys(formData).forEach(key => {
+          if (formData[key as keyof Partial<Testimonial>] !== undefined) {
+            formDataWithImage.append(key, String(formData[key as keyof Partial<Testimonial>]));
+          }
+        });
+        
+        // Add the image file - 'image' field name matches what multer middleware expects
+        formDataWithImage.append('image', imageFile);
+        
+        if (editingId === 'new') {
+          response = await testimonialsApi.create(formDataWithImage);
+        } else if (editingId) {
+          response = await testimonialsApi.update(editingId, formDataWithImage);
+        }
+      } else {
+        // Regular JSON submission without image
+        if (editingId === 'new') {
+          response = await testimonialsApi.create(formData);
+        } else if (editingId) {
+          response = await testimonialsApi.update(editingId, formData);
+        }
       }
-
 
       if (response?.success) {
         await fetchTestimonials();
         setEditingId(null);
         setFormData({});
+        setImageFile(null);
+        setImagePreview('');
         setError('');
       } else {
         setError(response?.message || 'Failed to save testimonial');
@@ -132,6 +180,8 @@ const Testimonials: React.FC = () => {
   const handleCancel = () => {
     setEditingId(null);
     setFormData({});
+    setImageFile(null);
+    setImagePreview('');
     setError('');
   };
 
@@ -268,6 +318,60 @@ const Testimonials: React.FC = () => {
                   ))}
                 </select>
               </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Photo
+                </label>
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                  <div className="space-y-4">
+                    {imagePreview ? (
+                      <div className="relative">
+                        <img
+                          src={imagePreview}
+                          alt="Testimonial photo preview"
+                          className="h-48 w-48 object-cover mx-auto rounded-lg"
+                        />
+                        <button
+                          onClick={() => {
+                            setImagePreview('');
+                            setImageFile(null);
+                            setFormData({ ...formData, photo: undefined });
+                            if (fileInputRef.current) fileInputRef.current.value = '';
+                          }}
+                          className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                          title="Remove image"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center text-gray-500">
+                        <User className="w-16 h-16 mb-2 text-gray-400" />
+                        <p className="mb-2 text-sm">Drag and drop or click to upload</p>
+                        <p className="text-xs">PNG, JPG, GIF up to 5MB</p>
+                      </div>
+                    )}
+                    
+                    <div className="flex justify-center">
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/gif,image/webp"
+                        onChange={handleImageChange}
+                        className="hidden"
+                        ref={fileInputRef}
+                      />
+                      <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center gap-2"
+                      >
+                        <Upload className="w-4 h-4" />
+                        {imagePreview ? 'Change Photo' : 'Upload Photo'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -400,6 +504,60 @@ const Testimonials: React.FC = () => {
                       ))}
                     </select>
                   </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Photo
+                    </label>
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                      <div className="space-y-4">
+                        {imagePreview ? (
+                          <div className="relative">
+                            <img
+                              src={imagePreview}
+                              alt="Testimonial photo preview"
+                              className="h-48 w-48 object-cover mx-auto rounded-lg"
+                            />
+                            <button
+                              onClick={() => {
+                                setImagePreview('');
+                                setImageFile(null);
+                                setFormData({ ...formData, photo: undefined });
+                                if (fileInputRef.current) fileInputRef.current.value = '';
+                              }}
+                              className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                              title="Remove image"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center text-gray-500">
+                            <User className="w-16 h-16 mb-2 text-gray-400" />
+                            <p className="mb-2 text-sm">Drag and drop or click to upload</p>
+                            <p className="text-xs">PNG, JPG, GIF up to 5MB</p>
+                          </div>
+                        )}
+                        
+                        <div className="flex justify-center">
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/png,image/gif,image/webp"
+                            onChange={handleImageChange}
+                            className="hidden"
+                            ref={fileInputRef}
+                          />
+                          <button
+                            onClick={() => fileInputRef.current?.click()}
+                            className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center gap-2"
+                          >
+                            <Upload className="w-4 h-4" />
+                            {imagePreview ? 'Change Photo' : 'Upload Photo'}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -434,9 +592,19 @@ const Testimonials: React.FC = () => {
               <div className="space-y-4">
                 <div className="flex justify-between items-start">
                   <div className="flex items-start gap-4">
-                    <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <MessageSquare className="text-blue-600" size={24} />
-                    </div>
+                    {testimonial.photo ? (
+                      <div className="w-16 h-16 rounded-lg overflow-hidden">
+                        <img 
+                          src={testimonial.photo} 
+                          alt={`${testimonial.name}'s photo`} 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <MessageSquare className="text-blue-600" size={24} />
+                      </div>
+                    )}
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-sm font-medium text-gray-500">ID: {testimonial.id}</span>

@@ -380,8 +380,30 @@ export const advantageStatsApi = {
 export const testimonialsApi = {
   getAll: () => adminApi.getAll('testimonials'),
   getById: (id: string) => adminApi.getById('testimonials', id),
-  create: (data: unknown) => adminApi.create('testimonials', data),
-  update: (id: string, data: unknown) => adminApi.update('testimonials', id, data),
+  create: (data: unknown) => {
+    // For multipart/form-data (file uploads)
+    if (data instanceof FormData) {
+      return api.post('/admin/testimonials', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(response => response.data);
+    }
+    // For regular JSON data
+    return adminApi.create('testimonials', data);
+  },
+  update: (id: string, data: unknown) => {
+    // For multipart/form-data (file uploads)
+    if (data instanceof FormData) {
+      return api.put(`/admin/testimonials/${id}`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(response => response.data);
+    }
+    // For regular JSON data
+    return adminApi.update('testimonials', id, data);
+  },
   delete: (id: string) => adminApi.delete('testimonials', id),
 };
 

@@ -1,5 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { AdvantageStat, Testimonial } from '../types';
+import fs from 'fs';
+import path from 'path';
 
 // Advantage Stats Schema
 const AdvantageStatSchema = new Schema<AdvantageStat & Document>({
@@ -25,12 +27,71 @@ const TestimonialSchema = new Schema<Testimonial & Document>({
   rating: { type: Number, required: true },
   review: { type: String, required: true },
   category: { type: String, required: true },
+  photo: { type: String }, // Add photo field
   accent: { 
     type: String, 
     required: true,
     enum: ['blue', 'orange', 'green', 'red']
   }
 }, { timestamps: true });
+
+// Helper method to delete image file when testimonial is deleted
+TestimonialSchema.pre('findOneAndDelete', async function(next) {
+  try {
+    // @ts-ignore - get the document that will be deleted
+    const doc = await this.model.findOne(this.getFilter());
+    
+    if (doc && doc.photo) {
+      // Don't delete if it's a URL (legacy data)
+      if (!doc.photo.startsWith('http')) {
+        const imagePath = path.join(__dirname, '../../../uploads/testimonial-images', doc.photo);
+        
+        // Check if file exists before attempting to delete
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+        }
+      }
+    }
+    next();
+  } catch (error) {
+    console.error('Error deleting testimonial image file:', error);
+    next();
+  }
+});
+
+// Helper method to clean up old image when updating with a new one
+TestimonialSchema.pre('findOneAndUpdate', async function(next) {
+  try {
+    // Get the update data
+    const update = this.getUpdate() as any;
+    
+    // If there's no new image being set, proceed with the update
+    if (!update || !update.photo) {
+      return next();
+    }
+    
+    // Get the document that will be updated
+    const doc = await this.model.findOne(this.getFilter()) as any;
+    
+    // If old document exists, has an image, and we're setting a new image
+    if (doc && doc.photo && update.photo !== doc.photo) {
+      // Don't delete if old image is a URL (legacy data)
+      if (!doc.photo.startsWith('http')) {
+        const oldImagePath = path.join(__dirname, '../../../uploads/testimonial-images', doc.photo);
+        
+        // Check if file exists before attempting to delete
+        if (fs.existsSync(oldImagePath)) {
+          fs.unlinkSync(oldImagePath);
+        }
+      }
+    }
+    
+    next();
+  } catch (error) {
+    console.error('Error cleaning up old testimonial image file:', error);
+    next();
+  }
+});
 
 // Create and export models
 export const AdvantageStatModel = mongoose.model<AdvantageStat & Document>('AdvantageStat', AdvantageStatSchema);

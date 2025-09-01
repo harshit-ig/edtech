@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { getImageUrl } from '../middleware/upload';
 import { 
   FAQModel,
   MentorModel,
@@ -63,11 +64,23 @@ export const getAdvantageStats = async (req: Request, res: Response): Promise<vo
   }
 };
 
+
+
 // Testimonial Controllers
 export const getTestimonials = async (req: Request, res: Response): Promise<void> => {
   try {
     const testimonials = await TestimonialModel.find();
-    res.json(testimonials);
+    
+    // Add photo URLs to testimonials
+    const testimonialsWithUrls = testimonials.map(testimonial => {
+      const testimonialObj = testimonial.toObject();
+      if (testimonialObj.photo) {
+        testimonialObj.photo = getImageUrl(testimonialObj.photo, req, 'testimonial');
+      }
+      return testimonialObj;
+    });
+    
+    res.json(testimonialsWithUrls);
   } catch (error) {
     console.error('Error fetching testimonials:', error);
     res.status(500).json({ error: 'Internal server error' });

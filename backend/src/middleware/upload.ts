@@ -18,6 +18,7 @@ const createUploadDirectories = () => {
   const blogImagesDir = path.join(baseDir, 'blog-images');
   const teamImagesDir = path.join(baseDir, 'team-images');
   const courseImagesDir = path.join(baseDir, 'course-images');
+  const testimonialImagesDir = path.join(baseDir, 'testimonial-images');
   
   if (!fs.existsSync(baseDir)) {
     fs.mkdirSync(baseDir, { recursive: true });
@@ -31,11 +32,14 @@ const createUploadDirectories = () => {
   if (!fs.existsSync(courseImagesDir)) {
     fs.mkdirSync(courseImagesDir, { recursive: true });
   }
-  return { baseDir, blogImagesDir, teamImagesDir, courseImagesDir };
+  if (!fs.existsSync(testimonialImagesDir)) {
+    fs.mkdirSync(testimonialImagesDir, { recursive: true });
+  }
+  return { baseDir, blogImagesDir, teamImagesDir, courseImagesDir, testimonialImagesDir };
 };
 
 // Create directories
-const { blogImagesDir, teamImagesDir, courseImagesDir } = createUploadDirectories();
+const { blogImagesDir, teamImagesDir, courseImagesDir, testimonialImagesDir } = createUploadDirectories();
 
 // Configure storage for blog images
 const blogStorage = multer.diskStorage({
@@ -77,6 +81,18 @@ const courseStorage = multer.diskStorage({
   }
 });
 
+// Configure storage for testimonial images
+const testimonialStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, testimonialImagesDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + crypto.randomBytes(6).toString('hex');
+    const fileExt = path.extname(file.originalname).toLowerCase();
+    cb(null, `testimonial-${uniqueSuffix}${fileExt}`);
+  }
+});
+
 // Create file filter to validate uploads
 const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
   // Check if the file type is in our allowed list
@@ -105,6 +121,14 @@ const teamUpload = multer({
 });
 const courseUpload = multer({
   storage: courseStorage,
+  fileFilter,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB max file size
+  }
+});
+
+const testimonialUpload = multer({
+  storage: testimonialStorage,
   fileFilter,
   limits: {
     fileSize: 5 * 1024 * 1024, // 5MB max file size
@@ -152,12 +176,14 @@ export const uploadBlogImages = blogUpload.fields([
 // For team member image uploads
 export const uploadTeamImage = teamUpload.single('image');
 
-
 // For course image uploads
 export const uploadCourseImage = courseUpload.single('image');
 
+// For testimonial image uploads
+export const uploadTestimonialImage = testimonialUpload.single('image');
+
 // Helper function to get the public URL for an image
-export const getImageUrl = (filename: string, req: Request, type: 'blog' | 'team' | 'course' = 'blog'): string => {
+export const getImageUrl = (filename: string, req: Request, type: 'blog' | 'team' | 'course' | 'testimonial' = 'blog'): string => {
   if (!filename) return '';
   if (filename.startsWith('http')) {
     return filename;
@@ -166,5 +192,6 @@ export const getImageUrl = (filename: string, req: Request, type: 'blog' | 'team
   let folder = 'blog-images';
   if (type === 'team') folder = 'team-images';
   if (type === 'course') folder = 'course-images';
+  if (type === 'testimonial') folder = 'testimonial-images';
   return `${baseUrl}/uploads/${folder}/${filename}`;
 };

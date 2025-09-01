@@ -140,6 +140,15 @@ export default function Testimonials() {
 
               {/* Author Info */}
               <div className="testimonial-author">
+                {testimonial.photo && (
+                  <div className="mr-4 rounded-full overflow-hidden border-2 border-gray-300">
+                    <img 
+                      src={testimonial.photo} 
+                      alt={`${testimonial.name}'s photo`}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                  </div>
+                )}
                 <div>
                   <div className="font-bold text-gray-900">
                     {testimonial.name}
