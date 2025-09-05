@@ -10,6 +10,9 @@ import PricingPage from './pages/Pricing.tsx'
 import BlogPage from './pages/Blog.tsx'
 import PostPage from './pages/Post.tsx'
 import NotFoundPage from './pages/NotFound.tsx'
+import PrivacyPolicy from './pages/PrivacyPolicy.tsx'
+import RefundPolicy from './pages/RefundPolicy.tsx'
+import TermsOfService from './pages/TermsOfService.tsx'
 import Layout from './Layout.tsx'
 import ErrorBoundary from './components/ErrorBoundary.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -23,6 +26,9 @@ const router = createBrowserRouter([
   { path: '/pricing', element: <Layout><PricingPage /></Layout> },
   { path: '/blog', element: <Layout><BlogPage /></Layout> },
   { path: '/blog/:slug', element: <Layout><PostPage /></Layout> },
+  { path: '/privacy-policy', element: <Layout><PrivacyPolicy /></Layout> },
+  { path: '/refund-policy', element: <Layout><RefundPolicy /></Layout> },
+  { path: '/terms-of-service', element: <Layout><TermsOfService /></Layout> },
   { path: '*', element: <Layout><NotFoundPage /></Layout> }, // Catch-all route for 404
 ])
 

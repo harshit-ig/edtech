@@ -5,7 +5,7 @@ export const testimonials = [
     name: 'Hannah Ardern',
     role: 'Remote Administrator',
     rating: 4.8,
-    review: "Just wrapped up an incredible 2-day bootcamp with 1to10x! During this hands-on experience, I dove into various tools and techniques that are essential for today's data-driven world: Tableau, Orange, Octoparse, GPT for Google Sheets. This achievement has significantly boosted my confidence in working with new tools!",
+    review: "Just wrapped up an incredible 2-day bootcamp with EdTech Informative! During this hands-on experience, I dove into various tools and techniques that are essential for today's data-driven world: Tableau, Orange, Octoparse, GPT for Google Sheets. This achievement has significantly boosted my confidence in working with new tools!",
     category: '🚀 Incredible bootcamp experience!',
     accent: 'blue'
   },

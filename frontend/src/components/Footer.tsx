@@ -84,6 +84,19 @@ export default function Footer() {
             <div className="text-white/60 text-sm">
               © 2025 EdTech Informative. All rights reserved.
             </div>
+            <div className="flex items-center gap-2 text-white/60 text-sm">
+              <Link to="/privacy-policy" className="hover:text-edtech-orange transition-colors">
+                Privacy Policy
+              </Link>
+              <span>|</span>
+              <Link to="/refund-policy" className="hover:text-edtech-orange transition-colors">
+                Refund Policy
+              </Link>
+              <span>|</span>
+              <Link to="/terms-of-service" className="hover:text-edtech-orange transition-colors">
+                Terms of Service
+              </Link>
+            </div>
           </div>
         </div>
       </div>
