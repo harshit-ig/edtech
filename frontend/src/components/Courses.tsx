@@ -117,16 +117,22 @@ export default function CoursesSection() {
                   backgroundPosition: 'center',
                   minHeight: '120px',
                   borderRadius: '0.75rem',
-                } : {}}
+                } : {
+                  minHeight: '120px',
+                  borderRadius: '0.75rem',
+                }}
               >
-                <div className={c.image ? 'absolute inset-0 bg-black/40 z-0' : ''} />
-                <div className="relative z-10 flex items-center gap-2 p-3">
-                  <div className="course-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d={courseIcons[c.id] || 'M13 10V3L4 14h7v7l9-11h-7z'}/>
-                    </svg>
+                {c.image ? (
+                  <div className="absolute inset-0 bg-black/20 z-0" />
+                ) : (
+                  <div className="relative z-10 flex items-center gap-2 p-3">
+                    <div className="course-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d={courseIcons[c.id] || 'M13 10V3L4 14h7v7l9-11h-7z'}/>
+                      </svg>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               <div className="mt-4">
