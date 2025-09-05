@@ -41,7 +41,7 @@ export default function Footer() {
           <div className="md:col-span-2">
             <img src={WhiteLogo} alt="EdTech Informative" className="h-10 w-auto mb-4" />
             <p className="text-white/80 text-lg mb-6 max-w-md leading-relaxed">
-              Transform your career with cutting-edge tech skills. Your gateway to future‑ready careers in Data, AI, and Cloud technologies.
+              Transform your career with <span className="text-edtech-green font-semibold">cutting-edge tech skills</span>. Your gateway to <span className="text-edtech-orange font-semibold">future‑ready careers</span> in Data, AI, and Cloud technologies.
             </p>
             <div className="flex gap-4">
               <Link to="/courses" className="cta cta-primary">

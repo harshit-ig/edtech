@@ -82,8 +82,8 @@ export default function ContactSection() {
                 Get in <span className="text-edtech-green">Touch</span>
               </h2>
               <p className="text-white/70 text-lg leading-relaxed">
-                Ready to transform your career? We're here to guide you every step of the way. 
-                Reach out and let's discuss how we can help you achieve your goals.
+                Ready to <span className="text-edtech-green font-bold">transform your career</span>? We're here to guide you every step of the way. 
+                Reach out and let's discuss how we can help you <span className="text-edtech-orange font-bold">achieve your goals</span>.
               </p>
             </div>
 

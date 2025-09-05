@@ -90,8 +90,8 @@ export default function Hero() {
               />
             </h1>
           </div>
-          <p className="text-white/95 text-lg md:text-xl text-glow-white mb-8 max-w-2xl md:max-w-none">
-         🌐 Learn what matters, achieve what you dream — your future in tech starts here.
+          <p className="text-white/95 text-lg md:text-xl  mb-8 max-w-2xl md:max-w-none">
+         🌐 <span className="text-edtech-green font-semibold">Learn what matters</span>, <span className="text-edtech-orange font-semibold">achieve what you dream</span> — your future in tech starts here.
 
           </p>
           <div className="flex items-center justify-center md:justify-start gap-4 flex-wrap">

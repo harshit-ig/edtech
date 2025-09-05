@@ -74,7 +74,7 @@ export default function Testimonials() {
             <span className="text-edtech-orange font-extrabold"> Leaders</span>
           </h2>
           <p className="mt-4 text-gray-800 max-w-3xl mx-auto font-semibold">
-           Discover how our learners turned skills into opportunities and dreams into careers.
+           Discover how our learners turned <span className="text-edtech-blue font-bold">skills into opportunities</span> and <span className="text-edtech-orange font-bold">dreams into careers</span>.
           </p>
         </div>
 

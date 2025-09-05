@@ -140,8 +140,8 @@ export default function CoursesPage() {
                 Master <span className="text-transparent bg-clip-text bg-gradient-to-r from-edtech-green to-edtech-orange">Tomorrow's</span> Skills Today
               </h1>
               <p className="text-white/80 text-xl md:text-2xl max-w-4xl mx-auto mb-12 leading-relaxed">
-                ✨ Ready to level up? Explore our elite collection of industry-leading courses designed by experts 
-                to fast-track your career growth and position you among the top 1% of tech professionals
+                ✨ Ready to level up? Explore our <span className="text-edtech-green font-semibold">elite collection</span> of industry-leading courses designed by experts 
+                to fast-track your career growth and position you among the <span className="text-edtech-orange font-semibold">top 1%</span> of tech professionals
               </p>
 
             {/* Course Stats Preview */}
@@ -212,7 +212,7 @@ export default function CoursesPage() {
                 <span className="text-edtech-blue">Featured</span> Courses
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                🚀 Start with our top-rated programs that have transformed thousands of careers worldwide
+                🚀 Start with our <span className="text-edtech-blue font-semibold">top-rated programs</span> that have <span className="text-edtech-orange font-semibold">transformed thousands</span> of careers worldwide
               </p>
             </div>
 
@@ -428,7 +428,7 @@ export default function CoursesPage() {
               </h2>
               
               <p className="text-white/80 text-xl mb-8 leading-relaxed max-w-3xl mx-auto">
-                🌐 Your gateway to global careers starts here. Join our elite community of learners-turned-leaders
+                🌐 Your <span className="text-edtech-green font-semibold">gateway to global careers</span> starts here. Join our elite community of <span className="text-edtech-orange font-semibold">learners-turned-leaders</span>
                 and master the skills that Fortune 500 companies are actively seeking right now.
               </p>
 

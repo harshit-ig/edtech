@@ -126,8 +126,8 @@ export default function BlogPage() {
               Latest <span className="text-transparent bg-clip-text bg-gradient-to-r from-edtech-green to-edtech-orange">Tech Insights</span> & Tutorials
             </h1>
             <p className="text-white/80 text-xl md:text-2xl max-w-4xl mx-auto mb-12 leading-relaxed reveal">
-              Stay ahead of the curve with cutting-edge insights, expert tutorials, and industry trends 
-              that shape the future of technology and accelerate your career growth
+              Stay ahead of the curve with <span className="text-edtech-green font-semibold">cutting-edge insights</span>, expert tutorials, and industry trends 
+              that shape the future of technology and <span className="text-edtech-orange font-semibold">accelerate your career</span> growth
             </p>
 
             {/* Blog Stats Preview */}
@@ -199,7 +199,7 @@ export default function BlogPage() {
                   <span className="text-edtech-blue">Featured</span> Articles
                 </h2>
                 <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  Discover our most popular and insightful articles that are shaping the tech industry
+                  Discover our most popular and <span className="text-edtech-blue font-semibold">insightful articles</span> that are <span className="text-edtech-orange font-semibold">shaping the tech industry</span>
                 </p>
               </div>
               
@@ -603,8 +603,8 @@ export default function BlogPage() {
               </h2>
               
               <p className="text-white/80 text-xl mb-8 leading-relaxed max-w-3xl mx-auto">
-                Don't just read about technology - master it hands-on with our comprehensive courses 
-                designed by industry experts who've built real-world solutions.
+                Don't just read about technology - <span className="text-edtech-green font-semibold">master it hands-on</span> with our comprehensive courses 
+                designed by <span className="text-edtech-orange font-semibold">industry experts</span> who've built real-world solutions.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-6 justify-center">

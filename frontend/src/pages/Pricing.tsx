@@ -145,8 +145,8 @@ export default function PricingPage() {
                 Invest in Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-edtech-green to-edtech-orange">Future</span> Today
               </h1>
               <p className="text-white/80 text-xl md:text-2xl max-w-4xl mx-auto mb-12 leading-relaxed">
-                ✨ Ready to level up? Choose the elite program that accelerates your career growth. All courses include our 
-                30-day guarantee and are designed to position you among the top 1% in your field.
+                ✨ Ready to level up? Choose the <span className="text-edtech-green font-semibold">elite program</span> that accelerates your career growth. All courses include our 
+                30-day guarantee and are designed to position you among the <span className="text-edtech-orange font-semibold">top 1%</span> in your field.
               </p>
 
               {/* Course Stats */}
@@ -180,7 +180,7 @@ export default function PricingPage() {
                 Our <span className="text-edtech-blue">Complete Course</span> Catalog
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                🚀 Next-gen programs designed to transform your career with the skills that matter most in today's market
+                🚀 <span className="text-edtech-blue font-semibold">Next-gen programs</span> designed to <span className="text-edtech-orange font-semibold">transform your career</span> with the skills that matter most in today's market
               </p>
               
               {/* Payment Toggle */}
@@ -375,7 +375,7 @@ export default function PricingPage() {
                 Why Choose <span className="text-edtech-green">Our Courses?</span>
               </h2>
               <p className="text-white/70 text-xl max-w-3xl mx-auto">
-                🌟 Be the 1% — See how our elite programs outperform other online education platforms
+                🌟 Be the 1% — See how our <span className="text-edtech-green font-semibold">elite programs</span> outperform other online education platforms
               </p>
             </div>
 
@@ -435,7 +435,7 @@ export default function PricingPage() {
                 Frequently Asked <span className="text-edtech-orange">Questions</span>
               </h2>
               <p className="text-gray-600 text-xl leading-relaxed">
-                🚀 On the path to excellence? We have answers to accelerate your journey. Need more guidance? 
+                🚀 On the <span className="text-edtech-blue font-semibold">path to excellence</span>? We have answers to <span className="text-edtech-orange font-semibold">accelerate your journey</span>. Need more guidance? 
                 <button 
                   onClick={() => openModal("Get Answers", "Our team is here to help you find the perfect course and answer any questions you have about your learning journey.")}
                   className="text-edtech-orange hover:text-edtech-green transition-colors ml-1 underline underline-offset-2"
@@ -503,7 +503,7 @@ export default function PricingPage() {
               </h2>
               
               <p className="text-white/80 text-xl mb-8 leading-relaxed max-w-3xl mx-auto">
-                🌐 From learners to leaders — join thousands who've transformed their careers with our expert-led programs.
+                🌐 From <span className="text-edtech-green font-semibold">learners to leaders</span> — join thousands who've transformed their careers with our <span className="text-edtech-orange font-semibold">expert-led programs</span>.
                 Your fast-track to mastering skills that Fortune 500 companies actively seek starts here.
               </p>
 

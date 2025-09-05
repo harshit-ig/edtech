@@ -66,7 +66,7 @@ export default function MentorProfiles() {
               Learn from <span className="text-edtech-blue font-extrabold">experienced professionals</span>
             </h2>
             <p className="text-gray-800 max-w-3xl mx-auto font-semibold">
-              Get personalized guidance from seasoned professionals working at leading companies who are passionate about helping you succeed in your career journey.
+              Get <span className="text-edtech-blue font-bold">personalized guidance</span> from <span className="text-edtech-orange font-bold">seasoned professionals</span> working at leading companies who are passionate about helping you succeed in your career journey.
             </p>
           </div>
 

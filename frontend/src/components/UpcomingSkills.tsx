@@ -82,7 +82,7 @@ export default function UpcomingSkills() {
             <span className="text-edtech-orange font-extrabold"> Next-Level Success</span>
           </h2>
           <p className="mt-4 text-gray-800 max-w-2xl mx-auto font-semibold">
-           Master the tech of tomorrow, today — stay 10 steps ahead while others are catching up.
+           <span className="text-edtech-blue font-bold">Master the tech</span> of <span className="text-edtech-orange font-bold">tomorrow, today</span> — stay 10 steps ahead while others are catching up.
 
           </p>
         </div>

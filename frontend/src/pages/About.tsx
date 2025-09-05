@@ -107,7 +107,7 @@ export default function AboutPage() {
                 Transforming Lives Through <span className="text-transparent bg-clip-text bg-gradient-to-r from-edtech-green to-edtech-orange">Technology Education</span>
               </h1>
               <p className="text-white/80 text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
-                Learn what matters, achieve what you dream — your future in tech starts here. Master in-demand skills
+                <span className="text-edtech-green font-semibold">Learn what matters</span>, <span className="text-edtech-orange font-semibold">achieve what you dream</span> — your future in tech starts here. Master in-demand skills
                 that prepare you for success in the rapidly evolving digital economy.
               </p>
             </div>
@@ -136,7 +136,7 @@ export default function AboutPage() {
                 Our <span className="text-edtech-blue">Mission</span> & <span className="text-edtech-orange">Vision</span>
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Driving the future of education with purpose and vision that transforms lives
+                Driving the <span className="text-edtech-blue font-semibold">future of education</span> with purpose and vision that <span className="text-edtech-orange font-semibold">transforms lives</span>
               </p>
             </div>
 
@@ -149,8 +149,8 @@ export default function AboutPage() {
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h3>
                 <p className="text-gray-700 text-lg leading-relaxed">
-                  🚀 To make next-gen technology education accessible to everyone, regardless of background or location.
-                  With expert guidance and cutting-edge resources, we empower anyone to build an exceptional career in tech.
+                  🚀 To make <span className="text-edtech-blue font-semibold">next-gen technology education</span> accessible to everyone, regardless of background or location.
+                  With expert guidance and cutting-edge resources, we empower anyone to build an <span className="text-edtech-orange font-semibold">exceptional career</span> in tech.
                 </p>
               </div>
               
@@ -163,7 +163,7 @@ export default function AboutPage() {
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900 mb-6">Our Vision</h3>
                 <p className="text-gray-700 text-lg leading-relaxed">
-                  🌟 To be the world's premier platform for practical technology education, creating a future where top talent 
+                  🌟 To be the world's premier platform for <span className="text-edtech-orange font-semibold">practical technology education</span>, creating a future where <span className="text-edtech-blue font-semibold">top talent</span> 
                   and global opportunities connect seamlessly, transcending geographical and economic barriers.
                 </p>
               </div>
@@ -179,7 +179,7 @@ export default function AboutPage() {
             <div className="text-center mb-16 about-reveal reveal">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Our Core <span className="text-edtech-green">Values</span></h2>
               <p className="text-white/70 text-xl max-w-3xl mx-auto leading-relaxed">
-                🚀 The principles that drive excellence in everything we do and shape the transformative learning experience we deliver.
+                🚀 The principles that drive <span className="text-edtech-green font-semibold">excellence in everything</span> we do and shape the <span className="text-edtech-orange font-semibold">transformative learning experience</span> we deliver.
               </p>
             </div>
 
@@ -210,7 +210,7 @@ export default function AboutPage() {
             <div className="text-center mb-16 about-reveal reveal">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Our <span className="text-edtech-orange">Journey</span></h2>
               <p className="text-white/70 text-xl max-w-3xl mx-auto leading-relaxed">
-                🌐 From ambitious beginnings to a global education powerhouse — discover the milestones that have defined our path to excellence.
+                🌐 From <span className="text-edtech-green font-semibold">ambitious beginnings</span> to a <span className="text-edtech-orange font-semibold">global education powerhouse</span> — discover the milestones that have defined our path to excellence.
               </p>
             </div>
 
@@ -252,7 +252,7 @@ export default function AboutPage() {
             <div className="text-center mb-16 about-reveal reveal">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Meet Our <span className="text-edtech-red">Team</span></h2>
               <p className="text-white/70 text-xl max-w-3xl mx-auto leading-relaxed">
-                🌟 Industry-leading experts and passionate educators dedicated to helping you master the tech of tomorrow, today.
+                🌟 <span className="text-edtech-green font-semibold">Industry-leading experts</span> and <span className="text-edtech-orange font-semibold">passionate educators</span> dedicated to helping you master the tech of tomorrow, today.
               </p>
             </div>
 
@@ -308,8 +308,8 @@ export default function AboutPage() {
               </h2>
               
               <p className="text-white/80 text-xl mb-8 leading-relaxed max-w-3xl mx-auto">
-                Ready to level up? Join our community of high-achievers and fast-track your career with skills that matter.
-                Your gateway to global opportunities begins here — we'll guide you every step of the way.
+                Ready to level up? Join our <span className="text-edtech-green font-semibold">community of high-achievers</span> and fast-track your career with skills that matter.
+                Your <span className="text-edtech-orange font-semibold">gateway to global opportunities</span> begins here — we'll guide you every step of the way.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-6 justify-center">

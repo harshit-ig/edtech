@@ -527,7 +527,7 @@ export default function CoursePage() {
                   Ready to Transform Your Career?
                 </h3>
                 <p className="text-xl mb-8 text-blue-100 max-w-2xl mx-auto">
-                  Join our next cohort and start building the skills that top companies are looking for.
+                  Join our next cohort and start building the <span className="text-edtech-orange font-semibold">skills that top companies</span> are looking for.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button 
@@ -697,9 +697,9 @@ export default function CoursePage() {
               </h2>
               
               <p className="text-xl md:text-2xl text-white/80 mb-8 leading-relaxed">
-                Don't wait for the perfect moment. The perfect moment is now. 
+                Don't wait for the <span className="text-edtech-green font-semibold">perfect moment</span>. The perfect moment is now. 
                 <br className="hidden md:block" />
-                <span className="font-semibold text-edtech-green">Join {details.courseInfo?.studentsEnrolled || "1000+ students"} who transformed their careers.</span>
+                <span className="font-semibold text-edtech-green">Join {details.courseInfo?.studentsEnrolled || "1000+ students"} who <span className="text-edtech-orange font-semibold">transformed their careers</span>.</span>
               </p>
 
               {/* Enhanced Pricing Card */}

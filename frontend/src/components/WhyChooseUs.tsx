@@ -68,7 +68,7 @@ export default function WhyChooseUs() {
               Discover how our programs turn <span className="text-edtech-orange font-extrabold">ambition</span> into achievement.
               </h2>
               <p className="text-gray-800 max-w-3xl mx-auto font-semibold">
-Learn from industry experts, work on real projects, and follow a path designed just for you — all in one powerful platform.
+Learn from <span className="text-edtech-blue font-bold">industry experts</span>, work on <span className="text-edtech-orange font-bold">real projects</span>, and follow a path designed just for you — all in one powerful platform.
               </p>
             </div>
 

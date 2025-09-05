@@ -43,7 +43,7 @@ export default function HomePage() {
             <div className="text-center mb-16 about-reveal reveal">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Our <span className="text-edtech-orange">Journey</span></h2>
               <p className="text-white/70 text-xl max-w-3xl mx-auto leading-relaxed">
-                From a small startup to a global education platform - here's how we've grown together.
+                From a <span className="text-edtech-green font-semibold">small startup</span> to a <span className="text-edtech-orange font-semibold">global education platform</span> - here's how we've grown together.
               </p>
             </div>
 

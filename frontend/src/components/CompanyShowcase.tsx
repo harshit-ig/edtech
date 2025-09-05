@@ -58,7 +58,7 @@ export default function CompanyShowcase() {
               Explore the top companies employing our <span className="text-edtech-orange font-extrabold">alumni</span>
             </h2>
             <p className="text-white/80 max-w-3xl mx-auto font-semibold">
-            From Silicon Valley to Fortune 500 firms, our graduates are shaping industries worldwide. Join the community that turns potential into global success.
+            From <span className="text-edtech-green font-bold">Silicon Valley</span> to <span className="text-edtech-orange font-bold">Fortune 500 firms</span>, our graduates are shaping industries worldwide. Join the community that turns potential into global success.
             </p>
           </div>
 

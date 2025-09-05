@@ -28,8 +28,8 @@ export default function ContactPage() {
               Let's Start a <span className="text-transparent bg-clip-text bg-gradient-to-r from-edtech-green to-edtech-orange">Conversation</span>
             </h1>
             <p className="text-white/80 text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed">
-              ✨ Ready to level up? Have questions about our industry-leading programs? 
-              We're here to fast-track your career with personalized guidance every step of the way.
+              ✨ Ready to level up? Have questions about our <span className="text-edtech-green font-semibold">industry-leading programs</span>? 
+              We're here to <span className="text-edtech-orange font-semibold">fast-track your career</span> with personalized guidance every step of the way.
             </p>
             
             {/* Quick Contact Stats */}

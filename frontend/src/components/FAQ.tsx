@@ -46,7 +46,7 @@ export default function FAQ() {
             Frequently Asked <span className="text-edtech-orange font-extrabold">Questions</span>
           </h2>
           <p className="text-white/70 max-w-4xl mx-auto text-lg leading-relaxed">
-            Everything you need to know about our career transformation programs
+            Everything you need to know about our <span className="text-edtech-green font-bold">career transformation programs</span>
           </p>
         </div>
 

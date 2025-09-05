@@ -102,7 +102,7 @@ export default function CoursesSection() {
           </div>
 
           <h2 className="mt-6 text-3xl md:text-4xl font-bold">Top-Rated <span className="text-edtech-orange font-extrabold">Programs</span></h2>
-          <p className="mt-2 text-white/70 max-w-2xl mx-auto">Industry-recognized certifications that give you the edge where it matters most — the workplace.</p>
+          <p className="mt-2 text-white/70 max-w-2xl mx-auto"> <span className="text-edtech-green font-bold">Industry-recognized certifications</span> that give you the edge where it matters most — the workplace.</p>
         </div>
 
         {/* Grid layout for featured courses only */}
