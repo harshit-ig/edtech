@@ -425,7 +425,7 @@ export default function PrivacyPolicy() {
                 If you have any questions about this Privacy Policy or our data practices, please contact us:
               </p>
               <ul className="list-none text-gray-700 space-y-2">
-                <li><strong>Email:</strong> privacy@edtechinformative.com</li>
+                <li><strong>Email:</strong> support@edtechinformative.uk</li>
                 <li><strong>Address:</strong> EdTech Informative, Privacy Department</li>
               </ul>
             </div>

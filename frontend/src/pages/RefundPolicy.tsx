@@ -137,8 +137,7 @@ export default function RefundPolicy() {
                 If you have any questions about our refund policy or need to request a refund, please contact us:
               </p>
               <ul className="list-none text-gray-700 space-y-2">
-                <li><strong>Email:</strong> refunds@edtechinformative.uk</li>
-                <li><strong>Support:</strong> support@edtechinformative.uk</li>
+                <li><strong>Email:</strong> support@edtechinformative.uk</li>
                 <li><strong>Phone:</strong> Available during business hours</li>
               </ul>
             </div>

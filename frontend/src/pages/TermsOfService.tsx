@@ -202,8 +202,7 @@ export default function TermsOfService() {
                 If you have any questions about these Terms of Service, please contact us:
               </p>
               <ul className="list-none text-gray-700 space-y-2">
-                <li><strong>Email:</strong> legal@edtechinformative.uk</li>
-                <li><strong>Support:</strong> support@edtechinformative.uk</li>
+                <li><strong>Email:</strong> support@edtechinformative.uk</li>
                 <li><strong>Address:</strong> EdTech Informative, Legal Department</li>
               </ul>
             </div>
