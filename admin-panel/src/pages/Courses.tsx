@@ -29,7 +29,10 @@ interface UnifiedCourseData {
   curriculum: Array<{
     module: string;
     duration: string;
-    topics: string[];
+    topics: Array<{
+      topic: string;
+      subtopics: string[];
+    }>;
   }>;
   tools: Array<{
     name: string;
@@ -987,7 +990,7 @@ const UnifiedCourseManagement: React.FC = () => {
   const addCurriculumModule = () => {
     setFormData({
       ...formData,
-      curriculum: [...(formData.curriculum || []), { module: '', duration: '', topics: [''] }]
+      curriculum: [...(formData.curriculum || []), { module: '', duration: '', topics: [{ topic: '', subtopics: [''] }] }]
     });
   };
 
@@ -999,19 +1002,37 @@ const UnifiedCourseManagement: React.FC = () => {
 
   const addCurriculumTopic = (moduleIndex: number) => {
     const curriculum = [...(formData.curriculum || [])];
-    curriculum[moduleIndex].topics.push('');
+    curriculum[moduleIndex].topics.push({ topic: '', subtopics: [''] });
     setFormData({ ...formData, curriculum });
   };
 
   const updateCurriculumTopic = (moduleIndex: number, topicIndex: number, value: string) => {
     const curriculum = [...(formData.curriculum || [])];
-    curriculum[moduleIndex].topics[topicIndex] = value;
+    curriculum[moduleIndex].topics[topicIndex].topic = value;
     setFormData({ ...formData, curriculum });
   };
 
   const removeCurriculumTopic = (moduleIndex: number, topicIndex: number) => {
     const curriculum = [...(formData.curriculum || [])];
     curriculum[moduleIndex].topics.splice(topicIndex, 1);
+    setFormData({ ...formData, curriculum });
+  };
+
+  const addCurriculumSubtopic = (moduleIndex: number, topicIndex: number) => {
+    const curriculum = [...(formData.curriculum || [])];
+    curriculum[moduleIndex].topics[topicIndex].subtopics.push('');
+    setFormData({ ...formData, curriculum });
+  };
+
+  const updateCurriculumSubtopic = (moduleIndex: number, topicIndex: number, subtopicIndex: number, value: string) => {
+    const curriculum = [...(formData.curriculum || [])];
+    curriculum[moduleIndex].topics[topicIndex].subtopics[subtopicIndex] = value;
+    setFormData({ ...formData, curriculum });
+  };
+
+  const removeCurriculumSubtopic = (moduleIndex: number, topicIndex: number, subtopicIndex: number) => {
+    const curriculum = [...(formData.curriculum || [])];
+    curriculum[moduleIndex].topics[topicIndex].subtopics.splice(subtopicIndex, 1);
     setFormData({ ...formData, curriculum });
   };
 
@@ -1993,25 +2014,60 @@ const UnifiedCourseManagement: React.FC = () => {
                           </div>
                           
                           <div className="form-group">
-                            <label className="form-label">Topics *</label>
-                            <div className="space-y-2">
-                              {module.topics.map((topic, topicIndex) => (
-                                <div key={topicIndex} className="flex items-center gap-2">
-                                  <input
-                                    type="text"
-                                    className="form-input flex-1"
-                                    value={topic}
-                                    onChange={(e) => updateCurriculumTopic(moduleIndex, topicIndex, e.target.value)}
-                                    placeholder="Topic name"
-                                    required
-                                  />
-                                  <button
-                                    type="button"
-                                    onClick={() => removeCurriculumTopic(moduleIndex, topicIndex)}
-                                    className="btn btn-danger btn-sm"
-                                  >
-                                    <X className="w-3 h-3" />
-                                  </button>
+                            <label className="form-label">Topics & Subtopics *</label>
+                            <div className="space-y-4">
+                              {module.topics.map((topicObj, topicIndex) => (
+                                <div key={topicIndex} className="border border-gray-100 rounded-lg p-3 bg-gray-50">
+                                  <div className="flex items-center gap-2 mb-3">
+                                    <input
+                                      type="text"
+                                      className="form-input flex-1 font-medium"
+                                      value={topicObj.topic}
+                                      onChange={(e) => updateCurriculumTopic(moduleIndex, topicIndex, e.target.value)}
+                                      placeholder="Topic name (e.g., Week 1: Prompt Engineering Foundations)"
+                                      required
+                                    />
+                                    <button
+                                      type="button"
+                                      onClick={() => removeCurriculumTopic(moduleIndex, topicIndex)}
+                                      className="btn btn-danger btn-sm"
+                                    >
+                                      <X className="w-3 h-3" />
+                                    </button>
+                                  </div>
+                                  
+                                  <div className="ml-4">
+                                    <label className="form-label text-sm">Subtopics</label>
+                                    <div className="space-y-2">
+                                      {topicObj.subtopics.map((subtopic, subtopicIndex) => (
+                                        <div key={subtopicIndex} className="flex items-center gap-2">
+                                          <input
+                                            type="text"
+                                            className="form-input flex-1 text-sm"
+                                            value={subtopic}
+                                            onChange={(e) => updateCurriculumSubtopic(moduleIndex, topicIndex, subtopicIndex, e.target.value)}
+                                            placeholder="Subtopic (e.g., Basic prompt structures and techniques)"
+                                            required
+                                          />
+                                          <button
+                                            type="button"
+                                            onClick={() => removeCurriculumSubtopic(moduleIndex, topicIndex, subtopicIndex)}
+                                            className="btn btn-danger btn-sm"
+                                          >
+                                            <X className="w-2 h-2" />
+                                          </button>
+                                        </div>
+                                      ))}
+                                      <button
+                                        type="button"
+                                        onClick={() => addCurriculumSubtopic(moduleIndex, topicIndex)}
+                                        className="btn btn-secondary btn-sm text-xs"
+                                      >
+                                        <Plus className="w-2 h-2 mr-1" />
+                                        Add Subtopic
+                                      </button>
+                                    </div>
+                                  </div>
                                 </div>
                               ))}
                               <button

@@ -34,7 +34,10 @@ const CourseDetailsSchema = new Schema<CourseDetails & Document>({
   curriculum: [{
     module: { type: String, required: true },
     duration: { type: String, required: true },
-    topics: [{ type: String, required: true }]
+    topics: [{
+      topic: { type: String, required: true },
+      subtopics: [{ type: String, required: true }]
+    }]
   }],
   tools: [{
     name: { type: String, required: true },

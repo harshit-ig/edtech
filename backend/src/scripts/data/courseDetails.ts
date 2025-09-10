@@ -378,29 +378,130 @@ export const courseDetails = [
 
     curriculum: [
       {
-        module: "Module 1: Introduction to Data Science and AI",
-        duration: "3 weeks",
-        topics: ["The role and impact of a data scientist", "The Data Science lifecycle: From problem formulation to deployment (CRISP-DM)", "Overview of AI, Machine Learning, Deep Learning, and Generative AI", "Ethical considerations in AI and Data Science", "Use cases in various industries and AI-driven innovation"]
+        module: "The Explorer (From AI User → AI Builder)",
+        duration: "1 Month",
+        topics: [
+          {
+            topic: "Week 1: Prompt Engineering Foundations",
+            subtopics: [
+              "Understanding prompt structures and techniques",
+              "Basic and advanced prompt patterns",
+              "Context management and chain-of-thought prompting",
+              "Prompt optimization strategies"
+            ]
+          },
+          {
+            topic: "Week 2: n8n Basics + JSON",
+            subtopics: [
+              "Introduction to n8n workflow automation",
+              "Setting up nodes and connections", 
+              "JSON data manipulation and parsing",
+              "Building basic automation workflows"
+            ]
+          },
+          {
+            topic: "Week 3: Logic + APIs",
+            subtopics: [
+              "Conditional logic and decision trees",
+              "API integration and HTTP requests",
+              "Error handling and debugging workflows",
+              "Data transformation techniques"
+            ]
+          },
+          {
+            topic: "Week 4: Capstone 1 – Expense Tracker",
+            subtopics: [
+              "Project planning and architecture design",
+              "Building automated expense categorization",
+              "Creating data visualization dashboards",
+              "Implementing notification systems"
+            ]
+          }
+        ]
       },
       {
-        module: "Module 2: Advanced Data Foundations & Engineering",
-        duration: "3 weeks",
-        topics: ["Advanced data types, structures, and storage (NoSQL, Data Lakes)", "Data acquisition (APIs, web scraping) and wrangling with Python", "Data cleaning, preprocessing, and feature engineering techniques", "SQL for complex querying, data manipulation, and database management"]
+        module: "The Creator (AI-Powered Builder)",
+        duration: "1 Month", 
+        topics: [
+          {
+            topic: "Week 5: Advanced Automation Workflows",
+            subtopics: [
+              "Complex multi-step automation design",
+              "Database integration and management",
+              "Advanced API orchestration",
+              "Performance optimization techniques"
+            ]
+          },
+          {
+            topic: "Week 6: AI Integration Mastery",
+            subtopics: [
+              "Integrating multiple AI models and services",
+              "Building intelligent decision systems",
+              "Natural language processing workflows",
+              "Computer vision automation pipelines"
+            ]
+          },
+          {
+            topic: "Week 7: Data Processing & Analytics",
+            subtopics: [
+              "Advanced data transformation techniques",
+              "Real-time data processing workflows",
+              "Building analytics dashboards",
+              "Automated reporting systems"
+            ]
+          },
+          {
+            topic: "Week 8: Capstone 2 – Content Management System",
+            subtopics: [
+              "Full-stack automation architecture",
+              "Content generation and curation workflows",
+              "User management and authentication",
+              "Deployment and monitoring systems"
+            ]
+          }
+        ]
       },
       {
-        module: "Module 3: Statistical Modeling & Rigorous EDA",
-        duration: "3 weeks",
-        topics: ["Advanced descriptive and inferential statistics for data science", "Probability distributions, sampling, and hypothesis testing", "Regression analysis (linear, logistic) and ANOVA", "Advanced EDA with Python (Matplotlib, Seaborn, Plotly)", "Automating and augmenting EDA with GenAI prompts for deeper insights"]
-      },
-      {
-        module: "Module 4: Python for Data Science & GenAI Integration",
-        duration: "3 weeks",
-        topics: ["Mastering Python for data science: Pandas, NumPy, SciPy, Matplotlib, Seaborn", "Object-Oriented Programming (OOP) concepts for scalable code", "Using GenAI (ChatGPT, GitHub Copilot) for efficient code generation", "Developing custom Python scripts for data processing and automation"]
-      },
-      {
-        module: "Module 5: Machine Learning – From Theory to Application",
-        duration: "4 weeks",
-        topics: ["Core ML concepts: Supervised and Unsupervised learning", "Key algorithms: Decision Trees, Random Forests, SVM, K-Means, PCA", "Model training, tuning and evaluation metrics", "Introduction to Scikit-learn library for ML implementation", "AI-assisted model selection and parameter tuning using GenAI"]
+        module: "The Professional (Enterprise AI Solutions)",
+        duration: "1 Month",
+        topics: [
+          {
+            topic: "Week 9: Enterprise Workflow Design",
+            subtopics: [
+              "Scalable architecture patterns for enterprise systems",
+              "Security and compliance in automation workflows",
+              "Multi-tenant system design and implementation",
+              "Performance monitoring and optimization"
+            ]
+          },
+          {
+            topic: "Week 10: Advanced AI Model Integration",
+            subtopics: [
+              "Custom AI model deployment and management",
+              "Model versioning and A/B testing frameworks",
+              "Real-time inference and batch processing",
+              "Cost optimization strategies for AI services"
+            ]
+          },
+          {
+            topic: "Week 11: Business Process Automation",
+            subtopics: [
+              "Enterprise process mapping and analysis",
+              "Workflow orchestration at scale",
+              "Integration with existing business systems",
+              "Change management and user adoption"
+            ]
+          },
+          {
+            topic: "Week 12: Final Capstone Project",
+            subtopics: [
+              "End-to-end enterprise solution development",
+              "Client presentation and stakeholder management",
+              "Documentation and maintenance planning",
+              "Portfolio development and career preparation"
+            ]
+          }
+        ]
       },
       {
         module: "Module 6: Generative AI for Data Scientists",

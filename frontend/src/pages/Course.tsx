@@ -602,11 +602,23 @@ export default function CoursePage() {
                       <div className="px-8 pb-8">
                         <div className="border-t border-white/10 pt-6">
                           <h4 className="text-lg font-semibold text-white mb-4">Topics Covered:</h4>
-                          <div className="grid md:grid-cols-2 gap-3">
-                            {module.topics.map((topic: string, topicIndex: number) => (
-                              <div key={topicIndex} className="flex items-center gap-3 p-3 bg-white/[0.02] rounded-lg border border-white/10">
-                                <div className="w-2 h-2 bg-edtech-green rounded-full flex-shrink-0"></div>
-                                <span className="text-white/80 text-sm">{topic}</span>
+                          <div className="space-y-6">
+                            {module.topics.map((topicObj: any, topicIndex: number) => (
+                              <div key={topicIndex} className="bg-white/[0.02] rounded-lg border border-white/10 p-4">
+                                <div className="mb-4">
+                                  <h5 className="text-edtech-green font-semibold text-base mb-3 flex items-center gap-2">
+                                    <div className="w-3 h-3 bg-edtech-green rounded-full flex-shrink-0"></div>
+                                    {topicObj.topic}
+                                  </h5>
+                                  <div className="grid md:grid-cols-2 gap-3">
+                                    {topicObj.subtopics.map((subtopic: string, subtopicIndex: number) => (
+                                      <div key={subtopicIndex} className="flex items-start gap-3 p-2 bg-white/[0.01] rounded-md border border-white/5">
+                                        <div className="w-1.5 h-1.5 bg-edtech-orange rounded-full flex-shrink-0 mt-2"></div>
+                                        <span className="text-white/70 text-sm leading-relaxed">{subtopic}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
                               </div>
                             ))}
                           </div>
@@ -619,7 +631,7 @@ export default function CoursePage() {
                               <span className="text-edtech-orange font-semibold text-sm">Module Highlight</span>
                             </div>
                             <p className="text-white/80 text-sm">
-                              By the end of this module, you'll have hands-on experience with {module.topics.slice(0, 2).join(' and ')}, 
+                              By the end of this module, you'll have hands-on experience with {module.topics.slice(0, 2).map((t: any) => t.topic).join(' and ')}, 
                               setting the foundation for advanced concepts in subsequent modules.
                             </p>
                           </div>

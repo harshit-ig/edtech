@@ -132,7 +132,10 @@ export interface CourseDetails {
   curriculum: Array<{
     module: string;
     duration: string;
-    topics: string[];
+    topics: Array<{
+      topic: string;
+      subtopics: string[];
+    }>;
   }>;
   tools: Array<{
     name: string;
