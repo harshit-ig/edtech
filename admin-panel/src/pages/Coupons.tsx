@@ -246,9 +246,9 @@ export default function Coupons() {
   });
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-GB', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'GBP',
       minimumFractionDigits: 0
     }).format(amount);
   };
@@ -612,7 +612,7 @@ export default function Coupons() {
                       required
                     >
                       <option value="percentage">Percentage (%)</option>
-                      <option value="flat">Flat Amount ($)</option>
+                      <option value="flat">Flat Amount (£)</option>
                     </select>
                   </div>
 
@@ -801,7 +801,7 @@ export default function Coupons() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Min Purchase Amount ($)
+                      Min Purchase Amount (£)
                     </label>
                     <input
                       type="number"
@@ -815,7 +815,7 @@ export default function Coupons() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Max Discount Amount ($)
+                      Max Discount Amount (£)
                     </label>
                     <input
                       type="number"

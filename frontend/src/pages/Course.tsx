@@ -314,10 +314,10 @@ export default function CoursePage() {
                   <div className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300">
                     <div className="text-center mb-6">
                       <div className="text-4xl font-bold mb-2 text-white">
-                        {details.pricing?.current ? `$${details.pricing.current}` : 'Price TBD'}
+                        {details.pricing?.current ? `£${details.pricing.current}` : 'Price TBD'}
                       </div>
                       {details.pricing?.original && (
-                        <div className="text-white/60 line-through text-lg">${details.pricing.original}</div>
+                        <div className="text-white/60 line-through text-lg">£{details.pricing.original}</div>
                       )}
                       {details.pricing?.discount && (
                         <div className="text-edtech-green text-sm font-medium bg-edtech-green/20 px-3 py-1 rounded-full inline-block">
@@ -350,7 +350,7 @@ export default function CoursePage() {
                         onClick={() => handleBuyNow(course, details.pricing?.current)}
                         className="bg-edtech-green hover:bg-green-600 text-black px-6 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl w-full block text-center"
                       >
-                        {details.pricing?.current ? `Buy Now $${details.pricing.current} →` : 'Pricing Unavailable'}
+                        {details.pricing?.current ? `Buy Now £${details.pricing.current} →` : 'Pricing Unavailable'}
                       </button>
                       <button 
                         onClick={() => openModal("Book a FREE Demo Session", "Get a personalized demo of the course content and discuss your learning goals with our experts")}

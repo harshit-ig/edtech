@@ -55,7 +55,7 @@ const PaymentOrderSchema = new Schema<PaymentOrder & Document>({
   courseId: { type: String, required: true },
   courseName: { type: String, required: true },
   amount: { type: Number, required: true },
-  currency: { type: String, required: true, default: 'USD' },
+  currency: { type: String, required: true, default: 'GBP' },
   status: { 
     type: String, 
     required: true,
@@ -81,7 +81,7 @@ const PaymentTransactionSchema = new Schema<PaymentTransaction & Document>({
   razorpayOrderId: { type: String, required: true },
   razorpaySignature: { type: String, required: true },
   amount: { type: Number, required: true },
-  currency: { type: String, required: true, default: 'USD' },
+  currency: { type: String, required: true, default: 'GBP' },
   status: { 
     type: String, 
     required: true,

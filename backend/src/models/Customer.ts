@@ -81,7 +81,7 @@ const CustomerSchema = new Schema<Customer & Document>({
     default: CustomerStatus.PENDING
   },
   amount: { type: Number, required: true },
-  currency: { type: String, required: true, default: 'USD' },
+  currency: { type: String, required: true, default: 'GBP' },
   paymentId: { type: String },
   orderId: { type: String },
   installmentDetails: {

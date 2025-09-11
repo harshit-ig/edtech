@@ -328,17 +328,17 @@ export default function PaymentModal({
               <div className="text-right">
                 {appliedCoupon ? (
                   <>
-                    <div className="text-white/40 line-through text-sm">${coursePrice}</div>
-                    <div className="text-edtech-green font-bold text-lg">${finalPrice}</div>
+                    <div className="text-white/40 line-through text-sm">£{coursePrice}</div>
+                    <div className="text-edtech-green font-bold text-lg">£{finalPrice}</div>
                   </>
                 ) : (
-                  <div className="text-edtech-green font-bold text-lg">${finalPrice}</div>
+                  <div className="text-edtech-green font-bold text-lg">£{finalPrice}</div>
                 )}
               </div>
             </div>
             {appliedCoupon && (
               <div className="mt-2 text-edtech-green text-sm font-medium">
-                💰 You saved ${appliedCoupon.discount.amount} with coupon {appliedCoupon.coupon.code}
+                💰 You saved £{appliedCoupon.discount.amount} with coupon {appliedCoupon.coupon.code}
               </div>
             )}
           </div>
@@ -380,7 +380,7 @@ export default function PaymentModal({
                       ✅ {appliedCoupon.coupon.code} Applied
                     </div>
                     <div className="text-white/70 text-xs">
-                      Saved ${appliedCoupon.discount.amount}
+                      Saved £{appliedCoupon.discount.amount}
                     </div>
                   </div>
                   <button
@@ -468,7 +468,7 @@ export default function PaymentModal({
                     Processing...
                   </span>
                 ) : (
-                  `Pay $${finalPrice}`
+                  `Pay £${finalPrice}`
                 )}
               </button>
             </div>

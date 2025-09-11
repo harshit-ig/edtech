@@ -167,7 +167,7 @@ CouponSchema.methods.calculateDiscount = function(this: ICoupon, originalPrice: 
   
   // Check minimum purchase amount
   if (this.minPurchaseAmount && originalPrice < this.minPurchaseAmount) {
-    throw new Error(`Minimum purchase amount of $${this.minPurchaseAmount} required for this coupon`);
+    throw new Error(`Minimum purchase amount of £${this.minPurchaseAmount} required for this coupon`);
   }
   
   // Calculate discount based on type
@@ -215,7 +215,7 @@ CouponSchema.statics.validateCoupon = async function(code: string, courseId: str
   }
   
   if (coupon.minPurchaseAmount && originalPrice < coupon.minPurchaseAmount) {
-    throw new Error(`Minimum purchase amount of $${coupon.minPurchaseAmount} required for this coupon`);
+    throw new Error(`Minimum purchase amount of £${coupon.minPurchaseAmount} required for this coupon`);
   }
   
   return coupon;

@@ -89,17 +89,17 @@ Data science is an interdisciplinary field that combines statistics, programming
 
 ### Entry Level (0-2 years)
 **Roles**: Junior Data Scientist, Data Analyst, Research Assistant
-**Salary Range**: $60,000 - $90,000
+**Salary Range**: £45,000 - £70,000
 **Key Skills**: SQL, Python/R basics, Excel, basic statistics
 
 ### Mid Level (2-5 years)
 **Roles**: Data Scientist, Senior Data Analyst, Machine Learning Engineer
-**Salary Range**: $90,000 - $140,000
+**Salary Range**: £70,000 - £110,000
 **Key Skills**: Advanced ML algorithms, cloud platforms, deep learning
 
 ### Senior Level (5+ years)
 **Roles**: Senior Data Scientist, Data Science Manager, Principal Data Scientist
-**Salary Range**: $140,000 - $250,000+
+**Salary Range**: £110,000 - £200,000+
 **Key Skills**: Leadership, strategy, advanced analytics, team management
 
 ## Essential Skills to Master
@@ -843,8 +843,8 @@ Cloud computing delivers computing services over the internet, including servers
 ### 1. Create Free Accounts
 All three platforms offer free tiers:
 - **AWS**: 12 months free tier
-- **Azure**: 12 months + $200 credit
-- **GCP**: $300 credit for 90 days
+- **Azure**: 12 months + £150 credit
+- **GCP**: £230 credit for 90 days
 
 ### 2. Learn the Basics
 Start with fundamental services:

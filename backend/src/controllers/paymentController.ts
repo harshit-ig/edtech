@@ -79,7 +79,7 @@ export const createPaymentOrder = async (req: Request, res: Response): Promise<v
       }
     }
 
-    const currency = 'USD'; // Default to USD, can be made dynamic later
+    const currency = 'GBP'; // Default to GBP, can be made dynamic later
 
     // Create unique order ID
     const orderId = `ORD_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;

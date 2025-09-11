@@ -125,7 +125,7 @@ export const submitInstallmentInquiry = async (req: Request, res: Response): Pro
       paymentStatus: 'pending',
       customerStatus: 'installment_pending',
       amount: 0, // Will be set when installment plan is created
-      currency: 'USD',
+      currency: 'GBP',
       source,
       notes: `Installment inquiry from ${source} for course: ${courseName || 'Unknown'}. Customer interested in installment payment plan.`
     });

@@ -22,7 +22,7 @@ export const faqs = [
   {
     id: 5,
     question: "How much of a salary increase can I expect?",
-    answer: "Our alumni typically see salary increases of 40-150% within the first year. Data professionals often see increases from $60k to $120k+, while those transitioning to AI/ML roles can see even higher growth. Results vary based on location, experience, and the specific role you transition into."
+    answer: "Our alumni typically see salary increases of 40-150% within the first year. Data professionals often see increases from £45k to £95k+, while those transitioning to AI/ML roles can see even higher growth. Results vary based on location, experience, and the specific role you transition into."
   },
   {
     id: 6,

@@ -279,10 +279,10 @@ export default function PricingPage() {
                       <div className="mb-6 p-4 bg-gray-50 rounded-2xl">
                         <div className="flex items-baseline gap-3 mb-2">
                           <span className="text-3xl font-bold text-gray-900">
-                            ${pricing.price.toLocaleString()}
+                            £{pricing.price.toLocaleString()}
                           </span>
                           <span className="text-lg text-gray-500 line-through">
-                            ${course.originalPrice.toLocaleString()}
+                            £{course.originalPrice.toLocaleString()}
                           </span>
                           <span className="text-sm font-bold text-red-600 bg-red-100 px-2 py-1 rounded">
                             {course.discount}
@@ -292,10 +292,10 @@ export default function PricingPage() {
                         
                         {paymentMode === 'installment' && (
                           <div className="text-xs text-gray-500">
-                            Total: ${pricing.total.toLocaleString()} 
+                            Total: £{pricing.total.toLocaleString()} 
                             {pricing.savings > 0 && (
                               <span className="text-red-600 ml-2">
-                                (${pricing.savings} more than one-time)
+                                (£{pricing.savings} more than one-time)
                               </span>
                             )}
                           </div>
@@ -303,7 +303,7 @@ export default function PricingPage() {
                         
                         {paymentMode === 'one-time' && (
                           <div className="text-xs text-edtech-green font-medium">
-                            Save ${pricing.savings.toLocaleString()} vs. original price
+                            Save £{pricing.savings.toLocaleString()} vs. original price
                           </div>
                         )}
                       </div>
