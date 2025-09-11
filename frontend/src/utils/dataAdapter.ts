@@ -32,7 +32,7 @@ import type {
 
 // Cache to avoid repeated API calls for static data
 const memoryCache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours (1 day)
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 const CACHE_PREFIX = 'edtech_cache_';
 
 // Persistent cache helpers
