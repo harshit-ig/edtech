@@ -332,7 +332,7 @@ export default function PricingPage() {
                               : 'bg-gradient-to-r from-edtech-green to-edtech-orange text-black hover:brightness-110'
                           }`}
                         >
-                          {course.cta} - {paymentMode === 'installment' ? `$${pricing.price}/mo` : `$${pricing.price}`}
+                          {course.cta} - {paymentMode === 'installment' ? `£${pricing.price}/mo` : `£${pricing.price}`}
                         </button>
                         <Link 
                           to={`/course/${course.id}`} 

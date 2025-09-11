@@ -2425,7 +2425,7 @@ const UnifiedCourseManagement: React.FC = () => {
                     
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div className="form-group">
-                        <label className="form-label">Current Price ($) *</label>
+                        <label className="form-label">Current Price (£) *</label>
                       <input
                         type="number"
                         className="form-input"
@@ -2436,7 +2436,7 @@ const UnifiedCourseManagement: React.FC = () => {
                       />
                     </div>
                     <div className="form-group">
-                        <label className="form-label">Original Price ($) *</label>
+                        <label className="form-label">Original Price (£) *</label>
                       <input
                         type="number"
                         className="form-input"
@@ -2461,7 +2461,7 @@ const UnifiedCourseManagement: React.FC = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="form-group">
-                        <label className="form-label">Installment Price ($) *</label>
+                        <label className="form-label">Installment Price (£) *</label>
                       <input
                         type="number"
                         className="form-input"
@@ -2624,11 +2624,11 @@ const UnifiedCourseManagement: React.FC = () => {
                 <span className="text-sm text-gray-500">{course.duration}</span>
                 <div className="text-right">
                   <div className="text-lg font-bold text-gray-900">
-                    ${course.currentPrice}
+                    £{course.currentPrice}
                   </div>
                   {course.originalPrice > course.currentPrice && (
                     <div className="text-sm text-gray-500 line-through">
-                      ${course.originalPrice}
+                      £{course.originalPrice}
                     </div>
                   )}
                 </div>

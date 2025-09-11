@@ -718,10 +718,10 @@ export default function CoursePage() {
               <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/20 mb-8 max-w-2xl mx-auto">
                 <div className="text-center mb-6">
                   <div className="text-5xl md:text-6xl font-bold text-white mb-2">
-                    {details.pricing?.current ? `$${details.pricing.current}` : 'Price TBD'}
+                    {details.pricing?.current ? `£${details.pricing.current}` : 'Price TBD'}
                   </div>
                   {details.pricing?.original && (
-                    <div className="text-white/60 line-through text-2xl mb-2">${details.pricing.original}</div>
+                    <div className="text-white/60 line-through text-2xl mb-2">£{details.pricing.original}</div>
                   )}
                   {details.pricing?.discount && (
                     <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-edtech-green to-edtech-orange text-black rounded-full text-sm font-bold">
@@ -753,7 +753,7 @@ export default function CoursePage() {
                     onClick={() => handleBuyNow(course, details.pricing?.current)}
                     className="bg-gradient-to-r from-edtech-green to-edtech-orange text-black px-8 py-4 rounded-full font-bold text-xl hover:brightness-110 transition-all duration-300 hover:scale-105 hover:shadow-2xl w-full block text-center"
                   >
-                    {details.pricing?.current ? `🎯 Buy Now $${details.pricing.current}` : '🎯 Pricing Unavailable'} {details.pricing?.original && details.pricing.current ? ` & Save $${details.pricing.original - details.pricing.current}` : ''}
+                    {details.pricing?.current ? `🎯 Buy Now £${details.pricing.current}` : '🎯 Pricing Unavailable'} {details.pricing?.original && details.pricing.current ? ` & Save £${details.pricing.original - details.pricing.current}` : ''}
                   </button>
                   <button 
                     onClick={() => openModal("Talk to Our Career Advisor", "Speak with our career experts to get personalized guidance before enrolling")}
