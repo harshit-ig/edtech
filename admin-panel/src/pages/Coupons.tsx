@@ -204,11 +204,13 @@ export default function Coupons() {
     setShowForm(true);
   };
 
-  const handleDelete = async (couponId: string) => {
-    if (!confirm('Are you sure you want to delete this coupon?')) return;
-
+  const handleDelete = async (coupon: Coupon) => {
+    if (coupon.usedCount > 0){
+      toast.error('This coupon has been used and cannot be deleted. Consider deactivating it instead.');
+      return;
+    }
     try {
-      const response = await couponsApi.delete(couponId);
+      const response = await couponsApi.delete(coupon._id);
       if (response.success) {
         loadCoupons();
         toast.success('Coupon deleted successfully!');
@@ -513,9 +515,8 @@ export default function Coupons() {
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => handleDelete(coupon._id)}
+                          onClick={() => handleDelete(coupon)}
                           className="text-red-600 hover:text-red-900"
-                          disabled={coupon.usedCount > 0}
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
