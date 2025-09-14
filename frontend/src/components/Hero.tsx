@@ -1,6 +1,5 @@
-import { Canvas } from "@react-three/fiber";
-import Globe from "../globe";
 import Typewriter from "typewriter-effect";
+import LazyGlobe from "./LazyGlobe";
 // import TechBackground from "../TechBackground";
 import RoleCarousel from "./RoleCarousel";
 import { useState, useEffect } from "react";
@@ -55,13 +54,7 @@ export default function Hero() {
       
       {/* Globe positioned CENTER on mobile, LEFT with padding on medium+ screens */}
       <div className="absolute inset-0 md:left-8 md:top-8 md:w-1/2 h-full flex items-center justify-center -z-10">
-        <div className="w-[650px] h-[650px] md:w-[500px] md:h-[500px] lg:w-[650px] lg:h-[650px]">
-          <Canvas camera={{ position: [0, 0, 3], fov: 45 }}>
-            <ambientLight intensity={0.8} />
-            <directionalLight position={[5, 5, 5]} intensity={1} />
-            <Globe />
-          </Canvas>
-        </div>
+        <LazyGlobe className="w-[650px] h-[650px] md:w-[500px] md:h-[500px] lg:w-[650px] lg:h-[650px]" />
       </div>
       
       {/* Role Carousel positioned on RIGHT side as background - hidden on small screens */}

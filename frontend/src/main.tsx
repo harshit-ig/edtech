@@ -1,35 +1,48 @@
-import { StrictMode } from 'react'
+import React, { StrictMode, Suspense, lazy } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.tsx'
-import ContactPage from './pages/Contact.tsx'
-import CoursesPage from './pages/Courses.tsx'
-import CoursePage from './pages/Course.tsx'
-import AboutPage from './pages/About.tsx'
-import PricingPage from './pages/Pricing.tsx'
-import BlogPage from './pages/Blog.tsx'
-import PostPage from './pages/Post.tsx'
-import NotFoundPage from './pages/NotFound.tsx'
-import PrivacyPolicy from './pages/PrivacyPolicy.tsx'
-import RefundPolicy from './pages/RefundPolicy.tsx'
-import TermsOfService from './pages/TermsOfService.tsx'
 import Layout from './Layout.tsx'
 import ErrorBoundary from './components/ErrorBoundary.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
+// Lazy load components for better performance
+const App = lazy(() => import('./App.tsx'))
+const ContactPage = lazy(() => import('./pages/Contact.tsx'))
+const CoursesPage = lazy(() => import('./pages/Courses.tsx'))
+const CoursePage = lazy(() => import('./pages/Course.tsx'))
+const AboutPage = lazy(() => import('./pages/About.tsx'))
+const PricingPage = lazy(() => import('./pages/Pricing.tsx'))
+const BlogPage = lazy(() => import('./pages/Blog.tsx'))
+const PostPage = lazy(() => import('./pages/Post.tsx'))
+const NotFoundPage = lazy(() => import('./pages/NotFound.tsx'))
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy.tsx'))
+const RefundPolicy = lazy(() => import('./pages/RefundPolicy.tsx'))
+const TermsOfService = lazy(() => import('./pages/TermsOfService.tsx'))
+
+// Loading component for lazy routes
+const Loading = lazy(() => import('./components/Loading.tsx'))
+
+const LazyWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <Layout>
+    <Suspense fallback={<Loading />}>
+      {children}
+    </Suspense>
+  </Layout>
+)
+
 const router = createBrowserRouter([
-  { path: '/', element: <Layout><App /></Layout> },
-  { path: '/contact', element: <Layout><ContactPage /></Layout> },
-  { path: '/courses', element: <Layout><CoursesPage /></Layout> },
-  { path: '/course/:courseId', element: <Layout><CoursePage /></Layout> },
-  { path: '/about', element: <Layout><AboutPage /></Layout> },
-  { path: '/pricing', element: <Layout><PricingPage /></Layout> },
-  { path: '/blog', element: <Layout><BlogPage /></Layout> },
-  { path: '/blog/:slug', element: <Layout><PostPage /></Layout> },
-  { path: '/privacy-policy', element: <Layout><PrivacyPolicy /></Layout> },
-  { path: '/refund-policy', element: <Layout><RefundPolicy /></Layout> },
-  { path: '/terms-of-service', element: <Layout><TermsOfService /></Layout> },
-  { path: '*', element: <Layout><NotFoundPage /></Layout> }, // Catch-all route for 404
+  { path: '/', element: <LazyWrapper><App /></LazyWrapper> },
+  { path: '/contact', element: <LazyWrapper><ContactPage /></LazyWrapper> },
+  { path: '/courses', element: <LazyWrapper><CoursesPage /></LazyWrapper> },
+  { path: '/course/:courseId', element: <LazyWrapper><CoursePage /></LazyWrapper> },
+  { path: '/about', element: <LazyWrapper><AboutPage /></LazyWrapper> },
+  { path: '/pricing', element: <LazyWrapper><PricingPage /></LazyWrapper> },
+  { path: '/blog', element: <LazyWrapper><BlogPage /></LazyWrapper> },
+  { path: '/blog/:slug', element: <LazyWrapper><PostPage /></LazyWrapper> },
+  { path: '/privacy-policy', element: <LazyWrapper><PrivacyPolicy /></LazyWrapper> },
+  { path: '/refund-policy', element: <LazyWrapper><RefundPolicy /></LazyWrapper> },
+  { path: '/terms-of-service', element: <LazyWrapper><TermsOfService /></LazyWrapper> },
+  { path: '*', element: <LazyWrapper><NotFoundPage /></LazyWrapper> }, // Catch-all route for 404
 ])
 
 createRoot(document.getElementById('root')!).render(

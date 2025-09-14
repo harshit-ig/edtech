@@ -12,28 +12,44 @@ function Globe() {
   const [highlightedCountries, setHighlightedCountries] = useState<string[]>([]);
 
   useEffect(() => {
+    let isMounted = true;
+
     const loadData = async () => {
       try {
-        const [ countriesResult] = await Promise.all([
+        // Load geojson and countries data in parallel
+        const [geoResponse, countriesResult] = await Promise.all([
+          fetch(geoGlobeData),
           getHighlightedCountriesData()
         ]);
+
+        if (!isMounted) return;
+
+        // Process geojson
+        const geoData = await geoResponse.json();
+        setGeoData(geoData);
         setHighlightedCountries(countriesResult);
+
       } catch (error) {
         console.error('Error loading globe data:', error);
-        // Fallback to loading geojson file directly if API fails
-        try {
-          setHighlightedCountries(['India', 'United States', 'Germany']); // fallback countries
-        } catch (fallbackError) {
-          console.error('Fallback geojson loading failed:', fallbackError);
-        }
+        if (!isMounted) return;
+        
+        // Fallback data - still render a basic globe
+        setHighlightedCountries(['India', 'United States', 'Germany']);
+        setGeoData(null); // Globe will render with basic ocean sphere only
       }
     };
-    fetch(geoGlobeData)
-      .then((res) => res.json())
-      .then((data) => setGeoData(data))
-      .catch(() => setGeoData(null));
 
-    loadData();
+    // Use requestIdleCallback to load during idle time for better performance
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => loadData(), { timeout: 2000 });
+    } else {
+      // Fallback for browsers without requestIdleCallback
+      setTimeout(loadData, 100);
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useFrame(() => {
