@@ -1,44 +1,85 @@
-import React, { Suspense, lazy, useState, useEffect } from 'react';
-
-// Lazy load Three.js components only when ready
-const Canvas = lazy(() => import("@react-three/fiber").then(module => ({ default: module.Canvas })));
-const Globe = lazy(() => import('../globe'));
+import React, { useState, useEffect, useRef } from 'react';
 
 interface LazyGlobeProps {
   className?: string;
 }
 
 const LazyGlobe: React.FC<LazyGlobeProps> = ({ className }) => {
-  const [shouldLoadGlobe, setShouldLoadGlobe] = useState(false);
+  const [GlobeComponent, setGlobeComponent] = useState<React.ComponentType | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Delay loading the heavy Three.js components until after initial render
-    const loadGlobe = () => {
-      setShouldLoadGlobe(true);
+    let isMounted = true;
+    let observer: IntersectionObserver | null = null;
+
+    const loadGlobe = async () => {
+      if (!isMounted) return;
+
+      try {
+        // Use string-based dynamic imports to prevent build-time detection
+        const [{ Canvas }, { default: Globe }] = await Promise.all([
+          import(/* webpackIgnore: true */ "@react-three/fiber"),
+          import(/* webpackIgnore: true */ "../globe")
+        ]);
+
+        if (!isMounted) return;
+
+        // Create the globe component
+        const GlobeWithCanvas = () => (
+          <Canvas camera={{ position: [0, 0, 3], fov: 45 }}>
+            <ambientLight intensity={0.8} />
+            <directionalLight position={[5, 5, 5]} intensity={1} />
+            <Globe />
+          </Canvas>
+        );
+
+        setGlobeComponent(() => GlobeWithCanvas);
+      } catch (error) {
+        console.error('Failed to load globe:', error);
+      }
     };
 
-    // Use requestIdleCallback for better performance, fallback to setTimeout
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(loadGlobe, { timeout: 2000 });
-    } else {
-      setTimeout(loadGlobe, 1000);
+    const startLoading = () => {
+      // Wait for page to be completely loaded first
+      if (document.readyState === 'complete') {
+        // Add a significant delay to ensure everything else loads first
+        setTimeout(loadGlobe, 1000);
+      } else {
+        window.addEventListener('load', () => {
+          setTimeout(loadGlobe, 1000);
+        }, { once: true });
+      }
+    };
+
+    // Use intersection observer to only load when globe area is visible or about to be visible
+    if (containerRef.current) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting || entry.intersectionRatio > 0) {
+              observer?.disconnect();
+              startLoading();
+            }
+          });
+        },
+        {
+          rootMargin: '200px', // Start loading when 200px away from viewport
+          threshold: 0
+        }
+      );
+
+      observer.observe(containerRef.current);
     }
+
+    return () => {
+      isMounted = false;
+      observer?.disconnect();
+    };
   }, []);
 
-  // Return empty div initially, then progressively load globe
-  if (!shouldLoadGlobe) {
-    return <div className={className}></div>;
-  }
-
   return (
-    <div className={className}>
-      <Suspense fallback={<div></div>}>
-        <Canvas camera={{ position: [0, 0, 3], fov: 45 }}>
-          <ambientLight intensity={0.8} />
-          <directionalLight position={[5, 5, 5]} intensity={1} />
-          <Globe />
-        </Canvas>
-      </Suspense>
+    <div ref={containerRef} className={className}>
+      {GlobeComponent ? <GlobeComponent /> : null}
     </div>
   );
 };

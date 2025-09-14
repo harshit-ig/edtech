@@ -11,10 +11,10 @@ export default defineConfig({
         manualChunks: {
           // Separate vendor libraries into their own chunks
           'vendor-react': ['react', 'react-dom'],
-          'vendor-three': ['three', '@react-three/fiber', '@react-three/drei'],
           'vendor-router': ['react-router-dom'],
           'vendor-ui': ['react-hot-toast', 'typewriter-effect'],
           'vendor-utils': ['d3-geo'],
+          // Remove Three.js from manual chunking to allow true lazy loading
         },
       },
     },
