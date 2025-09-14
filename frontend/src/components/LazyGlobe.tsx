@@ -1,7 +1,7 @@
-import React, { Suspense, lazy } from 'react';
-import { Canvas } from "@react-three/fiber";
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 
-// Lazy load the globe component
+// Lazy load Three.js components only when ready
+const Canvas = lazy(() => import("@react-three/fiber").then(module => ({ default: module.Canvas })));
 const Globe = lazy(() => import('../globe'));
 
 interface LazyGlobeProps {
@@ -9,6 +9,27 @@ interface LazyGlobeProps {
 }
 
 const LazyGlobe: React.FC<LazyGlobeProps> = ({ className }) => {
+  const [shouldLoadGlobe, setShouldLoadGlobe] = useState(false);
+
+  useEffect(() => {
+    // Delay loading the heavy Three.js components until after initial render
+    const loadGlobe = () => {
+      setShouldLoadGlobe(true);
+    };
+
+    // Use requestIdleCallback for better performance, fallback to setTimeout
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadGlobe, { timeout: 2000 });
+    } else {
+      setTimeout(loadGlobe, 1000);
+    }
+  }, []);
+
+  // Return empty div initially, then progressively load globe
+  if (!shouldLoadGlobe) {
+    return <div className={className}></div>;
+  }
+
   return (
     <div className={className}>
       <Suspense fallback={<div></div>}>

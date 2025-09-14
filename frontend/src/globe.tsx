@@ -2,12 +2,18 @@
 import { useRef, useEffect, useMemo, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Sphere } from "@react-three/drei";
-import * as THREE from "three";
+import { 
+  Group, 
+  CanvasTexture, 
+  LinearFilter, 
+  Texture, 
+  AdditiveBlending 
+} from "three";
 import { getHighlightedCountriesData } from "./utils/dataAdapter";
 import geoGlobeData from "./data/world.geojson?url";
 
 function Globe() {
-  const globeRef = useRef<THREE.Group>(null);
+  const globeRef = useRef<Group>(null);
   const [geoData, setGeoData] = useState<any>(null);
   const [highlightedCountries, setHighlightedCountries] = useState<string[]>([]);
 
@@ -95,11 +101,11 @@ function Globe() {
         }
       }
 
-      const texture = new THREE.CanvasTexture(canvas);
+      const texture = new CanvasTexture(canvas);
       texture.needsUpdate = true;
       texture.generateMipmaps = false;
-      texture.minFilter = THREE.LinearFilter;
-      texture.magFilter = THREE.LinearFilter;
+      texture.minFilter = LinearFilter;
+      texture.magFilter = LinearFilter;
       return texture;
     };
   }, []);
@@ -139,18 +145,18 @@ function Globe() {
         }
       }
 
-      const texture = new THREE.CanvasTexture(canvas);
+      const texture = new CanvasTexture(canvas);
       texture.needsUpdate = true;
       texture.generateMipmaps = false;
-      texture.minFilter = THREE.LinearFilter;
-      texture.magFilter = THREE.LinearFilter;
+      texture.minFilter = LinearFilter;
+      texture.magFilter = LinearFilter;
       return texture;
     };
   }, [MIRROR_HORIZONTAL]);
 
   // Build continent highlights (Americas + Europe) and base land alpha when data is ready
   const { landAlphaTexture, highlightedTexture, bordersTexture } = useMemo(() => {
-    if (!geoData || !Array.isArray(geoData.features)) return { landAlphaTexture: null as THREE.Texture | null, highlightedTexture: null as THREE.Texture | null, bordersTexture: null as THREE.Texture | null };
+    if (!geoData || !Array.isArray(geoData.features)) return { landAlphaTexture: null as Texture | null, highlightedTexture: null as Texture | null, bordersTexture: null as Texture | null };
     const getName = (f: any) => f?.properties?.name ?? "";
 
     const isHighlighted = (f: any) => {
@@ -211,7 +217,7 @@ function Globe() {
               color="#FFFFFF"
               alphaMap={bordersTexture}
               opacity={1}
-              blending={THREE.AdditiveBlending}
+              blending={AdditiveBlending}
               toneMapped={false}
               depthWrite={false}
               depthTest={false}

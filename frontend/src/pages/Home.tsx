@@ -1,15 +1,17 @@
+import { Suspense, lazy, useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
-import CoursesSection from "../components/Courses";
 import UpcomingSkills from "../components/UpcomingSkills";
-import Testimonials from "../components/Testimonials";
-import CompanyShowcase from "../components/CompanyShowcase";
-import WhyChooseUs from "../components/WhyChooseUs";
-import FAQ from "../components/FAQ";
-import Footer from "../components/Footer";
 import { getAboutPageData } from "../utils/dataAdapter";
-import { useState, useEffect } from "react";
 import type { Milestone } from "../types";
+
+// Lazy load heavy components that appear below the fold
+const CoursesSection = lazy(() => import("../components/Courses"));
+const Testimonials = lazy(() => import("../components/Testimonials"));
+const CompanyShowcase = lazy(() => import("../components/CompanyShowcase"));
+const WhyChooseUs = lazy(() => import("../components/WhyChooseUs"));
+const FAQ = lazy(() => import("../components/FAQ"));
+const Footer = lazy(() => import("../components/Footer"));
 
 export default function HomePage() {
   const [milestones, setMilestones] = useState<Milestone[]>([]);
@@ -31,10 +33,21 @@ export default function HomePage() {
       <Navbar />
       <Hero />
       <UpcomingSkills />
-      <CoursesSection />
-      <Testimonials />
-      <CompanyShowcase />
-      <WhyChooseUs />
+      <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
+        <CoursesSection />
+      </Suspense>
+      
+      <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
+        <Testimonials />
+      </Suspense>
+      
+      <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
+        <CompanyShowcase />
+      </Suspense>
+      
+      <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
+        <WhyChooseUs />
+      </Suspense>
         {/* SECTION 5: Our Journey - DARK */}
         <section className="py-16 md:py-24 relative">
           <div className="absolute inset-0 bg-gradient-to-b from-bg-deep via-bg-deep to-edtech-blue/5" />
@@ -92,8 +105,13 @@ export default function HomePage() {
                   </div>
           </div>
         </section>
-      <FAQ />
-      <Footer />
+      <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
+        <FAQ />
+      </Suspense>
+      
+      <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
+        <Footer />
+      </Suspense>
     </div>
   );
 }

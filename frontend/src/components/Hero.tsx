@@ -1,4 +1,4 @@
-import Typewriter from "typewriter-effect";
+import LazyTypewriter from "./LazyTypewriter";
 import LazyGlobe from "./LazyGlobe";
 // import TechBackground from "../TechBackground";
 import RoleCarousel from "./RoleCarousel";
@@ -71,7 +71,7 @@ export default function Hero() {
         <div className="w-full md:w-1/2 text-center md:text-left">
           <div className="h-[120px] sm:h-[140px] lg:h-[160px] flex items-start justify-center md:justify-start mb-6">
             <h1 className=" text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-wide leading-tight">
-              <Typewriter
+              <LazyTypewriter
                 options={{
                   strings: companyInfo.heroRoles,
                   autoStart: true,
