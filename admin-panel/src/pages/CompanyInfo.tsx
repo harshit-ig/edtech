@@ -26,6 +26,11 @@ interface CompanyInfo {
     us: boolean | string;
     others: boolean | string;
   }>;
+  socialMedia?: {
+    facebook?: string;
+    instagram?: string;
+    linkedin?: string;
+  };
   // Contact Data fields
   offices: Array<{
     name: string;
@@ -74,6 +79,11 @@ const CompanyInfo: React.FC = () => {
             whatsappQuickMessages: [],
             pricingFaq: [],
             courseBenefitsComparison: [],
+            socialMedia: {
+              facebook: '',
+              instagram: '',
+              linkedin: ''
+            },
             offices: [],
             responseTime: '',
             mapEmbedUrl: ''
@@ -374,6 +384,78 @@ const CompanyInfo: React.FC = () => {
               <Plus className="w-3 h-3" />
               Add Stat
             </button>
+          </div>
+        </div>
+
+        {/* Social Media */}
+        <div className="card">
+          <div className="card-header">
+            <div className="flex items-center gap-3">
+              <div className="text-lg">🔗</div>
+              <div>
+                <h3 className="text-lg font-medium">Social Media Links</h3>
+                <p className="text-sm text-gray-600 mt-1">Add social media URLs to display in the footer</p>
+              </div>
+            </div>
+          </div>
+          <div className="card-body space-y-4">
+            <div className="form-group">
+              <label className="form-label flex items-center gap-2">
+                <span className="text-blue-600">📘</span>
+                Facebook URL
+              </label>
+              <input
+                type="url"
+                className="form-input"
+                value={companyInfo.socialMedia?.facebook || ''}
+                onChange={(e) => setCompanyInfo({
+                  ...companyInfo,
+                  socialMedia: {
+                    ...companyInfo.socialMedia,
+                    facebook: e.target.value
+                  }
+                })}
+                placeholder="https://facebook.com/yourcompany"
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label flex items-center gap-2">
+                <span className="text-pink-500">📷</span>
+                Instagram URL
+              </label>
+              <input
+                type="url"
+                className="form-input"
+                value={companyInfo.socialMedia?.instagram || ''}
+                onChange={(e) => setCompanyInfo({
+                  ...companyInfo,
+                  socialMedia: {
+                    ...companyInfo.socialMedia,
+                    instagram: e.target.value
+                  }
+                })}
+                placeholder="https://instagram.com/yourcompany"
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label flex items-center gap-2">
+                <span className="text-blue-700">💼</span>
+                LinkedIn URL
+              </label>
+              <input
+                type="url"
+                className="form-input"
+                value={companyInfo.socialMedia?.linkedin || ''}
+                onChange={(e) => setCompanyInfo({
+                  ...companyInfo,
+                  socialMedia: {
+                    ...companyInfo.socialMedia,
+                    linkedin: e.target.value
+                  }
+                })}
+                placeholder="https://linkedin.com/company/yourcompany"
+              />
+            </div>
           </div>
         </div>
       </div>

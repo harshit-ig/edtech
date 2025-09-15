@@ -230,6 +230,11 @@ export interface CompanyInfo {
     us: boolean | string;
     others: boolean | string;
   }>;
+  socialMedia?: {
+    facebook?: string;
+    instagram?: string;
+    linkedin?: string;
+  };
   createdAt?: string;
   updatedAt?: string;
 }

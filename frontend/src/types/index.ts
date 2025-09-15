@@ -73,6 +73,11 @@ export interface CompanyInfo {
   whatsappQuickMessages: string[];
   pricingFaq: PricingFAQ[];
   courseBenefitsComparison: CourseBenefit[];
+  socialMedia?: {
+    facebook?: string;
+    instagram?: string;
+    linkedin?: string;
+  };
 }
 
 export interface ContactData {

@@ -22,7 +22,12 @@ const CompanyInfoSchema = new Schema<CompanyInfo & Document>({
     description: { type: String, required: true },
     us: { type: Schema.Types.Mixed, required: true }, // boolean or string
     others: { type: Schema.Types.Mixed, required: true } // boolean or string
-  }]
+  }],
+  socialMedia: {
+    facebook: { type: String },
+    instagram: { type: String },
+    linkedin: { type: String }
+  }
 }, { timestamps: true });
 
 // Team Member Schema
