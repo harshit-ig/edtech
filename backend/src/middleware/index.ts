@@ -126,6 +126,10 @@ const allowedOrigins: (string | RegExp)[] = [
   process.env.FRONTEND_URL_WWW,
   process.env.ADMIN_URL,
   process.env.ADMIN_URL_WWW
+  , process.env.AGENTIC_AI_URL,
+  process.env.AGENTIC_AI_URL_WWW,
+  process.env.DATA_ANALYST_URL,
+  process.env.DATA_ANALYST_URL_WWW
 ].filter((o): o is string => !!o); // removes undefined
 // CORS configuration
 export const corsOptions = {
