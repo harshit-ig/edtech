@@ -49,7 +49,7 @@ export default function PrivacyPolicy() {
 
             <h2 className="text-2xl font-bold text-gray-900 mb-6">3. PURPOSE AND SCOPE</h2>
             <p className="text-gray-700 leading-relaxed mb-6">
-              The purpose of this Policy is to describe how EdTech Informative collects, uses, and shares information about you through our online interfaces (e.g., websites) owned and controlled by us, including but not limited to https://www.edtechinformative.com/ (hereinafter individually or collectively referred to "website"). This Policy is also designed to provide information on how EdTech Informative ensures data security, conducts data transfers and process requests from data subjects.
+              The purpose of this Policy is to describe how EdTech Informative collects, uses, and shares information about you through our online interfaces (e.g., websites) owned and controlled by us, including but not limited to https://www.edtechinformative.uk/ (hereinafter individually or collectively referred to "website"). This Policy is also designed to provide information on how EdTech Informative ensures data security, conducts data transfers and process requests from data subjects.
             </p>
             <p className="text-gray-700 leading-relaxed mb-6">
               This Policy control applies to all systems, people and processes that constitute the company's information systems, including board members, directors, employees and other third parties who have access to Personal Data available within EdTech Informative.

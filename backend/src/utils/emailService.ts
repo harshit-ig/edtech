@@ -65,7 +65,7 @@ class EmailService {
       const emailContent = this.generatePaymentConfirmationEmail({ ...data, supportEmail, supportPhone });
 
       const mailOptions = {
-        from: `"EdTech Informative" <${process.env.SMTP_USER || 'noreply@edtechinformative.com'}>`,
+        from: `"EdTech Informative" <${process.env.SMTP_USER || 'noreply@edtechinformative.uk'}>`,
         to: data.customerEmail,
         subject: `Payment Confirmation - ${data.courseTitle}`,
         html: emailContent

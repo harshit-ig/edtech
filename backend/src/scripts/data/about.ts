@@ -110,7 +110,7 @@ export const contactData = {
     {
       name: "Head Office",
       address: "30 N Gould St, Sheridan WY, 82801",
-      email: "support@edtechinformative.com",
+      email: "support@edtechinformative.uk",
       phone: "+1 929 588 7774"
     },
     {
@@ -133,7 +133,7 @@ export const whatsappQuickMessages = [
 // Company information including WhatsApp and hero data
 export const companyInfo = {
   whatsappNumber: "+919643274676",
-  supportEmail: "support@edtechinformative.com",
+  supportEmail: "support@edtechinformative.uk",
   heroRoles: [
     "Data • AI • Analytics ",
     "Generative AI",
