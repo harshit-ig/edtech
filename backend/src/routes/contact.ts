@@ -11,5 +11,6 @@ const router = Router();
 router.post('/submit', submitContactForm);
 router.post('/strategy-call', submitStrategyCall);
 router.post('/installment-inquiry', submitInstallmentInquiry);
+router.post('/bootcamp-application', submitContactForm); // Alias for bootcamp applications
 
 export default router;
