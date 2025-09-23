@@ -21,7 +21,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
       achievements: [
         "Published 25+ papers on AI agents",
         "Built GPT-4 training infrastructure",
-        "Led $50M AI research projects"
+        "Led enterprise AI implementations"
       ]
     },
     {
@@ -47,7 +47,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
       expertise: "AI Product Strategy & Scaling",
       linkedin: "#",
       achievements: [
-        "Raised $12M for AI startup",
+        "Built successful AI consulting firm",
         "Built Alexa's core AI systems",
         "Mentored 200+ AI engineers"
       ]

@@ -21,8 +21,8 @@ export default function FAQSection({ onApplyNow }: FAQSectionProps) {
       answer: "Most courses are either too theoretical or only cover one tool. Our program is 100% hands-on with real business datasets. You'll master the complete data analyst toolkit: Python, SQL, Excel, Tableau, and Power BI. Plus, you'll work on real projects that mirror actual business scenarios analysts face daily."
     },
     {
-      question: "Can I really get a data analyst job after 4 months?",
-      answer: "Yes! Our comprehensive 4-month program includes 100+ hours of hands-on practice with real datasets, job placement assistance, and interview preparation. You'll have a complete portfolio of data analysis projects and dashboard creation skills. With 95% job placement rate, companies desperately need skilled data analysts who can turn data into actionable insights."
+      question: "Can I really get a data analyst job after 6 months?",
+      answer: "Yes! Our comprehensive 6-month program includes 150+ hours of hands-on practice with real datasets, job placement assistance, and interview preparation. You'll have a complete portfolio of data analysis projects and dashboard creation skills. With 95% job placement rate, companies desperately need skilled data analysts who can turn data into actionable insights."
     },
     {
       question: "What if I can't attend live sessions?",
@@ -41,8 +41,8 @@ export default function FAQSection({ onApplyNow }: FAQSectionProps) {
       answer: "You'll need a computer with internet access. We'll provide access to Python, SQL databases, Excel, Tableau, and Power BI during the program. You'll get free student licenses for premium tools and lifetime access to our custom data analysis environment and datasets."
     },
     {
-      question: "What salary can I expect as a data analyst?",
-      answer: "Entry-level data analysts in the UK typically start at £25K-£35K, with experienced analysts earning £40K-£55K+. Our graduates often see 50-100% salary increases within their first year. The demand for skilled analysts means excellent growth opportunities and job security."
+      question: "What career opportunities are available for data analysts?",
+      answer: "Data analysts are in high demand across industries including finance, healthcare, retail, technology, and consulting. Career paths include senior analyst roles, business intelligence specialists, data scientists, and analytics managers. The demand for skilled analysts means excellent growth opportunities and job security with potential for rapid career advancement."
     }
   ];
 

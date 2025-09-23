@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Edtech Informative - Data Analytics Career Program | 4 Months to Success",
+  title: "Edtech Informative - Data Analytics Career Program | 6 Months to 6-Figure Success",
   description: "Transform your career with our comprehensive Data Analytics program. Master Python, SQL, Excel, and Tableau. 98% job placement rate with £25K-£50K starting salaries.",
   keywords: "data analyst, data analytics, Python, SQL, Excel, Tableau, Power BI, career change, data science, business intelligence",
 };

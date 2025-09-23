@@ -110,8 +110,8 @@ export default function CourseStructure({ onApplyNow }: CourseStructureProps) {
               � Launch Your Data Analytics Career
             </h3>
             <p className="text-lg mb-6 text-gray-300">
-              4 months of hands-on training in Python, SQL, Excel, and Tableau. 
-              Learn skills that companies pay £25K-£45K+ for, with guaranteed job placement support.
+              6 months of hands-on training in Python, SQL, Excel, and Tableau. 
+              Learn high-demand skills with guaranteed job placement support and career acceleration.
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}

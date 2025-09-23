@@ -79,7 +79,7 @@ export default function Navigation({ onApplyNow }: NavigationProps) {
             <Users className="w-4 h-4" />
             <span>Only {seatsLeft} seats left!</span>
           </div>
-          <span className="font-bold">20% OFF - £1,199 (was £1,499)</span>
+          <span className="font-bold">20% OFF Early Bird Special</span>
         </motion.div>
       </div>
 
@@ -125,15 +125,14 @@ export default function Navigation({ onApplyNow }: NavigationProps) {
               ))}
             </div>
 
-            {/* Pricing & CTA */}
+            {/* Offer & CTA */}
             <div className="flex items-center space-x-4">
-              {/* Price Display */}
+              {/* Discount Display */}
               <div className="hidden md:flex flex-col items-end">
                 <div className="flex items-center space-x-2">
-                  <span className="text-gray-400 line-through text-sm">£1,499</span>
-                  <span className="text-2xl font-bold text-primary">£1,199</span>
+                  <span className="text-2xl font-bold text-primary">20% OFF</span>
                 </div>
-                <span className="text-xs text-green-600 font-semibold">Save £300 (20% OFF)</span>
+                <span className="text-xs text-green-600 font-semibold">Early Bird Special</span>
               </div>
 
               {/* Mobile Menu Button */}
@@ -182,22 +181,21 @@ export default function Navigation({ onApplyNow }: NavigationProps) {
                 </a>
               ))}
               
-              {/* Mobile Pricing */}
+              {/* Mobile Offer */}
               <div className="border-t pt-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="flex items-center space-x-2">
-                      <span className="text-gray-400 line-through">£1,499</span>
-                      <span className="text-xl font-bold text-primary">£1,199</span>
+                      <span className="text-xl font-bold text-primary">20% OFF</span>
                     </div>
-                    <span className="text-sm text-green-600 font-semibold">20% OFF Today</span>
+                    <span className="text-sm text-green-600 font-semibold">Early Bird Special</span>
                   </div>
                   <div className="text-right">
                     <div className="text-sm text-red-600 font-semibold">
                       ⏰ {timeLeft.hours}h {timeLeft.minutes}m left
                     </div>
                     <div className="text-xs text-gray-600">
-                      🔥 {seatsLeft} seats remaining
+                      🔥 {seatsLeft} spots remaining
                     </div>
                   </div>
                 </div>

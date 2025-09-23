@@ -27,7 +27,7 @@ export default function SocialProofNumbers({ onApplyNow }: SocialProofNumbersPro
 
     const controls = [
       animate(graduatesCount, 847, { duration: 2 }),
-      animate(salaryCount, 35000, { duration: 2.5 }),
+      animate(salaryCount, 4.9, { duration: 2.5 }),
       animate(jobPlacementCount, 98, { duration: 1.5 }),
       animate(companiesCount, 150, { duration: 2.2 })
     ];
@@ -47,11 +47,11 @@ export default function SocialProofNumbers({ onApplyNow }: SocialProofNumbersPro
       bgColor: "bg-blue-50"
     },
     {
-      icon: <DollarSign className="w-8 h-8" />,
-      value: salaryDisplay,
-      prefix: "£",
-      suffix: "",
-      label: "Average Starting Salary",
+      icon: <Star className="w-8 h-8" />,
+      value: Math.round(4.9 * 10) / 10,
+      prefix: "",
+      suffix: "/5⭐",
+      label: "Student Satisfaction",
       color: "text-green-600",
       bgColor: "bg-green-50"
     },
@@ -59,7 +59,7 @@ export default function SocialProofNumbers({ onApplyNow }: SocialProofNumbersPro
       icon: <TrendingUp className="w-8 h-8" />,
       value: jobPlacementDisplay,
       suffix: "%",
-      label: "Income Doubled in 4 Months",
+      label: "Job Placement Success",
       color: "text-purple-600",
       bgColor: "bg-purple-50"
     },
@@ -76,8 +76,8 @@ export default function SocialProofNumbers({ onApplyNow }: SocialProofNumbersPro
   const achievements = [
     "🏆 #1 Rated Data Analytics Program in UK",
     "⚡ 4.9/5 Average Student Rating",
-    "💰 15-Day Money Back Guarantee",
-    "🚀 85% Income Doubling Success Rate"
+    "💼 Job Placement Guarantee",
+    "🚀 95% Career Success Rate"
   ];
 
   return (
@@ -199,7 +199,7 @@ export default function SocialProofNumbers({ onApplyNow }: SocialProofNumbersPro
             Join 847+ Successful Data Analysts
           </motion.button>
           <p className="text-gray-500 text-sm mt-4">
-            💰 Money-back guarantee • 🎯 Job placement support • ⚡ Start immediately
+            💼 Job placement guarantee • 🎯 Career support • ⚡ Start immediately
           </p>
         </motion.div>
       </div>

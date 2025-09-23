@@ -30,19 +30,25 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
               className="inline-flex items-center space-x-2 bg-muted rounded-full px-4 py-2 mb-6"
             >
               <Star className="w-4 h-4 text-warning fill-current" />
-              <span className="text-sm font-medium">15-Day Money Back Guarantee</span>
+              <span className="text-sm font-medium">Job Placement Guarantee</span>
             </motion.div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              <span className="text-foreground">Become a </span>
-              <span className="text-primary">Data Analyst</span>
-              <span className="text-foreground"> in 4 Months</span>
+              <span className="text-foreground">Build Your </span>
+              <span className="text-primary">6-Figure Career</span>
+              <span className="text-foreground"> in Data Analytics in Just 6 Months</span>
             </h1>
 
-            <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
-              Master Python, SQL, Excel, and data visualization to land high-paying data analyst jobs. 
-              Our comprehensive 4-month program guarantees job placement assistance and the skills companies desperately need.
-            </p>
+            <div className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
+              <p className="mb-4">Master the complete data analyst toolkit and land high-paying roles with our proven system:</p>
+              <ul className="space-y-2 list-none">
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Python & Pandas</strong> - Advanced data manipulation & analysis</li>
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>SQL & Databases</strong> - Extract insights from complex datasets</li>
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Excel & Power BI</strong> - Professional reporting & dashboards</li>
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Tableau & Visualization</strong> - Tell compelling data stories</li>
+              </ul>
+              <p className="mt-4">Our comprehensive 6-month program guarantees job placement assistance and the skills companies desperately need.</p>
+            </div>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6 mb-8">
@@ -57,14 +63,14 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
                 whileHover={{ scale: 1.05 }}
                 className="text-center"
               >
-                <div className="text-2xl font-bold text-secondary">£35K+</div>
-                <div className="text-sm text-gray-600">Avg. Salary</div>
+                <div className="text-2xl font-bold text-secondary">95%</div>
+                <div className="text-sm text-gray-600">Success Rate</div>
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 className="text-center"
               >
-                <div className="text-2xl font-bold text-accent">4</div>
+                <div className="text-2xl font-bold text-accent">6</div>
                 <div className="text-sm text-gray-600">Month Program</div>
               </motion.div>
             </div>

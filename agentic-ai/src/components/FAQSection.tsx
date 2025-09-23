@@ -41,8 +41,8 @@ export default function FAQSection({ onApplyNow }: FAQSectionProps) {
       answer: "You'll need a computer with internet access. We'll provide access to all necessary AI tools, APIs, and cloud platforms during the bootcamp. You'll get free credits for OpenAI, cloud deployment platforms, and lifetime access to our custom AI development environment."
     },
     {
-      question: "Is there a money-back guarantee?",
-      answer: "Yes! We offer a 100% money-back guarantee if you're not satisfied within the first 15 days of the program. We're confident you'll see immediate value and practical applications for your career, but we stand behind our promise of transformation."
+      question: "What career support do you provide?",
+      answer: "We provide comprehensive career support including job placement assistance, resume optimization, mock interviews, and access to our exclusive network of 200+ hiring partners. Our career support continues for 6 months after program completion to ensure your success."
     }
   ];
 

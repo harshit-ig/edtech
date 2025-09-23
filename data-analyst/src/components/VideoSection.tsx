@@ -44,7 +44,7 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
           </h2>
           
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Watch how our 4-month comprehensive program helps students land high-paying data analyst jobs and build successful freelancing businesses. 
+            Watch how our 6-month comprehensive program helps students land high-paying data analyst jobs and build successful freelancing businesses. 
             See student success stories, income transformations, and exclusive program insights.
           </p>
 
@@ -115,7 +115,7 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white/95 to-transparent p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-gray-800 font-semibold text-lg mb-1">4-Month Data Analytics Career Program Preview</h3>
+                  <h3 className="text-gray-800 font-semibold text-lg mb-1">6-Month Data Analytics Career Program Preview</h3>
                   <p className="text-gray-600 text-sm">See how students double their income</p>
                 </div>
                 <motion.button
@@ -152,7 +152,7 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
                 <Users className="w-6 h-6 text-white" />
               </div>
               <h4 className="text-gray-800 font-semibold mb-2">Income Transformation Stories</h4>
-              <p className="text-gray-600 text-sm">See how students doubled their income in 4 months</p>
+              <p className="text-gray-600 text-sm">See how students build 6-figure careers in 6 months</p>
             </div>
             
             <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 text-center">

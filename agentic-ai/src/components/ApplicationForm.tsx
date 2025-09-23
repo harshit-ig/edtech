@@ -76,7 +76,7 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
               <h2 className="text-2xl font-bold text-gray-900">Apply to 4-Month AI Career Program</h2>
               <div className="flex items-center space-x-4 mt-2">
                 <span className="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">
-                  15-Day Money Back Guarantee
+                  Job Placement Guarantee
                 </span>
                 <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
                   Job Placement Assistance
@@ -154,7 +154,7 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
                 <div className="space-y-2">
                   <div className="flex items-center text-green-700">
                     <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                    15-Day Money Back Guarantee
+                    Job Placement Guarantee
                   </div>
                   <div className="flex items-center text-green-700">
                     <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>

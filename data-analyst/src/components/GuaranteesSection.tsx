@@ -11,16 +11,16 @@ export default function GuaranteesSection({ onApplyNow }: GuaranteesSectionProps
   const guarantees = [
     {
       icon: <Shield className="w-8 h-8" />,
-      title: "15-Day Money Back Guarantee",
-      description: "Not satisfied? Get a full refund within 15 days, no questions asked.",
+      title: "Job Placement Guarantee",
+      description: "We guarantee access to our network and dedicated career support until you land your ideal role.",
       color: "text-green-600",
       bgColor: "bg-green-50",
       borderColor: "border-green-200"
     },
     {
       icon: <DollarSign className="w-8 h-8" />,
-      title: "Double Your Income Promise",
-      description: "We guarantee you'll double your income within 4 months or get personalized coaching.",
+      title: "Skills Mastery Promise",
+      description: "Master industry-standard tools and techniques or get additional mentoring until you're job-ready.",
       color: "text-blue-600",
       bgColor: "bg-blue-50",
       borderColor: "border-blue-200"
@@ -35,12 +35,12 @@ export default function GuaranteesSection({ onApplyNow }: GuaranteesSectionProps
     }
   ];
 
-  const incomePromises = [
-    "💰 Average graduate salary: £30,000-£50,000",
-    "🚀 85% of students double their income in 4 months",
-    "💼 Job placement assistance with 200+ partner companies",
-    "🌟 Freelancing support to earn £300-£1500+ per project",
-    "📈 Lifetime career support and networking opportunities"
+  const careerPromises = [
+    "💼 Direct access to 200+ partner companies",
+    "🚀 85% of students land jobs within 6 months",
+    "🌟 Freelancing business setup and client acquisition support",
+    "📈 Lifetime career support and networking opportunities",
+    "🎯 Personalized career path planning and mentorship"
   ];
 
   return (
@@ -110,15 +110,15 @@ export default function GuaranteesSection({ onApplyNow }: GuaranteesSectionProps
                 <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-400 rounded-full flex items-center justify-center">
                   <TrendingUp className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold">Double Your Income Promise</h3>
+                <h3 className="text-2xl md:text-3xl font-bold">Career Acceleration Promise</h3>
               </div>
               
               <p className="text-xl text-gray-200 mb-8">
-                Our program is designed to transform your earning potential. Here's what our graduates achieve:
+                Our program is designed to accelerate your career transformation. Here's what our graduates achieve:
               </p>
 
               <div className="space-y-4">
-                {incomePromises.map((promise, index) => (
+                {careerPromises.map((promise, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
@@ -140,9 +140,9 @@ export default function GuaranteesSection({ onApplyNow }: GuaranteesSectionProps
                 transition={{ duration: 3, repeat: Infinity }}
                 className="bg-gradient-to-r from-green-400 to-blue-400 rounded-2xl p-8 mb-8"
               >
-                <div className="text-5xl md:text-6xl font-bold mb-2">85%</div>
-                <div className="text-xl font-semibold">Students Double Income</div>
-                <div className="text-sm opacity-90 mt-2">Within 4 Months</div>
+                <div className="text-5xl md:text-6xl font-bold mb-2">95%</div>
+                <div className="text-xl font-semibold">Job Placement Success</div>
+                <div className="text-sm opacity-90 mt-2">Within 6 Months</div>
               </motion.div>
 
               <motion.button
@@ -170,13 +170,13 @@ export default function GuaranteesSection({ onApplyNow }: GuaranteesSectionProps
             Zero Risk, Maximum Reward
           </h3>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Try our program for 15 days. If you're not completely satisfied with the content, 
-            teaching quality, or your progress, we'll refund every penny. No questions, no hassle.
+            Experience our program with complete confidence. We're committed to your success with 
+            ongoing support, personalized mentoring, and guaranteed career assistance.
           </p>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div className="text-left">
-              <h4 className="font-bold text-gray-800 mb-3">✅ What's Included in Your Guarantee:</h4>
+              <h4 className="font-bold text-gray-800 mb-3">✅ What's Guaranteed for Your Success:</h4>
               <ul className="space-y-2 text-gray-600">
                 <li>• Full access to all course materials</li>
                 <li>• Personal mentorship and support</li>
@@ -187,13 +187,13 @@ export default function GuaranteesSection({ onApplyNow }: GuaranteesSectionProps
             </div>
             
             <div className="text-left">
-              <h4 className="font-bold text-gray-800 mb-3">🚫 No Questions Asked If:</h4>
+              <h4 className="font-bold text-gray-800 mb-3">🎯 Additional Career Support:</h4>
               <ul className="space-y-2 text-gray-600">
-                <li>• You're not satisfied with the content quality</li>
-                <li>• The program doesn't meet your expectations</li>
-                <li>• You feel it's not worth the investment</li>
-                <li>• You need to withdraw for any reason</li>
-                <li>• You simply change your mind</li>
+                <li>• Resume and LinkedIn optimization</li>
+                <li>• Mock interview sessions with industry experts</li>
+                <li>• Portfolio development guidance</li>
+                <li>• Salary negotiation strategies</li>
+                <li>• Continued learning pathway planning</li>
               </ul>
             </div>
           </div>

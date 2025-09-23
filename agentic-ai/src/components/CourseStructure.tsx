@@ -111,7 +111,7 @@ export default function CourseStructure({ onApplyNow }: CourseStructureProps) {
             </h3>
             <p className="text-lg mb-6 text-gray-300">
               4 months of intensive training designed for job placement and freelancing success. 
-              Learn skills that companies pay £45K-£80K+ for, with guaranteed placement assistance.
+              Learn high-demand AI skills with guaranteed job placement support and career acceleration.
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}

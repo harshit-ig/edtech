@@ -67,10 +67,10 @@ export default function UrgencyScarcity({ onApplyNow }: UrgencyScarcityProps) {
             </motion.div>
             
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              🔥 <span className="text-warning">Launch Pricing</span> Ends Soon!
+              🔥 <span className="text-warning">Early Bird Registration</span> Ends Soon!
             </h2>
             <p className="text-lg text-gray-600">
-              Secure your spot at 20% OFF before prices return to £1,499
+              Limited spots available - secure your place with exclusive early bird benefits
             </p>
           </div>
 
@@ -127,14 +127,13 @@ export default function UrgencyScarcity({ onApplyNow }: UrgencyScarcityProps) {
               className="text-center"
             >
               <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 text-white">
-                <h3 className="text-2xl font-bold mb-4">Launch Special</h3>
+                <h3 className="text-2xl font-bold mb-4">Early Bird Benefits</h3>
                 
                 <div className="mb-6">
                   <div className="flex items-center justify-center mb-2">
-                    <span className="text-gray-400 line-through text-2xl mr-3">£1,499</span>
-                    <span className="text-4xl font-bold text-warning">£1,199</span>
+                    <span className="text-4xl font-bold text-warning">Exclusive Access</span>
                   </div>
-                  <p className="text-green-400 font-semibold">Save £300 (20% OFF)</p>
+                  <p className="text-green-400 font-semibold">Limited Time Registration</p>
                 </div>
 
                 <div className="space-y-3 mb-8 text-left">
@@ -152,7 +151,7 @@ export default function UrgencyScarcity({ onApplyNow }: UrgencyScarcityProps) {
                   </div>
                   <div className="flex items-center">
                     <Zap className="w-5 h-5 text-warning mr-3 flex-shrink-0" />
-                    <span>15-Day Money Back Guarantee</span>
+                    <span>Priority Support Access</span>
                   </div>
                   <div className="flex items-center">
                     <Zap className="w-5 h-5 text-warning mr-3 flex-shrink-0" />
@@ -166,12 +165,12 @@ export default function UrgencyScarcity({ onApplyNow }: UrgencyScarcityProps) {
                   onClick={onApplyNow}
                   className="w-full bg-warning hover:bg-orange-500 text-white font-bold py-4 px-8 rounded-full text-lg transition-colors pulse-glow"
                 >
-                  Claim Early Bird Offer
+                  Reserve My Spot Now
                   <ArrowRight className="inline ml-2 w-5 h-5" />
                 </motion.button>
                 
                 <p className="text-gray-400 text-sm mt-4">
-                  💳 Secure payment • 💰 Money-back guarantee
+                  🎯 Expert guidance • 🚀 Career acceleration • ⭐ Premium resources
                 </p>
               </div>
             </motion.div>

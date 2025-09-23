@@ -38,7 +38,7 @@ export default function CertificateSection({ onApplyNow }: CertificateSectionPro
             </h2>
 
             <p className="text-lg text-gray-600 mb-8">
-              Upon successful completion of our 4-month comprehensive program, you'll receive an 
+              Upon successful completion of our 6-month comprehensive program, you'll receive an 
               industry-recognized certificate that validates your expertise in data analysis, 
               Python, SQL, and business intelligence tools.
             </p>
@@ -109,7 +109,7 @@ export default function CertificateSection({ onApplyNow }: CertificateSectionPro
                     Data Analytics Professional Program
                   </h5>
                   <p className="text-sm text-gray-600">
-                    4-Month Career Program • 100+ Hours • Real-World Projects
+                    6-Month Career Program • 150+ Hours • Real-World Projects
                   </p>
                 </div>
                 <p className="text-gray-600 text-sm mb-4">

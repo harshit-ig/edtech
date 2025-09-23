@@ -57,7 +57,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
   const stats = [
     { number: "50+", label: "Combined Years Experience" },
     { number: "500M+", label: "Users Impacted by Their Analytics" },
-    { number: "£2B+", label: "Business Value Created" },
+    { number: "15+", label: "Major Companies Served" },
     { number: "200+", label: "Analysts Trained" }
   ];
 

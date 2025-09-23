@@ -30,7 +30,7 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
               className="inline-flex items-center space-x-2 bg-muted rounded-full px-4 py-2 mb-6"
             >
               <Star className="w-4 h-4 text-warning fill-current" />
-              <span className="text-sm font-medium">15-Day Money Back Guarantee</span>
+              <span className="text-sm font-medium">Job Placement Guarantee</span>
             </motion.div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
@@ -39,10 +39,16 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
               <span className="text-foreground"> in 4 Months</span>
             </h1>
 
-            <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
-              Master AI and automation to land high-paying jobs or start your freelancing career. 
-              Our comprehensive 4-month program guarantees job placement assistance and the skills to double your income.
-            </p>
+            <div className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
+              <p className="mb-4">Master cutting-edge AI technologies and land high-paying roles in the fastest-growing industry:</p>
+              <ul className="space-y-2 list-none">
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Python & LangChain</strong> - Build intelligent AI agents</li>
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>OpenAI APIs</strong> - Integrate GPT-4 and advanced models</li>
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>AutoGen Framework</strong> - Create multi-agent systems</li>
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>AI Automation</strong> - Deploy production-ready solutions</li>
+              </ul>
+              <p className="mt-4">Our comprehensive 4-month program guarantees job placement assistance and the skills companies desperately need.</p>
+            </div>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6 mb-8">
@@ -57,8 +63,8 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
                 whileHover={{ scale: 1.05 }}
                 className="text-center"
               >
-                <div className="text-2xl font-bold text-secondary">£45K+</div>
-                <div className="text-sm text-gray-600">Avg. Salary</div>
+                <div className="text-2xl font-bold text-secondary">95%</div>
+                <div className="text-sm text-gray-600">Success Rate</div>
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -143,7 +149,7 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
                   <div className="text-white ml-4">
                     <span className="text-cyan-400">salary</span>
                     <span className="text-white">:</span>
-                    <span className="text-green-400 ml-2">'£45K+'</span>
+                    <span className="text-green-400 ml-2">'95%'</span>
                   </div>
                   <div className="text-yellow-300">{'}'}</div>
                   <div className="text-gray-500 mt-2">

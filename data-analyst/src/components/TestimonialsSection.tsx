@@ -18,7 +18,7 @@ export default function TestimonialsSection() {
     {
       name: "Maya Kapoor",
       role: "Senior Data Analyst @ Tech Startup",
-      testimonial: "Life-changing 4-month program. The comprehensive training helped me master Python, SQL, and data visualization to land my £32K dream job."
+      testimonial: "Life-changing 6-month program. The comprehensive training helped me master Python, SQL, and data visualization to build my 6-figure analytics career."
     },
     {
       name: "Disha Sharma",
