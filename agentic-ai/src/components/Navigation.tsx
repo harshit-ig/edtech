@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Clock, Users, ArrowRight, Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { VIDEO_CONFIG } from '@/config/video';
 
 interface NavigationProps {
   onApplyNow: () => void;
@@ -35,7 +36,7 @@ export default function Navigation({ onApplyNow }: NavigationProps) {
   }, []);
 
   const navLinks = [
-    { href: "#demo", label: "Demo", icon: "🎥" },
+    ...(VIDEO_CONFIG.enabled ? [{ href: "#demo", label: "Demo", icon: "🎥" }] : []),
     { href: "#curriculum", label: "Curriculum", icon: "📚" },
     { href: "#instructors", label: "Instructors", icon: "👨‍🏫" },
     { href: "#testimonials", label: "Success Stories", icon: "⭐" },

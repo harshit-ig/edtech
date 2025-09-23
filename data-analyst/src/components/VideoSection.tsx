@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Play, Clock, Users, Star, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
+import { VIDEO_CONFIG } from '@/config/video';
 
 interface VideoSectionProps {
   onApplyNow: () => void;
@@ -14,6 +15,11 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
   const handleVideoLoad = () => {
     setIsVideoLoaded(true);
   };
+
+  // Don't render anything if video is not enabled
+  if (!VIDEO_CONFIG.enabled) {
+    return null;
+  }
 
   return (
     <section id="demo" className="py-20 bg-gradient-to-br from-blue-50 via-white to-purple-50 relative overflow-hidden">
@@ -55,7 +61,7 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
               className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg px-4 py-2 shadow-sm"
             >
               <Clock className="w-5 h-5 text-primary" />
-              <span className="text-gray-700 font-medium">3-min sneak peek</span>
+              <span className="text-gray-700 font-medium">{VIDEO_CONFIG.duration}</span>
             </motion.div>
             
             <motion.div
@@ -63,7 +69,7 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
               className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg px-4 py-2 shadow-sm"
             >
               <Users className="w-5 h-5 text-green-500" />
-              <span className="text-gray-700 font-medium">25K+ views</span>
+              <span className="text-gray-700 font-medium">{VIDEO_CONFIG.views}</span>
             </motion.div>
             
             <motion.div
@@ -71,7 +77,7 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
               className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg px-4 py-2 shadow-sm"
             >
               <Star className="w-5 h-5 text-yellow-500" />
-              <span className="text-gray-700 font-medium">4.9/5 rating</span>
+              <span className="text-gray-700 font-medium">{VIDEO_CONFIG.rating}</span>
             </motion.div>
           </div>
         </motion.div>
@@ -100,9 +106,9 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
                 </div>
               )}
               
-              {isVideoLoaded && (
+              {isVideoLoaded && VIDEO_CONFIG.url && (
                 <iframe
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1"
+                  src={VIDEO_CONFIG.url}
                   title="Data Analytics Bootcamp Demo"
                   className="w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -115,8 +121,8 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white/95 to-transparent p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-gray-800 font-semibold text-lg mb-1">6-Month Data Analytics Career Program Preview</h3>
-                  <p className="text-gray-600 text-sm">See how students double their income</p>
+                  <h3 className="text-gray-800 font-semibold text-lg mb-1">{VIDEO_CONFIG.title}</h3>
+                  <p className="text-gray-600 text-sm">{VIDEO_CONFIG.description}</p>
                 </div>
                 <motion.button
                   whileHover={{ scale: 1.05 }}

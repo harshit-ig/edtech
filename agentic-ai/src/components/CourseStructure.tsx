@@ -11,40 +11,45 @@ export default function CourseStructure({ onApplyNow }: CourseStructureProps) {
   const topics = [
     {
       icon: <Brain className="w-8 h-8" />,
-      title: "✨ Agentic AI Fundamentals",
-      description: "Build the foundation to design intelligent agents, understand autonomous systems, and create multi-agent workflows that solve real-world problems.",
-      highlight: "For AI Builders:"
+      title: "Module 1 - Foundations of Agentic AI",
+      description: "Introduction to Agentic AI, Python for development, LLM fundamentals & prompt engineering, and LangChain basics. Build your first sales assistant agent.",
+      highlight: "Week 1-4:",
+      extra: "Capstone Project: Sales Assistant Agent with Python + OpenAI + LangChain"
     },
     {
       icon: <Target className="w-8 h-8" />,
-      title: "✨ LangChain & AutoGen Mastery",
-      description: "Master the leading frameworks for building AI agents. Create complex workflows that handle reasoning, memory, and tool integration automatically.",
-      highlight: "For AI Builders:"
+      title: "Module 2 - Advanced Agent Development",
+      description: "Agent tools & function calling, memory management, RAG systems, and multi-agent frameworks with AutoGen. Create knowledge management systems.",
+      highlight: "Week 5-8:",
+      extra: "Capstone Project: Knowledge Management System with RAG + Multi-Agent workflows"
     },
     {
       icon: <Zap className="w-8 h-8" />,
-      title: "✨ OpenAI & LLM Integration",
-      description: "Hands-on integration with OpenAI APIs, advanced prompting techniques, and building production-ready AI systems with proper error handling.",
-      highlight: "For AI Builders:",
-      extra: "Explore 20+ cutting-edge AI models and APIs during our live coding sessions."
+      title: "Module 3 - Production AI Systems",
+      description: "CrewAI orchestration, advanced LangChain & LCEL, API development with FastAPI, and cloud deployment strategies for scalable AI systems.",
+      highlight: "Week 9-12:",
+      extra: "Capstone Project: Production AI Service with cloud deployment and monitoring"
     },
     {
       icon: <Code className="w-8 h-8" />,
-      title: "✨ Production Deployment",
-      description: "Deploy AI agents to the cloud, implement monitoring systems, and scale your applications to handle thousands of users reliably.",
-      highlight: "For AI Builders:"
+      title: "Module 4 - Professional Applications",
+      description: "Domain-specific AI applications, enterprise integration patterns, portfolio development, and career acceleration strategies for AI professionals.",
+      highlight: "Week 13-16:",
+      extra: "Final Capstone: End-to-end client project in Finance, Marketing, HR, or Operations"
     },
     {
       icon: <Lightbulb className="w-8 h-8" />,
-      title: "✨ Agent Architecture & Design",
-      description: "Design sophisticated agent systems with memory, planning capabilities, and tool usage patterns that adapt to complex scenarios.",
-      highlight: "For AI Builders:"
+      title: "Master Industry Tools",
+      description: "Hands-on experience with Python, LangChain, OpenAI API, AutoGen, CrewAI, FastAPI, Vector Databases, and Docker deployment.",
+      highlight: "Throughout Course:",
+      extra: "Learn advanced techniques and industry workflows that employers value most"
     },
     {
       icon: <Shield className="w-8 h-8" />,
-      title: "✨ AI Safety & Best Practices",
-      description: "Implement safety guardrails, handle edge cases, and build responsible AI systems that users trust and regulators approve.",
-      highlight: "For AI Builders:"
+      title: "Real-World Projects",
+      description: "Build 4+ production-ready AI agents including customer service bots, content generation systems, and enterprise automation solutions.",
+      highlight: "Portfolio Ready:",
+      extra: "Complete with case studies, documentation, and measurable business impact results"
     }
   ];
 
@@ -60,11 +65,11 @@ export default function CourseStructure({ onApplyNow }: CourseStructureProps) {
         >
           <BookOpen className="w-16 h-16 text-primary mx-auto mb-4" />
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            📖 <span className="text-primary">4-MONTH CURRICULUM</span>
+            Master Agentic AI in <span className="text-primary">4 Powerful Modules</span>
           </h2>
           <p className="text-lg md:text-xl text-gray-600">
-            Master AI skills for{' '}
-            <span className="font-bold text-primary">high-paying jobs & freelancing success</span>
+            Each module transforms your skills and unlocks new capabilities. Build production-ready AI agents that solve{' '}
+            <span className="font-bold text-primary">real business problems</span>
           </p>
         </motion.div>
 
@@ -107,11 +112,11 @@ export default function CourseStructure({ onApplyNow }: CourseStructureProps) {
         >
           <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl text-white">
             <h3 className="text-xl md:text-2xl font-bold mb-4">
-              💰 Double Your Income with High-Demand AI Skills
+              Build the Future with Agentic AI
             </h3>
             <p className="text-lg mb-6 text-gray-300">
-              4 months of intensive training designed for job placement and freelancing success. 
-              Learn high-demand AI skills with guaranteed job placement support and career acceleration.
+              16 weeks of comprehensive training covering foundations to advanced deployment. 
+              Master the most in-demand AI agent development skills with hands-on projects and expert guidance.
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}

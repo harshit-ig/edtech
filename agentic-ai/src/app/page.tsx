@@ -17,6 +17,7 @@ import TestimonialsSection from '@/components/TestimonialsSection';
 import FAQSection from '@/components/FAQSection';
 import CertificateSection from '@/components/CertificateSection';
 import Footer from '@/components/Footer';
+import { VIDEO_CONFIG } from '@/config/video';
 
 export default function Home() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -27,6 +28,8 @@ export default function Home() {
   };
 
   const handleWatchDemo = () => {
+    if (!VIDEO_CONFIG.enabled) return;
+    
     const element = document.getElementById('demo');
     if (element) {
       const navbarHeight = 120;
@@ -46,7 +49,10 @@ export default function Home() {
       <Navigation onApplyNow={handleApplyNow} />
       
       {/* 1. Hook with Strong Value Prop */}
-      <HeroSection onApplyNow={handleApplyNow} onWatchDemo={handleWatchDemo} />
+      <HeroSection 
+        onApplyNow={handleApplyNow} 
+        onWatchDemo={VIDEO_CONFIG.enabled ? handleWatchDemo : undefined} 
+      />
 
       {/* 2. Immediate Social Proof - Build Trust */}
       <CompaniesSection />
@@ -61,7 +67,7 @@ export default function Home() {
       <GuaranteesSection onApplyNow={handleApplyNow} />
       
       {/* 6. Video Demo - Build Trust & Show Value */}
-      <VideoSection onApplyNow={handleApplyNow} />
+      {VIDEO_CONFIG.enabled && <VideoSection onApplyNow={handleApplyNow} />}
       
       {/* 7. What They Get - Course Value */}
       <CourseStructure onApplyNow={handleApplyNow} />

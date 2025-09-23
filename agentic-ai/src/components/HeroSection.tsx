@@ -3,10 +3,11 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Users, Award, Play, Star } from 'lucide-react';
 import Image from 'next/image';
+import { VIDEO_CONFIG } from '@/config/video';
 
 interface HeroSectionProps {
   onApplyNow: () => void;
-  onWatchDemo: () => void;
+  onWatchDemo?: () => void;
 }
 
 export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProps) {
@@ -34,20 +35,20 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
             </motion.div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              <span className="text-foreground">Double Your Income with </span>
-              <span className="text-primary">AI Skills</span>
+              <span className="text-foreground">Master </span>
+              <span className="text-primary">Agentic AI</span>
               <span className="text-foreground"> in 4 Months</span>
             </h1>
 
             <div className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
-              <p className="mb-4">Master cutting-edge AI technologies and land high-paying roles in the fastest-growing industry:</p>
+              <p className="mb-4">Build intelligent AI agents that solve real business problems with our comprehensive curriculum:</p>
               <ul className="space-y-2 list-none">
-                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Python & LangChain</strong> - Build intelligent AI agents</li>
-                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>OpenAI APIs</strong> - Integrate GPT-4 and advanced models</li>
-                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>AutoGen Framework</strong> - Create multi-agent systems</li>
-                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>AI Automation</strong> - Deploy production-ready solutions</li>
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Module 1: Foundations</strong> - Python, LLMs, LangChain basics</li>
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Module 2: Advanced Tools</strong> - RAG, memory, AutoGen systems</li>
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Module 3: Production</strong> - CrewAI, APIs, cloud deployment</li>
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Module 4: Professional</strong> - Portfolio, client projects, career</li>
               </ul>
-              <p className="mt-4">Our comprehensive 4-month program guarantees job placement assistance and the skills companies desperately need.</p>
+              <p className="mt-4">Each module includes hands-on projects, real-world case studies, and industry-standard tools used by leading AI companies.</p>
             </div>
 
             {/* Stats */}
@@ -56,22 +57,22 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
                 whileHover={{ scale: 1.05 }}
                 className="text-center"
               >
-                <div className="text-2xl font-bold text-primary">850+</div>
-                <div className="text-sm text-gray-600">Job Placements</div>
+                <div className="text-2xl font-bold text-primary">4</div>
+                <div className="text-sm text-gray-600">Modules</div>
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 className="text-center"
               >
-                <div className="text-2xl font-bold text-secondary">95%</div>
-                <div className="text-sm text-gray-600">Success Rate</div>
+                <div className="text-2xl font-bold text-secondary">16</div>
+                <div className="text-sm text-gray-600">Weeks</div>
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 className="text-center"
               >
-                <div className="text-2xl font-bold text-accent">4</div>
-                <div className="text-sm text-gray-600">Month Program</div>
+                <div className="text-2xl font-bold text-accent">8+</div>
+                <div className="text-sm text-gray-600">Projects</div>
               </motion.div>
             </div>
 
@@ -87,15 +88,17 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
                 <ArrowRight className="ml-2 w-5 h-5" />
               </motion.button>
               
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={onWatchDemo}
-                className="inline-flex items-center px-8 py-4 border-2 border-primary text-primary rounded-full font-semibold hover:bg-primary hover:text-white transition-colors"
-              >
-                <Play className="mr-2 w-5 h-5" />
-                Watch Demo
-              </motion.button>
+              {VIDEO_CONFIG.enabled && onWatchDemo && (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={onWatchDemo}
+                  className="inline-flex items-center px-8 py-4 border-2 border-primary text-primary rounded-full font-semibold hover:bg-primary hover:text-white transition-colors"
+                >
+                  <Play className="mr-2 w-5 h-5" />
+                  Watch Demo
+                </motion.button>
+              )}
             </div>
           </motion.div>
 
@@ -135,21 +138,21 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
                     <span className="text-yellow-300 ml-2">{'{'}</span>
                   </div>
                   <div className="text-white ml-4">
-                    <span className="text-cyan-400">duration</span>
+                    <span className="text-cyan-400">modules</span>
                     <span className="text-white">:</span>
-                    <span className="text-green-400 ml-2">'4 months'</span>
+                    <span className="text-green-400 ml-2">4</span>
                     <span className="text-white">,</span>
                   </div>
                   <div className="text-white ml-4">
-                    <span className="text-cyan-400">placement</span>
+                    <span className="text-cyan-400">weeks</span>
                     <span className="text-white">:</span>
-                    <span className="text-green-400 ml-2">'98%'</span>
+                    <span className="text-green-400 ml-2">16</span>
                     <span className="text-white">,</span>
                   </div>
                   <div className="text-white ml-4">
-                    <span className="text-cyan-400">salary</span>
+                    <span className="text-cyan-400">projects</span>
                     <span className="text-white">:</span>
-                    <span className="text-green-400 ml-2">'95%'</span>
+                    <span className="text-green-400 ml-2">'8+'</span>
                   </div>
                   <div className="text-yellow-300">{'}'}</div>
                   <div className="text-gray-500 mt-2">
@@ -160,7 +163,7 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
 
               {/* Skills Grid */}
               <div className="grid grid-cols-2 gap-4">
-                {['Python', 'LangChain', 'OpenAI', 'AutoGen'].map((skill, index) => (
+                {['LangChain', 'AutoGen', 'CrewAI', 'FastAPI'].map((skill, index) => (
                   <motion.div
                     key={skill}
                     initial={{ opacity: 0, y: 20 }}

@@ -3,10 +3,11 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Users, Award, Play, Star } from 'lucide-react';
 import Image from 'next/image';
+import { VIDEO_CONFIG } from '@/config/video';
 
 interface HeroSectionProps {
   onApplyNow: () => void;
-  onWatchDemo: () => void;
+  onWatchDemo?: () => void;
 }
 
 export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProps) {
@@ -40,14 +41,14 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
             </h1>
 
             <div className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
-              <p className="mb-4">Master the complete data analyst toolkit and land high-paying roles with our proven system:</p>
+              <p className="mb-4">Transform raw data into actionable business insights with our comprehensive curriculum:</p>
               <ul className="space-y-2 list-none">
-                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Python & Pandas</strong> - Advanced data manipulation & analysis</li>
-                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>SQL & Databases</strong> - Extract insights from complex datasets</li>
-                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Excel & Power BI</strong> - Professional reporting & dashboards</li>
-                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Tableau & Visualization</strong> - Tell compelling data stories</li>
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Module 1: Foundations</strong> - Excel, SQL basics, visualization principles</li>
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Module 2: Python Analytics</strong> - Pandas, statistics, data cleaning</li>
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Module 3: Advanced BI</strong> - KPIs, machine learning, advanced Tableau</li>
+                <li className="flex items-center"><span className="text-primary mr-2">•</span><strong>Module 4: Professional</strong> - Big data, portfolio, career development</li>
               </ul>
-              <p className="mt-4">Our comprehensive 6-month program guarantees job placement assistance and the skills companies desperately need.</p>
+              <p className="mt-4">Each module includes hands-on projects, real-world case studies, and industry-standard tools used by leading companies.</p>
             </div>
 
             {/* Stats */}
@@ -87,15 +88,17 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
                 <ArrowRight className="ml-2 w-5 h-5" />
               </motion.button>
               
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={onWatchDemo}
-                className="inline-flex items-center px-8 py-4 border-2 border-primary text-primary rounded-full font-semibold hover:bg-primary hover:text-white transition-colors"
-              >
-                <Play className="mr-2 w-5 h-5" />
-                Watch Demo
-              </motion.button>
+              {VIDEO_CONFIG.enabled && onWatchDemo && (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={onWatchDemo}
+                  className="inline-flex items-center px-8 py-4 border-2 border-primary text-primary rounded-full font-semibold hover:bg-primary hover:text-white transition-colors"
+                >
+                  <Play className="mr-2 w-5 h-5" />
+                  Watch Demo
+                </motion.button>
+              )}
             </div>
           </motion.div>
 
