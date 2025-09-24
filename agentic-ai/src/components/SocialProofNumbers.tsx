@@ -42,7 +42,7 @@ export default function SocialProofNumbers({ onApplyNow }: SocialProofNumbersPro
       icon: <Users className="w-8 h-8" />,
       value: graduatesDisplay,
       suffix: "+",
-      label: "Students Placed in Jobs",
+      label: "Professionals Placed in Jobs",
       color: "text-blue-600",
       bgColor: "bg-blue-50"
     },
@@ -51,7 +51,7 @@ export default function SocialProofNumbers({ onApplyNow }: SocialProofNumbersPro
       value: salaryDisplay,
       prefix: "",
       suffix: "/5⭐",
-      label: "Student Satisfaction",
+      label: "Professional Satisfaction",
       color: "text-green-600",
       bgColor: "bg-green-50"
     },
@@ -75,7 +75,7 @@ export default function SocialProofNumbers({ onApplyNow }: SocialProofNumbersPro
 
   const achievements = [
     "🏆 #1 Rated AI Career Program in UK",
-    "⚡ 4.9/5 Average Student Rating",
+    "⚡ 4.9/5 Average Professional Rating",
     "💼 Job Placement Guarantee",
     "🚀 85% Income Doubling Success Rate"
   ];
@@ -99,7 +99,7 @@ export default function SocialProofNumbers({ onApplyNow }: SocialProofNumbersPro
             <Award className="w-16 h-16 text-primary" />
           </motion.div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Real Results from <span className="text-primary">Real Students</span>
+            Real Results from <span className="text-primary">Real Professionals</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Don't just take our word for it - these numbers speak for themselves
@@ -178,7 +178,7 @@ export default function SocialProofNumbers({ onApplyNow }: SocialProofNumbersPro
             </div>
             <div className="hidden md:block text-gray-400">•</div>
             <span className="text-gray-600 text-sm md:text-base">
-              ⚡ 8 students enrolled in the last 24 hours
+              ⚡ 8 professionals enrolled in the last 24 hours
             </span>
           </div>
         </motion.div>

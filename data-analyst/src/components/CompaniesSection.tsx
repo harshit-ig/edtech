@@ -40,7 +40,7 @@ export default function CompaniesSection() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Our Students Get Placed In Leading <br className="hidden md:block" />
+            Our Professionals Get Placed In Leading <br className="hidden md:block" />
             <span className="text-primary">Data & Tech Companies</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">

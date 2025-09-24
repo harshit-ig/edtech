@@ -37,7 +37,7 @@ export default function GuaranteesSection({ onApplyNow }: GuaranteesSectionProps
 
   const incomePromises = [
     "💼 Direct access to 200+ partner companies",
-    "🚀 85% of students land jobs within 6 months",
+    "🚀 85% of professionals land jobs within 6 months",
     "🌟 AI consulting business setup and client acquisition support",
     "📈 Lifetime career support and networking opportunities",
     "🎯 Personalized career path planning and mentorship"

@@ -38,7 +38,7 @@ export default function FAQSection({ onApplyNow }: FAQSectionProps) {
     },
     {
       question: "What tools and software will I need?",
-      answer: "You'll need a computer with internet access. We'll provide access to Python, SQL databases, Excel, Tableau, and Power BI during the program. You'll get free student licenses for premium tools and lifetime access to our custom data analysis environment and datasets."
+      answer: "You'll need a computer with internet access. We'll provide access to Python, SQL databases, Excel, Tableau, and Power BI during the program. You'll get free professional licenses for premium tools and lifetime access to our custom data analysis environment and datasets."
     },
     {
       question: "What career opportunities are available for data analysts?",

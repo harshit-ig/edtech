@@ -50,8 +50,8 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
           </h2>
           
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Watch how our 4-month comprehensive program helps students land high-paying AI jobs and build successful freelancing businesses. 
-            See student success stories, income transformations, and exclusive program insights.
+            Watch how our 4-month comprehensive program helps professionals land high-paying AI jobs and build successful freelancing businesses. 
+            See professional success stories, income transformations, and exclusive program insights.
           </p>
 
           {/* Video Stats */}
@@ -158,7 +158,7 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
                 <Users className="w-6 h-6 text-white" />
               </div>
               <h4 className="text-gray-800 font-semibold mb-2">Income Transformation Stories</h4>
-              <p className="text-gray-600 text-sm">See how students doubled their income in 4 months</p>
+              <p className="text-gray-600 text-sm">See how professionals doubled their income in 4 months</p>
             </div>
             
             <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 text-center">

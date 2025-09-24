@@ -78,7 +78,7 @@ export default function Home() {
       {/* 9. Why Choose Us - Unique Benefits */}
       <FeaturesSection />
       
-      {/* 10. Social Proof - Student Success Stories */}
+      {/* 10. Social Proof - Professional Success Stories */}
       <TestimonialsSection />
       
       {/* 11. Handle Objections - Remove Friction */}
