@@ -32,7 +32,7 @@ export default function Home() {
     
     const element = document.getElementById('demo');
     if (element) {
-      const navbarHeight = 120;
+      const navbarHeight = 128; // Account for navbar + top banner
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
 

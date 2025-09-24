@@ -35,9 +35,9 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
             </motion.div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              <span className="text-foreground">Master </span>
+              <span className="text-foreground">10x Your Career with </span>
               <span className="text-primary">Agentic AI</span>
-              <span className="text-foreground"> in 4 Months</span>
+              <span className="text-foreground"> in just 4 Months</span>
             </h1>
 
             <div className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
