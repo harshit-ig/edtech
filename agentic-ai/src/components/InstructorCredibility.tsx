@@ -13,7 +13,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
     {
       name: "Dr. Sarah Chen",
       title: "Former OpenAI Research Scientist",
-      image: "https://randomuser.me/api/portraits/women/65.jpg",
+      image: "https://randomuser.me/api/portraits/women/61.jpg",
       experience: "8+ years",
       companies: ["OpenAI", "Google DeepMind", "Meta AI"],
       expertise: "LLM Architecture & Agent Systems",
@@ -27,7 +27,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
     {
       name: "Marcus Rodriguez",
       title: "Senior AI Engineer at Microsoft",
-      image: "https://randomuser.me/api/portraits/men/32.jpg",
+      image: "https://randomuser.me/api/portraits/men/9.jpg",
       experience: "6+ years",
       companies: ["Microsoft", "NVIDIA", "Tesla"],
       expertise: "Production AI Systems & MLOps",
@@ -41,7 +41,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
     {
       name: "Dr. Priya Patel",
       title: "AI Startup Founder & Ex-Amazon",
-      image: "https://randomuser.me/api/portraits/women/46.jpg",
+      image: "https://randomuser.me/api/portraits/women/53.jpg",
       experience: "10+ years",
       companies: ["Amazon", "Anthropic", "Own Startup"],
       expertise: "AI Product Strategy & Scaling",

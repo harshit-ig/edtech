@@ -13,7 +13,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
     {
       name: "Dr. Sarah Chen",
       title: "Former Senior Data Scientist at Netflix",
-      image: "https://randomuser.me/api/portraits/women/68.jpg",
+      image: "https://randomuser.me/api/portraits/women/61.jpg",
       experience: "8+ years",
       companies: ["Netflix", "Amazon", "Google"],
       expertise: "Data Science & Business Intelligence",
@@ -27,7 +27,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
     {
       name: "Marcus Rodriguez",
       title: "Lead Business Intelligence Engineer at Microsoft",
-      image: "https://randomuser.me/api/portraits/men/46.jpg",
+      image: "https://randomuser.me/api/portraits/men/9.jpg",
       experience: "6+ years",
       companies: ["Microsoft", "Tableau", "Spotify"],
       expertise: "SQL, Python & Data Visualization",
@@ -41,7 +41,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
     {
       name: "Dr. Priya Patel",
       title: "Data Analytics Consultant & Ex-McKinsey",
-      image: "https://randomuser.me/api/portraits/women/72.jpg",
+      image: "https://randomuser.me/api/portraits/women/53.jpg",
       experience: "10+ years",
       companies: ["McKinsey", "Deloitte", "Own Consultancy"],
       expertise: "Statistical Analysis & Strategy",
