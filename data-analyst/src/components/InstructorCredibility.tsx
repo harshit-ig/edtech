@@ -13,7 +13,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
     {
       name: "Dr. Sarah Chen",
       title: "Former Senior Data Scientist at Netflix",
-      image: "/api/placeholder/150/150", // You'll need to replace with actual images
+      image: "https://randomuser.me/api/portraits/women/68.jpg",
       experience: "8+ years",
       companies: ["Netflix", "Amazon", "Google"],
       expertise: "Data Science & Business Intelligence",
@@ -27,7 +27,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
     {
       name: "Marcus Rodriguez",
       title: "Lead Business Intelligence Engineer at Microsoft",
-      image: "/api/placeholder/150/150",
+      image: "https://randomuser.me/api/portraits/men/46.jpg",
       experience: "6+ years",
       companies: ["Microsoft", "Tableau", "Spotify"],
       expertise: "SQL, Python & Data Visualization",
@@ -41,7 +41,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
     {
       name: "Dr. Priya Patel",
       title: "Data Analytics Consultant & Ex-McKinsey",
-      image: "/api/placeholder/150/150",
+      image: "https://randomuser.me/api/portraits/women/72.jpg",
       experience: "10+ years",
       companies: ["McKinsey", "Deloitte", "Own Consultancy"],
       expertise: "Statistical Analysis & Strategy",
@@ -115,9 +115,14 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
               {/* Profile */}
               <div className="text-center mb-6">
                 <div className="relative w-24 h-24 mx-auto mb-4">
-                  <div className="w-24 h-24 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white text-2xl font-bold">
-                    {instructor.name.split(' ').map(n => n[0]).join('')}
-                  </div>
+                  <Image
+                    src={instructor.image}
+                    alt={instructor.name}
+                    width={96}
+                    height={96}
+                    className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
+                    loading="lazy"
+                  />
                   <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1 shadow-lg">
                     <Linkedin className="w-6 h-6 text-blue-600" />
                   </div>
