@@ -1,41 +1,18 @@
 'use client';
 
-import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { TrendingUp, Users, DollarSign, Award, Building, Star } from 'lucide-react';
-import { useEffect, useState } from 'react';
 
 interface SocialProofNumbersProps {
   onApplyNow: () => void;
 }
 
 export default function SocialProofNumbers({ onApplyNow }: SocialProofNumbersProps) {
-  const [hasAnimated, setHasAnimated] = useState(false);
-
-  // Animated counters
-  const graduatesCount = useMotionValue(0);
-  const salaryCount = useMotionValue(0);
-  const jobPlacementCount = useMotionValue(0);
-  const companiesCount = useMotionValue(0);
-
-  const graduatesDisplay = useTransform(graduatesCount, Math.round);
-  const salaryDisplay = useTransform(salaryCount, Math.round);
-  const jobPlacementDisplay = useTransform(jobPlacementCount, Math.round);
-  const companiesDisplay = useTransform(companiesCount, Math.round);
-
-  useEffect(() => {
-    if (hasAnimated) return;
-
-    const controls = [
-      animate(graduatesCount, 847, { duration: 2 }),
-      animate(salaryCount, 4.9, { duration: 2.5 }),
-      animate(jobPlacementCount, 98, { duration: 1.5 }),
-      animate(companiesCount, 150, { duration: 2.2 })
-    ];
-
-    setHasAnimated(true);
-
-    return () => controls.forEach(control => control.stop());
-  }, [hasAnimated, graduatesCount, salaryCount, jobPlacementCount, companiesCount]);
+  // Static values to ensure consistency
+  const graduatesDisplay = 847;
+  const salaryDisplay = 4.8;
+  const jobPlacementDisplay = 98;
+  const companiesDisplay = 150;
 
   const stats = [
     {
@@ -88,7 +65,6 @@ export default function SocialProofNumbers({ onApplyNow }: SocialProofNumbersPro
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          onViewportEnter={() => setHasAnimated(false)}
           className="text-center mb-12"
         >
           <motion.div
