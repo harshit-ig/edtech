@@ -211,20 +211,20 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
             <div className="group relative overflow-hidden bg-gradient-to-br from-green-500/20 to-green-600/30 backdrop-blur-lg rounded-2xl p-5 border border-green-400/30 hover:border-green-400/60 transition-all duration-300 hover:scale-105">
               <div className="relative text-center">
                 <div className="mb-3">
-                  <Play className="w-8 h-8 mx-auto text-green-600" />
+                  <Cpu className="w-8 h-8 mx-auto text-green-600" />
                 </div>
-                <div className="text-xs font-semibold text-green-600 mb-1 uppercase tracking-wider">Live Events</div>
-                <div className="text-gray-900 font-bold text-sm">Real World AI</div>
+                <div className="text-xs font-semibold text-green-600 mb-1 uppercase tracking-wider">Hand-On Learning</div>
+                <div className="text-gray-900 font-bold text-sm">Real World AI Workflows</div>
               </div>
             </div>
             
             <div className="group relative overflow-hidden bg-gradient-to-br from-yellow-500/20 to-yellow-600/30 backdrop-blur-lg rounded-2xl p-5 border border-yellow-400/30 hover:border-yellow-400/60 transition-all duration-300 hover:scale-105">
               <div className="relative text-center">
                 <div className="mb-3">
-                  <Star className="w-8 h-8 mx-auto text-yellow-600" />
+                  <Users className="w-8 h-8 mx-auto text-yellow-600" />
                 </div>
-                <div className="text-xs font-semibold text-yellow-600 mb-1 uppercase tracking-wider">Outsider to</div>
-                <div className="text-gray-900 font-bold text-sm">AI Founder</div>
+                <div className="text-xs font-semibold text-yellow-600 mb-1 uppercase tracking-wider">1-1 LIVE</div>
+                <div className="text-gray-900 font-bold text-sm">Doubt Sessions</div>
               </div>
             </div>
           </div>
