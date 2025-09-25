@@ -13,7 +13,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
     {
       name: "Dr. Sarah Chen",
       title: "Former OpenAI Research Scientist",
-      image: "https://randomuser.me/api/portraits/women/61.jpg",
+      image: "/instructor_female.jpg",
       experience: "8+ years",
       companies: ["OpenAI", "Google DeepMind", "Meta AI"],
       expertise: "LLM Architecture & Agent Systems",
@@ -27,7 +27,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
     {
       name: "Marcus Rodriguez",
       title: "Senior AI Engineer at Microsoft",
-      image: "https://randomuser.me/api/portraits/men/9.jpg",
+      image: "/instructor_male.jpg",
       experience: "6+ years",
       companies: ["Microsoft", "NVIDIA", "Tesla"],
       expertise: "Production AI Systems & MLOps",
