@@ -49,7 +49,7 @@ export default function CurrentBatchTestimonials() {
     {
       name: "Priya Sharma",
       role: "Financial Analyst @ Banking",
-      image: "https://randomuser.me/api/portraits/women/55.jpg",
+      image: "https://randomuser.me/api/portraits/women/63.jpg",
       testimonial: "Current batch is incredible! Week 14 and I've built comprehensive Power BI dashboards that track all our KPIs in real-time.",
       batchWeek: "Week 14",
       progress: 95

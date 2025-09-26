@@ -49,7 +49,7 @@ export default function CurrentBatchTestimonials() {
     {
       name: "Priya Sharma",
       role: "Product Owner @ Healthcare Tech",
-      image: "https://randomuser.me/api/portraits/women/55.jpg",
+      image: "https://randomuser.me/api/portraits/women/63.jpg",
       testimonial: "Current batch is incredible! Week 14 and I've successfully integrated 3 AI agents into our product workflow. Results speak for themselves.",
       batchWeek: "Week 14",
       progress: 95
