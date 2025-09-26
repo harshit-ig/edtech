@@ -106,8 +106,7 @@ export default function Navigation({ onApplyNow }: NavigationProps) {
               </div>
               <div className="flex flex-col min-w-0">
                 <span className="text-sm sm:text-base lg:text-lg font-bold text-foreground truncate">
-                  <span className="hidden sm:inline">Edtech Informative</span>
-                  <span className="sm:hidden">Edtech</span>
+                  <span>Edtech Informative</span>
                 </span>
                 <span className="text-xs text-primary font-medium truncate hidden sm:block">
                   6-Month Data Analytics Career Program
