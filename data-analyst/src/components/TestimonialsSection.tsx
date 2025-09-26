@@ -9,7 +9,7 @@ export default function TestimonialsSection() {
     {
       name: "Ananya Singh",
       role: "Data Analyst @ E-commerce",
-      image: "https://randomuser.me/api/portraits/women/25.jpg",
+      image: "https://randomuser.me/api/portraits/women/85.jpg",
       testimonial: "The SQL and Python training was fantastic. I now build automated sales reports that save my team 20 hours weekly."
     },
     {
@@ -21,13 +21,13 @@ export default function TestimonialsSection() {
     {
       name: "Maya Kapoor",
       role: "Senior Data Analyst @ Tech Startup",
-      image: "https://randomuser.me/api/portraits/women/43.jpg",
+      image: "https://randomuser.me/api/portraits/women/72.jpg",
       testimonial: "Life-changing 6-month program. The comprehensive training helped me master Python, SQL, and data visualization to build my 6-figure analytics career."
     },
     {
       name: "Disha Sharma",
       role: "Marketing Analyst @ Consumer Brand",
-      image: "https://randomuser.me/api/portraits/women/76.jpg",
+      image: "https://randomuser.me/api/portraits/women/39.jpg",
       testimonial: "Customer segmentation project using Python taught me to identify profitable customer segments that boosted revenue by 15%."
     },
     {

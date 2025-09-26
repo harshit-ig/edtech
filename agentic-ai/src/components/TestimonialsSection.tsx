@@ -9,7 +9,7 @@ export default function TestimonialsSection() {
     {
       name: "Ananya Singh",
       role: "AI Product Manager @ SaaS",
-      image: "https://randomuser.me/api/portraits/women/32.jpg",
+      image: "https://randomuser.me/api/portraits/women/85.jpg",
       testimonial: "The agentic frameworks were super actionable. I automated PRD drafting and saved hours this week."
     },
     {
@@ -21,13 +21,13 @@ export default function TestimonialsSection() {
     {
       name: "Maya Kapoor",
       role: "Group PM @ Marketplace",
-      image: "https://randomuser.me/api/portraits/women/67.jpg",
+      image: "https://randomuser.me/api/portraits/women/72.jpg",
       testimonial: "Life-changing 4-month program. The comprehensive training helped me master agentic AI architecture and land my dream job."
     },
     {
       name: "Disha Sharma",
       role: "PM @ Consumer Tech",
-      image: "https://randomuser.me/api/portraits/women/21.jpg",
+      image: "https://randomuser.me/api/portraits/women/39.jpg",
       testimonial: "Crystal-clear explanation of RAG vs fine-tuning for AI product decisions."
     },
     {

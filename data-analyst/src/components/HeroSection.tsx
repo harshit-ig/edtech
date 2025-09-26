@@ -15,7 +15,7 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-white/80"></div>
-        <div className="absolute inset-0 overflow-hidden opacity-30">
+        <div className="absolute inset-0 overflow-hidden opacity-30 hidden md:block">
           {/* Animated Bar Chart */}
           <motion.div 
             className="absolute top-20 left-16"
@@ -196,7 +196,7 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
           >
             <p className="text-base sm:text-lg md:text-xl text-gray-600 font-light leading-relaxed">
               <span className="text-orange-600 font-semibold">Go from beginner to expert</span> in 6 months with industry-certified training. 
-              <span className="text-blue-600 font-semibold"> Join 2000+ professionals who landed GEN AI Data Analyst roles!</span>
+              <span className="text-blue-600 font-semibold"> Join 1200+ professionals who landed Data Analyst roles!</span>
             </p>
           </motion.div>
 
@@ -261,7 +261,7 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onApplyNow}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:from-purple-700 hover:to-blue-700 px-8 py-3 rounded-full font-semibold transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl text-sm text-center whitespace-nowrap inline-block" 
+              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:from-purple-700 hover:to-blue-700 px-10 py-4 rounded-full font-semibold transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl text-base text-center whitespace-nowrap inline-block" 
               style={{minWidth: 'max-content'}}
             >
               Book FREE Strategy Call
@@ -276,7 +276,7 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
             className="mt-8 text-center"
           >
             <p className="text-gray-600 whitespace-nowrap text-sm sm:text-base">
-              This course is rated as <span className="text-orange-500 font-bold">excellent</span> by 90% of the learners
+              This course is rated as <span className="text-orange-500 font-bold">excellent</span> by 92% of the learners
             </p>
           </motion.div>
         </div>

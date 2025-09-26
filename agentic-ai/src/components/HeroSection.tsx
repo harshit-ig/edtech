@@ -16,7 +16,7 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-gray-50"></div>
-        <div className="absolute inset-0 overflow-hidden opacity-30">
+        <div className="absolute inset-0 overflow-hidden opacity-30 hidden md:block">
           {/* Top Left Process Flow */}
           <div className="absolute top-20 left-16">
             <div className="space-y-4">
@@ -182,7 +182,7 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
 
           <div className="mb-8 max-w-4xl mx-auto">
             <p className="text-lg sm:text-xl text-gray-600 font-light leading-relaxed">
-              <span className="text-yellow-600 font-semibold">From AI Outsider to AI Founder</span> in 4 months.{' '}
+              <span className="text-yellow-600 font-semibold">From AI Outsider to AI Expert</span> in 4 months.{' '}
               <span className="text-purple-600 font-semibold">Build, Deploy & Sell AI Automation Systems</span> that work while you sleep.
             </p>
           </div>
@@ -232,7 +232,7 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full px-4 mt-6">
             <button 
               onClick={onApplyNow}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:from-purple-700 hover:to-blue-700 px-8 py-3 rounded-full font-semibold transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl text-sm text-center whitespace-nowrap inline-block" 
+              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:from-purple-700 hover:to-blue-700 px-10 py-4 rounded-full font-semibold transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl text-base text-center whitespace-nowrap inline-block" 
               style={{minWidth: 'max-content'}}
             >
               Book FREE Strategy Call

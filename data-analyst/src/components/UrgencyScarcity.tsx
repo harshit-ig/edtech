@@ -163,7 +163,7 @@ export default function UrgencyScarcity({ onApplyNow }: UrgencyScarcityProps) {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={onApplyNow}
-                  className="w-full bg-warning hover:bg-orange-500 text-white font-bold py-4 px-8 rounded-full text-lg transition-colors pulse-glow"
+                  className="w-full bg-warning hover:bg-orange-500 text-white font-bold py-5 px-10 rounded-full text-xl transition-colors pulse-glow"
                 >
                   Reserve My Spot Now
                   <ArrowRight className="inline ml-2 w-5 h-5" />

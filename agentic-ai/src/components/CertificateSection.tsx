@@ -66,7 +66,7 @@ export default function CertificateSection({ onApplyNow }: CertificateSectionPro
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onApplyNow}
-              className="inline-flex items-center px-8 py-4 bg-primary text-white rounded-full font-semibold hover:bg-primary-dark transition-colors"
+              className="inline-flex items-center px-10 py-5 bg-primary text-white rounded-full font-bold text-lg hover:bg-primary-dark transition-colors hover:shadow-xl"
             >
               Earn Your Certificate
               <ArrowRight className="ml-2 w-5 h-5" />
@@ -102,7 +102,7 @@ export default function CertificateSection({ onApplyNow }: CertificateSectionPro
 
               {/* Certificate Body */}
               <div className="text-center mb-6">
-                <div className="text-3xl font-bold text-primary mb-2">[Your Name]</div>
+                <div className="text-3xl font-bold text-primary mb-2">Oliver Richardson</div>
                 <p className="text-gray-700 mb-4">has successfully completed the</p>
                 <div className="bg-primary/10 rounded-lg p-4 mb-4">
                   <h5 className="text-xl font-bold text-primary mb-2">
@@ -121,7 +121,7 @@ export default function CertificateSection({ onApplyNow }: CertificateSectionPro
               <div className="flex justify-between items-end text-xs text-gray-500">
                 <div>
                   <div className="w-20 h-px bg-gray-300 mb-1"></div>
-                  <p>Date: September 23, 2025</p>
+                  <p>Date: 18 January 2025</p>
                 </div>
                 <div className="text-right">
                   <div className="w-20 h-px bg-gray-300 mb-1 ml-auto"></div>

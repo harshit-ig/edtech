@@ -149,7 +149,7 @@ export default function GuaranteesSection({ onApplyNow }: GuaranteesSectionProps
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={onApplyNow}
-                className="bg-white text-gray-900 font-bold py-4 px-8 rounded-full text-lg hover:shadow-xl transition-all flex items-center space-x-2 mx-auto"
+                className="bg-white text-gray-900 font-bold py-5 px-10 rounded-full text-xl hover:shadow-xl transition-all flex items-center space-x-2 mx-auto"
               >
                 <span>Start Your Transformation</span>
                 <ArrowRight className="w-5 h-5" />

@@ -172,7 +172,7 @@ export default function SocialProofNumbers({ onApplyNow }: SocialProofNumbersPro
             onClick={onApplyNow}
             className="bg-gradient-to-r from-primary to-secondary text-white font-bold py-4 px-12 rounded-full text-lg shadow-xl hover:shadow-2xl transition-all duration-300 pulse-glow"
           >
-            Join 847+ Successful AI Engineers
+            Join 950+ Successful AI Engineers
           </motion.button>
           <p className="text-gray-500 text-sm mt-4">
             💼 Job placement guarantee • 🎯 Career support • ⚡ Start immediately

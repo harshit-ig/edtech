@@ -18,7 +18,7 @@ export default function FeaturesSection() {
     {
       icon: <Award className="w-8 h-8" />,
       title: "Data Analyst Job Guarantee",
-      description: "98% placement rate in data analyst roles with guaranteed job support and direct referrals to data-driven companies."
+      description: "95% placement rate in data analyst roles with guaranteed job support and direct referrals to data-driven companies."
     },
     {
       icon: <Target className="w-8 h-8" />,

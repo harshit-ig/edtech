@@ -34,7 +34,7 @@ export default function FAQSection({ onApplyNow }: FAQSectionProps) {
     },
     {
       question: "Do you provide job placement assistance?",
-      answer: "Absolutely! We offer direct referrals to AI-focused companies, resume optimization for AI roles, mock interviews with AI hiring managers, and access to our exclusive job board. Our career support continues for 6 months after completion."
+      answer: "Absolutely! We offer direct referrals to AI-focused companies, resume optimization for AI roles, mock interviews with AI hiring managers, and access to our exclusive job board. Our career support continues for 4 months after completion."
     },
     {
       question: "What tools and software will I need?",
@@ -42,7 +42,7 @@ export default function FAQSection({ onApplyNow }: FAQSectionProps) {
     },
     {
       question: "What career support do you provide?",
-      answer: "We provide comprehensive career support including job placement assistance, resume optimization, mock interviews, and access to our exclusive network of 200+ hiring partners. Our career support continues for 6 months after program completion to ensure your success."
+      answer: "We provide comprehensive career support including job placement assistance, resume optimization, mock interviews, and access to our exclusive network of 200+ hiring partners. Our career support continues for 4 months after program completion to ensure your success."
     }
   ];
 

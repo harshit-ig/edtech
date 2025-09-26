@@ -37,7 +37,7 @@ export default function GuaranteesSection({ onApplyNow }: GuaranteesSectionProps
 
   const incomePromises = [
     "💼 Direct access to 200+ partner companies",
-    "🚀 85% of professionals land jobs within 6 months",
+    "🚀 85% of professionals land jobs within 4 months",
     "🌟 AI consulting business setup and client acquisition support",
     "📈 Lifetime career support and networking opportunities",
     "🎯 Personalized career path planning and mentorship"
@@ -140,16 +140,16 @@ export default function GuaranteesSection({ onApplyNow }: GuaranteesSectionProps
                 transition={{ duration: 3, repeat: Infinity }}
                 className="bg-gradient-to-r from-green-400 to-blue-400 rounded-2xl p-8 mb-8"
               >
-                <div className="text-5xl md:text-6xl font-bold mb-2">95%</div>
+                <div className="text-5xl md:text-6xl font-bold mb-2">98%</div>
                 <div className="text-xl font-semibold">Job Placement Success</div>
-                <div className="text-sm opacity-90 mt-2">Within 6 Months</div>
+                <div className="text-sm opacity-90 mt-2">Within 4 Months</div>
               </motion.div>
 
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={onApplyNow}
-                className="bg-white text-gray-900 font-bold py-4 px-8 rounded-full text-lg hover:shadow-xl transition-all flex items-center space-x-2 mx-auto"
+                className="bg-white text-gray-900 font-bold py-5 px-10 rounded-full text-xl hover:shadow-xl transition-all flex items-center space-x-2 mx-auto"
               >
                 <span>Start Your Transformation</span>
                 <ArrowRight className="w-5 h-5" />

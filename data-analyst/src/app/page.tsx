@@ -14,6 +14,8 @@ import VideoSection from '@/components/VideoSection';
 import CourseStructure from '@/components/CourseStructure';
 import InstructorCredibility from '@/components/InstructorCredibility';
 import TestimonialsSection from '@/components/TestimonialsSection';
+import CurrentBatchTestimonials from '@/components/CurrentBatchTestimonials';
+import AIComparisonSection from '@/components/AIComparisonSection';
 import FAQSection from '@/components/FAQSection';
 import CertificateSection from '@/components/CertificateSection';
 import Footer from '@/components/Footer';
@@ -60,6 +62,12 @@ export default function Home() {
       
       {/* 10. Social Proof - Professional Success Stories */}
       <TestimonialsSection />
+
+      {/* AI Comparison - Show Urgency & Value */}
+      <AIComparisonSection onApplyNow={handleApplyNow} />
+
+      {/* Current Batch Live Updates */}
+      <CurrentBatchTestimonials />
       
       {/* 3. Create Urgency & Scarcity - Limited Time Offer */}
       <UrgencyScarcity onApplyNow={handleApplyNow} />

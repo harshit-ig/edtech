@@ -154,7 +154,7 @@ export default function Navigation({ onApplyNow }: NavigationProps) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={onApplyNow}
-                className="bg-gradient-to-r from-primary to-secondary text-white px-3 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-full font-bold hover:shadow-lg transition-all pulse-glow flex items-center space-x-1 sm:space-x-2 text-sm sm:text-base flex-shrink-0"
+                className="bg-gradient-to-r from-primary to-secondary text-white px-3 sm:px-4 lg:px-8 py-3 sm:py-3 rounded-full font-bold hover:shadow-lg transition-all pulse-glow flex items-center space-x-1 sm:space-x-2 text-sm sm:text-base flex-shrink-0"
               >
                 <span className="hidden sm:inline whitespace-nowrap">Secure My Spot</span>
                 <span className="sm:hidden">Apply</span>

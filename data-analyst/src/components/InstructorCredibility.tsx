@@ -120,12 +120,9 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
                     alt={instructor.name}
                     width={96}
                     height={96}
-                    className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
+                    className="w-24 h-24 rounded-full object-cover shadow-lg"
                     loading="lazy"
                   />
-                  <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1 shadow-lg">
-                    <Linkedin className="w-6 h-6 text-blue-600" />
-                  </div>
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-1">
                   {instructor.name}
@@ -187,7 +184,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onApplyNow}
-            className="bg-white text-primary font-bold py-4 px-8 rounded-full text-lg hover:bg-gray-100 transition-colors"
+            className="bg-white text-primary font-bold py-5 px-10 rounded-full text-xl hover:bg-gray-100 transition-colors hover:shadow-xl"
           >
             Learn from the Best - Apply Now
           </motion.button>
