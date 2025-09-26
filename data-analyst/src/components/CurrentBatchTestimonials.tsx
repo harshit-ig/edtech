@@ -33,7 +33,7 @@ export default function CurrentBatchTestimonials() {
     {
       name: "Emma Thompson",
       role: "Marketing Analyst @ Retail",
-      image: "https://randomuser.me/api/portraits/women/67.jpg",
+      image: "https://randomuser.me/api/portraits/women/68.jpg",
       testimonial: "Amazing progress in just 10 weeks! The customer segmentation project using Python helped identify £200K revenue opportunity.",
       batchWeek: "Week 10",
       progress: 85

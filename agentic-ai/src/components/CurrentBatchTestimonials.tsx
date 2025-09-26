@@ -33,7 +33,7 @@ export default function CurrentBatchTestimonials() {
     {
       name: "Emma Thompson",
       role: "Product Strategy @ E-commerce",
-      image: "https://randomuser.me/api/portraits/women/67.jpg",
+      image: "https://randomuser.me/api/portraits/women/68.jpg",
       testimonial: "Amazing progress in just 10 weeks! The community support and practical exercises make complex AI concepts easy to understand and apply.",
       batchWeek: "Week 10",
       progress: 85
