@@ -56,6 +56,9 @@ export default function Home() {
 
       {/* 2. Immediate Social Proof - Build Trust */}
       <CompaniesSection />
+
+            {/* 10. Social Proof - Professional Success Stories */}
+      <TestimonialsSection />
       
       {/* 3. Create Urgency & Scarcity - Limited Time Offer */}
       <UrgencyScarcity onApplyNow={handleApplyNow} />
@@ -77,9 +80,6 @@ export default function Home() {
       
       {/* 9. Why Choose Us - Unique Benefits */}
       <FeaturesSection />
-      
-      {/* 10. Social Proof - Professional Success Stories */}
-      <TestimonialsSection />
       
       {/* 11. Handle Objections - Remove Friction */}
       <FAQSection onApplyNow={handleApplyNow} />
