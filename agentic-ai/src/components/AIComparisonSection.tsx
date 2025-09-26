@@ -18,7 +18,7 @@ export default function AIComparisonSection({ onApplyNow }: AIComparisonSectionP
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
-            <span className="text-red-600">85% of PMs will be replaced by AI.</span><br />
+            <span className="text-red-600">95% of Professionals will be replaced by AI.</span><br />
             The rest will become <span className="text-primary">irreplaceable.</span>
           </h2>
           <p className="text-xl text-gray-700 font-medium">
@@ -40,7 +40,7 @@ export default function AIComparisonSection({ onApplyNow }: AIComparisonSectionP
                 <span className="text-red-600 text-xl sm:text-2xl">😰</span>
               </div>
               <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-red-600 mb-2">
-                PM Without Agentic AI
+                Professionals Without Agentic AI
               </h3>
             </div>
             <ul className="space-y-2 sm:space-y-3 text-slate-700">
@@ -84,7 +84,7 @@ export default function AIComparisonSection({ onApplyNow }: AIComparisonSectionP
                 <span className="text-green-600 text-xl sm:text-2xl">🚀</span>
               </div>
               <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-green-600 mb-2">
-                Agentic AI-Powered PM
+                Agentic AI-Powered Professionals
               </h3>
             </div>
             <ul className="space-y-2 sm:space-y-3 text-slate-700">
