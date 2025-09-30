@@ -589,39 +589,39 @@ const UnifiedCourseManagement: React.FC = () => {
     // Validate required fields from Course schema
     if (!formData.id || !formData.category || !formData.badge || !formData.title || 
         !formData.desc || !formData.duration || !formData.extra || !formData.accent) {
-      setError('Required fields: Course ID, Category, Badge, Title, Description, Duration, Extra Info, and Accent Color');
+      toast.error('Required fields: Course ID, Category, Badge, Title, Description, Duration, Extra Info, and Accent Color');
       return;
     }
 
     // Validate required fields from CourseDetails schema
     if (!formData.overview || !formData.prerequisites) {
-      setError('Required course details: Overview and Prerequisites');
+      toast.error('Required course details: Overview and Prerequisites');
       return;
     }
 
     // Validate curriculum modules and topics
     if (!Array.isArray(formData.curriculum) || formData.curriculum.length === 0) {
-      setError('At least one curriculum module is required.');
+      toast.error('At least one curriculum module is required.');
       return;
     }
     for (let i = 0; i < formData.curriculum.length; i++) {
       const module = formData.curriculum[i];
       if (!module.module || !module.duration) {
-        setError(`Curriculum module #${i + 1} is missing required fields (module name and duration).`);
+        toast.error(`Curriculum module #${i + 1} is missing required fields (module name and duration).`);
         return;
       }
       if (!Array.isArray(module.topics) || module.topics.length === 0) {
-        setError(`Curriculum module #${i + 1} must have at least one topic.`);
+        toast.error(`Curriculum module #${i + 1} must have at least one topic.`);
         return;
       }
       for (let j = 0; j < module.topics.length; j++) {
         const topic = module.topics[j];
         if (!topic.topic) {
-          setError(`Topic #${j + 1} in module #${i + 1} is missing a topic name.`);
+          toast.error(`Topic #${j + 1} in module #${i + 1} is missing a topic name.`);
           return;
         }
         if (!Array.isArray(topic.subtopics) || topic.subtopics.length === 0 || topic.subtopics.some(st => !st || st.trim() === '')) {
-          setError(`Topic #${j + 1} in module #${i + 1} must have at least one non-empty subtopic.`);
+          toast.error(`Topic #${j + 1} in module #${i + 1} must have at least one non-empty subtopic.`);
           return;
         }
       }
@@ -630,7 +630,7 @@ const UnifiedCourseManagement: React.FC = () => {
     // Validate required fields from CoursePricing schema
     if (!formData.pricingName || !formData.pricingDescription || !formData.pricingBadge || !formData.cta ||
         !formData.pricingDuration || !formData.pricingExtra || !formData.discount) {
-      setError('Required pricing fields: Plan Name, Description, Badge, CTA, Duration, Extra Info, and Discount');
+      toast.error('Required pricing fields: Plan Name, Description, Badge, CTA, Duration, Extra Info, and Discount');
       return;
     }
 
@@ -641,7 +641,7 @@ const UnifiedCourseManagement: React.FC = () => {
     const trimmedCategory = formData.category.trim();
 
     if (!trimmedTitle || !trimmedDesc || !trimmedCategory || !trimmedId) {
-      setError('Course ID, title, description, and category cannot be empty');
+      toast.error('Course ID, title, description, and category cannot be empty');
       return;
     }
 
