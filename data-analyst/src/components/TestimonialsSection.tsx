@@ -21,7 +21,7 @@ export default function TestimonialsSection() {
     {
       name: "Maya Kapoor",
       role: "Senior Data Analyst @ Tech Startup",
-      image: "https://randomuser.me/api/portraits/women/72.jpg",
+      image: "/female_4.jpg",
       testimonial: "Life-changing 6-month program. The comprehensive training helped me master Python, SQL, and data visualization to build my 6-figure analytics career."
     },
     {

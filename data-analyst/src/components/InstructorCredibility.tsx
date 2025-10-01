@@ -41,7 +41,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
     {
       name: "Dr. Priya Patel",
       title: "Data Analytics Consultant & Ex-McKinsey",
-      image: "https://randomuser.me/api/portraits/women/53.jpg",
+      image: "/female_5.jpg",
       experience: "10+ years",
       companies: ["McKinsey", "Deloitte", "Own Consultancy"],
       expertise: "Statistical Analysis & Strategy",

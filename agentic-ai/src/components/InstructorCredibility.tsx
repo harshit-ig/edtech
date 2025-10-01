@@ -41,7 +41,7 @@ export default function InstructorCredibility({ onApplyNow }: InstructorCredibil
     {
       name: "Dr. Priya Patel",
       title: "AI Startup Founder & Ex-Amazon",
-      image: "https://randomuser.me/api/portraits/women/53.jpg",
+      image: "/female_5.jpg",
       experience: "10+ years",
       companies: ["Amazon", "Anthropic", "Own Startup"],
       expertise: "AI Product Strategy & Scaling",

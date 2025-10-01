@@ -21,7 +21,7 @@ export default function TestimonialsSection() {
     {
       name: "Maya Kapoor",
       role: "Group PM @ Marketplace",
-      image: "https://randomuser.me/api/portraits/women/72.jpg",
+      image: "/female_4.jpg",
       testimonial: "Life-changing 4-month program. The comprehensive training helped me master agentic AI architecture and land my dream job."
     },
     {
