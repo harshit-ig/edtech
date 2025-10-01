@@ -41,7 +41,7 @@ export default function CurrentBatchTestimonials() {
     {
       name: "Alex Rodriguez",
       role: "Operations Analyst @ Logistics",
-      image: "https://randomuser.me/api/portraits/men/41.jpg",
+      image: "/male_1.jpg",
       testimonial: "Week 4 reflection: The hands-on approach is perfect. Built my first SQL database and can now analyze our supply chain data effectively.",
       batchWeek: "Week 4",
       progress: 40

@@ -41,7 +41,7 @@ export default function CurrentBatchTestimonials() {
     {
       name: "Alex Rodriguez",
       role: "Technical PM @ AI Startup",
-      image: "https://randomuser.me/api/portraits/men/41.jpg",
+      image: "/male_1.jpg",
       testimonial: "Week 4 reflection: The course structure is perfect for working professionals. I'm building AI solutions that my team actually uses daily.",
       batchWeek: "Week 4",
       progress: 40
