@@ -9,7 +9,7 @@ export default function TestimonialsSection() {
     {
       name: "Ananya Singh",
       role: "AI Product Manager @ SaaS",
-      image: "https://randomuser.me/api/portraits/women/85.jpg",
+      image: "/female_6.jpg",
       testimonial: "The agentic frameworks were super actionable. I automated PRD drafting and saved hours this week."
     },
     {

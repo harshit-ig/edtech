@@ -9,7 +9,7 @@ export default function TestimonialsSection() {
     {
       name: "Ananya Singh",
       role: "Data Analyst @ E-commerce",
-      image: "https://randomuser.me/api/portraits/women/85.jpg",
+      image: "/female_6.jpg",
       testimonial: "The SQL and Python training was fantastic. I now build automated sales reports that save my team 20 hours weekly."
     },
     {
