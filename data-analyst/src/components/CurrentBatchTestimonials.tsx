@@ -17,7 +17,7 @@ export default function CurrentBatchTestimonials() {
     {
       name: "Sophie Chen", 
       role: "Business Analyst @ FinTech",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
+      image: "/female_1.jpg",
       testimonial: "Halfway through the program and loving it! Created my first Tableau dashboard that's now used by the entire management team.",
       batchWeek: "Week 12",
       progress: 90
@@ -33,7 +33,7 @@ export default function CurrentBatchTestimonials() {
     {
       name: "Emma Thompson",
       role: "Marketing Analyst @ Retail",
-      image: "https://randomuser.me/api/portraits/women/68.jpg",
+      image: "/female_2.jpg",
       testimonial: "Amazing progress in just 10 weeks! The customer segmentation project using Python helped identify £200K revenue opportunity.",
       batchWeek: "Week 10",
       progress: 85
@@ -49,7 +49,7 @@ export default function CurrentBatchTestimonials() {
     {
       name: "Priya Sharma",
       role: "Financial Analyst @ Banking",
-      image: "https://randomuser.me/api/portraits/women/63.jpg",
+      image: "/female_3.jpg",
       testimonial: "Current batch is incredible! Week 14 and I've built comprehensive Power BI dashboards that track all our KPIs in real-time.",
       batchWeek: "Week 14",
       progress: 95

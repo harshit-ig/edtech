@@ -17,7 +17,7 @@ export default function CurrentBatchTestimonials() {
     {
       name: "Sophie Chen",
       role: "Senior PM @ FinanceStart",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
+      image: "/female_1.jpg",
       testimonial: "Halfway through the program and loving it! The hands-on approach helps me implement AI solutions immediately in my day-to-day work.",
       batchWeek: "Week 12",
       progress: 90
@@ -33,7 +33,7 @@ export default function CurrentBatchTestimonials() {
     {
       name: "Emma Thompson",
       role: "Product Strategy @ E-commerce",
-      image: "https://randomuser.me/api/portraits/women/68.jpg",
+      image: "/female_2.jpg",
       testimonial: "Amazing progress in just 10 weeks! The community support and practical exercises make complex AI concepts easy to understand and apply.",
       batchWeek: "Week 10",
       progress: 85
@@ -49,7 +49,7 @@ export default function CurrentBatchTestimonials() {
     {
       name: "Priya Sharma",
       role: "Product Owner @ Healthcare Tech",
-      image: "https://randomuser.me/api/portraits/women/63.jpg",
+      image: "/female_3.jpg",
       testimonial: "Current batch is incredible! Week 14 and I've successfully integrated 3 AI agents into our product workflow. Results speak for themselves.",
       batchWeek: "Week 14",
       progress: 95
