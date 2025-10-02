@@ -16,7 +16,8 @@ export enum InquiryType {
   STRATEGY_CALL = 'strategy_call',
   COURSE_INQUIRY = 'course_inquiry',
   GENERAL_INQUIRY = 'general_inquiry',
-  INSTALLMENT_INQUIRY = 'installment_inquiry'
+  INSTALLMENT_INQUIRY = 'installment_inquiry',
+  BOOTCAMP = 'bootcamp'
 }
 
 // Inquiry Interface

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { InquiryModel, CustomerModel } from '../models';
+import { InquiryModel, CustomerModel, InquiryType } from '../models';
 import { generateInquiryId, generateCustomerId } from '../utils/idGenerator';
 
 // Submit contact form
@@ -104,8 +104,14 @@ export const submitBootcampApplication = async (req: Request, res: Response): Pr
   try {
     const { name, email, phone, subject, message, source = 'bootcamp_application', courseName } = req.body;
 
+    // Debug logging
+    console.log('Received bootcamp application data:', {
+      name, email, phone, subject, message, source, courseName
+    });
+
     // Validate required fields
     if (!name || !email || !phone) {
+      console.log('Validation failed: Missing required fields');
       res.status(400).json({
         success: false,
         error: 'Missing required fields: name, email, phone'
@@ -114,21 +120,30 @@ export const submitBootcampApplication = async (req: Request, res: Response): Pr
     }
 
     // Create inquiry record for bootcamp application
-    const inquiry = new InquiryModel({
+    const inquiryData = {
       id: generateInquiryId(),
       name: name.trim(),
       email: email.trim().toLowerCase(),
       phone: phone.trim(),
-      type: 'bootcamp',
+      type: InquiryType.BOOTCAMP,
       status: 'new',
       subject: subject?.trim() || `${courseName || 'Bootcamp'} Application`,
       message: message?.trim() || 'Bootcamp application submitted',
       courseName: courseName?.trim() || undefined,
       source,
       notes: `Bootcamp application from ${source}${courseName ? ` for course: ${courseName}` : ''}`
-    });
+    };
 
+    console.log('Creating inquiry with data:', inquiryData);
+
+    // Test if the InquiryType enum includes bootcamp
+    console.log('Available inquiry types:', Object.values(InquiryType));
+
+    const inquiry = new InquiryModel(inquiryData);
+
+    console.log('Saving inquiry to database...');
     await inquiry.save();
+    console.log('Inquiry saved successfully with ID:', inquiry.id);
 
     res.status(201).json({
       success: true,
@@ -141,6 +156,27 @@ export const submitBootcampApplication = async (req: Request, res: Response): Pr
 
   } catch (error) {
     console.error('Error submitting bootcamp application:', error);
+    
+    // Log detailed error information for debugging
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+    }
+    
+    // Check if it's a MongoDB validation error
+    if (error && typeof error === 'object' && 'name' in error) {
+      const mongoError = error as any;
+      if (mongoError.name === 'ValidationError') {
+        console.error('Validation errors:', mongoError.errors);
+        res.status(400).json({
+          success: false,
+          error: 'Validation failed',
+          details: mongoError.errors
+        });
+        return;
+      }
+    }
+    
     res.status(500).json({
       success: false,
       error: 'Failed to submit bootcamp application'
