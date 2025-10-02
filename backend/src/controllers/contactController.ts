@@ -5,7 +5,7 @@ import { generateInquiryId, generateCustomerId } from '../utils/idGenerator';
 // Submit contact form
 export const submitContactForm = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, email, phone, subject, message, source = 'contact_form' } = req.body;
+    const { name, email, phone, subject, message, source = 'contact_form', courseName } = req.body;
 
     // Validate required fields
     if (!name || !email || !phone) {
@@ -26,8 +26,9 @@ export const submitContactForm = async (req: Request, res: Response): Promise<vo
       status: 'new',
       subject: subject?.trim() || 'General Inquiry',
       message: message?.trim() || '',
+      courseName: courseName?.trim() || undefined,
       source,
-      notes: `Contact form submission from ${source}`
+      notes: `Contact form submission from ${source}${courseName ? ` for course: ${courseName}` : ''}`
     });
 
     await inquiry.save();
@@ -94,6 +95,55 @@ export const submitStrategyCall = async (req: Request, res: Response): Promise<v
     res.status(500).json({
       success: false,
       error: 'Failed to book strategy call'
+    });
+  }
+};
+
+// Submit bootcamp application - Creates inquiry with type 'bootcamp'
+export const submitBootcampApplication = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { name, email, phone, subject, message, source = 'bootcamp_application', courseName } = req.body;
+
+    // Validate required fields
+    if (!name || !email || !phone) {
+      res.status(400).json({
+        success: false,
+        error: 'Missing required fields: name, email, phone'
+      });
+      return;
+    }
+
+    // Create inquiry record for bootcamp application
+    const inquiry = new InquiryModel({
+      id: generateInquiryId(),
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      phone: phone.trim(),
+      type: 'bootcamp',
+      status: 'new',
+      subject: subject?.trim() || `${courseName || 'Bootcamp'} Application`,
+      message: message?.trim() || 'Bootcamp application submitted',
+      courseName: courseName?.trim() || undefined,
+      source,
+      notes: `Bootcamp application from ${source}${courseName ? ` for course: ${courseName}` : ''}`
+    });
+
+    await inquiry.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'Bootcamp application submitted successfully. We will contact you within 2 hours!',
+      inquiry: {
+        id: inquiry.id,
+        status: inquiry.status
+      }
+    });
+
+  } catch (error) {
+    console.error('Error submitting bootcamp application:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to submit bootcamp application'
     });
   }
 };

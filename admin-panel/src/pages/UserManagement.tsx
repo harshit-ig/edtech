@@ -46,7 +46,7 @@ interface Inquiry {
   name: string;
   email: string;
   phone: string;
-  type: 'contact_form' | 'strategy_call' | 'course_inquiry' | 'general_inquiry' | 'installment_inquiry';
+  type: 'contact_form' | 'strategy_call' | 'course_inquiry' | 'general_inquiry' | 'installment_inquiry' | 'bootcamp';
   status: 'new' | 'contacted' | 'followed_up' | 'converted' | 'closed' | 'spam';
   subject?: string;
   message?: string;
@@ -532,6 +532,7 @@ const UserManagement: React.FC = () => {
                 <option value="strategy_call">Strategy Call</option>
                 <option value="course_inquiry">Course Inquiry</option>
                 <option value="general_inquiry">General Inquiry</option>
+                <option value="bootcamp">Bootcamp Application</option>
                 {/* <option value="installment_inquiry">Installment Inquiry</option> */}
               </select>
             </>

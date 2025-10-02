@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { X, User, Mail, Phone, Laptop, Target, Clock, CheckCircle } from 'lucide-react';
 import { bootcampApi, type BootcampApplication } from '@/lib/api';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 interface ApplicationFormProps {
   isOpen: boolean;
@@ -12,10 +13,12 @@ interface ApplicationFormProps {
 }
 
 export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProps) {
+  const router = useRouter();
   const [formData, setFormData] = useState<BootcampApplication>({
     fullName: '',
     email: '',
     phone: '',
+    course: 'Data Analytics Career Program'
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -26,7 +29,7 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
     try {
       const result = await bootcampApi.submitApplication({
         ...formData,
-        source: 'data_analyst_application'
+        source: 'bootcamp_application'
       });
       
       setIsSubmitting(false);
@@ -34,9 +37,11 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
         fullName: '',
         email: '',
         phone: '',
+        course: 'Data Analytics Career Program'
       });
       onClose();
-      toast.success('Application submitted successfully! We will contact you within 2 hours.');
+      // Redirect to thank you page
+      router.push('/thankyou');
     } catch (error) {
       setIsSubmitting(false);
       toast.error('Something went wrong. Please try again.');
@@ -56,6 +61,7 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
       fullName: '',
       email: '',
       phone: '',
+      course: 'Data Analytics Career Program'
     });
     onClose();
   };

@@ -121,6 +121,7 @@ export interface BootcampApplication {
   availability?: 'full-time' | 'part-time' | 'both' | 'career-change';
   hasLaptop?: boolean;
   source?: string;
+  course?: string;
   currentIncome?: string;
   targetIncome?: string;
 }
@@ -168,9 +169,10 @@ export const bootcampApi = {
       name: data.fullName,
       email: data.email,
       phone: data.phone,
-      subject: 'AI Career Program - Free Consultation Request',
-      message: 'User requested a free consultation for the 6-month Data Analytics Career Program. Please contact within 2 hours to discuss their data analytics career opportunities.',
-      source: data.source || 'bootcamp_application'
+      subject: `${data.course || 'Data Analytics Career Program'} - Free Consultation Request`,
+      message: `User requested a free consultation for the 6-month Data Analytics Career Program${data.course ? ` (${data.course})` : ''}. Please contact within 2 hours to discuss their data analytics career opportunities.`,
+      source: data.source || 'bootcamp_application',
+      courseName: data.course || 'Data Analytics Career Program'
     }),
 
   // Submit contact form
