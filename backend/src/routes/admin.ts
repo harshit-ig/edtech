@@ -357,4 +357,35 @@ router.post('/upload/testimonial-avatar', uploadTestimonialImage, handleUploadEr
   }
 });
 
+/**
+ * @route POST /api/admin/upload/mentor-image
+ * @description Upload a mentor profile image and get back the filename
+ */
+router.post('/upload/mentor-image', uploadTeamImage, handleUploadError, (req: Request, res: Response): void => {
+  try {
+    if (!req.file) {
+      res.status(400).json({
+        success: false,
+        message: 'No image file provided'
+      });
+      return;
+    }
+    
+    // Set proper response headers
+    res.setHeader('Content-Type', 'application/json');
+    
+    // Return just the filename
+    res.status(200).json({
+      success: true,
+      filename: req.file.filename,
+      message: 'Image uploaded successfully'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error instanceof Error ? error.message : 'Failed to upload image'
+    });
+  }
+});
+
 export default router;

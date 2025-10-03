@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { mentorsApi } from '../lib/api';
-import { Save, Plus, Trash2, Edit3, Users } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { mentorsApi, uploadMentorImage } from '../lib/api';
+import { Save, Plus, Trash2, Edit3, Users, Upload, Image, X } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 interface Mentor {
   _id: string;
@@ -19,6 +20,9 @@ const Mentors: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<Mentor>>({});
+  const [imagePreview, setImagePreview] = useState<string>('');
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const accentOptions = [
     { value: 'blue', label: 'Blue', color: '#3b82f6' },
@@ -56,11 +60,19 @@ const Mentors: React.FC = () => {
       image: '',
       accent: 'blue'
     });
+    setImagePreview('');
   };
 
   const handleEdit = (mentor: Mentor) => {
     setEditingId(mentor._id);
     setFormData(mentor);
+    // Set image preview - handle both filename and URL cases
+    const imageValue = mentor.image || '';
+    if (imageValue && !imageValue.startsWith('http')) {
+      setImagePreview(`${import.meta.env.VITE_API_BASE_URL}/uploads/team-images/${imageValue}`);
+    } else {
+      setImagePreview(imageValue);
+    }
   };
 
   const handleSave = async () => {
@@ -114,10 +126,44 @@ const Mentors: React.FC = () => {
     }
   };
 
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploading(true);
+      setImagePreview('');
+
+      // Upload immediately
+      const result = await uploadMentorImage(file);
+
+      if (result.success && result.filename) {
+        // Set preview
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+
+        // Update form data with filename
+        setFormData({ ...formData, image: result.filename });
+        toast.success('Image uploaded successfully!');
+      } else {
+        toast.error(result.message || 'Failed to upload image');
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast.error('Failed to upload image');
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleCancel = () => {
     setEditingId(null);
     setFormData({});
     setError('');
+    setImagePreview('');
   };
 
   if (loading) {
@@ -204,18 +250,62 @@ const Mentors: React.FC = () => {
                   placeholder="e.g., Google"
                 />
               </div>
-              <div>
+              <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Image URL
+                  Profile Image
                 </label>
-                <input
-                  type="url"
-                  value={formData.image || ''}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="https://example.com/image.jpg"
-                />
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                  <div className="space-y-6">
+                    {imagePreview ? (
+                      <div className="relative">
+                        <img
+                          src={imagePreview}
+                          alt="Profile image preview"
+                          className="h-32 w-32 object-cover mx-auto rounded-full"
+                        />
+                        <button
+                          onClick={() => {
+                            setImagePreview('');
+                            setFormData({ ...formData, image: '' });
+                            if (fileInputRef.current) fileInputRef.current.value = '';
+                          }}
+                          className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                          title="Remove image"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center text-gray-500">
+                        <Image className="w-16 h-16 mb-2 text-gray-400" />
+                        <p className="mb-2 text-sm">Drag and drop or click to upload</p>
+                        <p className="text-xs">PNG, JPG, GIF up to 5MB</p>
+                      </div>
+                    )}
+                    
+                    <div className="flex justify-center">
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/gif,image/webp"
+                        onChange={handleImageChange}
+                        className="hidden"
+                        ref={fileInputRef}
+                        disabled={uploading}
+                      />
+                      <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 flex items-center gap-2 disabled:opacity-50"
+                        disabled={uploading}
+                      >
+                        <Upload className="w-4 h-4" />
+                        {uploading ? 'Uploading...' : imagePreview ? 'Change Image' : 'Upload Image'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Accent Color
@@ -307,18 +397,62 @@ const Mentors: React.FC = () => {
                       placeholder="e.g., Google"
                     />
                   </div>
-                  <div>
+                  <div className="md:col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Image URL
+                      Profile Image
                     </label>
-                    <input
-                      type="url"
-                      value={formData.image || ''}
-                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="https://example.com/image.jpg"
-                    />
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                      <div className="space-y-6">
+                        {imagePreview ? (
+                          <div className="relative">
+                            <img
+                              src={imagePreview}
+                              alt="Profile image preview"
+                              className="h-32 w-32 object-cover mx-auto rounded-full"
+                            />
+                            <button
+                              onClick={() => {
+                                setImagePreview('');
+                                setFormData({ ...formData, image: '' });
+                                if (fileInputRef.current) fileInputRef.current.value = '';
+                              }}
+                              className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                              title="Remove image"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center text-gray-500">
+                            <Image className="w-16 h-16 mb-2 text-gray-400" />
+                            <p className="mb-2 text-sm">Drag and drop or click to upload</p>
+                            <p className="text-xs">PNG, JPG, GIF up to 5MB</p>
+                          </div>
+                        )}
+                        
+                        <div className="flex justify-center">
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/png,image/gif,image/webp"
+                            onChange={handleImageChange}
+                            className="hidden"
+                            ref={fileInputRef}
+                            disabled={uploading}
+                          />
+                          <button
+                            onClick={() => fileInputRef.current?.click()}
+                            className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 flex items-center gap-2 disabled:opacity-50"
+                            disabled={uploading}
+                          >
+                            <Upload className="w-4 h-4" />
+                            {uploading ? 'Uploading...' : imagePreview ? 'Change Image' : 'Upload Image'}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Accent Color
@@ -356,12 +490,12 @@ const Mentors: React.FC = () => {
             ) : (
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden">
                     {mentor.image ? (
                       <img 
-                        src={mentor.image} 
+                        src={mentor.image.startsWith('http') ? mentor.image : `${import.meta.env.VITE_API_BASE_URL}/uploads/team-images/${mentor.image}`}
                         alt={mentor.name}
-                        className="w-16 h-16 rounded-lg object-cover"
+                        className="w-16 h-16 rounded-full object-cover"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.style.display = 'none';
@@ -372,7 +506,7 @@ const Mentors: React.FC = () => {
                         }}
                       />
                     ) : null}
-                    <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center" style={{ display: mentor.image ? 'none' : 'flex' }}>
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center" style={{ display: mentor.image ? 'none' : 'flex' }}>
                       <Users className="text-gray-400" size={24} />
                     </div>
                   </div>

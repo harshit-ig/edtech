@@ -7,6 +7,17 @@ export default function MentorProfiles() {
   const [partnerCompanies, setPartnerCompanies] = useState<CompanyLogo[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Helper function to construct image URLs
+  const getImageUrl = (filename: string | undefined, folder: string = 'team-images'): string => {
+    if (!filename) return '';
+    // If it's already a full URL, return as is
+    if (filename.startsWith('http://') || filename.startsWith('https://')) {
+      return filename;
+    }
+    // Otherwise, construct the URL from the API base URL
+    return `${import.meta.env.VITE_API_BASE_URL}/uploads/${folder}/${filename}`;
+  };
+
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -49,9 +60,6 @@ export default function MentorProfiles() {
     }
   }, [loading, mentors.length]);
 
-  // Create duplicated arrays for seamless scrolling
-  const duplicatedMentors = [...mentors, ...mentors];
-
   return (
     <section className="py-16 md:py-24 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -92,47 +100,45 @@ export default function MentorProfiles() {
             </div>
           </div>
 
-          {/* Mentors scroll */}
-          <div className="relative overflow-hidden">
-            <div className="mentors-scroll flex gap-6 w-max">
-              {duplicatedMentors.map((mentor, index) => (
-                <div key={`${mentor.id}-${index}`} className="flex-shrink-0 w-72">
-                  <div className="advantage-stat-card bg-white rounded-2xl p-4 sm:p-6 border border-gray-200 transition-all duration-300 mentor-reveal reveal" data-accent={mentor.accent}>
-                    <div className="text-center">
-                      <div className="mb-4">
-                        <img 
-                          src={mentor.image} 
-                          alt={mentor.name}
-                          className="w-20 h-20 rounded-full mx-auto object-cover border-4 border-gray-100"
-                        />
-                      </div>
+          {/* Mentors Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {mentors.map((mentor) => (
+              <div key={mentor.id} className="mentor-reveal reveal">
+                <div className="advantage-stat-card bg-white rounded-2xl p-6 border border-gray-200 transition-all duration-300 hover:shadow-xl hover:scale-105" data-accent={mentor.accent}>
+                  <div className="text-center">
+                    <div className="mb-4">
+                      <img 
+                        src={getImageUrl(mentor.image, 'team-images')} 
+                        alt={mentor.name}
+                        className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-gray-100"
+                      />
+                    </div>
+                    
+                    <div className="mb-4">
+                      <h4 className="text-lg font-bold text-gray-900 mb-1">{mentor.name}</h4>
+                      <p className="text-gray-600 text-sm font-medium mb-2">{mentor.role}</p>
                       
-                      <div className="mb-4">
-                        <h4 className="text-lg font-bold text-gray-900 mb-1">{mentor.name}</h4>
-                        <p className="text-gray-600 text-sm font-medium mb-2">{mentor.role}</p>
-                        
-                        <div className={`inline-flex items-center px-3 py-1 rounded-full ${
-                          mentor.accent === 'blue' ? 'bg-edtech-blue/10 border border-edtech-blue/20' :
-                          mentor.accent === 'orange' ? 'bg-edtech-orange/10 border border-edtech-orange/20' :
-                          'bg-edtech-green/10 border border-edtech-green/20'
-                        }`}>
-                          <div className={`w-2 h-2 rounded-full mr-2 ${
-                            mentor.accent === 'blue' ? 'bg-edtech-blue' :
-                            mentor.accent === 'orange' ? 'bg-edtech-orange' :
-                            'bg-edtech-green'
-                          }`}></div>
-                          <span className={`text-xs font-semibold ${
-                            mentor.accent === 'blue' ? 'text-edtech-blue' :
-                            mentor.accent === 'orange' ? 'text-edtech-orange' :
-                            'text-edtech-green'
-                          }`}>{mentor.company}</span>
-                        </div>
+                      <div className={`inline-flex items-center px-3 py-1 rounded-full ${
+                        mentor.accent === 'blue' ? 'bg-edtech-blue/10 border border-edtech-blue/20' :
+                        mentor.accent === 'orange' ? 'bg-edtech-orange/10 border border-edtech-orange/20' :
+                        'bg-edtech-green/10 border border-edtech-green/20'
+                      }`}>
+                        <div className={`w-2 h-2 rounded-full mr-2 ${
+                          mentor.accent === 'blue' ? 'bg-edtech-blue' :
+                          mentor.accent === 'orange' ? 'bg-edtech-orange' :
+                          'bg-edtech-green'
+                        }`}></div>
+                        <span className={`text-xs font-semibold ${
+                          mentor.accent === 'blue' ? 'text-edtech-blue' :
+                          mentor.accent === 'orange' ? 'text-edtech-orange' :
+                          'text-edtech-green'
+                        }`}>{mentor.company}</span>
                       </div>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

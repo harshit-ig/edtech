@@ -728,7 +728,7 @@
 
 /* Mentors Section Animations */
 .mentors-scroll {
-  animation: scroll-mentors 120s linear infinite;
+  animation: scroll-mentors 30s linear infinite;
   will-change: transform;
 }
 

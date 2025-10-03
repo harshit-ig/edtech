@@ -640,4 +640,27 @@ export const uploadTestimonialAvatar = async (file: File): Promise<{ success: bo
   }
 };
 
+// Utility function to upload mentor profile images
+export const uploadMentorImage = async (file: File): Promise<{ success: boolean; filename?: string; message?: string }> => {
+  try {
+    const formData = new FormData();
+    formData.append('image', file);
+    
+    // Don't manually set Content-Type - let the browser set it with boundary
+    const response = await api.post('/admin/upload/mentor-image', formData);
+    
+    return {
+      success: response.data.success,
+      filename: response.data.filename,
+      message: response.data.message
+    };
+  } catch (error: any) {
+    console.error('Upload error:', error);
+    return { 
+      success: false, 
+      message: error.response?.data?.message || error.message || 'Upload failed' 
+    };
+  }
+};
+
 export default api;

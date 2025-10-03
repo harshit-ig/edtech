@@ -23,6 +23,17 @@ export default function AboutPage() {
   const [milestones, setMilestones] = useState<Milestone[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Helper function to construct image URLs
+  const getImageUrl = (filename: string | undefined, folder: string = 'team-images'): string => {
+    if (!filename) return '';
+    // If it's already a full URL, return as is
+    if (filename.startsWith('http://') || filename.startsWith('https://')) {
+      return filename;
+    }
+    // Otherwise, construct the URL from the API base URL
+    return `${import.meta.env.VITE_API_BASE_URL}/uploads/${folder}/${filename}`;
+  };
+
   useEffect(() => {
     const loadAboutData = async () => {
       try {
@@ -278,12 +289,21 @@ export default function AboutPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 about-reveal reveal">
               {teamMembers.map((member, index) => (
                 <div key={index} className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300 hover:scale-[1.02] group text-center">
-                  <div className="w-24 h-24 bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 rounded-full mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center">
-                      <svg className="w-10 h-10 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    </div>
+                  <div className="w-24 h-24 mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <img
+                      src={getImageUrl(member.image, 'team-images')}
+                      alt={member.name}
+                      className="w-24 h-24 rounded-full object-cover border-4 border-white/10 group-hover:border-edtech-green/30"
+                      onError={(e) => {
+                        // Fallback to placeholder if image fails to load
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const fallback = document.createElement('div');
+                        fallback.className = 'w-24 h-24 bg-gradient-to-br from-edtech-green/20 to-edtech-orange/20 rounded-full flex items-center justify-center';
+                        fallback.innerHTML = `<div class="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center"><svg class="w-10 h-10 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg></div>`;
+                        target.parentElement?.appendChild(fallback);
+                      }}
+                    />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-2">{member.name}</h3>
                   <div className="text-edtech-green text-sm font-medium mb-4">{member.role}</div>
