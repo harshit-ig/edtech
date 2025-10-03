@@ -318,7 +318,7 @@ const TeamMembersList: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="form-group">
-                <label className="form-label">LinkedIn URL (Optional)</label>
+                <label className="form-label">LinkedIn URL *</label>
                 <input
                   type="url"
                   className="form-input"
@@ -328,7 +328,7 @@ const TeamMembersList: React.FC = () => {
                 />
               </div>
               <div className="form-group">
-                <label className="form-label">Twitter URL (Optional)</label>
+                <label className="form-label">Twitter URL *</label>
                 <input
                   type="url"
                   className="form-input"
