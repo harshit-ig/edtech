@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { coursesApi, courseDetailsApi, coursePricingApi, iconsApi } from '../lib/api';
+import { coursesApi, courseDetailsApi, coursePricingApi, iconsApi, uploadTestimonialAvatar } from '../lib/api';
 import type { Course, CourseDetails, CoursePricing } from '../types';
-import { Plus, Edit, Trash2, Search, Save, X, BookOpen, DollarSign, Info, GraduationCap, Settings, Star, ChevronDown, Upload } from 'lucide-react';
+import { Plus, Edit, Trash2, Search, Save, X, BookOpen, DollarSign, Info, GraduationCap, Settings, Star, ChevronDown, Upload, User, Loader2 } from 'lucide-react';
 
 interface UnifiedCourseData {
   // Basic course info (from Courses collection)
@@ -370,6 +370,11 @@ const UnifiedCourseManagement: React.FC = () => {
   const [imagePreview, setImagePreview] = useState<string>('');
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   
+  // Testimonial avatar upload state - only previews and upload status (files are uploaded immediately)
+  const [testimonialAvatarPreviews, setTestimonialAvatarPreviews] = useState<{ [index: number]: string }>({});
+  const [uploadingAvatars, setUploadingAvatars] = useState<{ [index: number]: boolean }>({});
+  const testimonialFileInputRefs = React.useRef<{ [index: number]: HTMLInputElement | null }>({});
+  
   // Checkbox states for "Same as..." functionality
   const [sameAsStates, setSameAsStates] = useState({
     pricingName: false,
@@ -527,6 +532,8 @@ const UnifiedCourseManagement: React.FC = () => {
     });
     setImageFile(null);
     setImagePreview('');
+    setTestimonialAvatarPreviews({});
+    setUploadingAvatars({});
     setActiveTab('basic');
     // Reset same as states
     setSameAsStates({
@@ -556,6 +563,22 @@ const UnifiedCourseManagement: React.FC = () => {
       setImagePreview('');
     }
     setImageFile(null);
+    
+    // Set testimonial avatar previews
+    const avatarPreviews: { [index: number]: string } = {};
+    if (course.testimonials && course.testimonials.length > 0) {
+      course.testimonials.forEach((testimonial, index) => {
+        if (testimonial.avatar) {
+          if (testimonial.avatar.startsWith('http')) {
+            avatarPreviews[index] = testimonial.avatar;
+          } else {
+            avatarPreviews[index] = `${import.meta.env.VITE_API_BASE_URL}/uploads/testimonial-images/${testimonial.avatar}`;
+          }
+        }
+      });
+    }
+    setTestimonialAvatarPreviews(avatarPreviews);
+    
     setActiveTab('basic');
     // Reset same as states
     setSameAsStates({
@@ -582,6 +605,72 @@ const UnifiedCourseManagement: React.FC = () => {
       setImagePreview(reader.result as string);
     };
     reader.readAsDataURL(file);
+  };
+
+  // Handle testimonial avatar file selection and IMMEDIATE upload
+  const handleTestimonialAvatarChange = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    try {
+      // Show preview immediately
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setTestimonialAvatarPreviews(prev => ({ ...prev, [index]: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+      
+      // Upload immediately
+      setUploadingAvatars(prev => ({ ...prev, [index]: true }));
+      const uploadResult = await uploadTestimonialAvatar(file);
+      
+      if (uploadResult.success && uploadResult.filename) {
+        // Update the testimonial's avatar field with the uploaded filename
+        const updatedTestimonials = [...(formData.testimonials || [])];
+        updatedTestimonials[index] = {
+          ...updatedTestimonials[index],
+          avatar: uploadResult.filename
+        };
+        setFormData({ ...formData, testimonials: updatedTestimonials });
+        toast.success(`Avatar uploaded successfully!`);
+      } else {
+        toast.error(`Failed to upload avatar: ${uploadResult.message}`);
+        // Clear the preview on error
+        setTestimonialAvatarPreviews(prev => {
+          const newPreviews = { ...prev };
+          delete newPreviews[index];
+          return newPreviews;
+        });
+      }
+    } catch (error) {
+      console.error('Avatar upload error:', error);
+      toast.error('Failed to upload avatar');
+    } finally {
+      setUploadingAvatars(prev => ({ ...prev, [index]: false }));
+    }
+  };
+
+  // Remove testimonial avatar
+  const handleRemoveTestimonialAvatar = (index: number) => {
+    // Clear preview
+    setTestimonialAvatarPreviews(prev => {
+      const newPreviews = { ...prev };
+      delete newPreviews[index];
+      return newPreviews;
+    });
+    
+    // Clear the avatar field in formData
+    const updatedTestimonials = [...(formData.testimonials || [])];
+    updatedTestimonials[index] = {
+      ...updatedTestimonials[index],
+      avatar: ''
+    };
+    setFormData({ ...formData, testimonials: updatedTestimonials });
+    
+    // Reset file input
+    if (testimonialFileInputRefs.current[index]) {
+      testimonialFileInputRefs.current[index]!.value = '';
+    }
   };
 
   const handleSave = async () => {
@@ -2172,15 +2261,76 @@ const UnifiedCourseManagement: React.FC = () => {
                               />
                             </div>
                             <div className="form-group">
-                              <label className="form-label">Avatar URL *</label>
-                              <input
-                                type="url"
-                                className="form-input"
-                                value={testimonial.avatar}
-                                onChange={(e) => updateTestimonial(index, 'avatar', e.target.value)}
-                                placeholder="https://example.com/avatar.jpg"
-                                required
-                              />
+                              <label className="form-label">Avatar Image *</label>
+                              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                                {testimonialAvatarPreviews[index] ? (
+                                  <div className="space-y-3">
+                                    <img
+                                      src={testimonialAvatarPreviews[index]}
+                                      alt="Avatar preview"
+                                      className="w-24 h-24 object-cover rounded-full mx-auto border-2 border-gray-200"
+                                    />
+                                    <div className="flex gap-2">
+                                      <button
+                                        type="button"
+                                        onClick={() => testimonialFileInputRefs.current[index]?.click()}
+                                        className="btn btn-secondary btn-sm flex-1"
+                                        disabled={uploadingAvatars[index]}
+                                      >
+                                        {uploadingAvatars[index] ? (
+                                          <>
+                                            <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                                            Uploading...
+                                          </>
+                                        ) : (
+                                          <>
+                                            <Upload className="w-3 h-3 mr-1" />
+                                            Change Avatar
+                                          </>
+                                        )}
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleRemoveTestimonialAvatar(index)}
+                                        className="btn btn-secondary btn-sm"
+                                        disabled={uploadingAvatars[index]}
+                                      >
+                                        <Trash2 className="w-3 h-3" />
+                                      </button>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="text-center">
+                                    <User className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                                    <button
+                                      type="button"
+                                      onClick={() => testimonialFileInputRefs.current[index]?.click()}
+                                      className="btn btn-primary btn-sm"
+                                      disabled={uploadingAvatars[index]}
+                                    >
+                                      {uploadingAvatars[index] ? (
+                                        <>
+                                          <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                                          Uploading...
+                                        </>
+                                      ) : (
+                                        <>
+                                          <Upload className="w-3 h-3 mr-1" />
+                                          Upload Avatar
+                                        </>
+                                      )}
+                                    </button>
+                                    <p className="text-xs text-gray-500 mt-2">PNG, JPG, WebP up to 5MB</p>
+                                  </div>
+                                )}
+                                <input
+                                  ref={(el) => { testimonialFileInputRefs.current[index] = el; }}
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => handleTestimonialAvatarChange(index, e)}
+                                  className="hidden"
+                                />
+                              </div>
                             </div>
                             <div className="form-group">
                               <label className="form-label">Rating *</label>

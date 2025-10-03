@@ -11,13 +11,20 @@ const api: AxiosInstance = axios.create({
   },
 });
 
-// Request interceptor to add auth token
+// Request interceptor to add auth token and handle FormData
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('admin_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    
+    // If the data is FormData, delete the Content-Type header
+    // to let the browser set it with the correct boundary
+    if (config.data instanceof FormData) {
+      delete config.headers['Content-Type'];
+    }
+    
     return config;
   },
   (error) => {
@@ -608,6 +615,29 @@ export const iconsApi = {
   create: (data: unknown) => adminApi.create('course-icons', data),
   update: (id: string, data: unknown) => adminApi.update('course-icons', id, data),
   delete: (id: string) => adminApi.delete('course-icons', id),
+};
+
+// Utility function to upload testimonial avatar images
+export const uploadTestimonialAvatar = async (file: File): Promise<{ success: boolean; filename?: string; message?: string }> => {
+  try {
+    const formData = new FormData();
+    formData.append('image', file);
+    
+    // Don't manually set Content-Type - let the browser set it with boundary
+    const response = await api.post('/admin/upload/testimonial-avatar', formData);
+    
+    return {
+      success: response.data.success,
+      filename: response.data.filename,
+      message: response.data.message
+    };
+  } catch (error: any) {
+    console.error('Upload error:', error);
+    return { 
+      success: false, 
+      message: error.response?.data?.message || error.message || 'Upload failed' 
+    };
+  }
 };
 
 export default api;

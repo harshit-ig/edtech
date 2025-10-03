@@ -41,8 +41,15 @@ app.use(morgan('combined'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Static file serving for uploads
-app.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
+// Static file serving for uploads with CORS headers - INSIDE the API prefix
+const uploadsPath = path.join(__dirname, '../../uploads');
+app.use(`${process.env.API_PREFIX || '/api'}/uploads`, (req, res, next) => {
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+}, express.static(uploadsPath));
 
 // API routes
 app.use(process.env.API_PREFIX || '/api', routes);

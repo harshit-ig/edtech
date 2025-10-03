@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import type { Request, Response } from 'express';
 import { requireAdminAuth } from '../middleware/auth';
 import { createAdminRateLimiter, uploadBlogImages, uploadTeamImage, uploadCourseImage, uploadTestimonialImage, handleUploadError } from '../middleware';
 import {
@@ -323,5 +324,37 @@ router.get('/success-stats/:id', getSuccessStatById);
 router.post('/success-stats', createSuccessStat);
 router.put('/success-stats/:id', updateSuccessStat);
 router.delete('/success-stats/:id', deleteSuccessStat);
+
+/**
+ * Image Upload Utility Routes
+ * @route POST /api/admin/upload/testimonial-avatar
+ * @description Upload a testimonial avatar image and get back the filename
+ */
+router.post('/upload/testimonial-avatar', uploadTestimonialImage, handleUploadError, (req: Request, res: Response): void => {
+  try {
+    if (!req.file) {
+      res.status(400).json({
+        success: false,
+        message: 'No image file provided'
+      });
+      return;
+    }
+    
+    // Set proper response headers
+    res.setHeader('Content-Type', 'application/json');
+    
+    // Return just the filename
+    res.status(200).json({
+      success: true,
+      filename: req.file.filename,
+      message: 'Image uploaded successfully'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error instanceof Error ? error.message : 'Failed to upload image'
+    });
+  }
+});
 
 export default router;
