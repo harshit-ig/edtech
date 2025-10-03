@@ -145,7 +145,7 @@ export default function Navbar() {
           
           <Link to="/pricing" className="hover:text-edtech-orange transition-colors font-semibold">Pricing</Link>
           <Link to="/about" className="hover:text-edtech-orange transition-colors font-semibold">About</Link>
-          <Link to="/blog" className="hover:text-edtech-orange transition-colors font-semibold">Blog</Link>
+          {/* <Link to="/blog" className="hover:text-edtech-orange transition-colors font-semibold">Blog</Link> */}
           <Link to="/contact" className="hover:text-edtech-orange transition-colors font-semibold">Contact Us</Link>
         </div>
         
@@ -187,7 +187,7 @@ export default function Navbar() {
             <Link to="/courses" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">All Courses</Link>
             <Link to="/pricing" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Pricing</Link>
             <Link to="/about" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">About</Link>
-            <Link to="/blog" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Blog</Link>
+            {/* <Link to="/blog" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Blog</Link> */}
             <Link to="/contact" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Contact Us</Link>
             <button 
               onClick={() => {

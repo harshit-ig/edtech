@@ -127,7 +127,7 @@ export default function Footer() {
             <h4 className="font-bold text-white mb-4 text-lg">Company</h4>
             <ul className="space-y-3 text-white/70">
               <li><Link to="/about" className="hover:text-edtech-orange transition-colors font-medium">About Us</Link></li>
-              <li><Link to="/blog" className="hover:text-edtech-orange transition-colors font-medium">Blog</Link></li>
+              {/* <li><Link to="/blog" className="hover:text-edtech-orange transition-colors font-medium">Blog</Link></li> */}
               <li><Link to="/pricing" className="hover:text-edtech-orange transition-colors font-medium">Pricing</Link></li>
               <li><Link to="/contact" className="hover:text-edtech-orange transition-colors font-medium">Contact</Link></li>
      </ul>
