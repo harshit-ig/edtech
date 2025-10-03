@@ -74,8 +74,8 @@ export default function TermsOfService() {
               During your use of the Platform and Programs, you will:
             </p>
             <ul className="list-disc pl-6 text-gray-700 mb-8 space-y-2">
-              <li>not harass other users, students, attendees, support agents or visitors;</li>
-              <li>not create an atmosphere of disharmony, hostility within student groups;</li>
+              <li>not harass other users, professionals, attendees, support agents or visitors;</li>
+              <li>not create an atmosphere of disharmony, hostility within professional groups;</li>
               <li>not cheat on any assignment or exams for the Program;</li>
               <li>not post online any secured testing materials;</li>
               <li>not share solutions to assignments or exams unless permitted by the Company; and</li>

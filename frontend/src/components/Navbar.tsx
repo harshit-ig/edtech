@@ -61,7 +61,7 @@ export default function Navbar() {
             onMouseLeave={() => setCoursesDropdownOpen(false)}
           >
             <button className="flex items-center gap-1 hover:text-edtech-orange transition-colors group font-semibold">
-              Courses
+              Programs
               <svg 
                 className={`w-4 h-4 ml-1 transition-transform duration-200 ${coursesDropdownOpen ? 'rotate-180' : ''}`} 
                 fill="none" 
@@ -79,20 +79,20 @@ export default function Navbar() {
                 
                 <div className="bg-bg-deep/95 backdrop-blur-md rounded-2xl border border-white/30 shadow-2xl p-6 animate-fadeIn">
                   <div className="mb-4">
-                    <h3 className="text-white font-bold text-base mb-1">Popular Courses</h3>
+                    <h3 className="text-white font-bold text-base mb-1">Popular Programs</h3>
                     <p className="text-white/60 text-sm font-medium">Industry-leading certification programs</p>
                   </div>
                   
                   <div className="space-y-3 mb-4">
                     {loading ? (
-                      <div className="text-white/60 text-sm">Loading courses...</div>
+                      <div className="text-white/60 text-sm">Loading programs...</div>
                     ) : displayedCourses.length === 0 ? (
-                      <div className="text-white/60 text-sm">No courses available</div>
+                      <div className="text-white/60 text-sm">No programs available</div>
                     ) : (
                       displayedCourses.map((course) => (
                       <Link 
                         key={course.id} 
-                        to={`/course/${course.id}`}
+                        to={`/program/${course.id}`}
                         className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer group"
                       >
                         <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1 ${
@@ -126,12 +126,12 @@ export default function Navbar() {
                   
                   <div className="pt-4 border-t border-white/10">
                     <Link 
-                      to="/courses" 
+                      to="/programs" 
                       className="flex items-center justify-between text-white/70 hover:text-edtech-orange transition-colors p-3 rounded-xl hover:bg-white/5 group"
                     >
                       <div>
-                        <div className="font-semibold">Explore All Courses</div>
-                        <div className="text-sm text-white/50 font-medium">View our complete course catalog</div>
+                        <div className="font-semibold">Explore All Programs</div>
+                        <div className="text-sm text-white/50 font-medium">View our complete program catalog</div>
                       </div>
                       <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -184,7 +184,7 @@ export default function Navbar() {
         <div className="md:hidden absolute inset-x-0 top-full bg-bg-deep/95 backdrop-blur-lg border-b border-white/15 animate-slideDown">
           <div className="px-6 py-4 flex flex-col gap-3 text-sm font-medium">
             <Link to="/" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Home</Link>
-            <Link to="/courses" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">All Courses</Link>
+            <Link to="/programs" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">All Programs</Link>
             <Link to="/pricing" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Pricing</Link>
             <Link to="/about" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">About</Link>
             {/* <Link to="/blog" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Blog</Link> */}

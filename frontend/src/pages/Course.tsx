@@ -109,10 +109,10 @@ export default function CoursePage() {
         <main className="pt-20 flex items-center justify-center min-h-screen">
           <div className="text-center">
             <div className="text-6xl mb-4">😕</div>
-            <h1 className="text-2xl font-bold mb-2">Course Not Found</h1>
-            <p className="text-white/70 mb-6">The course you're looking for doesn't exist.</p>
-            <Link to="/courses" className="cta cta-primary">
-              Browse All Courses
+            <h1 className="text-2xl font-bold mb-2">Program Not Found</h1>
+            <p className="text-white/70 mb-6">The program you're looking for doesn't exist.</p>
+            <Link to="/programs" className="cta cta-primary">
+              Browse All Programs
             </Link>
           </div>
         </main>
@@ -129,10 +129,10 @@ export default function CoursePage() {
         <main className="pt-20 flex items-center justify-center min-h-screen">
           <div className="text-center">
             <div className="text-6xl mb-4">⚠️</div>
-            <h1 className="text-2xl font-bold mb-2">Course Details Unavailable</h1>
-            <p className="text-white/70 mb-6">This course is not yet available for enrollment. Please contact support.</p>
-            <Link to="/courses" className="cta cta-primary">
-              Browse Available Courses
+            <h1 className="text-2xl font-bold mb-2">Program Details Unavailable</h1>
+            <p className="text-white/70 mb-6">This program is not yet available for enrollment. Please contact support.</p>
+            <Link to="/programs" className="cta cta-primary">
+              Browse Available Programs
             </Link>
           </div>
         </main>
@@ -164,7 +164,7 @@ export default function CoursePage() {
             <nav className="flex items-center gap-2 text-sm text-white/60 mb-8">
               <Link to="/" className="hover:text-edtech-green transition-colors">Home</Link>
               <span>/</span>
-              <Link to="/courses" className="hover:text-edtech-green transition-colors">Courses</Link>
+              <Link to="/programs" className="hover:text-edtech-green transition-colors">Programs</Link>
               <span>/</span>
               <span className="text-white/80">{course.title}</span>
             </nav>
@@ -255,7 +255,7 @@ export default function CoursePage() {
                 </div>
 
                 <div className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-6 md:p-8">
-                  <h2 className="text-2xl font-bold mb-4 text-white">Course Overview</h2>
+                  <h2 className="text-2xl font-bold mb-4 text-white">Program Overview</h2>
                   <p className="text-white/80 leading-relaxed text-lg mb-6">
                     {details.overview}
                   </p>
@@ -300,7 +300,7 @@ export default function CoursePage() {
                 {/* Course Features Section */}
                 {details.features && (
                   <div className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-6 md:p-8 mt-6">
-                    <h2 className="text-2xl font-bold mb-6 text-white">Why Choose This Course</h2>
+                    <h2 className="text-2xl font-bold mb-6 text-white">Why Choose This Program</h2>
                     <div className="grid md:grid-cols-2 gap-6">
                       {details.features.map((feature: any, index: number) => (
                         <div key={index} className="flex items-start gap-4 p-4 bg-white/[0.02] rounded-xl border border-white/10 hover:bg-white/[0.04] hover:border-white/20 transition-all duration-300">
@@ -351,7 +351,7 @@ export default function CoursePage() {
                         <span className="text-white font-medium">{details.courseInfo?.support || "24/7 Assistance"}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-white/60">Students</span>
+                        <span className="text-white/60">Professionals</span>
                         <span className="text-white font-medium">{details.courseInfo?.studentsEnrolled || "1000+ Enrolled"}</span>
                       </div>
                     </div>
@@ -401,7 +401,7 @@ export default function CoursePage() {
 
                   {/* Trust Indicators */}
                   <div className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300">
-                    <h3 className="text-lg font-bold mb-4 text-white">Why Students Love Us</h3>
+                    <h3 className="text-lg font-bold mb-4 text-white">Why Professionals Love Us</h3>
                     <div className="space-y-4">
                       <div className="flex items-center gap-2">
                         <div className="flex text-yellow-400">
@@ -412,9 +412,9 @@ export default function CoursePage() {
                         <span className="text-white/80 text-sm">{details.trustIndicators?.rating || "4.8/5"} ({details.trustIndicators?.reviewCount || "500+ reviews"})</span>
                       </div>
                       <div className="text-white/60 text-sm">
-                        "{details.trustIndicators?.testimonialPreview?.text || "Excellent course with comprehensive content and great support. Highly recommended for career advancement!"}"
+                        "{details.trustIndicators?.testimonialPreview?.text || "Excellent program with comprehensive content and great support. Highly recommended for career advancement!"}"
                       </div>
-                      <div className="text-white/40 text-xs">- {details.trustIndicators?.testimonialPreview?.author || "Anonymous Student"}</div>
+                      <div className="text-white/40 text-xs">- {details.trustIndicators?.testimonialPreview?.author || "Anonymous Professional"}</div>
                     </div>
                   </div>
                 </div>
@@ -428,7 +428,7 @@ export default function CoursePage() {
           <div className="mx-auto max-w-7xl px-6">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">
-                Why Students Choose This Course
+                Why Professionals Choose This Program
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Join thousands of professionals who have transformed their careers with our comprehensive training program
@@ -447,7 +447,7 @@ export default function CoursePage() {
               )) || 
               // Default stats if not provided
               [
-                { label: "Students Trained", value: "1000+", color: "edtech-green" },
+                { label: "Professionals Trained", value: "1000+", color: "edtech-green" },
                 { label: "Job Placement", value: "90%", color: "edtech-blue" },
                 { label: "Average Rating", value: "4.8★", color: "edtech-red" },
                 { label: "Salary Increase", value: "75%", color: "edtech-orange" }
@@ -722,7 +722,7 @@ export default function CoursePage() {
               <p className="text-xl md:text-2xl text-white/80 mb-8 leading-relaxed">
                 Don't wait for the <span className="text-edtech-green font-semibold">perfect moment</span>. The perfect moment is now. 
                 <br className="hidden md:block" />
-                <span className="font-semibold text-edtech-green">Join {details.courseInfo?.studentsEnrolled || "1000+ students"} who <span className="text-edtech-orange font-semibold">transformed their careers</span>.</span>
+                <span className="font-semibold text-edtech-green">Join {details.courseInfo?.studentsEnrolled || "1000+ professionals"} who <span className="text-edtech-orange font-semibold">transformed their careers</span>.</span>
               </p>
 
               {/* Enhanced Pricing Card */}
@@ -806,11 +806,11 @@ export default function CoursePage() {
           
           <div className="relative mx-auto max-w-7xl px-6">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
-              Related <span className="text-edtech-orange">Courses</span>
+              Related <span className="text-edtech-orange">Programs</span>
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {courses.filter(c => c.id !== course.id).slice(0, 3).map((relatedCourse) => (
-                <Link key={relatedCourse.id} to={`/course/${relatedCourse.id}`} className="block group">
+                <Link key={relatedCourse.id} to={`/program/${relatedCourse.id}`} className="block group">
                   <article className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300 hover:scale-[1.02]" data-accent={relatedCourse.accent.replace('edtech-','')}>
                     <div className="mb-4">
                       <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-black/30 text-white/90 border border-white/20 backdrop-blur-sm">

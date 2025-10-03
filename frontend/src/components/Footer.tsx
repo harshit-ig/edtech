@@ -49,7 +49,7 @@ export default function Footer() {
             </p>
             <div className="flex flex-col gap-6">
               <div className="flex gap-4">
-                <Link to="/courses" className="cta cta-primary">
+                <Link to="/programs" className="cta cta-primary">
                   Start Learning Today
                 </Link>
                 <Link to="/contact" className="cta cta-secondary">
@@ -110,16 +110,16 @@ export default function Footer() {
           </div>
           
           <div>
-            <h4 className="font-bold text-white mb-4 text-lg">Courses</h4>
+            <h4 className="font-bold text-white mb-4 text-lg">Programs</h4>
             <ul className="space-y-3 text-white/70">
               {footerCourses.map((course) => (
                 <li key={course.id}>
-                  <Link to={`/course/${course.id}`} className="hover:text-edtech-orange transition-colors font-medium">
+                  <Link to={`/program/${course.id}`} className="hover:text-edtech-orange transition-colors font-medium">
                     {course.title.length > 25 ? toTitleCase(course.category) : toTitleCase(course.title)}
                   </Link>
                 </li>
               ))}
-              <li><Link to="/courses" className="hover:text-edtech-green transition-colors font-medium">View All Courses</Link></li>
+              <li><Link to="/programs" className="hover:text-edtech-green transition-colors font-medium">View All Programs</Link></li>
             </ul>
           </div>
           

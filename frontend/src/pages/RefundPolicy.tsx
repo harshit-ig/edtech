@@ -42,12 +42,12 @@ export default function RefundPolicy() {
               <strong>1.1.</strong> This refund policy applies to all the programs offered by EdTech Informative (hereinafter referred to as "the Company").
             </p>
             <p className="text-gray-700 leading-relaxed mb-8">
-              <strong>1.2.</strong> The Company offers a 45 day conditional money-back guarantee to ensure student satisfaction and confidence in the program's value.
+              <strong>1.2.</strong> The Company offers a 45 day conditional money-back guarantee to ensure professional satisfaction and confidence in the program's value.
             </p>
 
             <h2 className="text-2xl font-bold text-gray-900 mb-6">2. Eligibility Criteria</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              To be eligible for a refund, a student must meet ALL of the following criteria:
+              To be eligible for a refund, a professional must meet ALL of the following criteria:
             </p>
 
             <h3 className="text-xl font-semibold text-gray-800 mb-4">2.1. Time Frame:</h3>
@@ -65,7 +65,7 @@ export default function RefundPolicy() {
             <h3 className="text-xl font-semibold text-gray-800 mb-4">2.3. Attendance Requirements:</h3>
             <ul className="list-disc pl-6 text-gray-700 mb-6 space-y-2">
               <li>Classes must be attended in live mode only; watching recordings does not qualify.</li>
-              <li>Students must be present for the full duration of each class.</li>
+              <li>Professionals must be present for the full duration of each class.</li>
               <li>Proper identification (first and last name) must be used when attending classes.</li>
             </ul>
 
@@ -77,7 +77,7 @@ export default function RefundPolicy() {
 
             <h2 className="text-2xl font-bold text-gray-900 mb-6">3. Refund Process</h2>
             <p className="text-gray-700 leading-relaxed mb-6">
-              <strong>3.1.</strong> Eligible students may request a refund by writing to support@edtechinformative.uk within the specified time frame.
+              <strong>3.1.</strong> Eligible professionals may request a refund by writing to support@edtechinformative.uk within the specified time frame.
             </p>
             <p className="text-gray-700 leading-relaxed mb-6">
               <strong>3.2.</strong> The Company reserves the right to take up to 60 days to process the refund, although efforts will be made to complete the process within 14 days of a valid request.
@@ -88,16 +88,16 @@ export default function RefundPolicy() {
 
             <h2 className="text-2xl font-bold text-gray-900 mb-6">4. Additional Terms and Conditions</h2>
             
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">4.1. Course Materials:</h3>
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">4.1. Program Materials:</h3>
             <ul className="list-disc pl-6 text-gray-700 mb-6 space-y-2">
-              <li>Students must return any hard copy materials received, in good condition, via registered post to the Company.</li>
+              <li>Professionals must return any hard copy materials received, in good condition, via registered post to the Company.</li>
               <li>Refunds will only be processed upon receipt of returned materials.</li>
             </ul>
 
             <h3 className="text-xl font-semibold text-gray-800 mb-4">4.2. Future Participation:</h3>
             <ul className="list-disc pl-6 text-gray-700 mb-6 space-y-2">
-              <li>The Company reserves the right to refuse future course sales to individuals who have received a refund under this policy.</li>
-              <li>Students who have previously received a refund must disclose this information when attempting to purchase any future courses from the Company.</li>
+              <li>The Company reserves the right to refuse future program sales to individuals who have received a refund under this policy.</li>
+              <li>Professionals who have previously received a refund must disclose this information when attempting to purchase any future programs from the Company.</li>
             </ul>
 
             <h3 className="text-xl font-semibold text-gray-800 mb-4">4.3. Disclosure Rights:</h3>
@@ -107,12 +107,12 @@ export default function RefundPolicy() {
 
             <h3 className="text-xl font-semibold text-gray-800 mb-4">4.4. Exceptions:</h3>
             <p className="text-gray-700 leading-relaxed mb-6">
-              In cases of technical issues preventing policy compliance, exceptions may be considered if the student provides immediate notification to support@edtechinformative.uk with relevant evidence.
+              In cases of technical issues preventing policy compliance, exceptions may be considered if the professional provides immediate notification to support@edtechinformative.uk with relevant evidence.
             </p>
 
             <h3 className="text-xl font-semibold text-gray-800 mb-8">4.5. Non-Refundable Fees:</h3>
             <p className="text-gray-700 leading-relaxed mb-8">
-              All booking fees are non-refundable, except when a student completes full enrollment and complies with this refund policy.
+              All booking fees are non-refundable, except when a professional completes full enrollment and complies with this refund policy.
             </p>
 
             <h2 className="text-2xl font-bold text-gray-900 mb-6">5. Limitations</h2>
@@ -128,7 +128,7 @@ export default function RefundPolicy() {
               This refund policy does not affect any statutory rights that cannot be excluded under applicable law. In the event of any conflict between this policy and applicable law, the applicable law shall prevail.
             </p>
             <p className="text-gray-700 leading-relaxed mb-8">
-              By enrolling in any EdTech Informative program, students confirm that they have read, understood, and agreed to the terms and conditions outlined in this refund policy.
+              By enrolling in any EdTech Informative program, professionals confirm that they have read, understood, and agreed to the terms and conditions outlined in this refund policy.
             </p>
 
             <div className="bg-edtech-orange/5 border border-edtech-orange/20 rounded-2xl p-6 mt-8">

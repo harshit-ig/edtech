@@ -128,7 +128,7 @@ export default function CoursesPage() {
           
           <div className="relative mx-auto max-w-7xl px-6 text-center">
             <div className="badge-hero mx-auto w-max mb-8">
-              <span>🎓</span><span>COMPLETE COURSE CATALOG</span>
+              <span>🎓</span><span>COMPLETE PROGRAM CATALOG</span>
             </div>
 
             {/* Microsoft Partnership Badge */}
@@ -140,7 +140,7 @@ export default function CoursesPage() {
                 Master <span className="text-transparent bg-clip-text bg-gradient-to-r from-edtech-green to-edtech-orange">Tomorrow's</span> Skills Today
               </h1>
               <p className="text-white/80 text-xl md:text-2xl max-w-4xl mx-auto mb-12 leading-relaxed">
-                ✨ Ready to level up? Explore our <span className="text-edtech-green font-semibold">elite collection</span> of industry-leading courses designed by experts 
+                ✨ Ready to level up? Explore our <span className="text-edtech-green font-semibold">elite collection</span> of industry-leading programs designed by experts 
                 to fast-track your career growth and position you among the <span className="text-edtech-orange font-semibold">top 1%</span> of tech professionals
               </p>
 
@@ -148,7 +148,7 @@ export default function CoursesPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-4xl mx-auto mb-12">
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
                 <div className="text-3xl md:text-4xl font-bold text-edtech-green mb-2">{allCourses.length}+</div>
-                <div className="text-white/80 text-sm font-medium">Expert Courses</div>
+                <div className="text-white/80 text-sm font-medium">Expert Programs</div>
               </div>
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
                 <div className="text-3xl md:text-4xl font-bold text-edtech-orange mb-2">{categories.length - 1}</div>
@@ -167,7 +167,7 @@ export default function CoursesPage() {
             {/* Enhanced Search and Filter */}
             <div className="max-w-5xl mx-auto">
               <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-3xl p-8">
-                <h3 className="text-2xl font-bold text-white mb-6">Find Your Perfect Course</h3>
+                <h3 className="text-2xl font-bold text-white mb-6">Find Your Perfect Program</h3>
                 <div className="flex flex-col gap-6">
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
@@ -177,7 +177,7 @@ export default function CoursesPage() {
                     </div>
                     <input
                       type="text"
-                      placeholder="Search by course name, technology, or skills..."
+                      placeholder="Search by program name, technology, or skills..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="w-full bg-white/10 border-2 border-white/20 rounded-2xl pl-16 pr-6 py-4 text-white placeholder-white/50 focus:outline-none focus:border-edtech-green/50 focus:bg-white/15 transition-all text-lg"
@@ -209,7 +209,7 @@ export default function CoursesPage() {
           <div className="mx-auto max-w-7xl px-6">
             <div className="text-center mb-12 reveal">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                <span className="text-edtech-blue">Featured</span> Courses
+                <span className="text-edtech-blue">Featured</span> Programs
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 🚀 Start with our <span className="text-edtech-blue font-semibold">top-rated programs</span> that have <span className="text-edtech-orange font-semibold">transformed thousands</span> of careers worldwide
@@ -268,7 +268,7 @@ export default function CoursesPage() {
 
                     <div className="flex items-center gap-3">
                       <Link 
-                        to={`/course/${course.id}`} 
+                        to={`/program/${course.id}`} 
                         className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-3 rounded-xl font-semibold text-center transition-all duration-300"
                       >
                         View Details
@@ -295,10 +295,10 @@ export default function CoursesPage() {
             <div className="flex items-center justify-between mb-12 reveal">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                  All <span className="text-edtech-orange">Courses</span>
+                  All <span className="text-edtech-orange">Programs</span>
                 </h2>
                 <p className="text-white/70 text-lg">
-                  Showing {filteredCourses.length} course{filteredCourses.length !== 1 ? 's' : ''}
+                  Showing {filteredCourses.length} program{filteredCourses.length !== 1 ? 's' : ''}
                   {selectedCategory !== 'ALL' && ` in ${selectedCategory.replace('-', ' ')}`}
                 </p>
               </div>
@@ -378,7 +378,7 @@ export default function CoursesPage() {
                   {/* Course Actions */}
                   <div className="flex items-center gap-3">
                     <Link 
-                      to={`/course/${course.id}`} 
+                      to={`/program/${course.id}`} 
                       className="flex-1 bg-white/10 hover:bg-white/20 text-white px-4 py-3 rounded-xl font-medium text-center transition-all duration-300 border border-white/20 hover:border-white/40"
                     >
                       View Details

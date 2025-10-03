@@ -33,8 +33,8 @@ const LazyWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 const router = createBrowserRouter([
   { path: '/', element: <LazyWrapper><App /></LazyWrapper> },
   { path: '/contact', element: <LazyWrapper><ContactPage /></LazyWrapper> },
-  { path: '/courses', element: <LazyWrapper><CoursesPage /></LazyWrapper> },
-  { path: '/course/:courseId', element: <LazyWrapper><CoursePage /></LazyWrapper> },
+  { path: '/programs', element: <LazyWrapper><CoursesPage /></LazyWrapper> },
+  { path: '/program/:courseId', element: <LazyWrapper><CoursePage /></LazyWrapper> },
   { path: '/about', element: <LazyWrapper><AboutPage /></LazyWrapper> },
   { path: '/pricing', element: <LazyWrapper><PricingPage /></LazyWrapper> },
   { path: '/blog', element: <LazyWrapper><BlogPage /></LazyWrapper> },

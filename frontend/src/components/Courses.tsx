@@ -94,7 +94,7 @@ export default function CoursesSection() {
     <section  id="featured-programs" className="py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center mb-10">
-          <div className="badge-hero mx-auto w-max"><span>🚀</span><span>MOST POPULAR COURSES</span></div>
+          <div className="badge-hero mx-auto w-max"><span>🚀</span><span>MOST POPULAR PROGRAMS</span></div>
           
           {/* Microsoft Partnership Badge */}
           <div className="mt-6 mb-6 flex justify-center">
@@ -146,7 +146,7 @@ export default function CoursesSection() {
               </div>
 
               <div className="mt-4 flex items-center gap-3">
-                <Link to={`/course/${c.id}`} className="cta cta-secondary">View Details</Link>
+                <Link to={`/program/${c.id}`} className="cta cta-secondary">View Details</Link>
                 <button 
                   onClick={() => handleBuyNow(c)}
                   className="cta course-card-apply"
@@ -160,7 +160,7 @@ export default function CoursesSection() {
         </div>
 
         <div className="mt-12 flex justify-center">
-          <Link to="/courses" className="cta cta-secondary hover:text-edtech-orange">View All Courses</Link>
+          <Link to="/programs" className="cta cta-secondary hover:text-edtech-orange">View All Programs</Link>
         </div>
       </div>
     </section>

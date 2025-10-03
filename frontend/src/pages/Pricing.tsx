@@ -133,7 +133,7 @@ export default function PricingPage() {
           <div className="relative mx-auto max-w-7xl px-6">
             <div className="text-center mb-16 reveal">
               <div className="badge-hero mx-auto w-max mb-8">
-                <span>💰</span><span>COURSE PRICING</span>
+                <span>💰</span><span>PROGRAM PRICING</span>
               </div>
 
               {/* Microsoft Partnership Badge */}
@@ -145,7 +145,7 @@ export default function PricingPage() {
                 Invest in Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-edtech-green to-edtech-orange">Future</span> Today
               </h1>
               <p className="text-white/80 text-xl md:text-2xl max-w-4xl mx-auto mb-12 leading-relaxed">
-                ✨ Ready to level up? Choose the <span className="text-edtech-green font-semibold">elite program</span> that accelerates your career growth. All courses include our 
+                ✨ Ready to level up? Choose the <span className="text-edtech-green font-semibold">elite program</span> that accelerates your career growth. All programs include our 
                 30-day guarantee and are designed to position you among the <span className="text-edtech-orange font-semibold">top 1%</span> in your field.
               </p>
 
@@ -153,7 +153,7 @@ export default function PricingPage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-4xl mx-auto">
                 <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
                   <div className="text-3xl md:text-4xl font-bold text-edtech-green mb-2">{coursePricing.length}+</div>
-                  <div className="text-white/80 text-sm font-medium">Expert Courses</div>
+                  <div className="text-white/80 text-sm font-medium">Expert Programs</div>
                 </div>
                 <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
                   <div className="text-3xl md:text-4xl font-bold text-edtech-orange mb-2">30</div>
@@ -177,7 +177,7 @@ export default function PricingPage() {
           <div className="mx-auto max-w-7xl px-6">
             <div className="text-center mb-16 reveal">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Our <span className="text-edtech-blue">Complete Course</span> Catalog
+                Our <span className="text-edtech-blue">Complete Program</span> Catalog
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
                 🚀 <span className="text-edtech-blue font-semibold">Next-gen programs</span> designed to <span className="text-edtech-orange font-semibold">transform your career</span> with the skills that matter most in today's market
@@ -335,7 +335,7 @@ export default function PricingPage() {
                           {course.cta} - {paymentMode === 'installment' ? `£${pricing.price}/mo` : `£${pricing.price}`}
                         </button>
                         <Link 
-                          to={`/course/${course.id}`} 
+                          to={`/program/${course.id}`} 
                           className="block w-full bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-3 rounded-xl font-semibold text-center transition-all duration-300"
                         >
                           View Full Details
@@ -357,7 +357,7 @@ export default function PricingPage() {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">30-Day Money-Back Guarantee</h3>
                 <p className="text-gray-700 leading-relaxed">
-                  We're confident you'll love our courses. If you're not completely satisfied within 30 days, 
+                  We're confident you'll love our programs. If you're not completely satisfied within 30 days, 
                   we'll refund your money, no questions asked. Your success is our priority.
                 </p>
               </div>
@@ -372,7 +372,7 @@ export default function PricingPage() {
           <div className="relative mx-auto max-w-7xl px-6">
             <div className="text-center mb-16 reveal">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Why Choose <span className="text-edtech-green">Our Courses?</span>
+                Why Choose <span className="text-edtech-green">Our Programs?</span>
               </h2>
               <p className="text-white/70 text-xl max-w-3xl mx-auto">
                 🌟 Be the 1% — See how our <span className="text-edtech-green font-semibold">elite programs</span> outperform other online education platforms
@@ -437,7 +437,7 @@ export default function PricingPage() {
               <p className="text-gray-600 text-xl leading-relaxed">
                 🚀 On the <span className="text-edtech-blue font-semibold">path to excellence</span>? We have answers to <span className="text-edtech-orange font-semibold">accelerate your journey</span>. Need more guidance? 
                 <button 
-                  onClick={() => openModal("Get Answers", "Our team is here to help you find the perfect course and answer any questions you have about your learning journey.")}
+                  onClick={() => openModal("Get Answers", "Our team is here to help you find the perfect program and answer any questions you have about your learning journey.")}
                   className="text-edtech-orange hover:text-edtech-green transition-colors ml-1 underline underline-offset-2"
                 >
                   Contact us
@@ -509,16 +509,16 @@ export default function PricingPage() {
 
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <button 
-                  onClick={() => openModal("Book FREE Strategy Call", "Schedule a personalized consultation to discuss your career goals and find the perfect course for you")}
+                  onClick={() => openModal("Book FREE Strategy Call", "Schedule a personalized consultation to discuss your career goals and find the perfect program for you")}
                   className="bg-gradient-to-r from-edtech-green to-edtech-orange text-black px-8 py-4 rounded-full font-bold text-lg hover:brightness-110 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                 >
                   🎯 Claim Your FREE Strategy Call
                 </button>
                 <Link 
-                  to="/courses" 
+                  to="/programs" 
                   className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105"
                 >
-                  💻 Browse All Courses
+                  💻 Browse All Programs
                 </Link>
               </div>
 

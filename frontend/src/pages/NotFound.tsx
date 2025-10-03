@@ -26,8 +26,8 @@ export default function NotFoundPage() {
             <Link to="/" className="cta cta-primary">
               Go Home
             </Link>
-            <Link to="/courses" className="cta cta-secondary">
-              Browse Courses
+            <Link to="/programs" className="cta cta-secondary">
+              Browse Programs
             </Link>
           </div>
         </div>

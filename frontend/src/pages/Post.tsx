@@ -750,10 +750,10 @@ export default function PostPage() {
               
               <div className="flex flex-col sm:flex-row gap-6 justify-center mb-10">
                 <Link 
-                  to="/courses" 
+                  to="/programs" 
                   className="bg-gradient-to-r from-edtech-green to-edtech-orange text-black px-8 py-4 rounded-full font-bold text-lg hover:brightness-110 transition-all duration-300 hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-2"
                 >
-                  🎯 Explore Our Courses
+                  🎯 Explore Our Programs
                 </Link>
                 <Link 
                   to="/contact" 

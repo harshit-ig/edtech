@@ -88,7 +88,7 @@ export default function Hero() {
 
           </p>
           <div className="flex items-center justify-center md:justify-start gap-4 flex-wrap">
-            <Link to="/courses" className="cta cta-primary">Get Started</Link>
+            <Link to="/programs" className="cta cta-primary">Get Started</Link>
             <Link to="/contact" className="cta cta-secondary">Talk to us</Link>
           </div>
         </div>

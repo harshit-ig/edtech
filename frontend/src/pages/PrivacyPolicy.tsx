@@ -126,7 +126,7 @@ export default function PrivacyPolicy() {
               <li>Subject of Inquiry</li>
               <li>Personal details (Name on the card, billing address)</li>
               <li>Payment details (card numbers, card type)</li>
-              <li>Recordings of calls with students and users showing interest in our Program</li>
+              <li>Recordings of calls with professionals and users showing interest in our Program</li>
               <li>Information about your interactions with customer service and maintenance interactions with us</li>
             </ul>
 
@@ -136,7 +136,7 @@ export default function PrivacyPolicy() {
               <li>Peer feedback and grading</li>
               <li>Program performance data</li>
               <li>Response to quizzes, standalone quizzes, exams, and surveys</li>
-              <li>Web Cam Recordings (during assessments related to online courses)</li>
+              <li>Web Cam Recordings (during assessments related to online programs)</li>
               <li>Posts made to public forums through our platform</li>
               <li>Any other information necessary to ensure conformity with test/ assessment rules, area of interests</li>
             </ul>
