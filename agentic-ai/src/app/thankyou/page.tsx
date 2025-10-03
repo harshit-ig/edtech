@@ -7,6 +7,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Footer from '@/components/Footer';
 
+// Facebook Pixel type declaration
+declare global {
+  interface Window {
+    fbq: (...args: any[]) => void;
+  }
+}
+
 export default function ThankYouPage() {
   const [timeUntilContact, setTimeUntilContact] = useState('2 hours');
   const [timeLeft, setTimeLeft] = useState({ hours: 14, minutes: 33 });
@@ -16,6 +23,11 @@ export default function ThankYouPage() {
   useEffect(() => {
     // Set page title
     document.title = 'Application Submitted - AI Career Program | Edtech Informative';
+    
+    // Track Lead conversion for Facebook Pixel
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('track', 'Lead');
+    }
     
     // Calculate time until next business hour contact
     const now = new Date();

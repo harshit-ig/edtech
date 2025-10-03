@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { X, User, Mail, Phone, Laptop, Target, Clock, CheckCircle } from 'lucide-react';
+import { X, User, Mail, Phone, Laptop, Target, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 import { bootcampApi, type BootcampApplication } from '@/lib/api';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
@@ -10,6 +10,12 @@ import { useRouter } from 'next/navigation';
 interface ApplicationFormProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+interface FormErrors {
+  fullName?: string;
+  email?: string;
+  phone?: string;
 }
 
 export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProps) {
@@ -21,9 +27,60 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
     course: 'Agentic AI Career Program'
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [touched, setTouched] = useState<{ [key: string]: boolean }>({});
+
+  // Validation functions
+  const validateFullName = (name: string): string | undefined => {
+    if (!name.trim()) return 'Full name is required';
+    if (name.trim().length < 2) return 'Full name must be at least 2 characters';
+    if (!/^[a-zA-Z\s'-]+$/.test(name.trim())) return 'Full name can only contain letters, spaces, hyphens, and apostrophes';
+    return undefined;
+  };
+
+  const validateEmail = (email: string): string | undefined => {
+    if (!email.trim()) return 'Email address is required';
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) return 'Please enter a valid email address';
+    return undefined;
+  };
+
+  const validatePhone = (phone: string): string | undefined => {
+    if (!phone.trim()) return 'Phone number is required';
+    // Remove all non-digit characters for validation
+    const cleanPhone = phone.replace(/\D/g, '');
+    if (cleanPhone.length < 10) return 'Phone number must be at least 10 digits';
+    if (cleanPhone.length > 15) return 'Phone number cannot exceed 15 digits';
+    return undefined;
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {
+      fullName: validateFullName(formData.fullName),
+      email: validateEmail(formData.email),
+      phone: validatePhone(formData.phone)
+    };
+
+    setErrors(newErrors);
+    return !Object.values(newErrors).some(error => error !== undefined);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Mark all fields as touched
+    setTouched({
+      fullName: true,
+      email: true,
+      phone: true
+    });
+
+    // Validate the form
+    if (!validateForm()) {
+      toast.error('Please fix the errors in the form before submitting');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -39,6 +96,8 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
         phone: '',
         course: 'Agentic AI Career Program'
       });
+      setErrors({});
+      setTouched({});
       onClose();
       // Redirect to thank you page
       router.push('/thankyou');
@@ -50,10 +109,48 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
+    const newValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
+    
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+      [name]: newValue
     }));
+
+    // Real-time validation for touched fields
+    if (touched[name]) {
+      const newErrors = { ...errors };
+      switch (name) {
+        case 'fullName':
+          newErrors.fullName = validateFullName(value);
+          break;
+        case 'email':
+          newErrors.email = validateEmail(value);
+          break;
+        case 'phone':
+          newErrors.phone = validatePhone(value);
+          break;
+      }
+      setErrors(newErrors);
+    }
+  };
+
+  const handleBlur = (fieldName: string) => {
+    setTouched(prev => ({ ...prev, [fieldName]: true }));
+    
+    // Validate field on blur
+    const newErrors = { ...errors };
+    switch (fieldName) {
+      case 'fullName':
+        newErrors.fullName = validateFullName(formData.fullName);
+        break;
+      case 'email':
+        newErrors.email = validateEmail(formData.email);
+        break;
+      case 'phone':
+        newErrors.phone = validatePhone(formData.phone);
+        break;
+    }
+    setErrors(newErrors);
   };
 
   const handleCancel = () => {
@@ -63,7 +160,19 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
       phone: '',
       course: 'Agentic AI Career Program'
     });
+    setErrors({});
+    setTouched({});
     onClose();
+  };
+
+  // Check if form is valid for submit button state
+  const isFormValid = () => {
+    return validateFullName(formData.fullName) === undefined &&
+           validateEmail(formData.email) === undefined &&
+           validatePhone(formData.phone) === undefined &&
+           formData.fullName.trim() !== '' &&
+           formData.email.trim() !== '' &&
+           formData.phone.trim() !== '';
   };
 
   if (!isOpen) return null;
@@ -113,10 +222,20 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-lg"
+                  onBlur={() => handleBlur('fullName')}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent text-lg transition-colors ${
+                    errors.fullName && touched.fullName
+                      ? 'border-red-500 focus:ring-red-500 bg-red-50'
+                      : 'border-gray-300 focus:ring-primary'
+                  }`}
                   placeholder="Enter your full name"
                 />
+                {errors.fullName && touched.fullName && (
+                  <div className="flex items-center mt-1 text-red-600 text-sm">
+                    <AlertCircle className="w-4 h-4 mr-1" />
+                    {errors.fullName}
+                  </div>
+                )}
               </div>
 
               <div>
@@ -128,10 +247,20 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-lg"
+                  onBlur={() => handleBlur('email')}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent text-lg transition-colors ${
+                    errors.email && touched.email
+                      ? 'border-red-500 focus:ring-red-500 bg-red-50'
+                      : 'border-gray-300 focus:ring-primary'
+                  }`}
                   placeholder="your@email.com"
                 />
+                {errors.email && touched.email && (
+                  <div className="flex items-center mt-1 text-red-600 text-sm">
+                    <AlertCircle className="w-4 h-4 mr-1" />
+                    {errors.email}
+                  </div>
+                )}
               </div>
               
               <div>
@@ -143,10 +272,20 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-lg"
+                  onBlur={() => handleBlur('phone')}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent text-lg transition-colors ${
+                    errors.phone && touched.phone
+                      ? 'border-red-500 focus:ring-red-500 bg-red-50'
+                      : 'border-gray-300 focus:ring-primary'
+                  }`}
                   placeholder="+44 7XXX XXXXXX"
                 />
+                {errors.phone && touched.phone && (
+                  <div className="flex items-center mt-1 text-red-600 text-sm">
+                    <AlertCircle className="w-4 h-4 mr-1" />
+                    {errors.phone}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -195,9 +334,12 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
           <button
             type="submit"
             form="application-form"
-            disabled={isSubmitting}
-            onClick={handleSubmit}
-            className="w-full bg-gradient-to-r from-primary to-secondary text-white py-4 px-6 rounded-lg font-semibold text-lg hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            disabled={isSubmitting || !isFormValid()}
+            className={`w-full py-4 px-6 rounded-lg font-semibold text-lg transform transition-all duration-200 flex items-center justify-center ${
+              isSubmitting || !isFormValid()
+                ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
+                : 'bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg hover:scale-[1.02]'
+            }`}
           >
             {isSubmitting ? (
               <>
@@ -211,6 +353,13 @@ export default function ApplicationForm({ isOpen, onClose }: ApplicationFormProp
               </>
             )}
           </button>
+          
+          {!isFormValid() && !isSubmitting && (
+            <p className="text-sm text-red-600 text-center mt-2 flex items-center justify-center">
+              <AlertCircle className="w-4 h-4 mr-1" />
+              Please fill in all required fields correctly
+            </p>
+          )}
           
           <p className="text-xs text-gray-500 text-center mt-3">
             🔒 We'll call you within 2 hours to discuss your AI career opportunity. 100% Free consultation.
