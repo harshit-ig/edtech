@@ -9,6 +9,7 @@ import { useContactModal } from "../contexts/ContactModalContext";
 // Lazy load heavy components that appear below the fold
 const CoursesSection = lazy(() => import("../components/Courses"));
 const Testimonials = lazy(() => import("../components/Testimonials"));
+const TrustpilotReviews = lazy(() => import("../components/TrustpilotReviews"));
 const CompanyShowcase = lazy(() => import("../components/CompanyShowcase"));
 const CertificateSection = lazy(() => import("../components/CertificateSection"));
 const WhyChooseUs = lazy(() => import("../components/WhyChooseUs"));
@@ -49,6 +50,10 @@ export default function HomePage() {
       
       <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
         <Testimonials />
+      </Suspense>
+      
+      <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
+        <TrustpilotReviews />
       </Suspense>
       
       <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
