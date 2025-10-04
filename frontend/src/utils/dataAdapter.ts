@@ -147,7 +147,7 @@ export const getMentorFeaturesData = (): Promise<MentorFeature[]> => getCachedDa
 export const getPartnerCompaniesData = (): Promise<CompanyLogo[]> => getCachedData('partnerCompanies', api.getPartnerCompanies);
 export const getAdvantageStatsData = (): Promise<AdvantageStat[]> => getCachedData('advantageStats', api.getAdvantageStats);
 export const getTestimonialsData = (): Promise<Testimonial[]> => getCachedData('testimonials', api.getTestimonials);
-
+export const getTrustpilotReviewsData = (): Promise<any[]> => getCachedData('trustpilotReviews', api.getTrustpilotReviews);
 export const getSuccessStatsData = (): Promise<SuccessStat[]> => getCachedData('success-stats', api.getSuccessStats);
 export const getCourseIconsData = (): Promise<CourseIcons> => getCachedData('courseIcons', api.getCourseIcons);
 

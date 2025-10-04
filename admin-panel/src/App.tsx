@@ -18,6 +18,7 @@ import MentorFeatures from './pages/MentorFeatures';
 import CompanyLogos from './pages/CompanyLogos';
 import AdvantageStats from './pages/AdvantageStats';
 import Testimonials from './pages/Testimonials';
+import TrustpilotReviews from './pages/TrustpilotReviews';
 import CompanyInfo from './pages/CompanyInfo';
 import Statistics from './pages/Statistics';
 import Values from './pages/Values';
@@ -103,6 +104,7 @@ const AppRoutes: React.FC = () => {
         <Route path="company-logos" element={<CompanyLogos />} />
         <Route path="advantage-stats" element={<AdvantageStats />} />
         <Route path="testimonials" element={<Testimonials />} />
+        <Route path="trustpilot-reviews" element={<TrustpilotReviews />} />
         <Route path="success-stats" element={<SuccessStats />} />
         
         {/* Additional management pages */}

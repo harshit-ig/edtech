@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
 import { requireAdminAuth } from '../middleware/auth';
-import { createAdminRateLimiter, uploadBlogImages, uploadTeamImage, uploadCourseImage, uploadTestimonialImage, handleUploadError } from '../middleware';
+import { createAdminRateLimiter, uploadBlogImages, uploadTeamImage, uploadCourseImage, uploadTestimonialImage, uploadTrustpilotImage, handleUploadError } from '../middleware';
 import {
   getAllBlogs,
   getBlogById,
@@ -139,6 +139,13 @@ import {
   updateTestimonial,
   deleteTestimonial
 } from '../controllers/testimonialAdminController';
+import {
+  getAllTrustpilotReviews,
+  getTrustpilotReviewById,
+  createTrustpilotReview,
+  updateTrustpilotReview,
+  deleteTrustpilotReview
+} from '../controllers/trustpilotAdminController';
 
 const router = Router();
 
@@ -315,6 +322,15 @@ router.get('/testimonials/:id', getTestimonialById);
 router.post('/testimonials', uploadTestimonialImage, handleUploadError, createTestimonial);
 router.put('/testimonials/:id', uploadTestimonialImage, handleUploadError, updateTestimonial);
 router.delete('/testimonials/:id', deleteTestimonial);
+
+/**
+ * Trustpilot Reviews CRUD Routes
+ */
+router.get('/trustpilot-reviews', getAllTrustpilotReviews);
+router.get('/trustpilot-reviews/:id', getTrustpilotReviewById);
+router.post('/trustpilot-reviews', uploadTrustpilotImage, handleUploadError, createTrustpilotReview);
+router.put('/trustpilot-reviews/:id', uploadTrustpilotImage, handleUploadError, updateTrustpilotReview);
+router.delete('/trustpilot-reviews/:id', deleteTrustpilotReview);
 
 /**
  * Success Stats CRUD Routes

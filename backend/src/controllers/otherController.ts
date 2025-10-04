@@ -7,6 +7,7 @@ import {
   CompanyLogoModel,
   AdvantageStatModel,
   TestimonialModel,
+  TrustpilotReviewModel,
   SuccessStatModel,
   CourseIconModel
 } from '../models';
@@ -83,6 +84,27 @@ export const getTestimonials = async (req: Request, res: Response): Promise<void
     res.json(testimonialsWithUrls);
   } catch (error) {
     console.error('Error fetching testimonials:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// Trustpilot Review Controllers
+export const getTrustpilotReviews = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const reviews = await TrustpilotReviewModel.find().sort({ createdAt: -1 });
+    
+    // Add avatar URLs to reviews
+    const reviewsWithUrls = reviews.map(review => {
+      const reviewObj = review.toObject();
+      if (reviewObj.avatar) {
+        reviewObj.avatar = getImageUrl(reviewObj.avatar, req, 'trustpilot');
+      }
+      return reviewObj;
+    });
+    
+    res.json(reviewsWithUrls);
+  } catch (error) {
+    console.error('Error fetching trustpilot reviews:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

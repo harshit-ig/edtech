@@ -177,6 +177,10 @@ export const getTestimonials = async () => {
   return apiRequest<any>('/testimonials');
 };
 
+export const getTrustpilotReviews = async () => {
+  return apiRequest<any>('/trustpilot-reviews');
+};
+
 export const getSuccessStats = async () => {
   return apiRequest<any>('/success-stats');
 };

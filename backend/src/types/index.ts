@@ -279,6 +279,20 @@ export interface Testimonial {
   photo?: string;
 }
 
+// Trustpilot Review Types
+export interface TrustpilotReview {
+  id: string;
+  name: string;
+  avatar: string; // Image filename/path
+  location: string;
+  reviewCount: number;
+  rating: number;
+  title: string;
+  review: string;
+  reviewDate: string;
+  verified: boolean;
+}
+
 // Icons Types
 export interface CourseIcons {
   [key: string]: string;

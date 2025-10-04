@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
+import { getTrustpilotReviewsData } from '../utils/dataAdapter';
 
 interface TrustpilotReview {
-  id: number;
+  id: number | string;
   name: string;
   avatar: string;
   location: string;
@@ -18,6 +19,24 @@ export default function TrustpilotReviews() {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [reviews, setReviews] = useState<TrustpilotReview[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadReviews = async () => {
+      try {
+        const data = await getTrustpilotReviewsData();
+        setReviews(data);
+      } catch (error) {
+        console.error('Error loading Trustpilot reviews:', error);
+        setReviews([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadReviews();
+  }, []);
 
   // Calculate relative time from review date
   const getRelativeTime = (dateString: string): string => {
@@ -34,105 +53,6 @@ export default function TrustpilotReviews() {
     if (diffInDays < 60) return '1 month ago';
     return `${Math.floor(diffInDays / 30)} months ago`;
   };
-
-  const reviews: TrustpilotReview[] = [
-    {
-      id: 1,
-      name: "Emily Chen",
-      avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-      location: "GB",
-      reviewCount: 1,
-      rating: 5,
-      title: "Excellent learning experience!",
-      review: "The Data Analytics program exceeded my expectations. The instructors are knowledgeable and the projects are really hands-on. I landed a job as a Data Analyst within 3 months of completing the course!",
-      reviewDate: "September 18, 2025",
-      verified: true
-    },
-    {
-      id: 2,
-      name: "Marcus Thompson",
-      avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-      location: "US",
-      reviewCount: 2,
-      rating: 5,
-      title: "Career-changing program",
-      review: "I switched from marketing to tech thanks to their AI & Machine Learning program. The support from mentors was incredible, and the curriculum is up-to-date with industry standards.",
-      reviewDate: "September 10, 2025",
-      verified: true
-    },
-    {
-      id: 3,
-      name: "Sarah Williams",
-      avatar: "https://randomuser.me/api/portraits/women/65.jpg",
-      location: "CA",
-      reviewCount: 1,
-      rating: 5,
-      title: "Best investment I've made",
-      review: "The Python Development program was comprehensive and well-structured. I appreciate the lifetime access to materials and the active community. Worth every penny!",
-      reviewDate: "September 15, 2025",
-      verified: true
-    },
-    {
-      id: 4,
-      name: "James Rodriguez",
-      avatar: "https://randomuser.me/api/portraits/men/22.jpg",
-      location: "GB",
-      reviewCount: 3,
-      rating: 4.5,
-      title: "Outstanding support team",
-      review: "What sets Edtech Informative apart is their dedication to student success. The career services team helped me polish my resume and prepare for interviews. Highly recommend!",
-      reviewDate: "September 13, 2025",
-      verified: true
-    },
-    {
-      id: 5,
-      name: "Priya Patel",
-      avatar: "https://randomuser.me/api/portraits/women/78.jpg",
-      location: "IN",
-      reviewCount: 1,
-      rating: 5,
-      title: "Top-notch quality",
-      review: "The Cloud Computing program gave me the skills I needed to get AWS certified. The hands-on labs and real-world scenarios made learning practical and engaging.",
-      reviewDate: "September 11, 2025",
-      verified: true
-    },
-    {
-      id: 6,
-      name: "David Kim",
-      avatar: "https://randomuser.me/api/portraits/men/85.jpg",
-      location: "AU",
-      reviewCount: 1,
-      rating: 5,
-      title: "Transformed my career",
-      review: "I went from zero coding knowledge to building full-stack applications. The instructors break down complex concepts brilliantly. This platform is a game-changer!",
-      reviewDate: "September 14, 2025",
-      verified: true
-    },
-    {
-      id: 7,
-      name: "Lisa Anderson",
-      avatar: "https://randomuser.me/api/portraits/women/90.jpg",
-      location: "US",
-      reviewCount: 4,
-      rating: 5,
-      title: "Highly professional",
-      review: "The Cybersecurity program is incredibly detailed. The instructors have real industry experience, and you can tell they care about your success. Already got two job offers!",
-      reviewDate: "September 4, 2025",
-      verified: true
-    },
-    {
-      id: 8,
-      name: "Ahmed Hassan",
-      avatar: "https://randomuser.me/api/portraits/men/46.jpg",
-      location: "GB",
-      reviewCount: 2,
-      rating: 4.5,
-      title: "Exceptional learning platform",
-      review: "The project-based approach makes all the difference. I built a portfolio that impressed employers. The mentorship sessions were invaluable for my growth.",
-      reviewDate: "September 12, 2025",
-      verified: true
-    }
-  ];
 
   // Duplicate reviews for seamless infinite scroll
   const duplicatedReviews = [...reviews, ...reviews, ...reviews, ...reviews, ...reviews, ...reviews];
@@ -205,7 +125,22 @@ export default function TrustpilotReviews() {
           </div>
         </div>
 
+        {/* Loading State */}
+        {loading && (
+          <div className="flex items-center justify-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00b67a]"></div>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading && reviews.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-600">No reviews available at the moment.</p>
+          </div>
+        )}
+
         {/* Marquee Container */}
+        {!loading && reviews.length > 0 && (
         <div className="relative">
           <div 
             className="overflow-hidden"
@@ -274,8 +209,10 @@ export default function TrustpilotReviews() {
           <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
           <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
         </div>
+        )}
 
         {/* CTA */}
+        {!loading && reviews.length > 0 && (
         <div className="text-center mt-12">
           <a
             href="https://www.trustpilot.com/review/edtechinformative.uk"
@@ -289,6 +226,7 @@ export default function TrustpilotReviews() {
             </svg>
           </a>
         </div>
+        )}
       </div>
 
       <style>{`

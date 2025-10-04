@@ -6,6 +6,7 @@ import {
   getPartnerCompanies,
   getAdvantageStats,
   getTestimonials,
+  getTrustpilotReviews,
   getSuccessStats,
   getCourseIcons,
   getIconByName,
@@ -29,6 +30,9 @@ router.get('/stats', getAdvantageStats);
 
 // Testimonial endpoints
 router.get('/testimonials', getTestimonials);
+
+// Trustpilot Review endpoints
+router.get('/trustpilot-reviews', getTrustpilotReviews);
 
 // Success Stats endpoints
 router.get('/success-stats', getSuccessStats);

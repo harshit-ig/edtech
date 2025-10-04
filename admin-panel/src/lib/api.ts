@@ -414,6 +414,36 @@ export const testimonialsApi = {
   delete: (id: string) => adminApi.delete('testimonials', id),
 };
 
+export const trustpilotReviewsApi = {
+  getAll: () => adminApi.getAll('trustpilot-reviews'),
+  getById: (id: string) => adminApi.getById('trustpilot-reviews', id),
+  create: (data: unknown) => {
+    // For multipart/form-data (file uploads)
+    if (data instanceof FormData) {
+      return api.post('/admin/trustpilot-reviews', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(response => response.data);
+    }
+    // For regular JSON data
+    return adminApi.create('trustpilot-reviews', data);
+  },
+  update: (id: string, data: unknown) => {
+    // For multipart/form-data (file uploads)
+    if (data instanceof FormData) {
+      return api.put(`/admin/trustpilot-reviews/${id}`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(response => response.data);
+    }
+    // For regular JSON data
+    return adminApi.update('trustpilot-reviews', id, data);
+  },
+  delete: (id: string) => adminApi.delete('trustpilot-reviews', id),
+};
+
 export const successStatsApi = {
   getAll: () => adminApi.getAll('success-stats'),
   getById: (id: string) => adminApi.getById('success-stats', id),
