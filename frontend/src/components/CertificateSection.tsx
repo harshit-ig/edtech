@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Award, CheckCircle, ArrowRight } from 'lucide-react';
+import faviconImg from '../assets/favicon.png';
 
 interface CertificateSectionProps {
   onApplyNow: () => void;
@@ -83,7 +84,7 @@ export default function CertificateSection({ onApplyNow }: CertificateSectionPro
               <div className="text-center mb-6">
                 <div className="flex items-center justify-center space-x-3 mb-4">
                   <img
-                    src="/src/assets/favicon.png"
+                    src={faviconImg}
                     alt="Edtech Informative"
                     className="w-8 h-8"
                     loading="lazy"
