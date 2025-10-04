@@ -8,7 +8,8 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "migrate": "tsx src/scripts/migrate.ts",
-    "seed": "tsx src/scripts/seed.ts"
+    "seed": "tsx src/scripts/seed.ts",
+    "seed:trustpilot": "tsx src/scripts/seedTrustpilot.ts"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",
