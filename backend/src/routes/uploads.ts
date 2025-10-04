@@ -64,6 +64,21 @@ router.get('/testimonial-images/:filename', (req: Request, res: Response) => {
   return res.sendFile(filePath);
 });
 
+// Legacy route for backwards compatibility (old testimonial path)
+router.get('/testimonial/:filename', (req: Request, res: Response) => {
+  const { filename } = req.params;
+  const filePath = path.join(__dirname, '../../../uploads/testimonial-images', filename);
+
+  // Check if file exists first
+  const fs = require('fs');
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).send('Image not found');
+  }
+  
+  // Send the file
+  return res.sendFile(filePath);
+});
+
 // Serve trustpilot images
 router.get('/trustpilot-images/:filename', (req: Request, res: Response) => {
   const { filename } = req.params;
