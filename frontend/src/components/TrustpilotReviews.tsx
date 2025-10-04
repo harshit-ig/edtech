@@ -21,6 +21,7 @@ export default function TrustpilotReviews() {
   const [scrollLeft, setScrollLeft] = useState(0);
   const [reviews, setReviews] = useState<TrustpilotReview[]>([]);
   const [loading, setLoading] = useState(true);
+  const [expandedReviews, setExpandedReviews] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const loadReviews = async () => {
@@ -52,6 +53,33 @@ export default function TrustpilotReviews() {
     if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`;
     if (diffInDays < 60) return '1 month ago';
     return `${Math.floor(diffInDays / 30)} months ago`;
+  };
+
+  // Truncate review text
+  const truncateText = (text: string, maxLength: number = 150): { text: string; isTruncated: boolean } => {
+    if (text.length <= maxLength) {
+      return { text, isTruncated: false };
+    }
+    const truncated = text.substring(0, maxLength).trim();
+    const lastSpace = truncated.lastIndexOf(' ');
+    return {
+      text: lastSpace > 0 ? truncated.substring(0, lastSpace) : truncated,
+      isTruncated: true
+    };
+  };
+
+  // Toggle expand/collapse for a review
+  const toggleExpand = (reviewId: string | number) => {
+    setExpandedReviews(prev => {
+      const newSet = new Set(prev);
+      const id = String(reviewId);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
   };
 
   // Duplicate reviews for seamless infinite scroll
@@ -188,10 +216,31 @@ export default function TrustpilotReviews() {
                     {review.title}
                   </h5>
 
-                  {/* Review Text */}
-                  <p className="text-[#191919] text-base leading-relaxed mb-4">
-                    {review.review}
-                  </p>
+                  {/* Review Text with Truncation */}
+                  <div className="mb-4">
+                    {(() => {
+                      const reviewKey = `${review.id}-${index}`;
+                      const isExpanded = expandedReviews.has(reviewKey);
+                      const { text, isTruncated } = truncateText(review.review);
+                      
+                      return (
+                        <>
+                          <p className="text-[#191919] text-base leading-relaxed whitespace-pre-line">
+                            {isExpanded ? review.review : text}
+                            {!isExpanded && isTruncated && '...'}
+                          </p>
+                          {isTruncated && (
+                            <button
+                              onClick={() => toggleExpand(reviewKey)}
+                              className="text-[#00b67a] hover:text-[#008a5d] font-medium text-sm mt-2 transition-colors"
+                            >
+                              {isExpanded ? 'Read less' : 'Read more'}
+                            </button>
+                          )}
+                        </>
+                      );
+                    })()}
+                  </div>
 
                   {/* Date and Status */}
                   <div className="flex items-center gap-3 text-xs text-[#5f5f5f]">
