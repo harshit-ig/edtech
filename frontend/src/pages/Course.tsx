@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import toast from 'react-hot-toast';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -492,27 +492,7 @@ export default function CoursePage() {
                 <div key={index} className="group">
                   <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105 border border-gray-100 h-full">
                     <div className="flex items-center mb-4">
-                      <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
-                        <img 
-                          src={getImageUrl(testimonial.avatar, 'testimonial-images')} 
-                          alt={testimonial.name}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.style.display = 'none';
-                            const fallback = target.nextElementSibling as HTMLElement;
-                            if (fallback) {
-                              fallback.style.display = 'flex';
-                            }
-                          }}
-                        />
-                        <div 
-                          className={`w-full h-full bg-gradient-to-br from-${testimonial.color} to-${testimonial.color.includes('edtech') ? testimonial.color.replace('edtech-', '') + '-600' : testimonial.color} flex items-center justify-center text-white font-bold text-lg`}
-                          style={{ display: 'none' }}
-                        >
-                          {testimonial.name.charAt(0)}
-                        </div>
-                      </div>
+                      <TestimonialAvatar avatar={testimonial.avatar} name={testimonial.name} color={testimonial.color} />
                       <div>
                         <div className="font-semibold text-gray-900">{testimonial.name}</div>
                         <div className="text-sm text-gray-600">{testimonial.role}</div>
@@ -637,7 +617,7 @@ export default function CoursePage() {
                           <div className="mt-6 p-4 bg-edtech-orange/10 rounded-lg border border-edtech-orange/20">
                             <div className="flex items-center gap-2 mb-2">
                               <svg className="w-5 h-5 text-edtech-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                               </svg>
                               <span className="text-edtech-orange font-semibold text-sm">Module Highlight</span>
                             </div>
@@ -842,6 +822,48 @@ export default function CoursePage() {
       </main>
       
       <Footer />
+    </div>
+  );
+}
+
+function TestimonialAvatar({ avatar, name, color }: { avatar: string, name: string, color: string }) {
+  const [imgError, setImgError] = useState(false);
+  const prevAvatar = useRef(avatar);
+
+  // Helper function to construct image URLs (duplicate for this scope)
+  const getImageUrl = (filename: string | undefined, folder: string = 'testimonial-images'): string => {
+    if (!filename) return '';
+    if (filename.startsWith('http://') || filename.startsWith('https://')) {
+      return filename;
+    }
+    return `${import.meta.env.VITE_API_BASE_URL || window.location.origin + '/api'}/uploads/${folder}/${filename}`;
+  };
+
+  // Reset error state if avatar changes
+  useEffect(() => {
+    if (prevAvatar.current !== avatar) {
+      setImgError(false);
+      prevAvatar.current = avatar;
+    }
+  }, [avatar]);
+
+  return (
+    <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+      {!imgError && (
+        <img
+          src={getImageUrl(avatar, 'testimonial-images')}
+          alt={name}
+          className="w-full h-full object-cover"
+          onError={() => setImgError(true)}
+        />
+      )}
+      {(imgError || !avatar) && (
+        <div
+          className={`w-full h-full bg-gradient-to-br from-${color} to-${color.includes('edtech') ? color.replace('edtech-', '') + '-600' : color} flex items-center justify-center text-white font-bold text-lg`}
+        >
+          {name.charAt(0)}
+        </div>
+      )}
     </div>
   );
 }
