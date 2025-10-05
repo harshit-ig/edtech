@@ -14,6 +14,7 @@ import VideoSection from '@/components/VideoSection';
 import CourseStructure from '@/components/CourseStructure';
 import InstructorCredibility from '@/components/InstructorCredibility';
 import TestimonialsSection from '@/components/TestimonialsSection';
+import TrustpilotReviews from '../components/TrustpilotReviews';
 import CurrentBatchTestimonials from '@/components/CurrentBatchTestimonials';
 import AIComparisonSection from '@/components/AIComparisonSection';
 import FAQSection from '@/components/FAQSection';
@@ -59,13 +60,16 @@ export default function Home() {
       {/* 2. Immediate Social Proof - Build Trust */}
       <CompaniesSection />
 
-      
-      {/* 10. Social Proof - Professional Success Stories */}
-      <TestimonialsSection />
+
+  {/* 10. Social Proof - Professional Success Stories */}
+  <TestimonialsSection />
 
       {/* AI Comparison - Show Urgency & Value */}
       <AIComparisonSection onApplyNow={handleApplyNow} />
+     
 
+  {/* Trustpilot Reviews - Trust Signal */}
+  <TrustpilotReviews />
       {/* Current Batch Live Updates */}
       <CurrentBatchTestimonials />
       
