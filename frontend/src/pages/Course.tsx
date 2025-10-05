@@ -19,17 +19,7 @@ export default function CoursePage() {
   const [courseIcons, setCourseIcons] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const { openModal } = useContactModal();
-
-  // Helper function to construct image URLs
-  const getImageUrl = (filename: string | undefined, folder: string = 'testimonial-images'): string => {
-    if (!filename) return '';
-    // If it's already a full URL, return as is
-    if (filename.startsWith('http://') || filename.startsWith('https://')) {
-      return filename;
-    }
-    // Otherwise, construct the URL from the API base URL
-    return `${import.meta.env.VITE_API_BASE_URL}/uploads/${folder}/${filename}`;
-  };
+  
   // All enrollment actions now use payment modal
   const { openModal: openPaymentModal } = usePaymentModal();
 
