@@ -623,11 +623,11 @@ export default function PaymentModal({
               {/* Payment Method Selection */}
               <div className="mb-6">
                 <h3 className="text-white font-medium mb-4">Select Payment Method</h3>
-                <div className="space-y-3">
+                <div className="flex gap-3">
                   <button
                     type="button"
                     onClick={() => setSelectedPaymentMethod('razorpay')}
-                    className={`w-full p-4 rounded-lg border text-left transition-all ${
+                    className={`flex-1 p-4 rounded-lg border text-left transition-all ${
                       selectedPaymentMethod === 'razorpay'
                         ? 'border-edtech-orange bg-edtech-orange/20'
                         : 'border-white/20 bg-white/5 hover:border-white/40'
@@ -637,7 +637,6 @@ export default function PaymentModal({
                       <span className="text-2xl">💳</span>
                       <div>
                         <div className="text-white font-medium">Razorpay</div>
-                        <div className="text-white/60 text-sm">Credit Card, Debit Card, UPI, Net Banking</div>
                       </div>
                       {selectedPaymentMethod === 'razorpay' && (
                         <div className="ml-auto">
@@ -652,7 +651,7 @@ export default function PaymentModal({
                   <button
                     type="button"
                     onClick={() => setSelectedPaymentMethod('paypal')}
-                    className={`w-full p-4 rounded-lg border text-left transition-all ${
+                    className={`flex-1 p-4 rounded-lg border text-left transition-all ${
                       selectedPaymentMethod === 'paypal'
                         ? 'border-edtech-orange bg-edtech-orange/20'
                         : 'border-white/20 bg-white/5 hover:border-white/40'
@@ -662,7 +661,6 @@ export default function PaymentModal({
                       <span className="text-2xl">🏦</span>
                       <div>
                         <div className="text-white font-medium">PayPal</div>
-                        <div className="text-white/60 text-sm">PayPal Account, Credit Card via PayPal</div>
                       </div>
                       {selectedPaymentMethod === 'paypal' && (
                         <div className="ml-auto">
