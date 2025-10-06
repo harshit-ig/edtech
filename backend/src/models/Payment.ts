@@ -9,14 +9,20 @@ export interface PaymentOrder {
   amount: number;
   currency: string;
   status: 'created' | 'paid' | 'failed' | 'cancelled';
+  paymentProvider: 'razorpay' | 'paypal';
   customerInfo: {
     name: string;
     email: string;
     phone: string;
   };
+  // Razorpay specific fields
   razorpayOrderId?: string;
   razorpayPaymentId?: string;
   razorpaySignature?: string;
+  // PayPal specific fields
+  paypalOrderId?: string;
+  paypalPaymentId?: string;
+  paypalPayerId?: string;
   notes?: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
@@ -26,9 +32,15 @@ export interface PaymentOrder {
 export interface PaymentTransaction {
   id: string;
   orderId: string;
-  razorpayPaymentId: string;
-  razorpayOrderId: string;
-  razorpaySignature: string;
+  paymentProvider: 'razorpay' | 'paypal';
+  // Razorpay specific fields
+  razorpayPaymentId?: string;
+  razorpayOrderId?: string;
+  razorpaySignature?: string;
+  // PayPal specific fields
+  paypalOrderId?: string;
+  paypalPaymentId?: string;
+  paypalPayerId?: string;
   amount: number;
   currency: string;
   status: 'success' | 'failed' | 'pending';
@@ -62,14 +74,24 @@ const PaymentOrderSchema = new Schema<PaymentOrder & Document>({
     enum: ['created', 'paid', 'failed', 'cancelled'],
     default: 'created'
   },
+  paymentProvider: {
+    type: String,
+    required: true,
+    enum: ['razorpay', 'paypal']
+  },
   customerInfo: {
     name: { type: String, required: true },
     email: { type: String, required: true },
     phone: { type: String, required: true }
   },
+  // Razorpay specific fields
   razorpayOrderId: { type: String },
   razorpayPaymentId: { type: String },
   razorpaySignature: { type: String },
+  // PayPal specific fields
+  paypalOrderId: { type: String },
+  paypalPaymentId: { type: String },
+  paypalPayerId: { type: String },
   notes: { type: Schema.Types.Mixed, default: {} }
 }, { timestamps: true });
 
@@ -77,9 +99,19 @@ const PaymentOrderSchema = new Schema<PaymentOrder & Document>({
 const PaymentTransactionSchema = new Schema<PaymentTransaction & Document>({
   id: { type: String, required: true, unique: true },
   orderId: { type: String, required: true },
-  razorpayPaymentId: { type: String, required: true },
-  razorpayOrderId: { type: String, required: true },
-  razorpaySignature: { type: String, required: true },
+  paymentProvider: {
+    type: String,
+    required: true,
+    enum: ['razorpay', 'paypal']
+  },
+  // Razorpay specific fields
+  razorpayPaymentId: { type: String },
+  razorpayOrderId: { type: String },
+  razorpaySignature: { type: String },
+  // PayPal specific fields
+  paypalOrderId: { type: String },
+  paypalPaymentId: { type: String },
+  paypalPayerId: { type: String },
   amount: { type: Number, required: true },
   currency: { type: String, required: true, default: 'GBP' },
   status: { 

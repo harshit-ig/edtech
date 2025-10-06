@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import { PaymentOrderModel, PaymentTransactionModel, CourseModel, CourseDetailsModel, CouponModel, CustomerModel } from '../models';
 import { generateCustomerId } from '../utils/idGenerator';
 import EmailService from '../utils/emailService';
+import PayPalService from '../utils/paypalService';
 
 // Validate Razorpay environment variables
 if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
@@ -17,16 +18,34 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET
 });
 
+// Initialize PayPal service (with error handling)
+let paypalService: PayPalService | null = null;
+try {
+  paypalService = new PayPalService();
+} catch (error) {
+  console.warn('PayPal service initialization failed:', error);
+  // PayPal service will be null, and we'll handle this in the endpoints
+}
+
 // Create payment order
 export const createPaymentOrder = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { courseId, customerInfo, couponCode } = req.body;
+    const { courseId, customerInfo, couponCode, paymentProvider = 'razorpay' } = req.body;
 
     // Validate required fields
     if (!courseId || !customerInfo?.name || !customerInfo?.email || !customerInfo?.phone) {
       res.status(400).json({ 
         success: false, 
         error: 'Missing required fields: courseId, customerInfo (name, email, phone)' 
+      });
+      return;
+    }
+
+    // Validate payment provider
+    if (!['razorpay', 'paypal'].includes(paymentProvider)) {
+      res.status(400).json({
+        success: false,
+        error: 'Invalid payment provider. Must be either "razorpay" or "paypal"'
       });
       return;
     }
@@ -84,24 +103,52 @@ export const createPaymentOrder = async (req: Request, res: Response): Promise<v
     // Create unique order ID
     const orderId = `ORD_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
 
-    // Create Razorpay order with final amount
-    const razorpayOrder = await razorpay.orders.create({
-      amount: Math.round(finalAmount * 100), // Razorpay expects amount in cents/paise
-      currency,
-      receipt: orderId,
-      notes: {
+    let providerOrderId: string;
+    let approvalUrl: string | undefined;
+
+    if (paymentProvider === 'razorpay') {
+      // Create Razorpay order with final amount
+      const razorpayOrder = await razorpay.orders.create({
+        amount: Math.round(finalAmount * 100), // Razorpay expects amount in cents/paise
+        currency,
+        receipt: orderId,
+        notes: {
+          courseId,
+          courseName: course.title,
+          customerName: customerInfo.name,
+          customerEmail: customerInfo.email,
+          ...(appliedCoupon && discountInfo && {
+            couponCode: appliedCoupon.code,
+            originalAmount: originalAmount,
+            discountAmount: discountInfo.discountAmount,
+            finalAmount: finalAmount
+          })
+        }
+      });
+      providerOrderId = razorpayOrder.id;
+    } else {
+      // Create PayPal order
+      if (!paypalService) {
+        res.status(500).json({
+          success: false,
+          error: 'PayPal service is not configured. Please check PayPal credentials in environment variables.'
+        });
+        return;
+      }
+      
+      const paypalOrder = await paypalService.createOrder({
         courseId,
         courseName: course.title,
-        customerName: customerInfo.name,
-        customerEmail: customerInfo.email,
-        ...(appliedCoupon && discountInfo && {
-          couponCode: appliedCoupon.code,
-          originalAmount: originalAmount,
-          discountAmount: discountInfo.discountAmount,
-          finalAmount: finalAmount
-        })
-      }
-    });
+        amount: finalAmount,
+        currency,
+        customerInfo,
+        orderId
+      });
+      providerOrderId = paypalOrder.id;
+      // Find approval URL from PayPal response
+      const approvalLink = paypalOrder.links.find(link => link.rel === 'approve');
+      approvalUrl = approvalLink?.href;
+    }
 
     // Save order to database
     const paymentOrder = new PaymentOrderModel({
@@ -112,11 +159,14 @@ export const createPaymentOrder = async (req: Request, res: Response): Promise<v
       amount: finalAmount,
       currency,
       status: 'created',
+      paymentProvider,
       customerInfo,
-      razorpayOrderId: razorpayOrder.id,
+      ...(paymentProvider === 'razorpay' && { razorpayOrderId: providerOrderId }),
+      ...(paymentProvider === 'paypal' && { paypalOrderId: providerOrderId }),
       notes: {
         courseCategory: course.category,
         courseBadge: course.badge,
+        ...(approvalUrl && { approvalUrl }),
         ...(appliedCoupon && discountInfo && {
           couponCode: appliedCoupon.code,
           discountType: appliedCoupon.discountType,
@@ -133,9 +183,12 @@ export const createPaymentOrder = async (req: Request, res: Response): Promise<v
     res.json({
       success: true,
       order: {
-        orderId: razorpayOrder.id,
-        amount: Math.round(finalAmount * 100),
+        orderId: providerOrderId,
+        internalOrderId: orderId,
+        paymentProvider,
+        amount: paymentProvider === 'razorpay' ? Math.round(finalAmount * 100) : finalAmount,
         currency,
+        ...(approvalUrl && { approvalUrl }),
         courseInfo: {
           id: course.id,
           title: course.title,
@@ -226,6 +279,7 @@ export const verifyPayment = async (req: Request, res: Response): Promise<void> 
     const transaction = new PaymentTransactionModel({
       id: `TXN_${Date.now()}`,
       orderId: paymentOrder.orderId,
+      paymentProvider: 'razorpay',
       razorpayPaymentId: razorpay_payment_id,
       razorpayOrderId: razorpay_order_id,
       razorpaySignature: razorpay_signature,
@@ -319,6 +373,301 @@ export const verifyPayment = async (req: Request, res: Response): Promise<void> 
   }
 };
 
+// Create PayPal order
+export const createPayPalOrder = async (req: Request, res: Response): Promise<void> => {
+  try {
+    // Check if PayPal service is available
+    if (!paypalService) {
+      res.status(500).json({
+        success: false,
+        error: 'PayPal service is not configured. Please check PayPal credentials in environment variables.'
+      });
+      return;
+    }
+
+    const { courseId, customerInfo, couponCode } = req.body;
+
+    // Validate required fields
+    if (!courseId || !customerInfo?.name || !customerInfo?.email || !customerInfo?.phone) {
+      res.status(400).json({ 
+        success: false, 
+        error: 'Missing required fields: courseId, customerInfo (name, email, phone)' 
+      });
+      return;
+    }
+
+    // Get course details
+    const course = await CourseModel.findOne({ id: courseId });
+    if (!course) {
+      res.status(404).json({ 
+        success: false, 
+        error: 'Course not found' 
+      });
+      return;
+    }
+
+    // Get course pricing
+    let courseDetails;
+    try {
+      courseDetails = await CourseDetailsModel.findOne({ courseId });
+    } catch (error) {
+      // Course details not found
+    }
+
+    const originalAmount = courseDetails?.pricing?.current;
+    
+    if (!originalAmount || originalAmount <= 0) {
+      res.status(400).json({ 
+        success: false, 
+        error: 'Course pricing not available. Cannot create payment order.' 
+      });
+      return;
+    }
+
+    let finalAmount = originalAmount;
+    let appliedCoupon = null;
+    let discountInfo = null;
+
+    // Apply coupon if provided
+    if (couponCode && couponCode.trim()) {
+      try {
+        const couponResult = await CouponModel.applyCoupon(couponCode.trim(), courseId, originalAmount);
+        appliedCoupon = couponResult.coupon;
+        discountInfo = couponResult.discount;
+        finalAmount = discountInfo.finalPrice;
+      } catch (couponError: any) {
+        res.status(400).json({
+          success: false,
+          error: `Coupon Error: ${couponError.message}`
+        });
+        return;
+      }
+    }
+
+    const currency = 'GBP';
+    const orderId = `ORD_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+
+    // Create PayPal order
+    const paypalOrder = await paypalService.createOrder({
+      courseId,
+      courseName: course.title,
+      amount: finalAmount,
+      currency,
+      customerInfo,
+      orderId
+    });
+
+    // Save order to database
+    const paymentOrder = new PaymentOrderModel({
+      id: `PAY_${Date.now()}`,
+      orderId,
+      courseId,
+      courseName: course.title,
+      amount: finalAmount,
+      currency,
+      status: 'created',
+      paymentProvider: 'paypal',
+      customerInfo,
+      paypalOrderId: paypalOrder.id,
+      notes: {
+        courseCategory: course.category,
+        courseBadge: course.badge,
+        approvalUrl: paypalOrder.links.find(link => link.rel === 'approve')?.href,
+        ...(appliedCoupon && discountInfo && {
+          couponCode: appliedCoupon.code,
+          discountType: appliedCoupon.discountType,
+          discountValue: appliedCoupon.discountValue,
+          originalAmount: originalAmount,
+          discountAmount: discountInfo.discountAmount,
+          finalAmount: finalAmount
+        })
+      }
+    });
+
+    await paymentOrder.save();
+
+    res.json({
+      success: true,
+      order: {
+        id: paypalOrder.id,
+        status: paypalOrder.status,
+        links: paypalOrder.links,
+        courseInfo: {
+          id: course.id,
+          title: course.title,
+          category: course.category
+        },
+        customerInfo,
+        pricing: {
+          originalAmount: originalAmount,
+          finalAmount: finalAmount,
+          ...(discountInfo && appliedCoupon && {
+            discount: {
+              couponCode: appliedCoupon.code,
+              discountAmount: discountInfo.discountAmount,
+              savings: discountInfo.savings
+            }
+          })
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error('Error creating PayPal order:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to create PayPal order' 
+    });
+  }
+};
+
+// Capture PayPal payment
+export const capturePayPalPayment = async (req: Request, res: Response): Promise<void> => {
+  try {
+    // Check if PayPal service is available
+    if (!paypalService) {
+      res.status(500).json({
+        success: false,
+        error: 'PayPal service is not configured. Please check PayPal credentials in environment variables.'
+      });
+      return;
+    }
+
+    const { paypalOrderId } = req.body;
+
+    if (!paypalOrderId) {
+      res.status(400).json({
+        success: false,
+        error: 'PayPal order ID is required'
+      });
+      return;
+    }
+
+    // Find the payment order
+    const paymentOrder = await PaymentOrderModel.findOne({ 
+      paypalOrderId: paypalOrderId 
+    });
+
+    if (!paymentOrder) {
+      res.status(404).json({ 
+        success: false, 
+        error: 'Payment order not found' 
+      });
+      return;
+    }
+
+    // Capture the PayPal payment
+    const captureResult = await paypalService.capturePayment(paypalOrderId);
+
+    if (captureResult.status !== 'COMPLETED') {
+      res.status(400).json({
+        success: false,
+        error: 'Payment capture failed or incomplete'
+      });
+      return;
+    }
+
+    // Update payment order status
+    paymentOrder.status = 'paid';
+    paymentOrder.paypalPaymentId = captureResult.purchase_units[0].payments.captures[0].id;
+    paymentOrder.paypalPayerId = captureResult.payer.payer_id;
+    await paymentOrder.save();
+
+    // Create transaction record
+    const transaction = new PaymentTransactionModel({
+      id: `TXN_${Date.now()}`,
+      orderId: paymentOrder.orderId,
+      paymentProvider: 'paypal',
+      paypalOrderId: paypalOrderId,
+      paypalPaymentId: captureResult.purchase_units[0].payments.captures[0].id,
+      paypalPayerId: captureResult.payer.payer_id,
+      amount: paymentOrder.amount,
+      currency: paymentOrder.currency,
+      status: 'success',
+      method: 'paypal',
+      customerInfo: paymentOrder.customerInfo,
+      courseInfo: {
+        courseId: paymentOrder.courseId,
+        courseName: paymentOrder.courseName,
+        category: paymentOrder.notes?.courseCategory || 'General'
+      },
+      paymentDate: new Date()
+    });
+
+    await transaction.save();
+
+    // Create customer record
+    const customer = new CustomerModel({
+      id: generateCustomerId(),
+      name: paymentOrder.customerInfo.name,
+      email: paymentOrder.customerInfo.email,
+      phone: paymentOrder.customerInfo.phone,
+      courseId: paymentOrder.courseId,
+      courseName: paymentOrder.courseName,
+      courseCategory: paymentOrder.notes?.courseCategory || 'General',
+      paymentType: 'full_payment',
+      paymentStatus: 'paid',
+      customerStatus: 'pending', // Will be manually approved by admin
+      amount: paymentOrder.amount,
+      currency: paymentOrder.currency,
+      paymentId: captureResult.purchase_units[0].payments.captures[0].id,
+      orderId: paymentOrder.orderId,
+      source: 'payment_modal',
+      notes: `PayPal payment completed successfully. Transaction ID: ${transaction.id}`
+    });
+
+    await customer.save();
+
+    // Send payment confirmation email
+    try {
+      const emailService = new EmailService();
+      const emailData = {
+        customerName: customer.name,
+        customerEmail: customer.email,
+        courseTitle: customer.courseName,
+        courseCategory: customer.courseCategory,
+        amount: customer.amount,
+        currency: customer.currency,
+        orderId: customer.orderId || paymentOrder.orderId,
+        transactionId: transaction.id,
+        paymentDate: transaction.paymentDate
+      };
+
+      emailService.sendPaymentConfirmation(emailData).catch(error => {
+        console.error('Failed to send payment confirmation email:', error);
+      });
+
+      console.log('Payment confirmation email queued for:', customer.email);
+    } catch (emailError) {
+      console.error('Error setting up payment confirmation email:', emailError);
+    }
+
+    res.json({
+      success: true,
+      message: 'PayPal payment captured successfully',
+      transaction: {
+        id: transaction.id,
+        orderId: transaction.orderId,
+        amount: transaction.amount,
+        courseInfo: transaction.courseInfo,
+        customerInfo: transaction.customerInfo,
+        paymentDate: transaction.paymentDate
+      },
+      customer: {
+        id: customer.id,
+        status: customer.customerStatus
+      }
+    });
+
+  } catch (error) {
+    console.error('Error capturing PayPal payment:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to capture PayPal payment' 
+    });
+  }
+};
+
 // Get payment orders (for admin)
 export const getPaymentOrders = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -359,11 +708,12 @@ export const getPaymentOrders = async (req: Request, res: Response): Promise<voi
 // Get payment transactions (for admin)
 export const getPaymentTransactions = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { page = 1, limit = 20, status, courseId } = req.query;
+    const { page = 1, limit = 20, status, courseId, paymentProvider } = req.query;
     
     const filter: any = {};
     if (status) filter.status = status;
     if (courseId) filter['courseInfo.courseId'] = courseId;
+    if (paymentProvider) filter.paymentProvider = paymentProvider;
 
     const transactions = await PaymentTransactionModel
       .find(filter)
@@ -424,6 +774,34 @@ export const getPaymentStats = async (req: Request, res: Response): Promise<void
       paymentDate: { $gte: daysAgo }
     });
 
+    // Provider breakdown stats
+    const providerStats = await PaymentTransactionModel.aggregate([
+      { $match: { status: 'success' } },
+      {
+        $group: {
+          _id: '$paymentProvider',
+          transactions: { $sum: 1 },
+          revenue: { $sum: '$amount' }
+        }
+      }
+    ]);
+
+    // Calculate provider breakdown with percentages
+    const totalRevenueFigure = totalRevenue[0]?.total || 0;
+    const providerBreakdown = {
+      razorpay: { transactions: 0, revenue: 0, percentage: 0 },
+      paypal: { transactions: 0, revenue: 0, percentage: 0 }
+    };
+
+    providerStats.forEach(provider => {
+      const percentage = totalRevenueFigure > 0 ? (provider.revenue / totalRevenueFigure) * 100 : 0;
+      providerBreakdown[provider._id as 'razorpay' | 'paypal'] = {
+        transactions: provider.transactions,
+        revenue: provider.revenue,
+        percentage: percentage
+      };
+    });
+
     // Course-wise stats
     const courseStats = await PaymentTransactionModel.aggregate([
       { $match: { status: 'success' } },
@@ -464,6 +842,7 @@ export const getPaymentStats = async (req: Request, res: Response): Promise<void
         periodRevenue: periodRevenue[0]?.total || 0,
         totalTransactions,
         periodTransactions,
+        providerBreakdown,
         courseStats,
         dailyRevenue,
         period: Number(period)

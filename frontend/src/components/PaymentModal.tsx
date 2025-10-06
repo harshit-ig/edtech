@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import type { Course } from '../types';
 
 declare global {
@@ -23,6 +24,7 @@ interface CustomerInfo {
 }
 
 const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_your_key_id';
+const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID || 'your-paypal-client-id';
 
 export default function PaymentModal({ 
   isOpen, 
@@ -43,6 +45,8 @@ export default function PaymentModal({
   const [isValidatingCoupon, setIsValidatingCoupon] = useState(false);
   const [finalPrice, setFinalPrice] = useState(coursePrice);
   const [errors, setErrors] = useState<Partial<CustomerInfo>>({});
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'razorpay' | 'paypal'>('razorpay');
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
@@ -208,9 +212,73 @@ export default function PaymentModal({
     }
   };
 
-  const handlePayment = async () => {
-    if (!validateForm()) return;
+  // PayPal create order function
+  const createPayPalOrder = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/payments/paypal/create-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          courseId: course.id,
+          customerInfo: {
+            name: customerInfo.name.trim(),
+            email: customerInfo.email.trim(),
+            phone: customerInfo.phone.trim()
+          },
+          ...(appliedCoupon && { couponCode: appliedCoupon.coupon.code })
+        }),
+      });
 
+      if (!response.ok) {
+        throw new Error('Failed to create PayPal order');
+      }
+
+      const data = await response.json();
+      
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to create PayPal order');
+      }
+
+      return data.order;
+    } catch (error) {
+      console.error('Error creating PayPal order:', error);
+      throw error;
+    }
+  };
+
+  // PayPal capture payment function
+  const capturePayPalPayment = async (paypalOrderId: string) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/payments/paypal/capture-payment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paypalOrderId: paypalOrderId
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('PayPal payment capture failed');
+      }
+
+      const data = await response.json();
+      
+      if (!data.success) {
+        throw new Error(data.error || 'PayPal payment capture failed');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error capturing PayPal payment:', error);
+      throw error;
+    }
+  };
+
+  const handleRazorpayPayment = async () => {
     setIsProcessing(true);
     setErrors({});
 
@@ -235,12 +303,7 @@ export default function PaymentModal({
             toast.success(`Payment successful! Welcome to ${course.title}. A confirmation email has been sent to your email address.`);
             
             // Reset form and close modal
-            setCustomerInfo({ name: '', email: '', phone: '' });
-            setCouponCode('');
-            setAppliedCoupon(null);
-            setCouponError('');
-            setFinalPrice(coursePrice);
-            onClose();
+            resetFormAndClose();
           } catch (error) {
             console.error('Payment verification failed:', error);
             toast.error('Payment verification failed. Please contact support if amount was deducted.');
@@ -270,11 +333,38 @@ export default function PaymentModal({
       razorpay.open();
 
     } catch (error: any) {
-      console.error('Error in payment process:', error);
+      console.error('Error in Razorpay payment process:', error);
       toast.error(error.message || 'Payment failed. Please try again.');
-    } finally {
       setIsProcessing(false);
     }
+  };
+
+  const resetFormAndClose = () => {
+    setCustomerInfo({ name: '', email: '', phone: '' });
+    setCouponCode('');
+    setAppliedCoupon(null);
+    setCouponError('');
+    setFinalPrice(coursePrice);
+    setSelectedPaymentMethod('razorpay');
+    setCurrentStep(1);
+    onClose();
+  };
+
+  const proceedToPaymentMethod = () => {
+    if (!validateForm()) return;
+    setCurrentStep(2);
+  };
+
+  const proceedToReview = () => {
+    setCurrentStep(3);
+  };
+
+  const goBackToDetails = () => {
+    setCurrentStep(1);
+  };
+
+  const goBackToPaymentMethod = () => {
+    setCurrentStep(2);
   };
 
   const handleInputChange = (field: keyof CustomerInfo, value: string) => {
@@ -310,17 +400,41 @@ export default function PaymentModal({
 
           {/* Header */}
           <div className="mb-6 pr-8">
-            <h2 className="text-2xl font-bold text-white mb-2">
-              Complete Your Enrollment
+            <div className="flex items-center gap-4 mb-4">
+              <h2 className="text-2xl font-bold text-white">
+                {currentStep === 1 && 'Contact Details'}
+                {currentStep === 2 && 'Payment Method'}
+                {currentStep === 3 && 'Review & Pay'}
             </h2>
+              <div className="flex gap-2">
+                <div className={`w-2 h-2 rounded-full ${currentStep >= 1 ? 'bg-edtech-orange' : 'bg-white/20'}`}></div>
+                <div className={`w-2 h-2 rounded-full ${currentStep >= 2 ? 'bg-edtech-orange' : 'bg-white/20'}`}></div>
+                <div className={`w-2 h-2 rounded-full ${currentStep >= 3 ? 'bg-edtech-orange' : 'bg-white/20'}`}></div>
+              </div>
+            </div>
             <p className="text-white/70 text-sm leading-relaxed mb-3">
               Course: <span className="text-edtech-orange font-semibold">{course.title}</span>
             </p>
-            <p className="text-white/60 text-xs leading-relaxed">
-              Complete your payment to get instant access to the course materials and start learning.
-            </p>
+            {currentStep === 1 && (
+              <p className="text-white/60 text-xs leading-relaxed">
+                Fill in your details below to proceed with enrollment.
+              </p>
+            )}
+            {currentStep === 2 && (
+              <p className="text-white/60 text-xs leading-relaxed">
+                Apply coupons, review your order and select your preferred payment method.
+              </p>
+            )}
+            {currentStep === 3 && (
+              <p className="text-white/60 text-xs leading-relaxed">
+                Complete your secure payment to start learning.
+              </p>
+            )}
           </div>
 
+          {/* Step 1: Enrollment Details */}
+          {currentStep === 1 && (
+            <>
           {/* Pricing Display */}
           <div className="bg-white/5 rounded-lg p-3 border border-white/10 mb-4">
             <div className="flex items-center justify-between">
@@ -342,61 +456,9 @@ export default function PaymentModal({
               </div>
             )}
           </div>
-          
-          {/* Coupon Section */}
-          {!appliedCoupon ? (
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-white/80 mb-2">
-                Have a Coupon Code?
-              </label>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={couponCode}
-                  onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                  placeholder="Enter coupon code"
-                  className="flex-1 px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-edtech-orange/50 focus:border-transparent transition-all text-sm"
-                  disabled={isValidatingCoupon}
-                />
-                <button
-                  type="button"
-                  onClick={() => validateCoupon(couponCode)}
-                  disabled={isValidatingCoupon || !couponCode.trim()}
-                  className="bg-edtech-green hover:bg-green-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
-                >
-                  {isValidatingCoupon ? 'Validating...' : 'Apply'}
-                </button>
-              </div>
-              {couponError && (
-                <p className="text-red-400 text-xs mt-1">{couponError}</p>
-              )}
-            </div>
-          ) : (
-            <div className="mb-4">
-              <div className="bg-edtech-green/20 border border-edtech-green/30 rounded-lg p-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-edtech-green font-semibold text-sm">
-                      ✅ {appliedCoupon.coupon.code} Applied
-                    </div>
-                    <div className="text-white/70 text-xs">
-                      Saved £{appliedCoupon.discount.amount}
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={removeCoupon}
-                    className="text-white/70 hover:text-white text-xs underline"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
 
-          {/* Form */}
-          <form onSubmit={(e) => { e.preventDefault(); handlePayment(); }} className="space-y-4">
+              {/* Contact Form */}
+              <div className="space-y-4 mb-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-2">
                 Full Name *
@@ -406,7 +468,6 @@ export default function PaymentModal({
                 id="name"
                 value={customerInfo.name}
                 onChange={(e) => handleInputChange('name', e.target.value)}
-                required
                 className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-edtech-orange/50 focus:border-transparent transition-all"
                 placeholder="Enter your full name"
               />
@@ -422,7 +483,6 @@ export default function PaymentModal({
                 id="email"
                 value={customerInfo.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                required
                 className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-edtech-orange/50 focus:border-transparent transition-all"
                 placeholder="Enter your email address"
               />
@@ -438,45 +498,320 @@ export default function PaymentModal({
                 id="phone"
                 value={customerInfo.phone}
                 onChange={(e) => handleInputChange('phone', e.target.value)}
-                required
                 className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-edtech-orange/50 focus:border-transparent transition-all"
                 placeholder="Enter your phone number"
               />
               {errors.phone && <p className="text-red-400 text-sm mt-1">{errors.phone}</p>}
+                </div>
             </div>
 
-            {/* Buttons */}
-            <div className="flex gap-3 pt-2">
+              {/* Step 1 Buttons */}
+              <div className="flex gap-3">
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 px-4 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors font-medium"
+                  className="flex-1 px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors font-medium"
               >
                 Cancel
               </button>
               <button
-                type="submit"
-                disabled={isProcessing}
-                className="flex-1 px-4 py-3 bg-edtech-orange hover:bg-edtech-orange/90 disabled:bg-edtech-orange/50 disabled:cursor-not-allowed text-white rounded-lg transition-colors font-medium"
-              >
-                {isProcessing ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Processing...
+                  type="button"
+                  onClick={proceedToPaymentMethod}
+                  className="flex-1 px-6 py-3 bg-edtech-orange hover:bg-edtech-orange/90 text-white rounded-lg transition-colors font-medium"
+                >
+                  Continue
+                </button>
+              </div>
+            </>
+          )}
+
+          {/* Step 2: Payment Method Selection & Order Summary */}
+          {currentStep === 2 && (
+            <>
+              {/* Coupon Section */}
+              {!appliedCoupon ? (
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-white/80 mb-2">
+                    Have a Coupon Code?
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                      placeholder="Enter coupon code"
+                      className="flex-1 px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-edtech-orange/50 focus:border-transparent transition-all text-sm"
+                      disabled={isValidatingCoupon}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => validateCoupon(couponCode)}
+                      disabled={isValidatingCoupon || !couponCode.trim()}
+                      className="bg-edtech-green hover:bg-green-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
+                    >
+                      {isValidatingCoupon ? 'Validating...' : 'Apply'}
+                    </button>
+                  </div>
+                  {couponError && (
+                    <p className="text-red-400 text-xs mt-1">{couponError}</p>
+                  )}
+                </div>
+              ) : (
+                <div className="mb-6">
+                  <div className="bg-edtech-green/20 border border-edtech-green/30 rounded-lg p-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-edtech-green font-semibold text-sm">
+                          ✅ {appliedCoupon.coupon.code} Applied
+                        </div>
+                        <div className="text-white/70 text-xs">
+                          Saved £{appliedCoupon.discount.amount}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={removeCoupon}
+                        className="text-white/70 hover:text-white text-xs underline"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Order Summary */}
+              <div className="bg-white/5 rounded-lg p-4 border border-white/10 mb-6">
+                <h3 className="text-white font-medium mb-4">Order Summary</h3>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-white/70">Course:</span>
+                    <span className="text-white font-medium">{course.title}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-white/70">Student:</span>
+                    <span className="text-white">{customerInfo.name}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-white/70">Email:</span>
+                    <span className="text-white">{customerInfo.email}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-white/70">Phone:</span>
+                    <span className="text-white">{customerInfo.phone}</span>
+                  </div>
+                  <hr className="border-white/20 my-3" />
+                  {appliedCoupon && (
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-white/70">Original Price:</span>
+                        <span className="text-white/70 line-through">£{coursePrice}</span>
+                      </div>
+                      <div className="flex justify-between text-edtech-green">
+                        <span>Discount ({appliedCoupon.coupon.code}):</span>
+                        <span>-£{appliedCoupon.discount.amount}</span>
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex justify-between font-semibold text-lg">
+                    <span className="text-white">Total Amount:</span>
+                    <span className="text-edtech-green">£{finalPrice}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment Method Selection */}
+              <div className="mb-6">
+                <h3 className="text-white font-medium mb-4">Select Payment Method</h3>
+                <div className="space-y-3">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedPaymentMethod('razorpay')}
+                    className={`w-full p-4 rounded-lg border text-left transition-all ${
+                      selectedPaymentMethod === 'razorpay'
+                        ? 'border-edtech-orange bg-edtech-orange/20'
+                        : 'border-white/20 bg-white/5 hover:border-white/40'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">💳</span>
+                      <div>
+                        <div className="text-white font-medium">Razorpay</div>
+                        <div className="text-white/60 text-sm">Credit Card, Debit Card, UPI, Net Banking</div>
+                      </div>
+                      {selectedPaymentMethod === 'razorpay' && (
+                        <div className="ml-auto">
+                          <svg className="w-5 h-5 text-edtech-orange" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setSelectedPaymentMethod('paypal')}
+                    className={`w-full p-4 rounded-lg border text-left transition-all ${
+                      selectedPaymentMethod === 'paypal'
+                        ? 'border-edtech-orange bg-edtech-orange/20'
+                        : 'border-white/20 bg-white/5 hover:border-white/40'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">🏦</span>
+                      <div>
+                        <div className="text-white font-medium">PayPal</div>
+                        <div className="text-white/60 text-sm">PayPal Account, Credit Card via PayPal</div>
+                      </div>
+                      {selectedPaymentMethod === 'paypal' && (
+                        <div className="ml-auto">
+                          <svg className="w-5 h-5 text-edtech-orange" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Step 2 Buttons */}
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={goBackToDetails}
+                  className="flex-1 px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors font-medium"
+                >
+                  ← Back
+                </button>
+                <button
+                  type="button"
+                  onClick={proceedToReview}
+                  className="flex-1 px-6 py-3 bg-edtech-orange hover:bg-edtech-orange/90 text-white rounded-lg transition-colors font-medium"
+                >
+                  Continue to Payment
+                </button>
+              </div>
+            </>
+          )}
+
+          {/* Step 3: Complete Payment */}
+          {currentStep === 3 && (
+            <>
+              {/* Simple confirmation message */}
+             {selectedPaymentMethod === 'razorpay' && <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-edtech-orange/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-3xl">
+                    {selectedPaymentMethod === 'razorpay' ? '💳' : '🏦'}
                   </span>
-                ) : (
-                  `Pay £${finalPrice}`
-                )}
-              </button>
-            </div>
-          </form>
+                </div>
+                <h3 className="text-white font-semibold text-xl mb-2">Almost There!</h3>
+                <p className="text-white/70 text-sm">
+                  Complete your payment of <span className="text-edtech-green font-semibold">£{finalPrice}</span> via {selectedPaymentMethod === 'razorpay' ? 'Razorpay' : 'PayPal'}
+                </p>
+              </div>}
+
+              {/* Payment Buttons */}
+              {selectedPaymentMethod === 'razorpay' ? (
+                <div className="space-y-4">
+                  <button
+                    type="button"
+                    onClick={handleRazorpayPayment}
+                    disabled={isProcessing}
+                    className="w-full px-8 py-4 bg-edtech-orange hover:bg-edtech-orange/90 disabled:bg-edtech-orange/50 disabled:cursor-not-allowed text-white rounded-xl transition-colors font-semibold text-lg shadow-lg"
+                  >
+                    {isProcessing ? (
+                      <span className="flex items-center justify-center gap-3">
+                        <svg className="w-6 h-6 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Processing Payment...
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-3">
+                        <span>💳</span>
+                        Pay £{finalPrice} with Razorpay
+                      </span>
+                    )}
+                  </button>
+                  
+                  <button
+                    type="button"
+                    onClick={goBackToPaymentMethod}
+                    className="w-full px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors font-medium"
+                  >
+                    ← Change Payment Method
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {/* PayPal Buttons */}
+                  <PayPalScriptProvider options={{ 
+                    clientId: PAYPAL_CLIENT_ID, 
+                    currency: "GBP",
+                    intent: "capture"
+                  }}>
+                    <PayPalButtons
+                      style={{
+                        layout: 'vertical',
+                        color: 'gold',
+                        shape: 'rect',
+                        label: 'paypal',
+                        height: 55
+                      }}
+                      createOrder={async () => {
+                        try {
+                          const order = await createPayPalOrder();
+                          return order.id;
+                        } catch (error: any) {
+                          toast.error(error.message || 'Failed to create PayPal order');
+                          throw error;
+                        }
+                      }}
+                      onApprove={async (data) => {
+                        setIsProcessing(true);
+                        try {
+                          await capturePayPalPayment(data.orderID!);
+                          toast.success(`Payment successful! Welcome to ${course.title}. A confirmation email has been sent to your email address.`);
+                          resetFormAndClose();
+                        } catch (error: any) {
+                          console.error('PayPal payment capture failed:', error);
+                          toast.error('Payment capture failed. Please contact support.');
+                        } finally {
+                          setIsProcessing(false);
+                        }
+                      }}
+                      onError={(err) => {
+                        console.error('PayPal error:', err);
+                        toast.error('PayPal payment failed. Please try again.');
+                        setIsProcessing(false);
+                      }}
+                      onCancel={() => {
+                        toast('PayPal payment cancelled');
+                        setIsProcessing(false);
+                      }}
+                    />
+                  </PayPalScriptProvider>
+                  
+                  <button
+                    type="button"
+                    onClick={goBackToPaymentMethod}
+                    className="w-full px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors font-medium"
+                  >
+                    ← Change Payment Method
+                  </button>
+                </div>
+              )}
+            </>
+          )}
 
           {/* Footer Note */}
           <p className="text-center text-xs text-white/50 mt-4">
-            Secure payment powered by Razorpay. Your information is protected.
+            {currentStep === 1 && "Your information is safe and encrypted"}
+            {currentStep === 2 && "Apply any discount codes and review all details"}
+            {currentStep === 3 && `Secure payment powered by ${selectedPaymentMethod === 'razorpay' ? 'Razorpay' : 'PayPal'}. Your information is protected.`}
           </p>
         </div>
       </div>

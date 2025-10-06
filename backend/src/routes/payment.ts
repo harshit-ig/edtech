@@ -2,6 +2,8 @@ import { Router } from 'express';
 import { 
   createPaymentOrder, 
   verifyPayment, 
+  createPayPalOrder,
+  capturePayPalPayment,
   getPaymentOrders, 
   getPaymentTransactions, 
   getPaymentStats,
@@ -15,6 +17,10 @@ const router = Router();
 router.post('/create-order', createPaymentOrder);
 router.post('/verify', verifyPayment);
 router.post('/webhook', handleWebhook);
+
+// PayPal specific routes
+router.post('/paypal/create-order', createPayPalOrder);
+router.post('/paypal/capture-payment', capturePayPalPayment);
 
 // Admin routes (protected)
 router.get('/orders', requireAdminAuth, getPaymentOrders);
