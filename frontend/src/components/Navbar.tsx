@@ -146,7 +146,7 @@ export default function Navbar() {
           <Link to="/pricing" className="hover:text-edtech-orange transition-colors font-semibold">Pricing</Link>
           <Link to="/about" className="hover:text-edtech-orange transition-colors font-semibold">About</Link>
           {/* <Link to="/blog" className="hover:text-edtech-orange transition-colors font-semibold">Blog</Link> */}
-          <Link to="/contact" className="hover:text-edtech-orange transition-colors font-semibold">Contact Us</Link>
+          <Link to="/contact"  onClick={() => openModal()} className="hover:text-edtech-orange transition-colors font-semibold">Contact Us</Link>
         </div>
         
         {/* CTA Button - Right */}
@@ -188,7 +188,7 @@ export default function Navbar() {
             <Link to="/pricing" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Pricing</Link>
             <Link to="/about" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">About</Link>
             {/* <Link to="/blog" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Blog</Link> */}
-            <Link to="/contact" onClick={() => setMobileOpen(false)} className="text-white/90 hover:text-white font-semibold">Contact Us</Link>
+            <Link to="/contact" onClick={() => { setMobileOpen(false); openModal(); }} className="text-white/90 hover:text-white font-semibold">Contact Us</Link>
             <button 
               onClick={() => {
                 setMobileOpen(false);

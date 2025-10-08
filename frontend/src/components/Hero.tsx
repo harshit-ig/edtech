@@ -5,9 +5,8 @@ import RoleCarousel from "./RoleCarousel";
 import { useState, useEffect } from "react";
 import { getCompanyInfoData } from "../utils/dataAdapter";
 import type { CompanyInfo } from "../types";
-import { Link } from "react-router-dom";
 
-export default function Hero() {
+export default function Hero( { onApplyNow }: { onApplyNow: () => void } ) {
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -88,8 +87,8 @@ export default function Hero() {
 
           </p>
           <div className="flex items-center justify-center md:justify-start gap-4 flex-wrap">
-            <Link to="/programs" className="cta cta-primary">Get Started</Link>
-            <Link to="/contact" className="cta cta-secondary">Talk to us</Link>
+            <button onClick={onApplyNow} className="cta cta-primary">Get Started</button>
+            <button onClick={onApplyNow} className="cta cta-secondary">Talk to us</button>
           </div>
         </div>
       </div>
