@@ -94,11 +94,12 @@ export default function Home() {
       {/* 9. Why Choose Us - Unique Benefits */}
       <FeaturesSection />
       
+      {/* 12. Final Push - Certificate & Achievement */}
+      <CertificateSection onApplyNow={handleApplyNow} />
+      
       {/* 11. Handle Objections - Remove Friction */}
       <FAQSection onApplyNow={handleApplyNow} />
       
-      {/* 12. Final Push - Certificate & Achievement */}
-      <CertificateSection onApplyNow={handleApplyNow} />
 
       <Footer onApplyNow={handleApplyNow} />
 

@@ -124,7 +124,6 @@ export default function Navigation({ onApplyNow }: NavigationProps) {
                   whileHover={{ scale: 1.05 }}
                   className="flex items-center space-x-1 text-foreground hover:text-primary transition-colors font-medium cursor-pointer"
                 >
-                  <span>{link.icon}</span>
                   <span>{link.label}</span>
                 </motion.a>
               ))}

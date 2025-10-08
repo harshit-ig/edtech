@@ -25,24 +25,6 @@ export default function TestimonialsSection() {
       testimonial: "Life-changing 6-month program. The comprehensive training helped me master Python, SQL, and data visualization to build my 6-figure analytics career."
     },
     {
-      name: "Disha Sharma",
-      role: "Marketing Analyst @ Consumer Brand",
-      image: "https://randomuser.me/api/portraits/women/39.jpg",
-      testimonial: "Customer segmentation project using Python taught me to identify profitable customer segments that boosted revenue by 15%."
-    },
-    {
-      name: "Karthik N.",
-      role: "Financial Analyst @ Investment Firm",
-      image: "https://randomuser.me/api/portraits/men/87.jpg",
-      testimonial: "Advanced Excel techniques transformed my reporting. My financial models are now 5x more sophisticated and accurate."
-    },
-    {
-      name: "Max Olivares",
-      role: "Data Specialist @ Healthcare",
-      image: "https://randomuser.me/api/portraits/men/12.jpg",
-      testimonial: "The statistical analysis module was incredible—I can now identify trends and patterns that drive real business decisions."
-    },
-    {
       name: "Mohd. Faraz",
       role: "Operations Analyst @ Logistics",
       image: "https://randomuser.me/api/portraits/men/68.jpg",

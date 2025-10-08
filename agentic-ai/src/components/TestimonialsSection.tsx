@@ -25,24 +25,6 @@ export default function TestimonialsSection() {
       testimonial: "Life-changing 4-month program. The comprehensive training helped me master agentic AI architecture and land my dream job."
     },
     {
-      name: "Disha Sharma",
-      role: "PM @ Consumer Tech",
-      image: "https://randomuser.me/api/portraits/women/39.jpg",
-      testimonial: "Crystal-clear explanation of RAG vs fine-tuning for AI product decisions."
-    },
-    {
-      name: "Karthik N.",
-      role: "Lead PM @ B2B SaaS",
-      image: "https://randomuser.me/api/portraits/men/78.jpg",
-      testimonial: "Loved the live AI prompting. My spec writing with agents is now 3x faster."
-    },
-    {
-      name: "Max Olivares",
-      role: "Product Lead @ Data Platform",
-      image: "https://randomuser.me/api/portraits/men/23.jpg",
-      testimonial: "The evaluation checklist alone was worth it—reduced AI hallucinations in my prototype by 80%."
-    },
-    {
       name: "Mohd. Faraz",
       role: "Senior PM @ Mobility",
       image: "https://randomuser.me/api/portraits/men/56.jpg",
