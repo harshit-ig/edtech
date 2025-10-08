@@ -3,7 +3,7 @@ import './Mission.css';
 
 const Mission: React.FC = () => {
   // Desktop images data
-  const desktopImages = [
+  var desktopImages = [
     {
       id: 1,
       src: 'https://thinkwht.in/wp-content/uploads/2025/10/Students-feedback.webp',
@@ -55,7 +55,7 @@ const Mission: React.FC = () => {
   ];
 
   // Mobile images data
-  const mobileImages = [
+  var mobileImages = [
     {
       id: 1,
       src: 'https://thinkwht.in/wp-content/uploads/2025/10/Feedback.webp',
@@ -97,6 +97,9 @@ const Mission: React.FC = () => {
       className: 'mission-4'
     }
   ];
+  desktopImages = []
+  mobileImages = []
+
 
   return (
     <section className="py-8 bg-gray-50">
