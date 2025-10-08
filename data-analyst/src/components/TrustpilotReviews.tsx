@@ -114,7 +114,8 @@ export default function TrustpilotReviews() {
         <img 
           src={`https://cdn.trustpilot.net/brand-assets/4.1.0/stars/stars-${roundedRating}.svg`}
           alt={`${rating} stars`}
-          className="h-5"
+          className="h-4 w-auto"
+          style={{ maxHeight: '16px', height: '16px' }}
         />
       </div>
     );
@@ -135,7 +136,8 @@ export default function TrustpilotReviews() {
               <img 
                 src="https://cdn.trustpilot.net/brand-assets/4.1.0/stars/stars-5.svg"
                 alt="5 stars"
-                className="h-6"
+                className="h-5 w-auto"
+                style={{ maxHeight: '20px', height: '20px' }}
               />
               <span className="font-bold text-gray-900 text-lg">4.9</span>
             </div>

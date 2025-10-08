@@ -48,7 +48,8 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background overflow-x-hidden max-w-full">
+      <div className="w-full max-w-full overflow-x-hidden">{/* Main container wrapper */}
       <Navigation onApplyNow={handleApplyNow} />
       
       {/* 1. Hook with Strong Value Prop */}
@@ -109,6 +110,7 @@ export default function Home() {
         isOpen={isApplicationFormOpen} 
         onClose={() => setIsApplicationFormOpen(false)} 
       />
+      </div>{/* Close main container wrapper */}
     </main>
   );
 }

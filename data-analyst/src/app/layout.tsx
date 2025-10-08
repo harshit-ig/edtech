@@ -44,7 +44,7 @@ export default function RootLayout({
         {/* End Meta Pixel Code */}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden max-w-full`}
       >
         {children}
         <Toaster

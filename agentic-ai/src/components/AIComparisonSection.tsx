@@ -10,7 +10,7 @@ interface AIComparisonSectionProps {
 export default function AIComparisonSection({ onApplyNow }: AIComparisonSectionProps) {
   return (
     <section className="py-16 bg-white">
-      <div className="container max-w-6xl mx-auto px-4 md:px-6">
+      <div className=" max-w-6xl mx-auto px-4 md:px-6">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

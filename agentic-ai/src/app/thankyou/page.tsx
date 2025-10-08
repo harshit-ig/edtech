@@ -88,7 +88,8 @@ export default function ThankYouPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background overflow-x-hidden max-w-full">
+      <div className="w-full max-w-full overflow-x-hidden">{/* Main container wrapper */}
       {/* Custom Navbar */}
       <>
         {/* Urgency Top Bar */}
@@ -483,6 +484,7 @@ export default function ThankYouPage() {
       </section>
 
       <Footer onApplyNow={handleApplyNow} />
+      </div>{/* Close main container wrapper */}
     </main>
   );
 }
