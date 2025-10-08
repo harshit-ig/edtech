@@ -1,9 +1,7 @@
-import { Suspense, lazy, useState, useEffect } from "react";
+import { Suspense, lazy } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import UpcomingSkills from "../components/UpcomingSkills";
-import { getAboutPageData } from "../utils/dataAdapter";
-import type { Milestone } from "../types";
 import { useContactModal } from "../contexts/ContactModalContext";
 
 // Lazy load heavy components that appear below the fold
@@ -18,7 +16,6 @@ const FAQ = lazy(() => import("../components/FAQ"));
 const Footer = lazy(() => import("../components/Footer"));
 
 export default function HomePage() {
-  const [milestones, setMilestones] = useState<Milestone[]>([]);
   const { openModal } = useContactModal();
 
   const handleApplyNow = () => {
@@ -28,17 +25,6 @@ export default function HomePage() {
     );
   };
 
-  useEffect(() => {
-    const loadMilestones = async () => {
-      try {
-        const data = await getAboutPageData();
-        setMilestones(data.companyMilestones);
-      } catch (error) {
-        console.error('Error loading milestones:', error);
-      }
-    };
-    loadMilestones();
-  }, []);
 
   return (
     <div className="min-h-screen">
