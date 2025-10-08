@@ -6,7 +6,3 @@
   top: 120px;
   z-index: 10;
 }
-
-.mission-container {
-  min-height: 200vh; /* Ensure enough scroll height for sticky effect */
-}

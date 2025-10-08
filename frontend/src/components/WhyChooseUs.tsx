@@ -45,7 +45,7 @@ export default function WhyChooseUs() {
 
   if (loading) {
     return (
-      <section className="py-16 md:py-24 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
+      <section className="py-8 md:py-12 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
         <div className="max-w-7xl mx-auto px-6 text-center">
           <div className="text-gray-600 text-lg">Loading features...</div>
         </div>
@@ -55,7 +55,7 @@ export default function WhyChooseUs() {
 
   return (
     <>
-      <section className="py-16 md:py-24 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
+      <section className="py-8 md:py-12 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           {/* Why Choose Us Section */}
           <div className="relative">

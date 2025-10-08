@@ -52,7 +52,7 @@ export default function Testimonials() {
 
   if (loading) {
     return (
-      <section id="testimonials" className="py-16 md:py-24 relative overflow-hidden bg-white">
+      <section id="testimonials" className="py-8 md:py-12 relative overflow-hidden bg-white">
         <div className="mx-auto max-w-7xl px-6 text-center">
           <div className="text-gray-600 text-lg">Loading testimonials...</div>
         </div>
@@ -61,7 +61,7 @@ export default function Testimonials() {
   }
 
   return (
-    <section id="testimonials" className="py-16 md:py-24 relative overflow-hidden bg-white">
+    <section id="testimonials" className="py-8 md:py-12 relative overflow-hidden bg-white">
       <div className="mx-auto max-w-7xl px-6">
         {/* Header Section */}
         <div className="text-center mb-16">

@@ -47,7 +47,7 @@ export default function CompanyShowcase() {
 
   return (
     <>
-      <section className="py-20 px-4 bg-bg-deep">
+      <section className="py-10 px-4 bg-bg-deep">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="badge-hero mx-auto w-max">

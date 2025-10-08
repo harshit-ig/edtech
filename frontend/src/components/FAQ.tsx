@@ -35,7 +35,7 @@ export default function FAQ() {
   };
 
   return (
-    <section className="pb-24 md:pb-32 relative overflow-hidden">
+    <section className="py-8 md:py-12 relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center mb-16">
           <div className="badge-hero mx-auto w-max mb-6">

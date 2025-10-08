@@ -91,7 +91,7 @@ export default function CoursesSection() {
   };
 
   return (
-    <section  id="featured-programs" className="py-24 md:py-32">
+    <section  id="featured-programs" className="py-8 md:py-12">
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center mb-10">
           <div className="badge-hero mx-auto w-max"><span>🚀</span><span>MOST POPULAR PROGRAMS</span></div>

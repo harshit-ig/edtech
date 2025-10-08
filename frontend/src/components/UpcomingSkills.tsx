@@ -50,7 +50,7 @@ export default function UpcomingSkills() {
 
   if (loading) {
     return (
-      <section className="py-16 md:py-24 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
+      <section className="py-8 md:py-12 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
         <div className="mx-auto max-w-7xl px-6 text-center">
           <div className="text-gray-600 text-lg">Loading upcoming skills...</div>
         </div>
@@ -60,7 +60,7 @@ export default function UpcomingSkills() {
 
   if (upcomingSkills.length === 0) {
     return (
-      <section className="py-16 md:py-24 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
+      <section className="py-8 md:py-12 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
         <div className="mx-auto max-w-7xl px-6 text-center">
           <div className="text-gray-600 text-lg">No upcoming skills available at the moment.</div>
         </div>
@@ -69,7 +69,7 @@ export default function UpcomingSkills() {
   }
 
   return (
-    <section className="py-16 md:py-24 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
+    <section className="py-8 md:py-12 relative overflow-hidden" style={{backgroundColor: '#f4f7f1'}}>
       {/* Simple light background without gradients */}
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center mb-12">

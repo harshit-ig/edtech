@@ -99,7 +99,7 @@ const Mission: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-8 bg-gray-50">
       <div className="container mx-auto px-4">
         {/* Section Header */}
        <div className="text-center mb-12">
@@ -116,7 +116,7 @@ const Mission: React.FC = () => {
         </div>
 
         {/* Mission Container */}
-        <div className="mission-container relative">
+        <div className="relative">
           {/* Desktop Images */}
           <div className="hidden md:block">
             {desktopImages.map((image) => (

@@ -121,7 +121,7 @@ export default function TrustpilotReviews() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+    <section className="py-8 md:py-12 relative overflow-hidden"  style={{backgroundColor: '#f4f7f1'}}>
       <div className="mx-auto max-w-7xl px-6">
         {/* Header */}
         <div className="text-center mb-12">
