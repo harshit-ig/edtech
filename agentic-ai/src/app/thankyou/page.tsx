@@ -151,7 +151,6 @@ export default function ThankYouPage() {
                     whileHover={{ scale: 1.05 }}
                     className="flex items-center space-x-1 text-foreground hover:text-primary transition-colors font-medium cursor-pointer"
                   >
-                    <span>{link.icon}</span>
                     <span>{link.label}</span>
                   </motion.a>
                 ))}
@@ -206,7 +205,6 @@ export default function ThankYouPage() {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors font-medium py-2 cursor-pointer"
                   >
-                    <span className="text-lg">{link.icon}</span>
                     <span className="text-sm">{link.label}</span>
                   </a>
                 ))}

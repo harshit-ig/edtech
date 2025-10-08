@@ -180,7 +180,6 @@ export default function Navigation({ onApplyNow }: NavigationProps) {
                   }}
                   className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors font-medium py-2 cursor-pointer"
                 >
-                  <span className="text-lg">{link.icon}</span>
                   <span className="text-sm">{link.label}</span>
                 </a>
               ))}
