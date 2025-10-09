@@ -159,6 +159,16 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
       {/* Main Content */}
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 lg:px-12 pt-16 sm:pt-8 lg:pt-2 pb-8">
         <div className="text-center">
+          {/* Attention Banner */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="block bg-gradient-to-r from-orange-500/90 to-red-500/90 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-bold mb-4 shadow-lg border border-orange-400/50 max-w-fit mx-auto"
+          >
+            <span className="text-yellow-100">⚠️ ATTENTION:</span> Non-IT Professionals, Freshers, Graduates, Job Professionals
+          </motion.div>
+
           {/* Certification Badge */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -180,7 +190,7 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight tracking-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight tracking-tight max-w-3xl mx-auto"
           >
             <span className="text-gray-900">Build Your </span>
             <span className="bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 bg-clip-text text-transparent font-extrabold">6-Figure Career</span>

@@ -163,6 +163,16 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-6 lg:px-12 pt-2 pb-8">
         <div className="text-center">
+                    {/* Attention Banner */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="block bg-gradient-to-r from-orange-500/90 to-red-500/90 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-bold mb-4 shadow-lg border border-orange-400/50 max-w-fit mx-auto"
+          >
+            <span className="text-yellow-100">⚠️ ATTENTION:</span> Non-IT Professionals, Freshers, Graduates, Job Professionals
+          </motion.div>
+
           <div className="inline-flex items-center bg-gradient-to-r from-purple-500/20 to-purple-600/30 backdrop-blur-lg text-gray-900 px-8 py-4 rounded-2xl text-base font-bold mb-6 border-2 border-purple-400/50 shadow-lg shadow-purple-500/25">
             <div className="flex items-center bg-white rounded-lg px-3 py-1 mr-3">
               <div className="flex items-center">
@@ -173,21 +183,21 @@ export default function HeroSection({ onApplyNow, onWatchDemo }: HeroSectionProp
             <span className="text-purple-700">CERTIFICATION PROGRAM</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 leading-tight tracking-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 leading-tight tracking-tight  max-w-3xl mx-auto">
             <span className="inline-block animate-pulse text-gray-900">10x</span>{' '}
             <span className="text-gray-900">Your Career with</span>{' '}
             <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-green-600 bg-clip-text text-transparent font-extrabold">Agentic AI</span>{' '}
             <span className="text-gray-900">in just 4 Months</span>
           </h1>
 
-          <div className="mb-8 max-w-4xl mx-auto">
+          <div className="mb-8 max-w-3xl mx-auto">
             <p className="text-lg sm:text-xl text-gray-600 font-light leading-relaxed">
               <span className="text-yellow-600 font-semibold">From AI Outsider to AI Expert</span> in 4 months.{' '}
               <span className="text-purple-600 font-semibold">Build, Deploy & Sell AI Automation Systems</span> that work while you sleep.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8 max-w-3xl mx-auto">
             <div className="group relative overflow-hidden bg-gradient-to-br from-purple-500/20 to-purple-600/30 backdrop-blur-lg rounded-2xl p-5 border border-purple-400/30 hover:border-purple-400/60 transition-all duration-300 hover:scale-105">
               <div className="relative text-center">
                 <div className="mb-3">
