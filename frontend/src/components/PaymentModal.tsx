@@ -417,12 +417,12 @@ export default function PaymentModal({
             </p>
             {currentStep === 1 && (
               <p className="text-white/60 text-xs leading-relaxed">
-                Fill in your details below to proceed with enrollment.
+                Fill in your details below to proceed with enrollment. Apply any coupon codes for discounts.
               </p>
             )}
             {currentStep === 2 && (
               <p className="text-white/60 text-xs leading-relaxed">
-                Apply coupons, review your order and select your preferred payment method.
+                Review your order and select your preferred payment method.
               </p>
             )}
             {currentStep === 3 && (
@@ -435,6 +435,58 @@ export default function PaymentModal({
           {/* Step 1: Enrollment Details */}
           {currentStep === 1 && (
             <>
+              {/* Coupon Section */}
+              {!appliedCoupon ? (
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-white/80 mb-2">
+                    Have a Coupon Code?
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                      placeholder="Enter coupon code"
+                      className="flex-1 px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-edtech-orange/50 focus:border-transparent transition-all text-sm"
+                      disabled={isValidatingCoupon}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => validateCoupon(couponCode)}
+                      disabled={isValidatingCoupon || !couponCode.trim()}
+                      className="bg-edtech-orange hover:bg-edtech-orange/80 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
+                    >
+                      {isValidatingCoupon ? 'Validating...' : 'Apply'}
+                    </button>
+                  </div>
+                  {couponError && (
+                    <p className="text-red-400 text-xs mt-1">{couponError}</p>
+                  )}
+                </div>
+              ) : (
+                <div className="mb-4">
+                  <div className="bg-edtech-green/20 border border-edtech-green/30 rounded-lg p-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-edtech-green font-semibold text-sm">
+                          ✅ {appliedCoupon.coupon.code} Applied
+                        </div>
+                        <div className="text-white/70 text-xs">
+                          Saved £{appliedCoupon.discount.amount}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={removeCoupon}
+                        className="text-white/70 hover:text-white text-xs underline"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
           {/* Pricing Display */}
           <div className="bg-white/5 rounded-lg p-3 border border-white/10 mb-4">
             <div className="flex items-center justify-between">
@@ -528,58 +580,6 @@ export default function PaymentModal({
           {/* Step 2: Payment Method Selection & Order Summary */}
           {currentStep === 2 && (
             <>
-              {/* Coupon Section */}
-              {!appliedCoupon ? (
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-white/80 mb-2">
-                    Have a Coupon Code?
-                  </label>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={couponCode}
-                      onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                      placeholder="Enter coupon code"
-                      className="flex-1 px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-edtech-orange/50 focus:border-transparent transition-all text-sm"
-                      disabled={isValidatingCoupon}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => validateCoupon(couponCode)}
-                      disabled={isValidatingCoupon || !couponCode.trim()}
-                      className="bg-edtech-green hover:bg-green-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
-                    >
-                      {isValidatingCoupon ? 'Validating...' : 'Apply'}
-                    </button>
-                  </div>
-                  {couponError && (
-                    <p className="text-red-400 text-xs mt-1">{couponError}</p>
-                  )}
-                </div>
-              ) : (
-                <div className="mb-6">
-                  <div className="bg-edtech-green/20 border border-edtech-green/30 rounded-lg p-3">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="text-edtech-green font-semibold text-sm">
-                          ✅ {appliedCoupon.coupon.code} Applied
-                        </div>
-                        <div className="text-white/70 text-xs">
-                          Saved £{appliedCoupon.discount.amount}
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={removeCoupon}
-                        className="text-white/70 hover:text-white text-xs underline"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-
               {/* Order Summary */}
               <div className="bg-white/5 rounded-lg p-4 border border-white/10 mb-6">
                 <h3 className="text-white font-medium mb-4">Order Summary</h3>
@@ -807,8 +807,8 @@ export default function PaymentModal({
 
           {/* Footer Note */}
           <p className="text-center text-xs text-white/50 mt-4">
-            {currentStep === 1 && "Your information is safe and encrypted"}
-            {currentStep === 2 && "Apply any discount codes and review all details"}
+            {currentStep === 1 && "Your information is safe and encrypted. Apply coupons to save on your purchase."}
+            {currentStep === 2 && "Review all details and select your preferred payment method"}
             {currentStep === 3 && `Secure payment powered by ${selectedPaymentMethod === 'razorpay' ? 'Razorpay' : 'PayPal'}. Your information is protected.`}
           </p>
         </div>
