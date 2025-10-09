@@ -15,7 +15,7 @@ export default function TestimonialsSection() {
     {
       name: "Rohit Verma",
       role: "Business Analyst @ Fintech",
-      image: "https://randomuser.me/api/portraits/men/64.jpg",
+      image: "https://randomuser.me/api/portraits/men/45.jpg",
       testimonial: "Excel to Tableau transformation was eye-opening. I created my first interactive dashboard within the first week."
     },
     {
@@ -27,19 +27,19 @@ export default function TestimonialsSection() {
     {
       name: "Mohd. Faraz",
       role: "Operations Analyst @ Logistics",
-      image: "https://randomuser.me/api/portraits/men/68.jpg",
+      image: "https://randomuser.me/api/portraits/men/56.jpg",
       testimonial: "Perfect balance of theory and hands-on practice. Went from Excel basics to creating complex SQL queries and Python scripts."
     },
     {
       name: "Prathibha Agarwal",
       role: "Research Analyst @ Consulting",
-      image: "https://randomuser.me/api/portraits/women/91.jpg",
+      image: "https://randomuser.me/api/portraits/women/89.jpg",
       testimonial: "The data storytelling skills helped me present insights that secured a £50K client contract for my company."
     },
     {
       name: "Tushar Tyagi",
       role: "Business Intelligence Analyst @ Retail",
-      image: "https://randomuser.me/api/portraits/men/38.jpg",
+      image: "https://randomuser.me/api/portraits/men/34.jpg",
       testimonial: "Power BI training was exceptional—I built executive dashboards that are now used company-wide for strategic decisions."
     }
   ];
