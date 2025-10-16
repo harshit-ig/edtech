@@ -1,12 +1,32 @@
 import { motion } from 'framer-motion';
-import { Award, CheckCircle, ArrowRight } from 'lucide-react';
-import faviconImg from '../assets/favicon.png';
+import { Award, CheckCircle, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState } from 'react';
+import certificate1 from '../assets/certificate1.webp';
+import certificate2 from '../assets/certificate2.webp';
+import certificate3 from '../assets/certificate3.webp';
 
 interface CertificateSectionProps {
   onApplyNow: () => void;
 }
 
 export default function CertificateSection({ onApplyNow }: CertificateSectionProps) {
+  // Certificate images array
+  const certificates = [
+    { id: 1, src: certificate1, alt: 'Professional Certificate 1' },
+    { id: 2, src: certificate2, alt: 'Professional Certificate 2' },
+    { id: 3, src: certificate3, alt: 'Professional Certificate 3' }
+  ];
+
+  const [currentCertificate, setCurrentCertificate] = useState(0);
+
+  const nextCertificate = () => {
+    setCurrentCertificate((prev) => (prev + 1) % certificates.length);
+  };
+
+  const prevCertificate = () => {
+    setCurrentCertificate((prev) => (prev - 1 + certificates.length) % certificates.length);
+  };
+
   return (
     <section className="py-10 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,57 +99,55 @@ export default function CertificateSection({ onApplyNow }: CertificateSectionPro
             transition={{ duration: 0.6, delay: 0.3 }}
             className="relative"
           >
-            <div className="relative bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl p-8 border-4 border-edtech-blue/20">
-              {/* Certificate Header */}
-              <div className="text-center mb-6">
-                <div className="flex items-center justify-center space-x-3 mb-4">
-                  <img
-                    src={faviconImg}
-                    alt="Edtech Informative"
-                    className="w-8 h-8"
-                    loading="lazy"
-                  />
-                  <h3 className="text-xl font-bold text-edtech-blue">Edtech Informative</h3>
-                </div>
-                <div className="h-px bg-gradient-to-r from-transparent via-edtech-blue to-transparent mb-4"></div>
-                <h4 className="text-2xl font-bold text-gray-900 mb-2">Certificate of Completion</h4>
-                <p className="text-gray-600 text-sm">This certifies that</p>
+            {/* Certificate Image Carousel */}
+            <div className="relative">
+              {/* Certificate Image */}
+              <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <img
+                  src={certificates[currentCertificate].src}
+                  alt={certificates[currentCertificate].alt}
+                  className="w-full h-auto"
+                  loading="lazy"
+                />
               </div>
 
-              {/* Certificate Body */}
-              <div className="text-center mb-6">
-                <div className="text-3xl font-bold text-edtech-blue mb-2">Sarah Johnson</div>
-                <p className="text-gray-700 mb-4">has successfully completed the</p>
-                <div className="bg-edtech-blue/10 rounded-lg p-4 mb-4">
-                  <h5 className="text-xl font-bold text-edtech-blue mb-2">
-                    Data Analytics Professional Program
-                  </h5>
-                  <p className="text-sm text-gray-600">
-                    6-Month Career Program • 150+ Hours • Real-World Projects
-                  </p>
-                </div>
-                <p className="text-gray-600 text-sm mb-4">
-                  Demonstrating proficiency in advanced technical skills and professional excellence
-                </p>
-              </div>
+              {/* Navigation Buttons */}
+              {certificates.length > 1 && (
+                <>
+                  <button
+                    onClick={prevCertificate}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-edtech-blue p-3 rounded-full shadow-lg transition-all hover:scale-110"
+                    aria-label="Previous certificate"
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </button>
+                  <button
+                    onClick={nextCertificate}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-edtech-blue p-3 rounded-full shadow-lg transition-all hover:scale-110"
+                    aria-label="Next certificate"
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </button>
+                </>
+              )}
 
-              {/* Certificate Footer */}
-              <div className="flex justify-between items-end text-xs text-gray-500">
-                <div>
-                  <div className="w-20 h-px bg-gray-300 mb-1"></div>
-                  <p>Date: 18 January 2025</p>
+              {/* Dots Indicator */}
+              {certificates.length > 1 && (
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                  {certificates.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentCertificate(index)}
+                      className={`w-3 h-3 rounded-full transition-all ${
+                        index === currentCertificate
+                          ? 'bg-edtech-blue w-8'
+                          : 'bg-white/60 hover:bg-white/80'
+                      }`}
+                      aria-label={`Go to certificate ${index + 1}`}
+                    />
+                  ))}
                 </div>
-                <div className="text-right">
-                  <div className="w-20 h-px bg-gray-300 mb-1 ml-auto"></div>
-                  <p>Verification ID: #CERT-2025</p>
-                </div>
-              </div>
-
-              {/* Decorative Elements */}
-              <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-edtech-blue/30"></div>
-              <div className="absolute top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-edtech-blue/30"></div>
-              <div className="absolute bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-edtech-blue/30"></div>
-              <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-edtech-blue/30"></div>
+              )}
             </div>
 
             {/* Floating Badge */}

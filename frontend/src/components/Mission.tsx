@@ -1,9 +1,10 @@
 import React from 'react';
 import './Mission.css';
-
+import microsoftPartnerDesktop from '../assets/misson_microsoft_partner_desktop.webp';
+import microsoftPartnerMobile from '../assets/misson_microsoft_partner_mobile.webp';
 const Mission: React.FC = () => {
   // Desktop images data
-  var desktopImages = [
+  const desktopImages = [
     {
       id: 1,
       src: 'https://thinkwht.in/wp-content/uploads/2025/10/Students-feedback.webp',
@@ -42,20 +43,15 @@ const Mission: React.FC = () => {
     },
     {
       id: 4,
-      src: 'https://thinkwht.in/wp-content/uploads/2025/10/Certification-1.webp',
-      alt: 'Advanced Certification',
-      srcSet: `
-        https://thinkwht.in/wp-content/uploads/2025/10/Certification-1.webp 1102w,
-        https://thinkwht.in/wp-content/uploads/2025/10/Certification-1-300x85.webp 300w,
-        https://thinkwht.in/wp-content/uploads/2025/10/Certification-1-1024x290.webp 1024w,
-        https://thinkwht.in/wp-content/uploads/2025/10/Certification-1-768x217.webp 768w
-      `,
+      src: microsoftPartnerDesktop,
+      alt: 'Microsoft Partner Desktop',
+      srcSet: `${microsoftPartnerDesktop} 1102w`,
       className: 'mission-4'
     }
   ];
 
   // Mobile images data
-  var mobileImages = [
+  const mobileImages = [
     {
       id: 1,
       src: 'https://thinkwht.in/wp-content/uploads/2025/10/Feedback.webp',
@@ -88,17 +84,12 @@ const Mission: React.FC = () => {
     },
     {
       id: 4,
-      src: 'https://thinkwht.in/wp-content/uploads/2025/10/Mentor-Video-3.webp',
+      src: microsoftPartnerMobile,
       alt: 'Professional Development',
-      srcSet: `
-        https://thinkwht.in/wp-content/uploads/2025/10/Mentor-Video-3.webp 393w,
-        https://thinkwht.in/wp-content/uploads/2025/10/Mentor-Video-3-205x300.webp 205w
-      `,
+      srcSet: `${microsoftPartnerMobile} 393w`,
       className: 'mission-4'
     }
   ];
-  desktopImages = []
-  mobileImages = []
 
 
   return (
