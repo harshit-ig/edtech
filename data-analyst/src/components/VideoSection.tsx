@@ -45,7 +45,7 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
               {VIDEO_CONFIG.type === 'vimeo' ? (
                 <iframe
                   src={`${VIDEO_CONFIG.url}?title=0&byline=0&portrait=0`}
-                  className="w-full h-full"
+                  className="absolute inset-0 w-full h-full"
                   frameBorder="0"
                   allow="autoplay; fullscreen; picture-in-picture"
                   allowFullScreen
@@ -53,7 +53,7 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
                 />
               ) : (
                 <video
-                  className="w-full h-full"
+                  className="w-full h-full object-cover"
                   controls
                   controlsList="nodownload"
                 >
