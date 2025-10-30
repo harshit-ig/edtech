@@ -41,11 +41,12 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
           className="mb-8"
         >
           <div className="rounded-xl overflow-hidden shadow-xl bg-black">
-            <div className="relative aspect-video">
+            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
               {VIDEO_CONFIG.type === 'vimeo' ? (
                 <iframe
                   src={`${VIDEO_CONFIG.url}?title=0&byline=0&portrait=0`}
-                  className="absolute inset-0 w-full h-full"
+                  className="absolute top-0 left-0 w-full h-full"
+                  style={{ border: 'none', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
                   frameBorder="0"
                   allow="autoplay; fullscreen; picture-in-picture"
                   allowFullScreen
@@ -53,7 +54,8 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
                 />
               ) : (
                 <video
-                  className="w-full h-full object-cover"
+                  className="absolute top-0 left-0 w-full h-full object-cover"
+                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
                   controls
                   controlsList="nodownload"
                 >
