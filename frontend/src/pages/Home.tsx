@@ -32,12 +32,12 @@ export default function HomePage() {
       <Hero onApplyNow={handleApplyNow} />
       <UpcomingSkills />
       
-      <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
-        <Mission />
-      </Suspense>
       
       <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
         <CoursesSection />
+      </Suspense>
+      <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
+        <Mission />
       </Suspense>
       
       <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>

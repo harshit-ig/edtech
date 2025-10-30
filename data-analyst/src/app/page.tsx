@@ -57,6 +57,10 @@ export default function Home() {
         onApplyNow={handleApplyNow} 
         onWatchDemo={VIDEO_CONFIG.enabled ? handleWatchDemo : undefined} 
       />
+      
+      {/* 6. Video Demo - Build Trust & Show Value */}
+      {VIDEO_CONFIG.enabled && <VideoSection onApplyNow={handleApplyNow} />}
+      
 
       {/* 2. Immediate Social Proof - Build Trust */}
       <CompaniesSection />
@@ -82,9 +86,6 @@ export default function Home() {
       
       {/* 5. Remove Risk - Guarantees & Income Promises */}
       <GuaranteesSection onApplyNow={handleApplyNow} />
-      
-      {/* 6. Video Demo - Build Trust & Show Value */}
-      {VIDEO_CONFIG.enabled && <VideoSection onApplyNow={handleApplyNow} />}
       
       {/* 7. What They Get - Course Value */}
       <CourseStructure onApplyNow={handleApplyNow} />
