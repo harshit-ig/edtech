@@ -12,7 +12,7 @@
 
 # testing
 /coverage
-
+*.mp4
 # next.js
 /.next/
 /out/

@@ -41,14 +41,27 @@ export default function VideoSection({ onApplyNow }: VideoSectionProps) {
           className="mb-8"
         >
           <div className="rounded-xl overflow-hidden shadow-xl bg-black">
-            <video
-              className="w-full"
-              controls
-              controlsList="nodownload"
-            >
-              <source src={VIDEO_CONFIG.url} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            <div className="relative aspect-video">
+              {VIDEO_CONFIG.type === 'vimeo' ? (
+                <iframe
+                  src={`${VIDEO_CONFIG.url}?title=0&byline=0&portrait=0`}
+                  className="w-full h-full"
+                  frameBorder="0"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                  title={VIDEO_CONFIG.title}
+                />
+              ) : (
+                <video
+                  className="w-full h-full"
+                  controls
+                  controlsList="nodownload"
+                >
+                  <source src={VIDEO_CONFIG.url} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              )}
+            </div>
           </div>
         </motion.div>
 
