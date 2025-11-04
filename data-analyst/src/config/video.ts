@@ -8,5 +8,5 @@ export const VIDEO_CONFIG = {
   title: '6-Month Data Analytics Career Program Preview',
   description: 'See how professionals double their income',
   duration: '3-min sneak peek',
-  type: 'vimeo' // 'vimeo' for Vimeo embeds, 'local' for MP4 files
+  type: 'vimeo' // 'vimeo' for Vimeo embeds, 'local' for MP4 files 
 };
