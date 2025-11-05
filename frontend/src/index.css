@@ -904,3 +904,13 @@
   box-shadow: 0 8px 16px rgba(0,0,0,0.3);
   transform-origin: center bottom;
 }
+
+/* Hide scrollbar for video reels */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

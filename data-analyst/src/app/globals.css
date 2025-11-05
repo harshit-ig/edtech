@@ -167,6 +167,16 @@ body {
   -webkit-mask: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
 }
 
+/* Hide scrollbar for video reels */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Global overflow prevention */
 * {
   box-sizing: border-box;

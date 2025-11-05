@@ -8,6 +8,7 @@ import { useContactModal } from "../contexts/ContactModalContext";
 const CoursesSection = lazy(() => import("../components/Courses"));
 const Mission = lazy(() => import("../components/Mission"));
 const Testimonials = lazy(() => import("../components/Testimonials"));
+const VideoTestimonials = lazy(() => import("../components/VideoTestimonials"));
 const TrustpilotReviews = lazy(() => import("../components/TrustpilotReviews"));
 const CompanyShowcase = lazy(() => import("../components/CompanyShowcase"));
 const CertificateSection = lazy(() => import("../components/CertificateSection"));
@@ -42,6 +43,10 @@ export default function HomePage() {
       
       <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
         <Testimonials />
+      </Suspense>
+      
+      <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
+        <VideoTestimonials />
       </Suspense>
       
       <Suspense fallback={<div className="py-16 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-edtech-green"></div></div>}>
